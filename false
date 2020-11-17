@@ -1,0 +1,2 @@
+      invoke  active_record
+      create    db/migrate/20201116095942_add_completed_to_games.rb

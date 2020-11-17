@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col-2 pr-0" id="dashboard">
+    <h5 class='px-3'><%= @game.name %></h5>
+    <div id='scores' class= 'px-3' data-scores=<%= @game.scores %> >
+      <% @game.scores.split(",").each do | player |  %>
+      <% pName = player.split('=>')[0].gsub(/[\"\[\{\]\}\:]/, "") %>
+      <% pScore = player.split('=>')[1].gsub(/[\"\[\{\]\}\:]/, "") %>
+      <div class="score">
+        <div class="name"><%= pName %>: </div>
+        <div class="score"><%= pScore.to_i %></div>
+      </div>
+      <% end %>
+    </div>
+    <div id="my-letters"></div>
+    <div id="controls">
+      <button class="btn btn-sm btn-primary w-100">Commit</button>
+      <button class="btn btn-sm btn-warning w-100 my-1">Cancel</button>
+    </div>
+  </div>
+  <div class='col-10' id="board" data-letter-grid="<%= @game.letter_grid %> " >
+  </div>
+</div>

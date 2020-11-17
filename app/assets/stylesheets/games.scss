@@ -1,0 +1,117 @@
+// Place all the styles related to the games controller here.
+// They will 6.67%matically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+
+#board {
+  width: 630px;
+  height: 630px;
+  display: grid;
+  grid-template-columns: 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67%
+   6.67% 6.67% 6.67% 6.67% 6.67%;
+  grid-template-rows: 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67%
+   6.67% 6.67% 6.67% 6.67% 6.67%;
+  padding: 8px;
+justify-items: center;
+  background-color: hsl(160, 25, 80);
+}
+
+#dashboard {
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#scores {
+  margin: 0;
+}
+
+.score {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tile {
+  margin: 2px;
+  // padding: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: hsl(100, 15, 90);
+  border-radius: 4px;
+  border: 1px solid gray;
+  // font-size: 12px;
+  width:90%;
+  // height:100%;
+  box-shadow: 2px 2px 3px hsla(100, 15, 15, 0.4);
+}
+.my-tile {
+
+  margin: 4px;
+  padding: 8px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: hsl(200, 15, 80);
+  border-radius: 4px;
+  border: 1px solid hsla(200, 130, 20, .7);
+  // font-size: 12px;
+  width:48px;
+  // height:100%;
+  // margin-left: 8px;
+  box-shadow: 1px 1px 2px hsla(100, 15, 15, 0.4);
+  transition: all .3s ease-in;
+}
+
+.letter {
+  font-family: 'Bungee', cursive;
+font-size: 22px;
+  color: hsl(50, 120, 30);
+  width: 22px;
+  // height: 22px;
+  text-align: center;
+  // padding: 8px;
+  // padding-top: 6px;
+  // transition: all .3s ease-in;
+pointer-events: none;
+}
+
+.letter-selected {
+  background-color: hsl(200, 45, 95);
+  border: 1px solid hsl(200, 130, 40);
+  transform: translate(-1px, -1px);
+  box-shadow: 2px 2px 3px hsla(100, 15, 15, 0.4);
+  transition: all .3s ease-in;
+pointer-events: none;
+}
+
+#my-letters {
+display: flex;
+text-align: center;
+flex-direction: column;
+align-items: center;
+margin: 0;
+margin-top: 8px;
+padding: 0;
+}
+
+.my-letter {
+pointer-events: none;
+  font-family: 'Bungee', cursive;
+font-size: 32px;
+  color: hsl(200, 120, 30);
+  // width: 24px;
+  // height: 22px;
+  text-align: center;
+  // padding: 8px;
+  // padding-top: 6px;
+  // transition: all .3s ease-in;
+}
+
+#controls {
+  margin: 16px;
+  text-align: left;
+}
+

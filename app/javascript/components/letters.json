@@ -1,0 +1,31 @@
+{"letters": [{"A": {"frequency": "9", "value" : "1"}},
+            {"B": {"frequency": "2", "value" : "3"}},
+            {"C": {"frequency": "2", "value" : "3"}},
+            {"D": {"frequency": "4", "value" : "3"}},
+            {"E": {"frequency": "12", "value" : "3"}},
+            {"F": {"frequency": "2", "value" : "3"}},
+            {"G": {"frequency": "3", "value" : "3"}},
+            {"H": {"frequency": "2", "value" : "3"}},
+            {"I": {"frequency": "9", "value" : "3"}},
+            {"J": {"frequency": "1", "value" : "3"}},
+            {"K": {"frequency": "1", "value" : "3"}},
+            {"L": {"frequency": "4", "value" : "3"}},
+            {"M": {"frequency": "2", "value" : "3"}},
+            {"N": {"frequency": "6", "value" : "3"}},
+            {"O": {"frequency": "8", "value" : "3"}},
+            {"P": {"frequency": "2", "value" : "3"}},
+            {"Q": {"frequency": "1", "value" : "3"}},
+            {"R": {"frequency": "6", "value" : "3"}},
+            {"S": {"frequency": "4", "value" : "3"}},
+            {"T": {"frequency": "6", "value" : "3"}},
+            {"U": {"frequency": "4", "value" : "3"}},
+            {"V": {"frequency": "2", "value" : "3"}},
+            {"W": {"frequency": "2", "value" : "3"}},
+            {"X": {"frequency": "1", "value" : "3"}},
+            {"Y": {"frequency": "2", "value" : "3"}},
+            {"Z": {"frequency": "1", "value" : "3"}},
+            {"*": {"frequency": "2", "value" : "0"}}
+          ]
+}
+
+
