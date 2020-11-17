@@ -2,6 +2,15 @@
 // They will 6.67%matically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
+:root {
+  --blueish: blue;
+}
+
+
+h5 {
+  color: hsl(200, 120, 30);
+}
+
 #board {
   width: 630px;
   height: 630px;
@@ -10,13 +19,15 @@
    6.67% 6.67% 6.67% 6.67% 6.67%;
   grid-template-rows: 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67%
    6.67% 6.67% 6.67% 6.67% 6.67%;
-  padding: 8px;
+  padding: 4px;
+  padding-right: 20px;
 justify-items: center;
   background-color: hsl(160, 25, 80);
 }
 
 #dashboard {
   padding-top: 12px;
+  padding-left: 12px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -26,9 +37,24 @@ justify-items: center;
   margin: 0;
 }
 
-.score {
+.name-score {
   display: flex;
   justify-content: space-between;
+  padding: 4px 4px;
+  font-size: 12px;
+}
+
+.name {
+
+}
+
+.score {
+
+}
+
+.selected {
+  background-color: hsl(100, 15, 90);
+  font-weight: bold;
 }
 
 .tile {
@@ -67,7 +93,7 @@ justify-items: center;
 
 .letter {
   font-family: 'Bungee', cursive;
-font-size: 22px;
+  font-size: 22px;
   color: hsl(50, 120, 30);
   width: 22px;
   // height: 22px;
@@ -80,11 +106,22 @@ pointer-events: none;
 
 .letter-selected {
   background-color: hsl(200, 45, 95);
-  border: 1px solid hsl(200, 130, 40);
+  // border: 1px solid hsl(200, 130, 40);
+  border: 1px solid var(--bluish);
   transform: translate(-1px, -1px);
   box-shadow: 2px 2px 3px hsla(100, 15, 15, 0.4);
   transition: all .3s ease-in;
 pointer-events: none;
+}
+
+.letter-provisional {
+
+  color: hsl(50, 130, 40);
+}
+
+
+.letter-disabled {
+  opacity: .2;
 }
 
 #my-letters {

@@ -3,10 +3,11 @@ import letters from './letters.json';
 const board = () => {
   const boardDiv = document.getElementById("board");
   const myLettersDiv = document.getElementById("my-letters");
-  let myLetters = []
-  const maxLetters = 7
+  let myLetters = [];
+  const maxLetters = 7;
   let selectedLetter = null;
-  let allLetters = []
+  let allLetters = [];
+  let buffer = [];
 
    letters.letters.forEach( ltr => {
 
@@ -36,13 +37,11 @@ const board = () => {
       }
     });
     boardDiv.insertAdjacentHTML('beforeend', boardHtml);
+
     document.querySelectorAll('.tile').forEach(tile => {
-
-      console.log(tile.querySelector('.letter').innerHTML == " ");
-       if (tile.querySelector('.letter').innerHTML === " ") {
+      if (tile.querySelector('.letter').innerHTML === " ") {
         tile.addEventListener('click', placeLetter);
-
-       }
+      }
     });
   }
 
@@ -50,7 +49,11 @@ const board = () => {
     showScores();
     chooseLetters();
     showMyLetters();
+
+    document.querySelector('#cancel-btn').addEventListener('click', restoreLetters)
+
   }
+
 
   function showScores() {
     const scores = document.querySelector("#scores").dataset;
@@ -61,10 +64,12 @@ const board = () => {
 
   function placeLetter () {
     if (selectedLetter) {
-      event.target.querySelector('.letter').innerHTML = selectedLetter.querySelector('.my-letter').innerHTML;
-      const ind = remainingLetters.indexOf(selectedLetter.querySelector('.my-letter').innerHTML);
-      remainingLetters.splice(ind, 1);
-      selectedLetter.remove();
+      const txt = selectedLetter.querySelector('.my-letter').innerHTML
+      event.target.querySelector('.letter').innerHTML = txt;
+      event.target.querySelector('.letter').classList.add("letter-provisional");
+      buffer.push(txt);
+      selectedLetter.classList.add("letter-disabled");
+      selectedLetter.removeEventListener('click', toggleLetter);
       selectedLetter = null;
     }
   }
@@ -72,12 +77,26 @@ const board = () => {
   function chooseLetters() {
 
     while (myLetters.length < maxLetters ) {
-
-      const ran = remainingLetters[Math.floor(Math.random() * remainingLetters.length)]
+      const ind = Math.floor(Math.random() * remainingLetters.length)
+      const ran = remainingLetters[ind]
       myLetters.push(ran);
+       // const ind = remainingLetters.indexOf(selectedLetter.querySelector('.my-letter').innerHTML);
+      remainingLetters.splice(ind, 1);
     }
   }
 
+  function restoreLetters () {
+    myLettersDiv.querySelectorAll('.letter-disabled').forEach( ltr => {
+      ltr.classList.remove("letter-disabled")
+      ltr.classList.remove("letter-selected")
+      ltr.addEventListener('click', toggleLetter);
+    });
+    document.querySelectorAll('.letter-provisional').forEach( ltr => {
+      ltr.classList.remove("letter-provisional");
+      ltr.innerHTML = "";
+    });
+    buffer = [];
+  }
 
   function showMyLetters() {
     myLetters.forEach(ltr => {
