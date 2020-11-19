@@ -34,6 +34,8 @@ end
   end
 
   def update
+     @game = Game.find(params[:id])
+     redirect_to edit_game_path(@game)
   end
 
   def destroy

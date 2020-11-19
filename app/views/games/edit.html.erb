@@ -11,8 +11,17 @@
     </div>
     <div id="my-letters"></div>
     <div id="controls">
-      <button id='commit-btn' class="btn btn-sm btn-primary w-50">Commit</button>
-      <button id='cancel-btn' class="btn btn-sm btn-warning w-50">Cancel</button>
+      <%#= form_for(@game, url: edit_game_path(@game), method: :patch, html: {id: “commit_form”}, remote: true) %>
+      <%# end %>
+      <%= form_with(model: @game, method: 'patch', remote: true, url: game_path(@game), id: "update-game") do |f| %>
+       <%=f.hidden_field :current_player, value:1, id:'update-current' %>
+  <%=f.hidden_field :scores, value: [{ 'Dave': '38' }, { 'Deike': '42' },
+                      { 'Luna': '65' }, { 'Ed': '63' }], id:'update-scores' %>
+ <%#= f.submit "Commit", class: "btn-sm btn-slate-grey", id: "commit-btn" %>
+<% end %>
+
+      <button id='commit-btn' class="btn btn-sm btn-primary w-45">Commit</button>
+      <button id='cancel-btn' class="btn btn-sm btn-warning w-45">Cancel</button>
     </div>
   </div>
   <div class='col-10' id="board" data-letter-grid="<%= @game.letter_grid %> " >
