@@ -2,18 +2,20 @@
 <% @games.each_with_index do  | game, index | %>
   <div class="card m-2 p-3">
     <p>
-  <%= link_to game_path(game) do %>
-     <p><%= game.name %></p>
-    <% end %>
+      <% if game.completed %>
+        <%= link_to game_path(game) do %>
+         <p><%= game.name %></p>
+        <% end %>
+      <% else %>
+        <%= link_to edit_game_path(game) do %>
+         <p><%= game.name %></p>
+        <% end %>
+
+      <% end %>
       <% status = game.completed ? "Completed" : "In progress" %>
       <span class="status"> <%= status %></span>
-      <%= game.scores%>
-
     </p>
-
-
   </div>
-
 <% end %>
 
 </div>

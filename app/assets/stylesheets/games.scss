@@ -6,6 +6,25 @@
   --blueish: blue;
 }
 
+.hide {
+  opacity:0;
+}
+
+#last {
+  padding: 4px 16px;
+  margin:0;
+  background-color:  hsl(160, 25, 80);
+  font-size: 12px;
+}
+
+.my-value {
+  position: relative;
+  font-size: 14px;
+  font-weight:bold;
+  // right: -4px;
+  bottom: -14px;
+  pointer-events: none;
+}
 
 h5 {
   color: hsl(200, 120, 30);
@@ -33,14 +52,23 @@ justify-items: center;
   justify-content: space-between;
 }
 
+#dashboard-show {
+  padding-top: 12px;
+  padding-left: 12px;
+  display: flex;
+  flex-direction: column;
+  // justify-content: space-between;
+}
+
 #scores {
   margin: 0;
+  padding: 0;
 }
 
 .name-score {
   display: flex;
   justify-content: space-between;
-  padding: 4px 4px;
+  padding: 1px 8px;
   font-size: 12px;
 }
 
@@ -52,7 +80,7 @@ justify-items: center;
 
 }
 
-.selected {
+.player-selected {
   background-color: hsl(100, 15, 90);
   font-weight: bold;
 }
@@ -87,12 +115,15 @@ justify-items: center;
   width:48px;
   // height:100%;
   // margin-left: 8px;
+  opacity: 1;
+  padding-left: 16px;
   box-shadow: 1px 1px 2px hsla(100, 15, 15, 0.4);
   transition: all .3s ease-in;
 }
 
 .letter {
-  font-family: 'Bungee', cursive;
+  // margin:0;
+  font-family: 'Bungee', display;
   font-size: 22px;
   color: hsl(50, 120, 30);
   width: 22px;
@@ -106,8 +137,8 @@ pointer-events: none;
 
 .letter-selected {
   background-color: hsl(200, 45, 95);
-  // border: 1px solid hsl(200, 130, 40);
-  border: 1px solid var(--bluish);
+  border: 1px solid hsl(200, 130, 40);
+  // border: 1px solid var(--bluish);
   transform: translate(-1px, -1px);
   box-shadow: 2px 2px 3px hsla(100, 15, 15, 0.4);
   transition: all .3s ease-in;
@@ -130,13 +161,13 @@ text-align: center;
 flex-direction: column;
 align-items: center;
 margin: 0;
-margin-top: 8px;
+margin-top: 6px;
 padding: 0;
 }
 
 .my-letter {
 pointer-events: none;
-  font-family: 'Bungee', cursive;
+  font-family: 'Bungee', display;
 font-size: 32px;
   color: hsl(200, 120, 30);
   // width: 24px;
@@ -148,7 +179,8 @@ font-size: 32px;
 }
 
 #controls {
-  margin: 16px;
-  text-align: left;
+  display: flex;
+  margin: 0px;
+  text-align: center;
 }
 

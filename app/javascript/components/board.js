@@ -1,6 +1,10 @@
 import letters from './letters.json';
 
 const board = () => {
+  const editGame = document.querySelector(".edit-page-identifier");
+
+  const showGame = document.querySelector(".show-page-identifier");
+
   const boardDiv = document.getElementById("board");
   const myLettersDiv = document.getElementById("my-letters");
   let myLetters = [];
@@ -9,16 +13,19 @@ const board = () => {
   let allLetters = [];
   let buffer = [];
 
-   letters.letters.forEach( ltr => {
+  if (editGame) {
+    letters.letters.forEach( ltr => {
+      const l = Object.keys(ltr)[0];
+      const f = parseInt(Object.values(ltr)[0].frequency);
+      for (let r = 0; r < f; r++) {
+        allLetters.push(l);
+      };
+    });
+  }
 
-    const l = Object.keys(ltr)[0];
-    const f = parseInt(Object.values(ltr)[0].frequency);
-
-    for (let r = 0; r < f; r++) {
-      allLetters.push(l);
-    }
-
-  });
+  if (editGame || showGame) {
+    showScores();
+  }
 
   let remainingLetters = allLetters;
 
@@ -46,19 +53,34 @@ const board = () => {
   }
 
   if (myLettersDiv) {
-    showScores();
     chooseLetters();
-    showMyLetters();
-
-    document.querySelector('#cancel-btn').addEventListener('click', restoreLetters)
-
+    showMyLettersInit();
+    document.querySelector('#cancel-btn').addEventListener('click', restoreLetters);
+    document.querySelector('#commit-btn').addEventListener('click', commitLetters);
   }
 
 
   function showScores() {
-    const scores = document.querySelector("#scores").dataset;
-    console.log(scores);
+    const scores = document.querySelector("#scores").dataset.scores;
 
+    const arr = scores.replaceAll(/\[|\]|\{|\}|\:|"/g, "").split(',');
+    arr.forEach((player, index) => {
+      const name = player.split("=>")[0];
+      const score = parseInt(player.split("=>")[1]);
+      let playerSelected = "";
+
+       if (editGame) {
+          const current = document.querySelector("#scores").dataset.current;
+          console.log(current);
+          if (current == index) {
+            playerSelected = " player-selected"
+          }
+       }
+
+      const nameScoreHtml = `<div class="name-score${playerSelected}"><div class="name">${name}</div><div class="score">${score}</div></div>`
+      document.querySelector("#scores").innerHTML += nameScoreHtml;
+
+    })
 
   }
 
@@ -87,8 +109,8 @@ const board = () => {
 
   function restoreLetters () {
     myLettersDiv.querySelectorAll('.letter-disabled').forEach( ltr => {
-      ltr.classList.remove("letter-disabled")
-      ltr.classList.remove("letter-selected")
+      ltr.classList.remove("letter-disabled");
+      ltr.classList.remove("letter-selected");
       ltr.addEventListener('click', toggleLetter);
     });
     document.querySelectorAll('.letter-provisional').forEach( ltr => {
@@ -96,15 +118,68 @@ const board = () => {
       ltr.innerHTML = "";
     });
     buffer = [];
+
+        selectedLetter = null;
   }
 
-  function showMyLetters() {
-    myLetters.forEach(ltr => {
-    const tileHtml = `<div class='my-tile'><div class="my-letter">${ltr}</div></div>`
-    myLettersDiv.insertAdjacentHTML('beforeend', tileHtml);
+
+  function commitLetters () {
+    // const allTiles
+     myLettersDiv.querySelectorAll('.letter-disabled').forEach( ltr => {
+      const ind = myLetters.indexOf(ltr.querySelector(".my-letter").innerHTML);
+      myLetters.splice(ind, 1);
+      ltr.remove();
+    });
+
+     document.querySelectorAll('.letter-provisional').forEach( ltr => {
+      ltr.classList.remove("letter-provisional");
+      // ltr.innerHTML = "";
+    });
+    buffer = [];
+    selectedLetter = null;
+    const num  =  maxLetters - myLetters.length;
+    chooseLetters();
+    appendMyLetters(num);
+  }
+
+
+
+  function appendMyLetters(num) {
+    let val;
+    for (let d = 0; d < num; d++ ) {
+      const ltr = myLetters[d]
+    Array.from(letters.letters).forEach( l => {
+      if (l[ltr]) {
+       val = l[ltr].value;
+      }
+    });
+      const tileHtml = `<div class='my-tile'><div class="my-letter">${ltr}</div><div class="my-value">${val}</div></div>`
+      setTimeout(addLetterDelayed, 900 + (360 * d), tileHtml)
+    }
+  }
+
+  function addLetterDelayed(tileHtml) {
+    // console.log('delayed' + thing)
+      myLettersDiv.insertAdjacentHTML('beforeend', tileHtml);
+      myLettersDiv.lastChild.addEventListener('click', toggleLetter);
+  }
+
+  function showMyLettersInit() {
+    let val;
+    myLetters.forEach((ltr, index) => {
+
+    Array.from(letters.letters).forEach( l => {
+      if (l[ltr]) {
+       val = l[ltr].value;
+      }
+    });
+
+    const tileHtml = `<div class='my-tile'><div class="my-letter">${ltr}</div><div class="my-value">${val}</div> </div>`
+      setTimeout(addLetterDelayed, 800 + (360 * index), tileHtml)
+    // myLettersDiv.insertAdjacentHTML('beforeend', tileHtml);
     });
     const min = myLettersDiv.getBoundingClientRect().height
-    console.log(min);
+    // console.log(min);
     myLettersDiv.style = `min-height: ${min}px;`
   }
 

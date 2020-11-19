@@ -1,3 +1,5 @@
+
+
 class GamesController < ApplicationController
   def index
     @games = Game.all
@@ -5,8 +7,12 @@ class GamesController < ApplicationController
 
   def show
      @game = Game.find(params[:id])
-
+     @date = @game.updated_at.strftime("%b %d, %Y %-I:%M%p")
   end
+
+def formatted_updated_at
+  updated_at.strftime("%M %D, %Y %H:%M ")
+end
 
   def new
   end
@@ -23,6 +29,8 @@ class GamesController < ApplicationController
   end
 
   def edit
+     @game = Game.find(params[:id])
+     @date = @game.updated_at.strftime("%b %d, %Y %-I:%M%p")
   end
 
   def update
