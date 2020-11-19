@@ -12,6 +12,11 @@ const board = () => {
   let selectedLetter = null;
   let allLetters = [];
   let buffer = [];
+  let currentPlayer = "Dave";
+
+   const form = document.getElementById("update-game")
+    form.addEventListener("submit", sendAJAX )
+    // element = this;
 
   if (editGame) {
     letters.letters.forEach( ltr => {
@@ -131,10 +136,31 @@ const board = () => {
       ltr.remove();
     });
 
+      let addedScore = 0;
      document.querySelectorAll('.letter-provisional').forEach( ltr => {
       ltr.classList.remove("letter-provisional");
+       Array.from(letters.letters).forEach( l => {
+      // console.log(ltr.innerHTML)
+      if (l[ltr.innerHTML]) {
+       addedScore += parseInt(l[ltr.innerHTML].value);
+      // console.log(l[ltr.innerHTML])
+      }
       // ltr.innerHTML = "";
+
     });
+     });
+
+    // form.submit();
+
+
+
+
+    let alertString = `${currentPlayer} added ${addedScore} `
+    addedScore == 1  ? alertString += `point.` :  alertString += `points.`
+    alert (alertString);
+
+
+
     buffer = [];
     selectedLetter = null;
     const num  =  maxLetters - myLetters.length;
@@ -142,6 +168,23 @@ const board = () => {
     appendMyLetters(num);
   }
 
+  function sendAJAX () {
+
+      console.log('form' + event.target);
+     $.ajax({
+        type: 'PATCH',
+        url: event.target.url,
+        data: event.target,
+        dataType: 'JSON'
+    }).done(function (data) {
+        alert(data.notice);
+    }).fail(function (data) {
+        alert(data.alert);
+    });
+
+
+
+  }
 
 
   function appendMyLetters(num) {

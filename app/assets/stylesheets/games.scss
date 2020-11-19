@@ -180,7 +180,8 @@ font-size: 32px;
 
 #controls {
   display: flex;
-  margin: 0px;
+  justify-content: space-around;
+  margin: 0px 4px;
   text-align: center;
 }
 
