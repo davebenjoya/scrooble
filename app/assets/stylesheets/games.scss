@@ -158,6 +158,7 @@ pointer-events: none;
 #my-letters {
 display: flex;
 text-align: center;
+justify-content: flex-start;
 flex-direction: column;
 align-items: center;
 margin: 0;

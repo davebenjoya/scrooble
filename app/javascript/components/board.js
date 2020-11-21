@@ -14,11 +14,11 @@ const board = () => {
   let buffer = [];
   let currentPlayer = "Dave";
 
-   const form = document.getElementById("update-game")
-    form.addEventListener("submit", sendAJAX )
     // element = this;
 
   if (editGame) {
+   const form = document.getElementById("update-game")
+    form.addEventListener("submit", sendAJAX )
     letters.letters.forEach( ltr => {
       const l = Object.keys(ltr)[0];
       const f = parseInt(Object.values(ltr)[0].frequency);
