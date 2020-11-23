@@ -1,2 +1,29 @@
-<h1>Games#new</h1>
-<p>Find me in app/views/games/new.html.erb</p>
+  <div class="row new-page-identifier">
+    <div class="col-2 pr-0" id="dashboard">
+    <div>
+    <h5 class='px-3'>New Game</h5>
+    <!-- <div id="last">
+      Last Updated <br/><%= @date %>
+
+    </div> -->
+    <div id='scores' data-scores="<%= @game.scores %>" data-current="0" >
+    </div>
+  </div>
+    <div id="my-letters"></div>
+    <div id="controls">
+    <%#= form_for(@game, url: edit_game_path(@game), method: :patch, html: {id: “commit_form”}, remote: true) %>
+      <%# end %>
+      <%#= form_with(model: @game, method: 'post', remote: true, url: game_path(@game), id: "update-game") do |f| %>
+       <%#=f.hidden_field :current_player, value:1, id:'update-current' %>
+  <%#=f.hidden_field :scores, value: [{ 'Dave': '38' }, { 'Deike': '42' },
+                      { 'Luna': '65' }, { 'Ed': '63' }], id:'update-scores' %>
+ <%#= f.submit "Commit", class: "btn-sm btn-slate-grey", id: "commit-btn" %>
+<%# end %>
+
+      <button id='commit-btn' class="btn btn-sm btn-primary w-45">Commit</button>
+      <button id='cancel-btn' class="btn btn-sm btn-warning w-45">Cancel</button>
+    </div>
+  </div>
+  <div class='col-10' id="board" data-letter-grid="" >
+  </div>
+</div>

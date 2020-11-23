@@ -1,21 +1,31 @@
 <div class="container p-4">
+
+  <div class="cards justify-content-between" >
+    <%#= link_to new_game_path do %>
+     <!--  <div class="card m-2 p-3 d-flex justify-content-center align-items-center">
+        <i class="fas fa-plus-circle add-new-card"> </i>
+      </div> -->
+    <%# end %>
+
+
+
 <% @games.each_with_index do  | game, index | %>
-  <div class="card m-2 p-3">
-    <p>
+  <div class="card m-2 p-3 d-flex justify-space-between">
+      <% status = game.completed ? "Completed" : "In progress" %>
       <% if game.completed %>
         <%= link_to game_path(game) do %>
-         <p><%= game.name %></p>
+         <div><%= game.name %></div>
         <% end %>
       <% else %>
         <%= link_to edit_game_path(game) do %>
-         <p><%= game.name %></p>
+         <div><%= game.name %> </div>
         <% end %>
 
       <% end %>
-      <% status = game.completed ? "Completed" : "In progress" %>
-      <span class="status"> <%= status %></span>
-    </p>
+         <div class="status"> <%= status %></div>
+
   </div>
 <% end %>
+</div>
 
 </div>

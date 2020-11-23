@@ -13,42 +13,87 @@ const board = () => {
   let allLetters = [];
   let buffer = [];
   let currentPlayer = "Dave";
+  let form;
 
     // element = this;
 
-  if (editGame) {
-   const form = document.getElementById("update-game")
-    form.addEventListener("submit", sendAJAX )
-    letters.letters.forEach( ltr => {
-      const l = Object.keys(ltr)[0];
-      const f = parseInt(Object.values(ltr)[0].frequency);
-      for (let r = 0; r < f; r++) {
-        allLetters.push(l);
-      };
-    });
-  }
-
   if (editGame || showGame) {
     showScores();
+    if (editGame) {
+      form = document.getElementById("update-game")
+      form.addEventListener("submit", sendAJAX )
+    }
   }
 
   let remainingLetters = allLetters;
 
   if (boardDiv) {
+    letters.letters.forEach( ltr => {
+        const l = Object.keys(ltr)[0];
+        const f = parseInt(Object.values(ltr)[0].frequency);
+        for (let r = 0; r < f; r++) {
+          allLetters.push(l);
+        };
+      });
     let boardHtml = ``
-    const arr = boardDiv.dataset.letterGrid.split(" ");
-    arr.forEach(tile => {
-      if (tile) {
-        if (tile.trim() === "_") {
-          tile = " ";
-        } else {
-          const i = remainingLetters.indexOf(tile);
-          remainingLetters.splice(i, 1);
+      console.log('boardDiv.dataset.letterGrid ' + boardDiv.dataset.letterGrid.length);
+    if (boardDiv.dataset.letterGrid.length > 0) {
+      const arr = boardDiv.dataset.letterGrid.split(" ");
+      arr.forEach(tile => {
+        if (tile) {
+          if (tile.trim() === "_") {
+            tile = " ";
+          } else {
+            const i = remainingLetters.indexOf(tile);
+            remainingLetters.splice(i, 1);
+          }
+          boardHtml += `<div class='tile'><div class="letter">${tile}</div></div>`
         }
-        boardHtml += `<div class='tile'><div class="letter">${tile}</div></div>`
+      });
+    } else {  // no existing letter grid, ie, a new game
+      for (let n = 1; n < 226; n ++) {
+
+          boardHtml += `<div class='tile'><div class="letter"> </div></div>`
       }
-    });
+
+    }
+
+
+
+
     boardDiv.insertAdjacentHTML('beforeend', boardHtml);
+
+
+
+     const bonuses = boardDiv.querySelectorAll('.letter').forEach((ltr, index) => {
+        let nums = letters.tw.map(Number);
+        const tripleWords = nums.filter(num => num == index + 1)
+          if (tripleWords.length > 0) {
+            ltr.parentNode.classList.add("triple-word");
+          }
+        nums = letters.dw.map(Number);
+        const doubleWords = nums.filter(num => num == index + 1)
+        if (doubleWords.length > 0) {
+          ltr.parentNode.classList.add("double-word");
+        }
+
+        nums = letters.tl.map(Number);
+        const tripleLetters = nums.filter(num => num == index + 1)
+        if (tripleLetters.length > 0) {
+          ltr.parentNode.classList.add("triple-letter");
+        }
+
+
+        nums = letters.dl.map(Number);
+        const doubleLetters = nums.filter(num => num == index + 1)
+        if (doubleLetters.length > 0) {
+          ltr.parentNode.classList.add("double-letter");
+        }
+
+
+
+        });
+
 
     document.querySelectorAll('.tile').forEach(tile => {
       if (tile.querySelector('.letter').innerHTML === " ") {
@@ -68,6 +113,7 @@ const board = () => {
   function showScores() {
     const scores = document.querySelector("#scores").dataset.scores;
 
+
     const arr = scores.replaceAll(/\[|\]|\{|\}|\:|"/g, "").split(',');
     arr.forEach((player, index) => {
       const name = player.split("=>")[0];
@@ -78,6 +124,7 @@ const board = () => {
           const current = document.querySelector("#scores").dataset.current;
           console.log(current);
           if (current == index) {
+            currentPlayer = name;
             playerSelected = " player-selected"
           }
        }
@@ -130,27 +177,48 @@ const board = () => {
 
   function commitLetters () {
     // const allTiles
-     myLettersDiv.querySelectorAll('.letter-disabled').forEach( ltr => {
-      const ind = myLetters.indexOf(ltr.querySelector(".my-letter").innerHTML);
-      myLetters.splice(ind, 1);
-      ltr.remove();
-    });
+       myLettersDiv.querySelectorAll('.letter-disabled').forEach( ltr => {
+        const ind = myLetters.indexOf(ltr.querySelector(".my-letter").innerHTML);
+        myLetters.splice(ind, 1);
+        ltr.remove();
+      });
 
       let addedScore = 0;
-     document.querySelectorAll('.letter-provisional').forEach( ltr => {
-      ltr.classList.remove("letter-provisional");
-       Array.from(letters.letters).forEach( l => {
-      // console.log(ltr.innerHTML)
-      if (l[ltr.innerHTML]) {
-       addedScore += parseInt(l[ltr.innerHTML].value);
-      // console.log(l[ltr.innerHTML])
-      }
-      // ltr.innerHTML = "";
+       document.querySelectorAll('.letter-provisional').forEach( ltr => {
+        ltr.classList.remove("letter-provisional");
+         Array.from(letters.letters).forEach( l => {
+        // console.log(ltr.innerHTML)
+        if (l[ltr.innerHTML]) {
+         addedScore += parseInt(l[ltr.innerHTML].value);
+        // console.log(l[ltr.innerHTML])
+        }
+        // ltr.innerHTML = "";
 
-    });
+      });
      });
 
+
+
+    const curr = document.querySelector("#scores").dataset.current;
+    console.log('current' + curr);
+
+    const scores = document.querySelector("#scores").dataset.scores;
+
+
+
     // form.submit();
+
+
+    //  $.ajax({
+    //     type: 'PATCH',
+    //     url: event.target.url,
+    //     data: event.target,
+    //     dataType: 'JSON'
+    // }).done(function (data) {
+    //     alert(data.notice);
+    // }).fail(function (data) {
+    //     alert(data.alert);
+    // });
 
 
 
@@ -158,8 +226,6 @@ const board = () => {
     let alertString = `${currentPlayer} added ${addedScore} `
     addedScore == 1  ? alertString += `point.` :  alertString += `points.`
     alert (alertString);
-
-
 
     buffer = [];
     selectedLetter = null;
