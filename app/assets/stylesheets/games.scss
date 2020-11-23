@@ -10,10 +10,32 @@
   opacity:0;
 }
 
+.cards {
+  display: grid;
+  grid-template-columns: 33.33% 33.33% 33.33%
+}
+
+.card {
+  display: inline;
+  height: 80px;
+  border-radius: 8px;
+  background-color: hsl(80, 50, 60);
+}
+
+.add-new-card {
+  // color: hsl(100, 60, 40);
+  font-size: 64px;
+  text-align: center;
+  display: flex;
+   // font-size: 32;
+  justify-content: space-around;
+  align-items: center;
+}
+
 #last {
   padding: 4px 16px;
   margin:0;
-  background-color:  hsl(160, 25, 80);
+  background-color: hsl(60, 25, 80);
   font-size: 12px;
 }
 
@@ -41,7 +63,7 @@ h5 {
   padding: 4px;
   padding-right: 20px;
 justify-items: center;
-  background-color: hsl(160, 25, 80);
+  background-color: hsl(60, 25, 80);
 }
 
 #dashboard {
@@ -91,13 +113,33 @@ justify-items: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: hsl(100, 15, 90);
+  background-color: hsl(100, 14, 94);
   border-radius: 4px;
   border: 1px solid gray;
   // font-size: 12px;
   width:90%;
   // height:100%;
   box-shadow: 2px 2px 3px hsla(100, 15, 15, 0.4);
+}
+
+.double-word {
+  background-color: hsl(18, 15, 82);
+  // border: 1px solid hsl(0, 80, 40);
+}
+
+.triple-word {
+  background-color: hsl(18, 20, 70);
+  // border: 1px solid hsl(18, 80, 40);
+}
+
+.double-letter {
+  background-color: hsl(200, 8, 83);
+  // border: 1px solid hsl(18, 80, 40);
+}
+
+.triple-letter {
+  background-color: hsl(200, 20, 70);
+  // border: 1px solid hsl(18, 80, 40);
 }
 .my-tile {
 
@@ -125,10 +167,12 @@ justify-items: center;
   // margin:0;
   font-family: 'Bungee', display;
   font-size: 22px;
-  color: hsl(50, 120, 30);
+  // color: hsl(200, 30, 6);
+  color: hsl(200, 110, 28);
   width: 22px;
   // height: 22px;
   text-align: center;
+  text-shadow: 1px 1px hsla(200, 80, 12, .6);
   // padding: 8px;
   // padding-top: 6px;
   // transition: all .3s ease-in;
@@ -147,7 +191,7 @@ pointer-events: none;
 
 .letter-provisional {
 
-  color: hsl(50, 130, 40);
+  color: hsl(250, 180, 60);
 }
 
 
