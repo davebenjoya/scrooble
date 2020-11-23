@@ -175,8 +175,26 @@ const board = () => {
   }
 
 
-  function commitLetters () {
+  function commitLetters () {  // ltrP = provisonal; ltrB = on board
     // const allTiles
+      let adjToBoardTiles = false;
+      document.querySelectorAll('.letter').forEach( (ltrP, indexP) => {
+            if (ltrP.classList.contains("letter-provisional")) {
+              document.querySelectorAll('.letter').forEach( (ltrB, indexB) => {
+              if (!ltrB.classList.contains("letter-provisional")) {
+                if ( indexP == indexB + 1 || indexP == indexB - 1 || indexP == indexB + 15 || indexP == indexB - 15){
+                    adjToBoardTiles = true;
+                    console.log ("adjacent");
+                }
+              }
+            });
+            }
+      });
+
+      if (adjToBoardTiles == false) {
+        console.log ("not adjacent");
+      }
+
        myLettersDiv.querySelectorAll('.letter-disabled').forEach( ltr => {
         const ind = myLetters.indexOf(ltr.querySelector(".my-letter").innerHTML);
         myLetters.splice(ind, 1);
