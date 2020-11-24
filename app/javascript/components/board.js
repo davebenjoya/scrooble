@@ -65,7 +65,7 @@ const board = () => {
 
 
 
-     const bonuses = boardDiv.querySelectorAll('.letter').forEach((ltr, index) => {
+     boardDiv.querySelectorAll('.letter').forEach((ltr, index) => {
         let nums = letters.tw.map(Number);
         const tripleWords = nums.filter(num => num == index + 1)
           if (tripleWords.length > 0) {
@@ -178,13 +178,20 @@ const board = () => {
   function commitLetters () {  // ltrP = provisonal; ltrB = on board
     // const allTiles
       let adjToBoardTiles = false;
+      let wordOrientation = null;
       document.querySelectorAll('.letter').forEach( (ltrP, indexP) => {
             if (ltrP.classList.contains("letter-provisional")) {
+                    console.log ("indexP " + indexP);
+
               document.querySelectorAll('.letter').forEach( (ltrB, indexB) => {
-              if (!ltrB.classList.contains("letter-provisional")) {
-                if ( indexP == indexB + 1 || indexP == indexB - 1 || indexP == indexB + 15 || indexP == indexB - 15){
+                    // console.log ("ltrB.innerHTML " + ltrB.innerHTML.trim().length);
+                    const notBlank = ltrB.innerHTML.trim().length > 0;
+                    const notProv  = !ltrB.classList.contains("letter-provisional");
+              if (notBlank && notProv) {
+                    // console.log ('notBlank ', notBlank);
+                    // console.log ("notProv ", notProv);
+                if ( indexP == indexB + 1 || indexP == indexB - 1 || indexP == indexB + 15  || indexP == indexB - 15){
                     adjToBoardTiles = true;
-                    console.log ("adjacent");
                 }
               }
             });
@@ -192,9 +199,9 @@ const board = () => {
       });
 
       if (adjToBoardTiles == false) {
-        console.log ("not adjacent");
-      }
-
+        alert("New words must be include letters already on the board");
+        restoreLetters();
+      } else {
        myLettersDiv.querySelectorAll('.letter-disabled').forEach( ltr => {
         const ind = myLetters.indexOf(ltr.querySelector(".my-letter").innerHTML);
         myLetters.splice(ind, 1);
@@ -250,6 +257,9 @@ const board = () => {
     const num  =  maxLetters - myLetters.length;
     chooseLetters();
     appendMyLetters(num);
+
+      }
+
   }
 
   function sendAJAX () {
