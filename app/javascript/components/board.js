@@ -174,34 +174,73 @@ const board = () => {
         selectedLetter = null;
   }
 
+  function checkOrientation(arr){
+    if (arr.length > 1 ) {
+      let topRow =[]
+      let leftColumn = []
+
+      for (let k = 0; k < 15; k++) {
+       topRow.push(k);
+       leftColumn.push(k * 15);
+      }
+
+      const tile1Column = arr[0] % 15
+      let tile1Row = 0
+      leftColumn.forEach(num => {
+        if  (arr[0] >= num + 15) {
+          tile1Row ++
+        }
+      });
+      const tile2Column = arr[1] % 15
+      let tile2Row = 0
+      leftColumn.forEach(num => {
+        if  (arr[1] >= num + 15) {
+          tile2Row ++
+        }
+      });
+      if (tile1Column == tile2Column) return "vertical";
+      if (tile1Row == tile2Row) return "horizontal";
+    }
+  }
+
+
+
+
+
+
+
+
 
   function commitLetters () {  // ltrP = provisonal; ltrB = on board
-    // const allTiles
+      const firstTwoProvisionals = [];
       let adjToBoardTiles = false;
       let wordOrientation = null;
       document.querySelectorAll('.letter').forEach( (ltrP, indexP) => {
-            if (ltrP.classList.contains("letter-provisional")) {
-                    console.log ("indexP " + indexP);
-
-              document.querySelectorAll('.letter').forEach( (ltrB, indexB) => {
-                    // console.log ("ltrB.innerHTML " + ltrB.innerHTML.trim().length);
-                    const notBlank = ltrB.innerHTML.trim().length > 0;
-                    const notProv  = !ltrB.classList.contains("letter-provisional");
+        if (ltrP.classList.contains("letter-provisional")) {
+          if (firstTwoProvisionals.length < 2) firstTwoProvisionals.push(indexP);
+            document.querySelectorAll('.letter').forEach( (ltrB, indexB) => {
+              const notBlank = ltrB.innerHTML.trim().length > 0;
+              const notProv  = !ltrB.classList.contains("letter-provisional");
               if (notBlank && notProv) {
-                    // console.log ('notBlank ', notBlank);
-                    // console.log ("notProv ", notProv);
                 if ( indexP == indexB + 1 || indexP == indexB - 1 || indexP == indexB + 15  || indexP == indexB - 15){
                     adjToBoardTiles = true;
                 }
               }
             });
-            }
+          }
       });
 
-      if (adjToBoardTiles == false) {
-        alert("New words must be include letters already on the board");
+      wordOrientation = checkOrientation(firstTwoProvisionals);
+
+      if (!wordOrientation) {
+          alert("New words must be in a single row or column.");
+          restoreLetters();
+      } else if (adjToBoardTiles == false) {
+        alert("New words must include at least one letter already on the board.");
         restoreLetters();
-      } else {
+      }
+
+      if ( wordOrientation && adjToBoardTiles) {
        myLettersDiv.querySelectorAll('.letter-disabled').forEach( ltr => {
         const ind = myLetters.indexOf(ltr.querySelector(".my-letter").innerHTML);
         myLetters.splice(ind, 1);
@@ -224,39 +263,31 @@ const board = () => {
 
 
 
-    const curr = document.querySelector("#scores").dataset.current;
-    console.log('current' + curr);
+      const curr = document.querySelector("#scores").dataset.current;
+      console.log('current' + curr);
+      const scores = document.querySelector("#scores").dataset.scores;
+      // form.submit();
 
-    const scores = document.querySelector("#scores").dataset.scores;
+      //  $.ajax({
+      //     type: 'PATCH',
+      //     url: event.target.url,
+      //     data: event.target,
+      //     dataType: 'JSON'
+      // }).done(function (data) {
+      //     alert(data.notice);
+      // }).fail(function (data) {
+      //     alert(data.alert);
+      // });
 
+      let alertString = `${currentPlayer} added ${addedScore} `
+      addedScore == 1  ? alertString += `point.` :  alertString += `points.`
+      alert (alertString);
 
-
-    // form.submit();
-
-
-    //  $.ajax({
-    //     type: 'PATCH',
-    //     url: event.target.url,
-    //     data: event.target,
-    //     dataType: 'JSON'
-    // }).done(function (data) {
-    //     alert(data.notice);
-    // }).fail(function (data) {
-    //     alert(data.alert);
-    // });
-
-
-
-
-    let alertString = `${currentPlayer} added ${addedScore} `
-    addedScore == 1  ? alertString += `point.` :  alertString += `points.`
-    alert (alertString);
-
-    buffer = [];
-    selectedLetter = null;
-    const num  =  maxLetters - myLetters.length;
-    chooseLetters();
-    appendMyLetters(num);
+      buffer = [];
+      selectedLetter = null;
+      const num  =  maxLetters - myLetters.length;
+      chooseLetters();
+      appendMyLetters(num);
 
       }
 
