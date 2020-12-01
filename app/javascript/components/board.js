@@ -102,7 +102,27 @@ const board = () => {
     });
   }
 
+
+const pickLetter = () => {
+  const tiles = Array.from(document.querySelectorAll(".my-tile"));
+  tiles.reverse().forEach( tile => {
+    if (tile.querySelector(".my-letter").innerHTML === event.key.toUpperCase()) {
+      if (tile != selectedLetter && !tile.classList.contains("letter-disabled")) {
+        if (selectedLetter) selectedLetter.classList.remove("letter-selected");
+        tile.classList.add("letter-selected");
+        selectedLetter =  tile;
+      } else {
+        tile.classList.remove("letter-selected");
+        // selectedLetter =  null;
+
+      }
+    }
+  });
+}
+
+
   if (myLettersDiv) {
+    document.addEventListener('keydown', pickLetter);
     chooseLetters();
     showMyLettersInit();
     document.querySelector('#cancel-btn').addEventListener('click', restoreLetters);
@@ -137,11 +157,13 @@ const board = () => {
   }
 
   function placeLetter () {
+    console.log('placeLetter' + selectedLetter);
     if (selectedLetter) {
       const txt = selectedLetter.querySelector('.my-letter').innerHTML
       event.target.querySelector('.letter').innerHTML = txt;
       event.target.querySelector('.letter').classList.add("letter-provisional");
       buffer.push(txt);
+      selectedLetter.classList.remove("letter-selected");
       selectedLetter.classList.add("letter-disabled");
       selectedLetter.removeEventListener('click', toggleLetter);
       selectedLetter = null;
@@ -229,8 +251,10 @@ const board = () => {
             });
           }
       });
+      wordOrientation = firstTwoProvisionals.length === 2 ?
+        checkOrientation(firstTwoProvisionals):
+        "neutral";
 
-      wordOrientation = checkOrientation(firstTwoProvisionals);
 
       if (!wordOrientation) {
           alert("New words must be in a single row or column.");
