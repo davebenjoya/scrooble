@@ -348,7 +348,6 @@ const findVerticallWord = (firstProvisional) => {
     if (wordOrientation == 'horizontal' || wordOrientation == 'neutral') {
       positions  =  findHorizontalWord(firstProvisional);
     } else {
-
       positions = findVerticallWord(firstProvisional);
     }
 
@@ -394,6 +393,26 @@ const findVerticallWord = (firstProvisional) => {
 
       });
     });
+
+    switch (wordMultiplier) {
+      case 2:
+       if (bonusString.length > 0) bonusString += `; `;
+            bonusString += `Double Word Score`;
+      break;
+      case 3:
+       if (bonusString.length > 0) bonusString += `; `;
+            bonusString += `Triple Word Score`;
+      break;
+      case 4:
+       if (bonusString.length > 0) bonusString += `; `;
+            bonusString += ` Oh my god, 2 Double Word Scores`;
+      break;
+      case 9:
+       if (bonusString.length > 0) bonusString += `; `;
+            bonusString += `Jesus Fucking Christ!! 2 Triple Word Scores!!!!!`;
+
+      break
+    }
 
     addedScore *= wordMultiplier;
 
