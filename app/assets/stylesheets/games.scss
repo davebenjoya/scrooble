@@ -12,12 +12,18 @@ a {
 }
 
 #navbarr {
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
   width: 100%;
   padding: 0px;
   font-family: 'Grandstander', display;
   font-size: 20px;
   letter-spacing: 8px;
+}
+
+.this-user {
+
+  color: hsl(200, 110, 48);
 }
 
 
@@ -112,6 +118,8 @@ justify-items: center;
   justify-content: space-between;
   padding: 2px 16px;
   font-size: 12px;
+  transition: all .3s ease-in;
+  background-color: transparent;
 }
 
 .name {
@@ -125,6 +133,7 @@ justify-items: center;
 .player-selected {
   background-color: hsl(18, 25, 90);
   font-weight: bold;
+  transition: all .3s ease-in;
 }
 
 

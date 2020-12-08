@@ -1,6 +1,8 @@
 
 
 class GamesController < ApplicationController
+  skip_before_action :authenticate_user!, only: [:index, :show]
+
   def index
     @games = Game.all
   end
@@ -19,9 +21,9 @@ end
   end
 
   def create
-    @game = Game.new(song_params)
+    @game = Game.new(game_params)
     # authorize @game
-    # @song.user = current_user
+    # @game.user = current_user
     if @game.save
       redirect_to games_path
     else
@@ -45,5 +47,5 @@ end
 private
 
   def game_params
-    params.require(:game).permit(:letter_grid)
+    params.require(:game).permit(:letter_grid, :current_player, :players, :completed)
   end

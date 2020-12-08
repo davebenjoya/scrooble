@@ -5,7 +5,7 @@
     <div id="last">
      <strong>Last Updated </strong><br/><%= @date %>
     </div>
-    <div id='scores' data-scores="<%= @game.scores %>" data-current="<%= @game.current_player %>" >
+    <div id='scores' data-players="<%= @game.players %>" data-current="<%= @game.current_player %>" data-username = "<%= current_user.username %>" >
     </div>
     </div>
     <div id="my-letters"></div>

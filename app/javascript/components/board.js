@@ -6,6 +6,7 @@ const board = () => {
   const showGame = document.querySelector(".show-page-identifier");
 
   const boardDiv = document.getElementById("board");
+  const scoresDiv = document.getElementById("scores");
   const myLettersDiv = document.getElementById("my-letters");
   let myLetters = [];
   const maxLetters = 7;
@@ -15,7 +16,17 @@ const board = () => {
   let currentPlayer = "Dave";
   let form;
 
+
+
+    const players = document.querySelector("#scores").dataset.players;
+    const formattedStr = players.replaceAll("},", "}@@@").replaceAll("=>", ": ")
+                        .replaceAll("[", "").replaceAll("]", "").replaceAll(" :" , " ")
+                        .replaceAll("{:" , "{");
+    const playersArray = formattedStr.split("@@@");
+    let current = document.querySelector("#scores").dataset.current;
+
     // element = this;
+
 
   if (editGame || showGame) {
     showScores();
@@ -103,7 +114,7 @@ const board = () => {
   }
 
 
-const pickLetter = () => {
+const pickLetter = () => {   // using keyboard
   const tiles = Array.from(document.querySelectorAll(".my-tile"));
   tiles.reverse().forEach( tile => {
     if (tile.querySelector(".my-letter").innerHTML === event.key.toUpperCase()) {
@@ -123,36 +134,52 @@ const pickLetter = () => {
 
   if (myLettersDiv) {
     document.addEventListener('keydown', pickLetter);
-    chooseLetters();
-    showMyLettersInit();
+    console.log(myLetters);
+    if (myLetters.length < 1 ) {  // myLetters has not been populated from DB
+      chooseLetters();
+    } else {
+
+    }
+      showMyLettersInit();
     document.querySelector('#cancel-btn').addEventListener('click', restoreLetters);
     document.querySelector('#commit-btn').addEventListener('click', commitLetters);
   }
 
 
   function showScores() {
-    const scores = document.querySelector("#scores").dataset.scores;
+    document.querySelector("#scores").innerHTML = ``
+    playersArray.forEach((player, index) => {
+
+      let thisUser = "";
 
 
-    const arr = scores.replaceAll(/\[|\]|\{|\}|\:|"/g, "").split(',');
-    arr.forEach((player, index) => {
-      const name = player.split("=>")[0];
-      const score = parseInt(player.split("=>")[1]);
+      const props = player.split(",");
+      const name   = props[0].split(":")[1].replaceAll('"', '');
+      // console.log("document.querySelector('#scores').dataUsername " + document.querySelector('#scores').dataset.username);
+      if (name.trim() === document.querySelector('#scores').dataset.username.trim()) {
+        console.log("  dslkfdsj fewjf;oewfj ewf;esj");
+        thisUser = " this-user"
+      }
+      const score   = parseInt(props[1].split(":")[1].replaceAll('"', ''));
+      const playerLetters = props[2].split(":")[1].replaceAll(/[\"}]/g, '').trim();
+
       let playerSelected = "";
 
        if (editGame) {
-          const current = document.querySelector("#scores").dataset.current;
-          console.log(current);
           if (current == index) {
+            for (let x of playerLetters) {
+            console.log(x);
+            myLetters.push(x)
+
+            }
             currentPlayer = name;
-            playerSelected = " player-selected"
+            playerSelected = " player-selected"  // add selected class to this player
           }
        }
 
-      const nameScoreHtml = `<div class="name-score${playerSelected}"><div class="name">${name}</div><div class="score">${score}</div></div>`
+      const nameScoreHtml = `<div class="name-score${playerSelected}"><div class="name${thisUser}">${name}</div><div class="score">${score}</div></div>`
       document.querySelector("#scores").innerHTML += nameScoreHtml;
-
-    })
+    });
 
   }
 
@@ -170,7 +197,9 @@ const pickLetter = () => {
     }
   }
 
-  function chooseLetters() { // select my letters
+
+
+  function chooseLetters() { // select my letters from available letters
 
     // console.log(remainingLetters);
     while (myLetters.length < maxLetters ) {
@@ -368,13 +397,13 @@ const findVerticallWord = (firstProvisional) => {
           if (tileDivs[position].classList.contains("double-letter") && letterDivs[position].classList.contains("letter-provisional")) {
             val *= 2;
             if (bonusString.length > 0) bonusString += `; `;
-            bonusString += `${ltr} Double Letter Score = ${val}`;
+            bonusString += ` ${ltr} Double Letter Score = ${val}`;
             console.log("double letter");
           }
           if (tileDivs[position].classList.contains("triple-letter") && letterDivs[position].classList.contains("letter-provisional")) {
             val *= 3;
             if (bonusString.length > 0) bonusString += `; `;
-            bonusString += `   ${ltr} Triple Letter Score = ${val}`;
+            bonusString += ` ${ltr} Triple Letter Score = ${val}`;
             console.log("triple letter");
           }
           if (tileDivs[position].classList.contains("double-word") && letterDivs[position].classList.contains("letter-provisional")) {
@@ -405,7 +434,7 @@ const findVerticallWord = (firstProvisional) => {
       break;
       case 4:
        if (bonusString.length > 0) bonusString += `; `;
-            bonusString += ` Oh my god, 2 Double Word Scores`;
+            bonusString += ` Oh my god, 2 Double Word Scores.`;
       break;
       case 9:
        if (bonusString.length > 0) bonusString += `; `;
@@ -421,6 +450,26 @@ const findVerticallWord = (firstProvisional) => {
     alertString += `${bonusString}`
     alert (alertString);
 
+    if (selectedLetter ) {
+      selectedLetter.classList.remove('letter-selected')
+      selectedLetter = null;
+    }
+    const num  =  maxLetters - myLetters.length;
+      // pick new letters
+      chooseLetters();
+      // append new letters to my letters
+      appendMyLetters(num);
+      console.log ('myLetters.length' + myLetters.length);
+    // nextPlayer();
+  }
+
+
+
+  const nextPlayer = () => {
+    current ++
+    if (current > playersArray.length - 1) current = 0;
+    showScores();
+    // showMyLettersInit();
   }
 
   function sendAJAX () {
@@ -453,6 +502,7 @@ const findVerticallWord = (firstProvisional) => {
     });
       const tileHtml = `<div class='my-tile'><div class="my-letter">${ltr}</div><div class="my-value">${val}</div></div>`
       setTimeout(addLetterDelayed, 900 + (360 * d), tileHtml)
+      setTimeout(nextPlayer, 900 + (360 * num));
     }
   }
 
