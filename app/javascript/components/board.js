@@ -15,9 +15,13 @@ const board = () => {
   let buffer = [];
   let currentPlayer = "Dave";
   let form;
+  let addedScore = 0;
+  let remainingLetters = [];
+const titleString = document.querySelector("#dashboard").dataset.name;
 
+document.querySelector("#navbar-game").insertAdjacentHTML('afterbegin',titleString)
 
-
+    // console.log(document.querySelector("#scores"));
     const players = document.querySelector("#scores").dataset.players;
     const formattedStr = players.replaceAll("},", "}@@@").replaceAll("=>", ": ")
                         .replaceAll("[", "").replaceAll("]", "").replaceAll(" :" , " ")
@@ -32,11 +36,10 @@ const board = () => {
     showScores();
     if (editGame) {
       form = document.getElementById("update-game")
-      form.addEventListener("submit", sendAJAX )
+      // form.addEventListener("submit", sendAJAX )
     }
   }
 
-  let remainingLetters = allLetters;
 
   if (boardDiv) {
     lettersJSON.letters.forEach( ltr => {
@@ -46,6 +49,7 @@ const board = () => {
           allLetters.push(l);
         };
       });
+    remainingLetters = allLetters;
     let boardHtml = ``
       console.log('boardDiv.dataset.letterGrid ' + boardDiv.dataset.letterGrid.length);
     if (boardDiv.dataset.letterGrid.length > 0) {
@@ -150,28 +154,32 @@ const pickLetter = () => {   // using keyboard
     document.querySelector("#scores").innerHTML = ``
     playersArray.forEach((player, index) => {
 
-      let thisUser = "";
 
+      let playerSelected = "";
+      let thisUser = "";
 
       const props = player.split(",");
       const name   = props[0].split(":")[1].replaceAll('"', '');
-      // console.log("document.querySelector('#scores').dataUsername " + document.querySelector('#scores').dataset.username);
-      if (name.trim() === document.querySelector('#scores').dataset.username.trim()) {
-        console.log("  dslkfdsj fewjf;oewfj ewf;esj");
-        thisUser = " this-user"
-      }
+
       const score   = parseInt(props[1].split(":")[1].replaceAll('"', ''));
       const playerLetters = props[2].split(":")[1].replaceAll(/[\"}]/g, '').trim();
 
-      let playerSelected = "";
+
+      // console.log("document.querySelector('#scores').dataUsername " + document.querySelector('#scores').dataset.username);
+
+      for (let x of playerLetters) {
+        const k = remainingLetters.indexOf(x);
+        remainingLetters.splice(k,1);
+
+        if (name.trim() === document.querySelector('#scores').dataset.username.trim()) {
+          myLetters.push(x);
+          thisUser = " this-user"
+        }
+
+      }
 
        if (editGame) {
           if (current == index) {
-            for (let x of playerLetters) {
-            console.log(x);
-            myLetters.push(x)
-
-            }
             currentPlayer = name;
             playerSelected = " player-selected"  // add selected class to this player
           }
@@ -180,6 +188,17 @@ const pickLetter = () => {   // using keyboard
       const nameScoreHtml = `<div class="name-score${playerSelected}"><div class="name${thisUser}">${name}</div><div class="score">${score}</div></div>`
       document.querySelector("#scores").innerHTML += nameScoreHtml;
     });
+
+    document.querySelector(".this-user").parentNode.dataToggle= "tooltip";
+      document.querySelector(".this-user").parentNode.title= "You!";
+
+    document.querySelector(".player-selected").dataToggle= "tooltip";
+    if (document.querySelector(".this-user").parentNode.classList.contains("player-selected")) {
+      document.querySelector(".player-selected").title= "It's your turn!";
+
+    } else {
+      document.querySelector(".player-selected").title= "Current Player";
+    }
 
   }
 
@@ -201,14 +220,17 @@ const pickLetter = () => {   // using keyboard
 
   function chooseLetters() { // select my letters from available letters
 
-    // console.log(remainingLetters);
+    // console.log(remainingLetters.length);
     while (myLetters.length < maxLetters ) {
       const ind = Math.floor(Math.random() * remainingLetters.length)
+      console.log(ind);
       const ran = remainingLetters[ind]
       myLetters.push(ran);
        // const ind = remainingLetters.indexOf(selectedLetter.querySelector('.my-letter').innerHTML);
       remainingLetters.splice(ind, 1);
     }
+    // console.log(remainingLetters.length);
+    console.log ("_____________________")
   }
 
   function restoreLetters () {
@@ -295,7 +317,7 @@ const pickLetter = () => {   // using keyboard
       restoreLetters();
     } else {
       ///  pass orientation and first letter to caluclateScore
-      console.log("firstTwoProvisionals " + firstTwoProvisionals);
+      // console.log("firstTwoProvisionals " + firstTwoProvisionals);
       calculateScore(wordOrientation, firstTwoProvisionals[0]);
       ////// remove used letters from myLetters
       myLettersDiv.querySelectorAll('.letter-disabled').forEach( ltr => { // 'disabled' means it's been placed on the board
@@ -311,6 +333,52 @@ const pickLetter = () => {   // using keyboard
       // append new letters to my letters
       appendMyLetters(num);
     }
+
+    let newGrid = ""
+    document.querySelectorAll('.letter').forEach(ltr => {
+      if (ltr.innerHTML.trim() === "") {
+        newGrid += "_";
+      } else {
+        newGrid += ltr.innerHTML;
+      };
+      newGrid += " ";
+    });
+
+    current ++
+    if (current > playersArray.length - 1) current = 0
+
+    const me = playersArray.filter(player => player.includes(document.querySelector('#scores').dataset.username.trim()));
+
+
+    const oldLetters = me[0].split(",")[2].replaceAll(/current_letters:|\"|\}/g, "" ).trim();
+    const oldScore =  parseInt(me[0].split(",")[1].replaceAll(/score:|\"/g, "" ));
+    const newScore = oldScore + addedScore;
+
+    let newLetters = "";
+    myLetters.forEach(letter => {
+      newLetters += letter
+    })
+
+    const newMe =  Object.values(me)[0].replace(oldScore, newScore).replace(oldLetters, newLetters);
+
+
+    console.log('me  ' + me);
+    console.log('newMe  ' + newMe);
+
+    const oldPlayers = players.replaceAll(":", "").replaceAll(/=>/g, ": ");
+
+
+    const newPlayers = oldPlayers.replace(me, newMe);
+
+    console.log('newPlayers  ', newPlayers);
+
+    // document.querySelector('#update-players').value = newPlayers;
+    document.querySelector('#update-grid').value = newGrid;
+    document.querySelector('#update-current').value = current;
+
+
+
+    // form.submit();
   }
 
 
@@ -360,7 +428,7 @@ const findVerticallWord = (firstProvisional) => {
 
 
   const calculateScore = (wordOrientation, firstProvisional) => {  // score for one word
-    let addedScore = 0;
+    addedScore = 0;
     const tileDivs = document.querySelectorAll('.tile')
     const letterDivs = document.querySelectorAll('.letter')
     const provDivs = document.querySelectorAll('.letter-provisional')
@@ -459,7 +527,7 @@ const findVerticallWord = (firstProvisional) => {
       chooseLetters();
       // append new letters to my letters
       appendMyLetters(num);
-      console.log ('myLetters.length' + myLetters.length);
+      // console.log ('myLetters.length' + myLetters.length);
     // nextPlayer();
   }
 
@@ -468,8 +536,7 @@ const findVerticallWord = (firstProvisional) => {
   const nextPlayer = () => {
     current ++
     if (current > playersArray.length - 1) current = 0;
-    showScores();
-    // showMyLettersInit();
+    // showScores();
   }
 
   function sendAJAX () {
@@ -501,8 +568,9 @@ const findVerticallWord = (firstProvisional) => {
       }
     });
       const tileHtml = `<div class='my-tile'><div class="my-letter">${ltr}</div><div class="my-value">${val}</div></div>`
-      setTimeout(addLetterDelayed, 900 + (360 * d), tileHtml)
-      setTimeout(nextPlayer, 900 + (360 * num));
+      setTimeout(addLetterDelayed, 900 + (300 * d), tileHtml)
+      // setTimeout(nextPlayer, 900 + (300 * num));
+      addLetterDelayed(tileHtml);
     }
   }
 
@@ -523,8 +591,8 @@ const findVerticallWord = (firstProvisional) => {
     });
 
     const tileHtml = `<div class='my-tile'><div class="my-letter">${ltr}</div><div class="my-value">${val}</div> </div>`
-      setTimeout(addLetterDelayed, 800 + (360 * index), tileHtml)
-    // myLettersDiv.insertAdjacentHTML('beforeend', tileHtml);
+      // setTimeout(addLetterDelayed, 800 + (360 * index), tileHtml)
+    myLettersDiv.insertAdjacentHTML('beforeend', tileHtml);
     });
     const min = myLettersDiv.getBoundingClientRect().height
     // console.log(min);

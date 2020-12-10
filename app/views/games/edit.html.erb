@@ -1,21 +1,25 @@
 <div class="row edit-page-identifier">
-  <div class="col-2 pr-0" id="dashboard">
+  <div class="col-2 pr-0" id="dashboard" data-name ="<%= @game.name %>">
     <div>
-    <h5 class='px-3'><%= @game.name %></h5>
-    <div id="last">
-     <strong>Last Updated </strong><br/><%= @date %>
-    </div>
-    <div id='scores' data-players="<%= @game.players %>" data-current="<%= @game.current_player %>" data-username = "<%= current_user.username %>" >
-    </div>
+      <div id="last">
+       <strong>Last Updated </strong><br/><%= @date %>
+      </div>
+      <div id='scores' data-players="<%= @game.players %>" data-current="<%= @game.current_player %>" data-username = "<%= current_user.username %>" >
+      </div>
     </div>
     <div id="my-letters"></div>
     <div id="controls">
       <%#= form_for(@game, url: edit_game_path(@game), method: :patch, html: {id: “commit_form”}, remote: true) %>
       <%# end %>
-      <%= form_with(model: @game, method: 'patch', remote: true, url: game_path(@game), id: "update-game") do |f| %>
-       <%=f.hidden_field :current_player, value:1, id:'update-current' %>
-  <%=f.hidden_field :scores, value: [{ 'Dave': '38' }, { 'Deike': '42' },
-                      { 'Luna': '65' }, { 'Ed': '63' }], id:'update-scores' %>
+      <%= form_with(model: @game, method: 'patch', url: game_path(@game), id: "update-game") do |f| %>
+      <%=f.hidden_field :current_player, value:1, id:'update-current' %>
+      <%=f.hidden_field :players, value: [
+                         { 'name': 'Dave', 'score': '52', 'current_letters': 'RXDFOEB' },
+                         { 'name': 'Deike', 'score': '62', 'current_letters': 'LTAUWVQ' },
+                         { 'name': 'Luna', 'score': '82', 'current_letters': 'ZHGNIOC' },
+                         { 'name': 'Ed', 'score': '79', 'current_letters': 'USYKTER' }
+                        ], id:'update-players' %>
+       <%=f.hidden_field :letter_grid, value:'____NONSENSE____', id:'update-grid' %>
  <%#= f.submit "Commit", class: "btn-sm btn-slate-grey", id: "commit-btn" %>
 <% end %>
 
@@ -26,3 +30,5 @@
   <div class='col-10' id="board" data-letter-grid="<%= @game.letter_grid %> " >
   </div>
 </div>
+
+

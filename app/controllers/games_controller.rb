@@ -38,7 +38,18 @@ end
 
   def update
      @game = Game.find(params[:id])
-     redirect_to edit_game_path(@game)
+
+    # raise
+
+    if @game.update(game_params)
+      redirect_to edit_game_path(@game)
+    else
+      redirect_to edit_game_path(@game), alert: "Game not updated!"
+
+    end
+
+
+     # redirect_to edit_game_path(@game)
   end
 
   def destroy
