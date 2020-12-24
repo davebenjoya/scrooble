@@ -8,6 +8,7 @@ require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
 require("bootstrap")
+require("controllers")
 
 import "../../assets/stylesheets/application";
 
@@ -18,11 +19,12 @@ import "../../assets/stylesheets/application";
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 import { board } from '../components/board'
+import { new_game } from '../components/new_game'
+import { initGameCable } from '../channels/game_channel';
 
 document.addEventListener('turbolinks:load', (ev) => {
 
 
-  board();
 
 });
 
@@ -36,5 +38,8 @@ document.addEventListener("turbolinks:load", function() {
     setTimeout(function() {
     $('.alert').fadeOut();
   }, 2000);
-})
+  board();
+  initGameCable();
+  // new_game();
+});
 

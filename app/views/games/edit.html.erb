@@ -1,34 +1,75 @@
 <div class="row edit-page-identifier">
-  <div class="col-2 pr-0" id="dashboard" data-name ="<%= @game.name %>">
+
+  <!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+  Launch demo modal
+</button> -->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+
+        <button id="close-modal-btn" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<%#= @game.name %>
+  <div class="col-2 pr-0" id="dashboard" data-name ="<%= @game.name %>" data-id ="<%= @game.id %>" data-url ="games/<%= @game.id %>/edit" >
     <div>
+      <div id="messages" data-game-id=<%= @game.id %>></div>
+      <!-- <div data-controller="online-list" data-online-list-sound="insistentHarp.mp3">
+        <%#= audio_tag "dreamy", id: "btnAudio" %>
+        <button data-action="online-list#playSound" data-online-list-target="trigger" >Play</button>
+      </div> -->
       <div id="last">
        <strong>Last Updated </strong><br/><%= @date %>
       </div>
       <div id='scores' data-players="<%= @game.players %>" data-current="<%= @game.current_player %>" data-username = "<%= current_user.username %>" >
       </div>
     </div>
-    <div id="my-letters"></div>
+
     <div id="controls">
       <%#= form_for(@game, url: edit_game_path(@game), method: :patch, html: {id: “commit_form”}, remote: true) %>
       <%# end %>
       <%= form_with(model: @game, method: 'patch', url: game_path(@game), id: "update-game") do |f| %>
       <%=f.hidden_field :current_player, value:1, id:'update-current' %>
       <%=f.hidden_field :players, value: [
-                         { 'name': 'Dave', 'score': '52', 'current_letters': 'RXDFOEB' },
-                         { 'name': 'Deike', 'score': '62', 'current_letters': 'LTAUWVQ' },
-                         { 'name': 'Luna', 'score': '82', 'current_letters': 'ZHGNIOC' },
-                         { 'name': 'Ed', 'score': '79', 'current_letters': 'USYKTER' }
-                        ], id:'update-players' %>
+                               { 'name': 'Dave', 'score': '52', 'current_letters': 'RXDFOEB' },
+                               { 'name': 'Deike', 'score': '62', 'current_letters': 'LTAUWVQ' },
+                               { 'name': 'Luna', 'score': '82', 'current_letters': 'ZHGNIOC' },
+                               { 'name': 'Ed', 'score': '79', 'current_letters': 'USYKTER' }
+                              ], id:'update-players' %>
        <%=f.hidden_field :letter_grid, value:'____NONSENSE____', id:'update-grid' %>
- <%#= f.submit "Commit", class: "btn-sm btn-slate-grey", id: "commit-btn" %>
-<% end %>
+       <%#= f.submit "Commit", class: "btn-sm btn-slate-grey", id: "commit-btn" %>
+      <% end %>
 
-      <button id='commit-btn' class="btn btn-sm btn-primary w-45">Commit</button>
-      <button id='cancel-btn' class="btn btn-sm btn-warning w-45">Cancel</button>
+      <button id='commit-btn' class="commit-btn button-disabled">Commit</button>
+      <button id='cancel-btn' class="cancel-btn button-disabled">Cancel</button>
     </div>
+    <div id="my-letters"></div>
   </div>
+
   <div class='col-10' id="board" data-letter-grid="<%= @game.letter_grid %> " >
   </div>
+
 </div>
+
+
+
+
+
+
+
+
 
 
