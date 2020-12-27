@@ -10,6 +10,7 @@ const board = () => {
   const boardDiv = document.getElementById("board");
   const scoresDiv = document.getElementById("scores");
   const myLettersDiv = document.getElementById("my-letters");
+
   let current =  ``;
   let form  = document.querySelector("form");
   let playersArray;
@@ -33,6 +34,34 @@ const board = () => {
   }
 
 
+if (editGame) {
+  const targetNode = document.querySelector("#messages");
+
+let observer = new MutationObserver(callback);
+function callback (mutations) {
+  console.log ("playersArray " + typeof playersArray);
+  const newStr = document.querySelector("#messages").innerHTML;
+  console.log ("newStr " + newStr);
+  const newObj = new Object(newStr);
+  console.log ("newObj " + newObj);
+
+
+  playersArray = newObj;
+
+  // do something here
+}
+
+
+let observerOptions = {
+  childList: true,
+  characterData: true
+};
+
+observer.observe(targetNode, observerOptions);
+
+
+
+}
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 /////////////////////////      CREATE NEW GAME      //////////////////////////
@@ -41,6 +70,18 @@ const board = () => {
 
 
   function createNewGame () {
+
+
+    lettersJSON.letters.forEach( ltr => {
+        const l = Object.keys(ltr)[0];
+        const f = parseInt(Object.values(ltr)[0].frequency);
+        for (let r = 0; r < f; r++) {
+          allLetters.push(l);
+        };
+      });
+    remainingLetters = allLetters;
+
+    // remainingLetters = allLetters
     let newPlayers  = []
     const firstPlayer = createPlayerString (document.querySelector("#players").dataset.username);
     newPlayers.push(firstPlayer);
@@ -70,7 +111,15 @@ const board = () => {
 
 
   function createPlayerString (name) {
-    return new Object(`{'name': '${name}', 'score': '0', 'current_letters': 'ABCDEFG'}`)
+    console.log("remaining  " + remainingLetters);
+
+    let ltrStr = '';
+    myLetters = []
+        chooseLetters();
+        myLetters.forEach(ltr => {
+          ltrStr += ltr;
+        })
+    return new Object(`{'name': '${name}', 'score': '0', 'current_letters': ${ltrStr}}`)
 
   }
 
@@ -171,9 +220,12 @@ const board = () => {
 
     boardDiv.insertAdjacentHTML('beforeend', boardHtml);
 
+ boardDiv.querySelectorAll('.letter')[112].parentNode.classList.add("center-tile");
 
 
      boardDiv.querySelectorAll('.letter').forEach((ltr, index) => {
+
+
         let nums = lettersJSON.tw.map(Number);
         const tripleWords = nums.filter(num => num == index + 1)
           if (tripleWords.length > 0) {
@@ -361,14 +413,14 @@ const pickLetter = () => {   // using keyboard
       }
 
       const tile1Column = arr[0] % 15
-      let tile1Row = 0
+      let tile1Row = 0;
       leftColumn.forEach(num => {
         if  (arr[0] >= num + 15) {
           tile1Row ++
         }
       });
       const tile2Column = arr[1] % 15
-      let tile2Row = 0
+      let tile2Row = 0;
       leftColumn.forEach(num => {
         if  (arr[1] >= num + 15) {
           tile2Row ++
@@ -390,7 +442,7 @@ const pickLetter = () => {   // using keyboard
       const firstTwoProvisionals = [];
       let adjToBoardTiles = null;
       let wordOrientation = null;
-
+      let needsToUseCenter = false
       /////////////  V A L I D A T I O N /////////////////////////////////////////
       document.querySelectorAll('.letter').forEach( (ltrP, indexP) => {
         if (ltrP.classList.contains("letter-provisional")) {
@@ -409,11 +461,20 @@ const pickLetter = () => {   // using keyboard
               });
             } else {
       // if this is the first move of the game, there are no letters on the board
+              // needsToUseCenter = true
               adjToBoardTiles = true;
+              if (ltrP.parentNode.classList.contains("center-tile")) {
+                needsToUseCenter = false;
+              }
+
             }
           }
         });
 
+      if (needsToUseCenter === true) {
+        alert ("First word must use the center tile.")
+        restoreLetters();
+      } else {
       //    check orientation if more than one new letter, otherwise assign "neutral"
       wordOrientation = firstTwoProvisionals.length > 1 ? checkOrientation(firstTwoProvisionals) :  "neutral";
 
@@ -431,6 +492,14 @@ const pickLetter = () => {   // using keyboard
 
       }
       // updatePlayers();
+
+
+
+
+
+
+
+      }
 
 
     }
@@ -618,9 +687,9 @@ const findVerticallWord = (firstProvisional) => {
             selectedLetter.classList.remove('letter-selected')
             selectedLetter = null;
           }
-          const num  =  maxLetters - myLetters.length; // how many tiles need to be replaced?
-          chooseLetters();
-          appendMyLetters(num);
+          // const num  =  maxLetters - myLetters.length; // how many tiles need to be replaced?
+          // chooseLetters();
+          // appendMyLetters(num);
 
         myLettersDiv.querySelectorAll('.letter-disabled').forEach( ltr => { // 'disabled' means it's been placed on the board
           const ind = myLetters.indexOf(ltr.querySelector(".my-letter").innerHTML);
@@ -721,15 +790,6 @@ async function searchDictionary (keyword)  {
 
 ////////////////////////////////////////////////////////////////////////////
 
-
-
-
-
-  const nextPlayer = () => {
-    current ++
-    if (current > playersArray.length - 1) current = 0;
-    // showScores();
-  }
 
 
   function appendMyLetters(num) {

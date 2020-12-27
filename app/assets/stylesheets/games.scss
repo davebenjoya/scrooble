@@ -2,6 +2,11 @@
 // They will 6.67%matically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
+#messages {
+  visibility: hidden;
+  height: 0;
+}
+
 :root {
   --blueish: blue;
 }
@@ -12,6 +17,7 @@
 
 .avatar {
   height: 36px;
+  border-radius:50%;
   // margin: 8px;
 }
 
@@ -27,6 +33,10 @@
   color: black;
 }
 
+.center-tile {
+  background-color: hsl(118, 40, 80) !important;
+  // background-image: image-url('../../assets/images/star.svg');
+}
 
 .your-games {
   background-color: hsl(80, 50, 60);
