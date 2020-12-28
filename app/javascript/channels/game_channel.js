@@ -9,9 +9,8 @@ const initGameCable = () => {
   }
   consumer.subscriptions.create({ channel: "GameChannel", id: id }, {
   received(data) {
-    // const response = data;
     console.log("data" + data.replaceAll("&#39;", "'"));
-    messagesContainer.style.visible = "hidden";
+    // messagesContainer.style.visible = "hidden";
     messagesContainer.insertAdjacentHTML('beforeend', data.replaceAll("&#39;", "'"));
   }
 });

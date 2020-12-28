@@ -442,13 +442,14 @@ const pickLetter = () => {   // using keyboard
       const firstTwoProvisionals = [];
       let adjToBoardTiles = null;
       let wordOrientation = null;
-      let needsToUseCenter = false
+      let needsToUseCenter = true;
       /////////////  V A L I D A T I O N /////////////////////////////////////////
       document.querySelectorAll('.letter').forEach( (ltrP, indexP) => {
         if (ltrP.classList.contains("letter-provisional")) {
         console.log("ltrP.classList " + ltrP.classList)
           if (firstTwoProvisionals.length < 2) firstTwoProvisionals.push(indexP);
             if (boardHasLetters) {
+              needsToUseCenter = false;
       //  check that at least one new letter is adjacent to existing tiles
               document.querySelectorAll('.letter').forEach( (ltrB, indexB) => {
                 const notBlank = ltrB.innerHTML.trim().length > 0;
