@@ -11,6 +11,9 @@
   --blueish: blue;
 }
 
+.stored-game {
+  height: 70px;
+}
 .sortable-chosen {
   opacity: .3;
 }
@@ -76,6 +79,11 @@ a:link, #navbar a:visited, #cnavbar a:hover, #navbar a:active,  {
     text-decoration:none;
 }
 
+.players {
+  font-size: 12px;
+  font-weight: bold;
+  color: hsl(16, 180, 38);
+}
 
 .hide {
   opacity:0;
@@ -83,12 +91,12 @@ a:link, #navbar a:visited, #cnavbar a:hover, #navbar a:active,  {
 
 .cards {
   display: grid;
-  grid-template-columns: 33.33% 33.33% 33.33%
+  grid-template-columns: 25% 25% 25% 25%
 }
 
 .card {
   display: inline;
-  height: 80px;
+  height: 100px;
   border-radius: 8px;
   background-color: hsl(80, 50, 60);
 }

@@ -64,5 +64,5 @@ end
 private
 
   def game_params
-    params.require(:game).permit(:letter_grid, :current_player, :name, :players, :completed)
+    params.require(:game).permit(:letter_grid, :current_player, :name, :players, :completed, :jokers)
   end

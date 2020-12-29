@@ -21,6 +21,7 @@ import "../../assets/images/star.svg";
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 import { board } from '../components/board'
+import { gameIndex } from '../components/game_index'
 import { new_game } from '../components/new_game'
 import { initGameCable } from '../channels/game_channel';
 
@@ -40,6 +41,7 @@ document.addEventListener("turbolinks:load", function() {
     setTimeout(function() {
     $('.alert').fadeOut();
   }, 2000);
+  gameIndex();
   board();
   initGameCable();
   // new_game();
