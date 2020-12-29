@@ -11,6 +11,9 @@ const board = () => {
   const scoresDiv = document.getElementById("scores");
   const myLettersDiv = document.getElementById("my-letters");
 
+  let jokers = [];
+  let jokerTile  = null;
+
   let current =  ``;
   let form  = document.querySelector("form");
   let playersArray;
@@ -29,6 +32,8 @@ const board = () => {
   let addedScore = 0;
   let remainingLetters = [];
   let titleString = '';
+  let submitEscape = false;
+  let replacement;
   if (newGame){
     document.querySelector("#new-game-btn").addEventListener('click', createNewGame)
   }
@@ -165,20 +170,46 @@ observer.observe(targetNode, observerOptions);
 
 
   if (boardDiv) {
-
     $("#exampleModalCenter").on('shown.bs.modal', function(){
-       $("#close-modal-btn").focus();
-    });
-
-
+      console.log('submitEscape   ' + submitEscape)
+      if (submitEscape === true) {
+        document.querySelector("#replace-joker").focus();
+        document.querySelector("#replace-joker").addEventListener('input', validateJoker)
+       } else {
+        $("#close-modal-btn").focus();
+       }
+      });
 
     $("#exampleModalCenter").on('hidden.bs.modal', function(){
+        if (submitEscape === true) {
+          replacement = document.querySelector("#replace-joker").value.toUpperCase();
+          jokerTile.querySelector('.letter').innerHTML = replacement;
+          jokerTile.querySelector('.letter').classList.add("letter-provisional");
+          jokerTile.classList.add("joker-replaced");
+          buffer.push(replacement);
+          selectedLetter.classList.remove("letter-selected");
+          selectedLetter.classList.add("letter-disabled");
+          selectedLetter.removeEventListener('click', toggleLetter);
+          document.querySelector('.commit-btn').classList.remove("button-disabled");
+          document.querySelector('.cancel-btn').classList.remove("button-disabled");
+          selectedLetter = null;
+          submitEscape = false;
+        } else {
+          jokers = []
+          form.submit();
+        }
+      });
 
-      form.submit();
 
-    });
+  function validateJoker () {
+      const val = document.querySelector("#replace-joker").value;
+      if (!val.match(/[a-zA-Z]/)) {
+        alert ("Enter a letter to replace Joker");
+      } else {
+        document.querySelector("#close-modal-btn").focus();
+      }
 
-
+  }
 
 
 
@@ -264,6 +295,16 @@ observer.observe(targetNode, observerOptions);
 
 
 const pickLetter = () => {   // using keyboard
+  if (submitEscape === false ) {  // replace joker dialogue not visible
+    switch (event.key) {
+      case "Enter":
+        commitLetters();
+        break;
+      case "Escape":
+        restoreLetters();
+        break;
+      default: null;
+    };
   const tiles = Array.from(document.querySelectorAll(".my-tile"));
   tiles.reverse().forEach( tile => {
     if (tile.querySelector(".my-letter").innerHTML === event.key.toUpperCase()) {
@@ -273,11 +314,17 @@ const pickLetter = () => {   // using keyboard
         selectedLetter =  tile;
       } else {
         tile.classList.remove("letter-selected");
-        // selectedLetter =  null;
-
+        selectedLetter =  null;
       }
     }
   });
+
+  } else { // replace joker dialogue visible
+  if (event.key === "Enter") {
+    // commitLetters();
+  };
+
+  }
 }
 
 
@@ -355,17 +402,28 @@ const pickLetter = () => {   // using keyboard
 
   function placeLetter () {
     if (selectedLetter) {
-      const txt = selectedLetter.querySelector('.my-letter').innerHTML
-      event.target.querySelector('.letter').innerHTML = txt;
-      event.target.querySelector('.letter').classList.add("letter-provisional");
-      buffer.push(txt);
-      selectedLetter.classList.remove("letter-selected");
-      selectedLetter.classList.add("letter-disabled");
-      selectedLetter.removeEventListener('click', toggleLetter);
-      document.querySelector('.commit-btn').classList.remove("button-disabled");
-      document.querySelector('.cancel-btn').classList.remove("button-disabled");
-      selectedLetter = null;
-    }
+      let txt = selectedLetter.querySelector('.my-letter').innerHTML
+      if (txt === "*") {
+          const replacement = `Replace Joker with: <input id="replace-joker" maxlength = 1 type=text required>`
+          document.querySelector(".modal-body").innerHTML = replacement;
+          jokerTile = event.target;
+          submitEscape = true;
+          // jokers.push(jokerTile);
+          $('#exampleModalCenter').modal('show');
+      } else {
+          submitEscape = false;
+        event.target.querySelector('.letter').innerHTML = txt;
+        event.target.querySelector('.letter').classList.add("letter-provisional");
+        buffer.push(txt);
+        selectedLetter.classList.remove("letter-selected");
+        selectedLetter.classList.add("letter-disabled");
+        selectedLetter.removeEventListener('click', toggleLetter);
+        document.querySelector('.commit-btn').classList.remove("button-disabled");
+        document.querySelector('.cancel-btn').classList.remove("button-disabled");
+        selectedLetter = null;
+      }
+
+      }
   }
 
 
@@ -386,6 +444,7 @@ const pickLetter = () => {   // using keyboard
   }
 
   function restoreLetters () {
+    console.log (" R E S T O R E ")
     document.querySelector(".commit-btn").classList.add("button-disabled");
     document.querySelector(".cancel-btn").classList.add("button-disabled");
     myLettersDiv.querySelectorAll('.letter-disabled').forEach( ltr => {
@@ -395,6 +454,7 @@ const pickLetter = () => {   // using keyboard
     });
     document.querySelectorAll('.letter-provisional').forEach( ltr => {
       ltr.classList.remove("letter-provisional");
+      ltr.parentNode.classList.remove("joker-replaced");
       ltr.innerHTML = "";
     });
     buffer = [];
@@ -545,7 +605,7 @@ const findHorizontalWord = (firstProvisional) => {
 const findVerticallWord = (firstProvisional) => {
   // console.log('firstProvisional ' + firstProvisional);
   let allPositions = [];
-  for (let b = firstProvisional -15; b >= 0 ; b --) { // from first provisional letter to top edge
+  for (let b = firstProvisional -15; b >= 0 ; b -= 15) { // from first provisional letter to top edge
     if (document.querySelectorAll('.letter')[b].innerHTML != " ") {  //a character to the top?
       allPositions.unshift(b);
     } else {  // blank tile to the top
@@ -587,6 +647,19 @@ const findVerticallWord = (firstProvisional) => {
       positions = findVerticallWord(firstProvisional);
     }
     // console.log('positions ' + positions);
+    let contiguous  = true;
+    letterDivs.forEach((letterDiv, index) => {
+     if (letterDiv.classList.contains("letter-provisional")) {
+        if (!positions.includes(index)) {
+          contiguous = false;
+        };
+     };
+    });
+
+    if (contiguous === false) {
+      alert ("All letters must be contiguous!");
+      restoreLetters();
+    } else {
     firstLetterPosition = positions[0];
     lastLetterPosition = positions[positions.length - 1]
     newWord = "";
@@ -601,7 +674,7 @@ const findVerticallWord = (firstProvisional) => {
         if (Object.keys(l).toString() === ltr) {
           let val =  parseInt(Object.values(Object.values(l)[0])[1]); // value is second property in embedded object
           // console.log('val  ' + val);
-
+          if (tileDivs[position].classList.contains("joker-replaced")) val = 0;
           if (tileDivs[position].classList.contains("double-letter") && letterDivs[position].classList.contains("letter-provisional")) {
             val *= 2;
             if (bonusString.length > 0) bonusString += `; `;
@@ -768,6 +841,10 @@ const findVerticallWord = (firstProvisional) => {
 
       }
     });
+
+
+
+    }
 
   }
 
