@@ -11,7 +11,7 @@ class UserMailer < ApplicationMailer
     # mail to: "to@example.org"
     @sender = sender
     @user = user # Instance variable => available in view
-    @url = "scroobleapp.herokuapp.com/games/#{game.id}/edit"
+    @url = "/games/#{game.id}/edit"
     @others = []
     game.opponents.split(",").each do |opponent|
       if opponent != @user[0].username
