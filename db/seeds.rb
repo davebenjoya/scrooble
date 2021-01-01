@@ -12,7 +12,7 @@ User.destroy_all
 User.create!([{ email: 'deike@benjoya.com', password: '123456', username: 'Deike' },
              { email: 'ed@benjoya.com', password: '123456', username: 'Ed' },
              { email: 'luna@benjoya.com', password: '123456', username: 'Luna' },
-             { email: 'dave@benjoya.com', password: '123456', username: 'Dave' },
+             { email: 'dave@benjoya.com', password: '123456', username: 'Dave', admin: true },
              { email: 'dumb@benjoya.com', password: '123456', username: 'Dumbledore' },
              { email: 'vold@benjoya.com', password: '123456', username: 'Voldemort' },
              { email: 'ornette@benjoya.com', password: '123456', username: 'Ornette' },

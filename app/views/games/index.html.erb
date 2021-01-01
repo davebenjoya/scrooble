@@ -10,22 +10,26 @@
 
 
 <% @games.each_with_index do  | game, index | %>
-  <div class="card m-2 p-3 d-flex justify-space-between stored-game" data-players="<%= game.players %>" >
       <% status = game.completed ? "Completed" : "In progress" %>
       <% if game.completed %>
         <%= link_to game_path(game) do %>
-         <div><%= game.name %></div>
+          <div class="card m-2 p-3 d-flex justify-space-between stored-game" data-players="<%= game.players %>" >
+            <div><%= game.name %></div>
+            <div class="players">  </div>
+            <div class="status"> <%= status %></div>
+           </div>
         <% end %>
       <% else %>
-        <%= link_to edit_game_path(game) do %>
-         <div><%= game.name %> </div>
-        <% end %>
 
+        <%= link_to edit_game_path(game) do %>
+          <div class="card m-2 p-3 d-flex justify-space-between stored-game" data-players="<%= game.players %>" >
+            <div><%= game.name %></div>
+            <div class="players">  </div>
+            <div class="status"> <%= status %></div>
+           </div>
+        <% end %>
       <% end %>
-      <div class="players">  </div>
-         <div class="status"> <%= status %></div>
+      <% end %>
   </div>
-<% end %>
-</div>
 
 </div>

@@ -11,6 +11,10 @@
   --blueish: blue;
 }
 
+html {
+  background-color: #e0e0d1;
+}
+
 .stored-game {
   height: 70px;
 }
@@ -48,13 +52,21 @@
 }
 
 .your-games {
-  background-color: hsl(80, 50, 60);
+  background-color: hsl(210, 41, 21);
   width: 100%;
 }
 
 a {
 
   text-decoration: none !important;
+  color: hsl(210, 40, 50) !important;
+  font-family: 'Grandstander', display;
+  font-size: 18px;
+
+}
+
+.status {
+  color: hsl(210, 25, 75);
 }
 
 #navbarr {
@@ -63,10 +75,19 @@ a {
   width: 100%;
   margin: 0px;
   padding: 4px 8px;
+  padding-bottom: 0px;
   font-family: 'Grandstander', display;
   font-size: 20px;
   letter-spacing: 8px;
   background-color: hsl(60, 20, 85);
+}
+
+#navbarr a  {
+  color: hsl(50, 87, 46) !important;
+  font-size: 28px !important;
+  font-weight: bolder;
+  text-shadow: 1px 1px hsl(50, 67, 16);
+  letter-spacing: 4.2px;
 }
 
 .this-user {
@@ -74,6 +95,62 @@ a {
   color: hsl(16, 180, 38);
 }
 
+.pickem {
+  font-size: 16px;
+  margin-top: 8px;
+  font-weight: bold;
+  color:  hsl(200, 60, 60);
+  margin-bottom: 0px;
+}
+
+.opponent {
+
+  margin-left: 8px;
+  margin-bottom: 4px;
+}
+
+input {
+  padding-left:8px;
+}
+
+#new-game-btn {
+  border-radius: 4px;
+  // border: 1px solid hsl(50, 87, 46);
+  margin: 8px 0;
+  padding: 0 8px;
+  background-color: hsl(200, 60, 60);
+  color: hsl(50, 94, 94);
+}
+#new-game-btn:hover {
+  background-color: hsl(200, 60, 50);
+  color: hsl(50, 94, 64);
+}
+
+// input [type ="checkbox"] {
+//   transform: scale(3.2);
+//   transform-origin: left;
+// }
+input[type='checkbox']{
+  width: 16px !important;
+  height: 16px !important;
+  // margin: 5px;
+  // -webkit-appearance: none;
+  // -moz-appearance: none;
+  // -o-appearance: none;
+  // appearance:none;
+  // outline: 2px solid lightblue;
+  // box-shadow: none;
+  font-size: 2em;
+}
+
+input[type="checkbox"]:checked { /* change "blue" browser chrome to yellow */
+  filter: invert(100%) hue-rotate(15deg) brightness(5);
+
+  -webkit-appearance: visible;
+  -moz-appearance: visible;
+  -o-appearance: visible;
+  appearance:visible;
+}
 
 a:link, #navbar a:visited, #cnavbar a:hover, #navbar a:active,  {
     text-decoration:none;
@@ -82,7 +159,8 @@ a:link, #navbar a:visited, #cnavbar a:hover, #navbar a:active,  {
 .players {
   font-size: 12px;
   font-weight: bold;
-  color: hsl(16, 180, 38);
+  // color: hsl(90, 85, 40);
+  color: black;
 }
 
 .hide {
@@ -98,7 +176,10 @@ a:link, #navbar a:visited, #cnavbar a:hover, #navbar a:active,  {
   display: inline;
   height: 100px;
   border-radius: 8px;
-  background-color: hsl(80, 50, 60);
+  background-color: hsl(80, 16, 94) !important;
+  box-shadow: 0px 1px 3px inset hsl(200, 35, 15);
+  border: 1px solid black;
+  // background-color: #e0e0d1;
 }
 
 .add-new-card {

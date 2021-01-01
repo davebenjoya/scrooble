@@ -24,6 +24,7 @@ const board = () => {
 
   let myLetters = [];
   const maxLetters = 7;
+  const maxPlayers = 4;
   let selectedLetter = null;
   let allLetters = [];
   let buffer = [];
@@ -85,27 +86,48 @@ observer.observe(targetNode, observerOptions);
         };
       });
     remainingLetters = allLetters;
-
+    let opponentArray = []
     // remainingLetters = allLetters
     let newPlayers  = []
     const firstPlayer = createPlayerString (document.querySelector("#players").dataset.username);
     newPlayers.push(firstPlayer);
     document.querySelectorAll(".opponent").forEach( oppo => {
      if (oppo.querySelector("input").checked) {
+      const entry  =`${oppo.querySelector(".opponent-name").innerText},${oppo.querySelector(".opponent-name").dataset.email}`;
       const newPlayer = createPlayerString (oppo.querySelector(".opponent-name").innerText);
 
       newPlayers.push(newPlayer);
+      opponentArray.push(oppo.querySelector(".opponent-name").innerHTML)
      }
     });
-    const newArray = Object.entries(newPlayers)
-  // console.log('newArray ' + typeof newArray);
-
+   if (newPlayers.length > maxPlayers || newPlayers.length < 2) {
+    alert ("Pick 1 – 3 opponents")
+   } else {
+    const newArray = Object.entries(newPlayers);
+    console.log('opponentArray ' +  Object.values(opponentArray));
+    document.querySelector("#new-opponents").value  = Object.values(opponentArray);
 
     document.querySelector("#new-players").value = `${Array.from(newPlayers)}`;
-    if (document.querySelector("#game-name").value) document.querySelector("#new-name").value = document.querySelector("#game-name").value
+    if (document.querySelector("#game-name").value) {
+      document.querySelector("#new-name").value = document.querySelector("#game-name").value
+    } else {
+      const d = new Date();
+      const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
+      const mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(d);
+      const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(d);
+      const ho = new Intl.DateTimeFormat('en', { hour: 'numeric', hour12: false }).format(d);
+      const mi = new Intl.DateTimeFormat('en', { minute: 'numeric' }).format(d);
+      const wk = new Intl.DateTimeFormat('en', { weekday: 'short' }).format(d);
+      console.log(`${da}-${mo}-${ye}`);
+
+      document.querySelector("#new-name").value = `${wk}, ${da} ${mo}, ${ho}:${mi}`
+    }
     // document.querySelector("#new-name").value = document.querySelector("#game-name").value
     console.log(document.querySelector("#new-name").value);
     document.querySelector("form").submit();
+
+
+   }
   }
 
 ////////////////

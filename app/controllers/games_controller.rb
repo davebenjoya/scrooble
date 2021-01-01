@@ -25,12 +25,21 @@ end
   def create
     @game = Game.new(game_params)
     # authorize @game
-    # @game.user = current_user
-    if @game.save
+      if @game.save
+        @game.opponents.split(",").each do |opponentName|
+          user = User.where(username: opponentName)
+          # @user_id = user.ids[0]
+          # UserMailer.invitation.user.deliver_now
+
+
+          UserMailer.invitation(user, current_user, @game).deliver
+        end
+      # raise
       redirect_to edit_game_path(@game)
     else
       puts "Not saved"
     end
+
   end
 
   def edit
@@ -64,5 +73,5 @@ end
 private
 
   def game_params
-    params.require(:game).permit(:letter_grid, :current_player, :name, :players, :completed, :jokers)
+    params.require(:game).permit(:letter_grid, :current_player, :name, :players, :completed, :jokers, :opponents)
   end

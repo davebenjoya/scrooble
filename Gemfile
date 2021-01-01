@@ -23,6 +23,11 @@ gem 'jbuilder', '~> 2.7'
 # gem 'bcrypt', '~> 3.1.7'
 gem 'devise'
 
+gem 'letter_opener', group: :development
+
+gem 'sidekiq'
+gem 'sidekiq-failures', '~> 1.0'
+
 gem 'font-awesome-rails', '~> 4.6', '>= 4.6.3.1'
 
 gem 'redis', '~> 3.3', '>= 3.3.1'

@@ -31,3 +31,4 @@
 
 en:
   hello: "Hello world"
+  user_mailer.invitation.subject: "You've been invited to a game of Scrooble"
