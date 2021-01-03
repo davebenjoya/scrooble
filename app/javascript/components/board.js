@@ -11,6 +11,7 @@ const board = () => {
   const scoresDiv = document.getElementById("scores");
   const myLettersDiv = document.getElementById("my-letters");
 
+  let exchange = false;
   let jokers = [];
   let jokerTile  = null;
 
@@ -116,7 +117,7 @@ observer.observe(targetNode, observerOptions);
       const mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(d);
       const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(d);
       const ho = new Intl.DateTimeFormat('en', { hour: 'numeric', hour12: false }).format(d);
-      const mi = new Intl.DateTimeFormat('en', { minute: 'numeric' }).format(d);
+      const mi = new Intl.DateTimeFormat('en', { minute: '2-digit' }).format(d);
       const wk = new Intl.DateTimeFormat('en', { weekday: 'short' }).format(d);
       console.log(`${da}-${mo}-${ye}`);
 
@@ -214,6 +215,7 @@ observer.observe(targetNode, observerOptions);
           selectedLetter.removeEventListener('click', toggleLetter);
           document.querySelector('.commit-btn').classList.remove("button-disabled");
           document.querySelector('.cancel-btn').classList.remove("button-disabled");
+          document.querySelector('.mark-btn').classList.add("button-disabled");
           selectedLetter = null;
           submitEscape = false;
         } else {
@@ -361,6 +363,33 @@ const pickLetter = () => {   // using keyboard
       showMyLettersInit();
     document.querySelector('#cancel-btn').addEventListener('click', restoreLetters);
     document.querySelector('#commit-btn').addEventListener('click', commitLetters);
+    document.querySelector('#mark-btn').addEventListener('click', markLetters);
+  }
+
+  function markLetters(){
+    document.querySelector('#mark-btn').classList.add("mark-btn-active");
+    exchange = true;
+    document.querySelector('#mark-btn').removeEventListener('click', markLetters);
+    document.querySelector('#mark-btn').addEventListener('click', unmarkLetters);
+
+    if (selectedLetter) {
+      selectedLetter.classList.remove('letter-selected')
+      selectedLetter = null;
+    }
+
+  }
+
+  function unmarkLetters() {
+    document.querySelectorAll(".marked-for-exchange").forEach( marked => {
+      marked.classList.remove("marked-for-exchange");
+    })
+    document.querySelector('#mark-btn').classList.remove("mark-btn-active");
+    document.querySelector('#commit-btn').classList.add("button-disabled");
+    document.querySelector('#cancel-btn').classList.add("button-disabled");
+    exchange = false;
+    document.querySelector('#mark-btn').addEventListener('click', markLetters);
+    document.querySelector('#mark-btn').removeEventListener('click', unmarkLetters);
+
   }
 
 
@@ -423,6 +452,9 @@ const pickLetter = () => {   // using keyboard
   }
 
   function placeLetter () {
+
+    document.querySelector('#mark-btn').removeEventListener('click', markLetters);
+    document.querySelector('#mark-btn').classList.add('button-disabled');
     if (selectedLetter) {
       let txt = selectedLetter.querySelector('.my-letter').innerHTML
       if (txt === "*") {
@@ -449,10 +481,9 @@ const pickLetter = () => {   // using keyboard
   }
 
 
-
   function chooseLetters() { // select my letters from available letters
 
-    // console.log(remainingLetters.length);
+    console.log(remainingLetters.length);
     while (myLetters.length < maxLetters ) {
       const ind = Math.floor(Math.random() * remainingLetters.length)
       // console.log(ind);
@@ -466,22 +497,33 @@ const pickLetter = () => {   // using keyboard
   }
 
   function restoreLetters () {
-    console.log (" R E S T O R E ")
+
     document.querySelector(".commit-btn").classList.add("button-disabled");
     document.querySelector(".cancel-btn").classList.add("button-disabled");
-    myLettersDiv.querySelectorAll('.letter-disabled').forEach( ltr => {
-      ltr.classList.remove("letter-disabled");
-      ltr.classList.remove("letter-selected");
-      ltr.addEventListener('click', toggleLetter);
-    });
-    document.querySelectorAll('.letter-provisional').forEach( ltr => {
-      ltr.classList.remove("letter-provisional");
-      ltr.parentNode.classList.remove("joker-replaced");
-      ltr.innerHTML = "";
-    });
-    buffer = [];
+    if (exchange) {
+      myLettersDiv.querySelectorAll('.marked-for-exchange').forEach( ltr => {
+        ltr.classList.remove("marked-for-exchange");
+        // ltr.addEventListener('click', toggleLetter);
+      });
+
+    } else {
+    document.querySelector(".mark-btn").classList.remove("button-disabled");
+    document.querySelector('#mark-btn').addEventListener('click', markLetters);
+      myLettersDiv.querySelectorAll('.letter-disabled').forEach( ltr => {
+        ltr.classList.remove("letter-disabled");
+        ltr.classList.remove("letter-selected");
+        ltr.addEventListener('click', toggleLetter);
+      });
+      document.querySelectorAll('.letter-provisional').forEach( ltr => {
+        ltr.classList.remove("letter-provisional");
+        ltr.parentNode.classList.remove("joker-replaced");
+        ltr.innerHTML = "";
+      });
+      buffer = [];
 
         selectedLetter = null;
+
+    }
   }
 
   function checkOrientation(arr){
@@ -515,78 +557,103 @@ const pickLetter = () => {   // using keyboard
 
 
   /////////////////////////////////////////////////////////////////
-  ///////////          COMMIT LETTERS    //////////////////////////
+  ///////////        COMMIT or REPLACE LETTERS    /////////////////
   /////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////
 
   function commitLetters () {  // ltrP = provisonal; ltrB = on board
-    if (document.querySelector(".letter-provisional")) {
-      const firstTwoProvisionals = [];
-      let adjToBoardTiles = null;
-      let wordOrientation = null;
-      let needsToUseCenter = true;
-      /////////////  V A L I D A T I O N /////////////////////////////////////////
-      document.querySelectorAll('.letter').forEach( (ltrP, indexP) => {
-        if (ltrP.classList.contains("letter-provisional")) {
-        console.log("ltrP.classList " + ltrP.classList)
-          if (firstTwoProvisionals.length < 2) firstTwoProvisionals.push(indexP);
-            if (boardHasLetters) {
-              needsToUseCenter = false;
-      //  check that at least one new letter is adjacent to existing tiles
-              document.querySelectorAll('.letter').forEach( (ltrB, indexB) => {
-                const notBlank = ltrB.innerHTML.trim().length > 0;
-                const notProv  = !ltrB.classList.contains("letter-provisional");
-                if (notBlank && notProv) {
-                  if ( indexP == indexB + 1 || indexP == indexB - 1 || indexP == indexB + 15  || indexP == indexB - 15){
-                    adjToBoardTiles = true;
-                  }
-                }
-              });
-            } else {
-      // if this is the first move of the game, there are no letters on the board
-              // needsToUseCenter = true
-              adjToBoardTiles = true;
-              if (ltrP.parentNode.classList.contains("center-tile")) {
+    if (exchange === true ) {  // exchange chosen letters
+      document.querySelectorAll(".my-letter").forEach( (letter, index)=> {
+        if (letter.parentNode.classList.contains("marked-for-exchange")) {
+          myLetters.splice(myLetters.indexOf(letter.innerHTML), 1);
+          remainingLetters.push(letter.innerHTML);
+          letter.parentNode.remove();
+        }
+      });
+      console.log(maxLetters);
+      console.log(myLetters.length);
+      const numToReplace = maxLetters - myLetters.length
+      chooseLetters();
+      appendMyLetters(numToReplace);
+
+      // showMyLettersInit();
+       // for (let x of myLetters) {
+       //  const k = remainingLetters.indexOf(x);
+
+       //  remainingLetters.splice(k,1);
+       //  }
+
+    } else {  //  new word
+      if (document.querySelector(".letter-provisional")) {
+        const firstTwoProvisionals = [];
+        let adjToBoardTiles = null;
+        let wordOrientation = null;
+        let needsToUseCenter = true;
+        /////////////  V A L I D A T I O N /////////////////////////////////////////
+        document.querySelectorAll('.letter').forEach( (ltrP, indexP) => {
+          if (ltrP.classList.contains("letter-provisional")) {
+          console.log("ltrP.classList " + ltrP.classList)
+            if (firstTwoProvisionals.length < 2) firstTwoProvisionals.push(indexP);
+              if (boardHasLetters) {
                 needsToUseCenter = false;
+        //  check that at least one new letter is adjacent to existing tiles
+                document.querySelectorAll('.letter').forEach( (ltrB, indexB) => {
+                  const notBlank = ltrB.innerHTML.trim().length > 0;
+                  const notProv  = !ltrB.classList.contains("letter-provisional");
+                  if (notBlank && notProv) {
+                    if ( indexP == indexB + 1 || indexP == indexB - 1 || indexP == indexB + 15  || indexP == indexB - 15){
+                      adjToBoardTiles = true;
+                    }
+                  }
+                });
+              } else {
+        // if this is the first move of the game, there are no letters on the board
+                // needsToUseCenter = true
+                adjToBoardTiles = true;
+                if (ltrP.parentNode.classList.contains("center-tile")) {
+                  needsToUseCenter = false;
+                }
+
               }
-
             }
-          }
-        });
+          });
 
-      if (needsToUseCenter === true) {
-        alert ("First word must use the center tile.")
-        restoreLetters();
-      } else {
-      //    check orientation if more than one new letter, otherwise assign "neutral"
-      wordOrientation = firstTwoProvisionals.length > 1 ? checkOrientation(firstTwoProvisionals) :  "neutral";
-
-      if (!wordOrientation) {
-        alert("New words must be in a single row or column.");
-        restoreLetters();
-        } else if (!adjToBoardTiles) {
-          alert("New letters must be adjacent to existing letters.");
+        if (needsToUseCenter === true) {
+          alert ("First word must use the center tile.")
           restoreLetters();
-      } else {
-        ///  pass orientation and first letter to caluclateScore
-        // console.log("firstTwoProvisionals " + firstTwoProvisionals);
-        calculateScore(wordOrientation, firstTwoProvisionals[0]);
-        ////// remove used letters from myLetters
+        } else {
+        //    check orientation if more than one new letter, otherwise assign "neutral"
+        wordOrientation = firstTwoProvisionals.length > 1 ? checkOrientation(firstTwoProvisionals) :  "neutral";
+
+        if (!wordOrientation) {
+          alert("New words must be in a single row or column.");
+          restoreLetters();
+          } else if (!adjToBoardTiles) {
+            alert("New letters must be adjacent to existing letters.");
+            restoreLetters();
+        } else {
+          ///  pass orientation and first letter to caluclateScore
+          // console.log("firstTwoProvisionals " + firstTwoProvisionals);
+          calculateScore(wordOrientation, firstTwoProvisionals[0]);
+          ////// remove used letters from myLetters
+
+        }
+        // updatePlayers();
+
+
+
+
+
+
+
+        }
+
 
       }
-      // updatePlayers();
 
-
-
-
-
-
-
-      }
 
 
     }
-
 
 }
 // end commitLetters
@@ -893,10 +960,11 @@ async function searchDictionary (keyword)  {
 
 
   function appendMyLetters(num) {
+      console.log('appendMyLetters ' + num);
     let val;
     for (let d = 0; d < num; d++ ) {
       const ltr = myLetters[d]
-    Array.from(lettersJSON.letters).forEach( l => {
+      Array.from(lettersJSON.letters).forEach( l => {
       if (l[ltr]) {
        val = l[ltr].value;
       }
@@ -904,6 +972,7 @@ async function searchDictionary (keyword)  {
       const tileHtml = `<div class='my-tile'><div class="my-letter">${ltr}</div><div class="my-value">${val}</div></div>`
       myLettersDiv.insertAdjacentHTML('beforeend', tileHtml);
       myLettersDiv.lastChild.addEventListener('click', toggleLetter);
+      console.log('tileHtml ' + tileHtml);
     }
   }
 
@@ -920,7 +989,7 @@ async function searchDictionary (keyword)  {
       }
     });
 
-    const tileHtml = `<div class='my-tile'><div class="my-letter">${ltr}</div><div class="my-value">${val}</div> </div>`
+    const tileHtml = `<div class='my-tile'><div class="my-letter">${ltr}</div><div class="my-value">${val}</div></div>`
       // setTimeout(addLetterDelayed, 800 + (360 * index), tileHtml)
     myLettersDiv.insertAdjacentHTML('beforeend', tileHtml);
     });
@@ -932,19 +1001,33 @@ async function searchDictionary (keyword)  {
   function toggleLetter() {
     const thisUser = document.querySelector(".this-user");
     if (thisUser.parentNode.classList.contains("player-selected")) {  // current user's turn
-    if (selectedLetter) {
-      selectedLetter.classList.remove('letter-selected')
-      if (selectedLetter != event.target) {
-        event.target.classList.add('letter-selected');
-        selectedLetter = event.target
+      if (exchange == true) {
+        event.currentTarget.classList.toggle('marked-for-exchange');
+        const marked = document.querySelector(".marked-for-exchange");
+        if (marked) {
+          document.querySelector(".commit-btn").classList.remove("button-disabled")
+          document.querySelector(".cancel-btn").classList.remove("button-disabled")
+        } else {
+          document.querySelector(".commit-btn").classList.add("button-disabled")
+          document.querySelector(".cancel-btn").classList.add("button-disabled")
+        }
       } else {
-        event.target.classList.remove('letter-selected')
-        selectedLetter = null;
+        if (selectedLetter) {
+          selectedLetter.classList.remove('letter-selected')
+          if (selectedLetter != event.target) {
+            event.target.classList.add('letter-selected');
+            selectedLetter = event.target
+          } else {
+            event.target.classList.remove('letter-selected')
+            selectedLetter = null;
+          }
+        } else {
+          event.target.classList.add('letter-selected');
+          selectedLetter = event.target
+        }
+
       }
-    } else {
-      event.target.classList.add('letter-selected');
-      selectedLetter = event.target
-    }
+
     } else {
       const currentUserName = document.querySelectorAll(".name-score")[current].querySelector(".name").innerHTML
       alert (`It's ${currentUserName}'s turn.`);

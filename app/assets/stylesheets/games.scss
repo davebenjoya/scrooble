@@ -15,6 +15,18 @@ html {
   background-color: #e0e0d1;
 }
 
+.delete-btn {
+  position: relative;
+top:-17px;
+right:-2px;
+width: 0px;
+}
+
+.marked-for-exchange {
+  background-color: hsl(10, 40, 80) !important;
+  transition: .2s all;
+}
+
 .stored-game {
   height: 70px;
 }
@@ -133,6 +145,7 @@ input {
 input[type='checkbox']{
   width: 16px !important;
   height: 16px !important;
+  border-radius:4px;
   // margin: 5px;
   // -webkit-appearance: none;
   // -moz-appearance: none;
@@ -368,8 +381,13 @@ pointer-events: none;
   opacity: .2;
 }
 
-.commit-btn {
-  width: 45%;
+#buttons {
+  width: 100%;
+}
+.mark-btn {
+  width: 30%;
+  // margin-bottom: 4px;
+  left:8px;
   border-radius: 4px;
   padding: 0px 4px;
   background-color: hsl(60, 17, 68);
@@ -378,11 +396,40 @@ pointer-events: none;
   // color: white;
 
 }
-.cancel-btn {
-  width: 45%;
+
+
+.mark-btn-active {
+  width: 30%;
+  // margin-bottom: 4px;
+  left:8px;
+  border-radius: 4px;
+  padding: 0px 4px;
+  background-color: hsl(60, 30, 91);
+  opacity: 1;
+  color: hsl(10, 88, 74);
+  border: 1px solid hsl(10, 88, 74) !important;
+
+  transition: all .5s;
+}
+.commit-btn {
+  width: 30%;
+  // margin-bottom: 4px;
+  left:8px;
   border-radius: 4px;
   padding: 0px 4px;
   background-color: hsl(160, 17, 68);
+  opacity: 1;
+  transition: all .5s;
+  // color: white;
+
+}
+.cancel-btn {
+  width: 30%;
+  // margin-bottom: 4px;
+  left:8px;
+  border-radius: 4px;
+  padding: 0px 4px;
+  background-color: hsl(10, 17, 68);
   opacity: 1;
   transition: all .5s;
   // color: white;

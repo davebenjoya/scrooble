@@ -52,9 +52,12 @@
        <%=f.hidden_field :letter_grid, value:'____NONSENSE____', id:'update-grid' %>
        <%#= f.submit "Commit", class: "btn-sm btn-slate-grey", id: "commit-btn" %>
       <% end %>
+      <div id = "buttons">
+        <button id='commit-btn' class="commit-btn button-disabled"><i class="fas fa-check"></i></button>
+        <button id='cancel-btn' class="cancel-btn button-disabled"><i class="fas fa-ban"></i></button>
+      <button id='mark-btn' class="mark-btn "><i class="fas fa-exchange-alt"></i></button>
 
-      <button id='commit-btn' class="commit-btn button-disabled">Commit</button>
-      <button id='cancel-btn' class="cancel-btn button-disabled">Cancel</button>
+      </div>
     </div>
     <div id="my-letters"></div>
   </div>

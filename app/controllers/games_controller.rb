@@ -1,5 +1,5 @@
-
-
+# require('/javascript/components/random_words.json')
+require 'json'
 class GamesController < ApplicationController
   # skip_before_action :authenticate_user!, only: [:index, :show]
 
@@ -28,11 +28,9 @@ end
       if @game.save
         @game.opponents.split(",").each do |opponentName|
           user = User.where(username: opponentName)
-          # @user_id = user.ids[0]
-          # UserMailer.invitation.user.deliver_now
 
-
-          UserMailer.invitation(user, current_user, @game).deliver
+          adverb = "emphatically"
+          UserMailer.invitation(user, current_user, @game, adverb.capitalize()).deliver
         end
       # raise
       redirect_to edit_game_path(@game)

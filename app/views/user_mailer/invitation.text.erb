@@ -1,3 +1,19 @@
-User#invitation
+<%= @greeting %> <%= @user[0].username %>,
+<%= sentence_ending = "" %>
+<% case @others.length %>
+  <% when 0 %>
+  <%  sentence_ending = "." %>
+  <% when 1 %>
+  <%  sentence_ending = ", along with #{@others[0]}."  %>
+  <% when 2 %>
+  <%  sentence_ending = ", along with #{@others[0]} and  #{@others[1]}."  %>
+<% end %>
+<%= @sender.username %> has invited you to a game of Scrooble<%= sentence_ending %>
+  <% link_to @url do %>
+    Click here to join the game.
+  <% end %>
 
-<%= @greeting %>, find me in app/views/user_mailer/invitation.text.erb
+<%= @adverb %>,
+Dave
+Chief Screwball
+Scrooble

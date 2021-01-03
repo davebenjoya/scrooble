@@ -5,12 +5,20 @@ class UserMailer < ApplicationMailer
   #
   #   en.user_mailer.invitation.subject
   #
-  def invitation(user, sender, game)
-    @greeting = "Hello there"
+  def invitation(user, sender, game, adverb)
+    file = File.read("public/random.json")
+    adverbs = JSON.parse(file).values[0].split(",")
+    greetings = JSON.parse(file).values[1].split(",")
 
-    # mail to: "to@example.org"
+    ran = rand(greetings.length)
+    @greeting = greetings[ran].strip()
+
+
+    ran = rand(adverbs.length)
+    @adverb = adverbs[ran].strip.capitalize()
+    # raise
     @sender = sender
-    @user = user # Instance variable => available in view
+    @user = user
     @url = "/games/#{game.id}/edit"
     @others = []
     game.opponents.split(",").each do |opponent|
