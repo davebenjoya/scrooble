@@ -332,6 +332,9 @@ const pickLetter = () => {   // using keyboard
   const tiles = Array.from(document.querySelectorAll(".my-tile"));
   tiles.reverse().forEach( tile => {
     if (tile.querySelector(".my-letter").innerHTML === event.key.toUpperCase()) {
+      if (exchange) {
+        tile.classList.toggle("marked-for-exchange");
+      } else {
       if (tile != selectedLetter && !tile.classList.contains("letter-disabled")) {
         if (selectedLetter) selectedLetter.classList.remove("letter-selected");
         tile.classList.add("letter-selected");
@@ -341,6 +344,8 @@ const pickLetter = () => {   // using keyboard
         selectedLetter =  null;
       }
     }
+
+      }
   });
 
   } else { // replace joker dialogue visible
@@ -368,6 +373,7 @@ const pickLetter = () => {   // using keyboard
 
   function markLetters(){
     document.querySelector('#mark-btn').classList.add("mark-btn-active");
+    document.querySelector('#commit-btn').classList.remove("button-disabled");
     exchange = true;
     document.querySelector('#mark-btn').removeEventListener('click', markLetters);
     document.querySelector('#mark-btn').addEventListener('click', unmarkLetters);
@@ -452,32 +458,32 @@ const pickLetter = () => {   // using keyboard
   }
 
   function placeLetter () {
-
-    document.querySelector('#mark-btn').removeEventListener('click', markLetters);
-    document.querySelector('#mark-btn').classList.add('button-disabled');
-    if (selectedLetter) {
-      let txt = selectedLetter.querySelector('.my-letter').innerHTML
-      if (txt === "*") {
-          const replacement = `Replace Joker with: <input id="replace-joker" maxlength = 1 type=text required>`
-          document.querySelector(".modal-body").innerHTML = replacement;
-          jokerTile = event.target;
-          submitEscape = true;
-          // jokers.push(jokerTile);
-          $('#exampleModalCenter').modal('show');
-      } else {
-          submitEscape = false;
-        event.target.querySelector('.letter').innerHTML = txt;
-        event.target.querySelector('.letter').classList.add("letter-provisional");
-        buffer.push(txt);
-        selectedLetter.classList.remove("letter-selected");
-        selectedLetter.classList.add("letter-disabled");
-        selectedLetter.removeEventListener('click', toggleLetter);
-        document.querySelector('.commit-btn').classList.remove("button-disabled");
-        document.querySelector('.cancel-btn').classList.remove("button-disabled");
-        selectedLetter = null;
+    if (!exchange) {
+      document.querySelector('#mark-btn').removeEventListener('click', markLetters);
+      document.querySelector('#mark-btn').classList.add('button-disabled');
+      if (selectedLetter) {
+        let txt = selectedLetter.querySelector('.my-letter').innerHTML
+        if (txt === "*") {
+            const replacement = `Replace Joker with: <input id="replace-joker" maxlength = 1 type=text required>`
+            document.querySelector(".modal-body").innerHTML = replacement;
+            jokerTile = event.target;
+            submitEscape = true;
+            // jokers.push(jokerTile);
+            $('#exampleModalCenter').modal('show');
+        } else {
+            submitEscape = false;
+          event.target.querySelector('.letter').innerHTML = txt;
+          event.target.querySelector('.letter').classList.add("letter-provisional");
+          buffer.push(txt);
+          selectedLetter.classList.remove("letter-selected");
+          selectedLetter.classList.add("letter-disabled");
+          selectedLetter.removeEventListener('click', toggleLetter);
+          document.querySelector('.commit-btn').classList.remove("button-disabled");
+          document.querySelector('.cancel-btn').classList.remove("button-disabled");
+          selectedLetter = null;
+        }
       }
-
-      }
+    }
   }
 
 
@@ -497,32 +503,31 @@ const pickLetter = () => {   // using keyboard
   }
 
   function restoreLetters () {
+    if (!document.querySelector(".cancel-btn").classList.contains("button-disabled")) {
+      document.querySelector(".cancel-btn").classList.add("button-disabled");
+      if (exchange) {
+        myLettersDiv.querySelectorAll('.marked-for-exchange').forEach( ltr => {
+          ltr.classList.remove("marked-for-exchange");
+          // ltr.addEventListener('click', toggleLetter);
+        });
 
-    document.querySelector(".commit-btn").classList.add("button-disabled");
-    document.querySelector(".cancel-btn").classList.add("button-disabled");
-    if (exchange) {
-      myLettersDiv.querySelectorAll('.marked-for-exchange').forEach( ltr => {
-        ltr.classList.remove("marked-for-exchange");
-        // ltr.addEventListener('click', toggleLetter);
-      });
-
-    } else {
-    document.querySelector(".mark-btn").classList.remove("button-disabled");
-    document.querySelector('#mark-btn').addEventListener('click', markLetters);
-      myLettersDiv.querySelectorAll('.letter-disabled').forEach( ltr => {
-        ltr.classList.remove("letter-disabled");
-        ltr.classList.remove("letter-selected");
-        ltr.addEventListener('click', toggleLetter);
-      });
-      document.querySelectorAll('.letter-provisional').forEach( ltr => {
-        ltr.classList.remove("letter-provisional");
-        ltr.parentNode.classList.remove("joker-replaced");
-        ltr.innerHTML = "";
-      });
-      buffer = [];
-
-        selectedLetter = null;
-
+      } else {  // not in exchange mode
+        document.querySelector(".commit-btn").classList.add("button-disabled");
+        document.querySelector(".mark-btn").classList.remove("button-disabled");
+        document.querySelector('#mark-btn').addEventListener('click', markLetters);
+        myLettersDiv.querySelectorAll('.letter-disabled').forEach( ltr => {
+          ltr.classList.remove("letter-disabled");
+          ltr.classList.remove("letter-selected");
+          ltr.addEventListener('click', toggleLetter);
+        });
+        document.querySelectorAll('.letter-provisional').forEach( ltr => {
+          ltr.classList.remove("letter-provisional");
+          ltr.parentNode.classList.remove("joker-replaced");
+          ltr.innerHTML = "";
+        });
+        buffer = [];
+          selectedLetter = null;
+      }
     }
   }
 
@@ -575,6 +580,10 @@ const pickLetter = () => {   // using keyboard
       const numToReplace = maxLetters - myLetters.length
       chooseLetters();
       appendMyLetters(numToReplace);
+
+
+      populateRailsForm();
+      form.submit()
 
       // showMyLettersInit();
        // for (let x of myLetters) {
@@ -795,149 +804,197 @@ const findVerticallWord = (firstProvisional) => {
         restoreLetters();
         alert (`${newWord} is not a real word.`);
       } else {
-          // console.log(Object.values(word[0].definitions));
+        document.querySelectorAll(".letter-provisional").forEach(pro => pro.classList.remove("letter-provisional"));
+       switch (wordMultiplier) {
+          case 2:
+           if (bonusString.length > 0) bonusString += `; `;
+                bonusString += `Double Word Score`;
+          break;
+          case 3:
+           if (bonusString.length > 0) bonusString += `; `;
+                bonusString += `Triple Word Score`;
+          break;
+          case 4:
+           if (bonusString.length > 0) bonusString += `; `;
+                bonusString += ` Oh my god, 2 Double Word Scores.`;
+          break;
+          case 9:
+           if (bonusString.length > 0) bonusString += `; `;
+                bonusString += `Jesus Fucking Christ!! 2 Triple Word Scores!!!!!`;
+          break;
+        }
 
-          document.querySelectorAll(".letter-provisional").forEach(pro => pro.classList.remove("letter-provisional"));
-         switch (wordMultiplier) {
-            case 2:
-             if (bonusString.length > 0) bonusString += `; `;
-                  bonusString += `Double Word Score`;
-            break;
-            case 3:
-             if (bonusString.length > 0) bonusString += `; `;
-                  bonusString += `Triple Word Score`;
-            break;
-            case 4:
-             if (bonusString.length > 0) bonusString += `; `;
-                  bonusString += ` Oh my god, 2 Double Word Scores.`;
-            break;
-            case 9:
-             if (bonusString.length > 0) bonusString += `; `;
-                  bonusString += `Jesus Fucking Christ!! 2 Triple Word Scores!!!!!`;
-            break;
-          }
+        addedScore *= wordMultiplier;
 
-          addedScore *= wordMultiplier;
-
-          let alertString = `${currentPlayer} added ${addedScore} `
-          alertString += addedScore === 1  ? `point.` :  `points.`
-          alertString += `${bonusString}`
-          let tileString = ``
+        let alertString = `${currentPlayer} added ${addedScore} `
+        alertString += addedScore === 1  ? `point.` :  `points.`
+        alertString += `${bonusString}`
+        let tileString = ``
 
 
-          let val = '0'
+        let val = '0'
 
-          for (let char of newWord) {
-            console.log (' char  ',  char)
+        for (let char of newWord) {
+          console.log (' char  ',  char)
 
 //const calculateScore
 
 
-          Array.from(lettersJSON.letters).forEach( l => {
-              if (l[char]) {
-               val = l[char].value;
-              }
-            });
+        Array.from(lettersJSON.letters).forEach( l => {
+            if (l[char]) {
+             val = l[char].value;
+            }
+          });
 
-          tileString += `<div class="my-tile"><div class="my-letter">${char}</div><div class="my-value">${val}</div> </div>`
-          }
-          const newWordTiles = `<span class='row pl-3'>${tileString}</span>`
+        tileString += `<div class="my-tile"><div class="my-letter">${char}</div><div class="my-value">${val}</div> </div>`
+        }
+        const newWordTiles = `<span class='row pl-3'>${tileString}</span>`
 
-          document.querySelector(".modal-body").innerHTML = newWordTiles + alertString;
-          $('#exampleModalCenter').modal('show');
+        document.querySelector(".modal-body").innerHTML = newWordTiles + alertString;
+        $('#exampleModalCenter').modal('show');
 
-          if (selectedLetter ) {
-            selectedLetter.classList.remove('letter-selected')
-            selectedLetter = null;
-          }
-          // const num  =  maxLetters - myLetters.length; // how many tiles need to be replaced?
-          // chooseLetters();
-          // appendMyLetters(num);
+        if (selectedLetter ) {
+          selectedLetter.classList.remove('letter-selected')
+          selectedLetter = null;
+        }
+        // const num  =  maxLetters - myLetters.length; // how many tiles need to be replaced?
+        // chooseLetters();
+        // appendMyLetters(num);
 
-        myLettersDiv.querySelectorAll('.letter-disabled').forEach( ltr => { // 'disabled' means it's been placed on the board
-          const ind = myLetters.indexOf(ltr.querySelector(".my-letter").innerHTML);
-          myLetters.splice(ind, 1);
-          ltr.remove();
-        });
-        buffer = [];
-        selectedLetter = null;
-        const numToReplace  =  maxLetters - myLetters.length;
-        chooseLetters();
-        appendMyLetters(numToReplace);
+      myLettersDiv.querySelectorAll('.letter-disabled').forEach( ltr => { // 'disabled' means it's been placed on the board
+        const ind = myLetters.indexOf(ltr.querySelector(".my-letter").innerHTML);
+        myLetters.splice(ind, 1);
+        ltr.remove();
+      });
+      buffer = [];
+      selectedLetter = null;
+      const numToReplace  =  maxLetters - myLetters.length;
+      chooseLetters();
+      appendMyLetters(numToReplace);
 
 
-      //const calculateScore
-      ///       POPULATE RAILS FORM  //////////////////////////////////////////
+    //const calculateScore
+    populateRailsForm();
+    ///       POPULATE RAILS FORM  //////////////////////////////////////////
 
-        let newGrid = ""
-        document.querySelectorAll('.letter').forEach(ltr => {
-        if (ltr.innerHTML.trim() === "") {
-          newGrid += "_";
-        } else {
-          newGrid += ltr.innerHTML;
-        };
-          newGrid += " ";
-        });
+      // let newGrid = ""
+      // document.querySelectorAll('.letter').forEach(ltr => {
+      // if (ltr.innerHTML.trim() === "") {
+      //   newGrid += "_";
+      // } else {
+      //   newGrid += ltr.innerHTML;
+      // };
+      //   newGrid += " ";
+      // });
 
-        current ++
-        if (current > playersArray.length - 1) current = 0
+      // current ++
+      // if (current > playersArray.length - 1) current = 0
 
-        const me = playersArray.filter(player => player.includes(document.querySelector('#scores').dataset.username.trim()));
-        const meIndex = playersArray.indexOf(me.toString());
-        const oldLetters = me[0].split(",")[2].replaceAll(/current_letters:|\"|\}/g, "" ).replace(/'current_letters': /, "").trim();
-        // const oldScore =  parseInt(me[0].split(",")[1].replaceAll(/score:|\"/g, "" ));
-        const oldScore =  me[0].split(",")[1].replaceAll(/\'score\':|\"/g, "" ).replaceAll(/\'/g, "" );
-        const newScore = parseInt(oldScore.replaceAll("'", "")) + addedScore;
+      // const me = playersArray.filter(player => player.includes(document.querySelector('#scores').dataset.username.trim()));
+      // const meIndex = playersArray.indexOf(me.toString());
+      // const oldLetters = me[0].split(",")[2].replaceAll(/current_letters:|\"|\}/g, "" ).replace(/'current_letters': /, "").trim();
+      // // const oldScore =  parseInt(me[0].split(",")[1].replaceAll(/score:|\"/g, "" ));
+      // const oldScore =  me[0].split(",")[1].replaceAll(/\'score\':|\"/g, "" ).replaceAll(/\'/g, "" );
+      // const newScore = parseInt(oldScore.replaceAll("'", "")) + addedScore;
 
-        let newLetters = "'";
-        myLetters.forEach(letter => {
-          newLetters += letter
-        })
-        newLetters += "'"
+      // let newLetters = "'";
+      // myLetters.forEach(letter => {
+      //   newLetters += letter
+      // })
+      // newLetters += "'"
+
+      // const newMe =  Object.values(me)[0].replace(oldScore.toString().trim(), newScore.toString().trim()).replace(oldLetters, newLetters);
+      // playersArray[meIndex] = newMe;
+      // const oldPlayers = players.replaceAll(":", "").replaceAll(/=>/g, ": ");
+
+      // let newPlayersStr = "";
+
+      // playersArray.forEach(player => {
+      // console.log('player  ' + player)
+      //   const playerAddQuotes = player.toString()
+      //   .replace("name","'name'")
+      //   .replace("score","'score'")
+      //   .replace("current_letters","'current_letters'")
+      //   .replaceAll(/\'\'+/g, "'");
+
+      //   // const playerAddQuotes = JSON.stringify(player);
+      //   const obj = new Object(playerAddQuotes);
+      //   // console.log('playerAddQuotes ' + playerAddQuotes);
+      //   newPlayersStr += playerAddQuotes;
+      // });
+
+      // // newPlayersStr += "]"
+
+      // const newPlayers = newPlayersStr.replaceAll("}{", "}, {").replaceAll(/\'\'+/g, "'").replaceAll( /\"/g, "'");
+      // console.log('newPlayers ' +  newPlayers);
+      // document.querySelector('#update-players').value = newPlayers;
+      // document.querySelector('#update-grid').value = newGrid;
+      // document.querySelector('#update-current').value = current;
+    }
+  });
+  }
+}
+
+function populateRailsForm() {
+
+      let newGrid = ""
+      document.querySelectorAll('.letter').forEach(ltr => {
+      if (ltr.innerHTML.trim() === "") {
+        newGrid += "_";
+      } else {
+        newGrid += ltr.innerHTML;
+      };
+        newGrid += " ";
+      });
+
+      current ++
+      if (current > playersArray.length - 1) current = 0
+
+      const me = playersArray.filter(player => player.includes(document.querySelector('#scores').dataset.username.trim()));
+      const meIndex = playersArray.indexOf(me.toString());
+      const oldLetters = me[0].split(",")[2].replaceAll(/current_letters:|\"|\}/g, "" ).replace(/'current_letters': /, "").trim();
+      // const oldScore =  parseInt(me[0].split(",")[1].replaceAll(/score:|\"/g, "" ));
+      const oldScore =  me[0].split(",")[1].replaceAll(/\'score\':|\"/g, "" ).replaceAll(/\'/g, "" );
+      const newScore = parseInt(oldScore.replaceAll("'", "")) + addedScore;
+
+      let newLetters = "'";
+      myLetters.forEach(letter => {
+        newLetters += letter
+      })
+      newLetters += "'"
 
       const newMe =  Object.values(me)[0].replace(oldScore.toString().trim(), newScore.toString().trim()).replace(oldLetters, newLetters);
       playersArray[meIndex] = newMe;
       const oldPlayers = players.replaceAll(":", "").replaceAll(/=>/g, ": ");
 
+      let newPlayersStr = "";
 
-    // console.log('playersArray  ', typeof playersArray);
+      playersArray.forEach(player => {
+      console.log('player  ' + player)
+        const playerAddQuotes = player.toString()
+        .replace("name","'name'")
+        .replace("score","'score'")
+        .replace("current_letters","'current_letters'")
+        .replaceAll(/\'\'+/g, "'");
 
-    let newPlayersStr = "";
+        // const playerAddQuotes = JSON.stringify(player);
+        const obj = new Object(playerAddQuotes);
+        // console.log('playerAddQuotes ' + playerAddQuotes);
+        newPlayersStr += playerAddQuotes;
+      });
 
-    playersArray.forEach(player => {
-    console.log('player  ' + player)
-      const playerAddQuotes = player.toString()
-      .replace("name","'name'")
-      .replace("score","'score'")
-      .replace("current_letters","'current_letters'")
-      .replaceAll(/\'\'+/g, "'");
+      // newPlayersStr += "]"
 
-      // const playerAddQuotes = JSON.stringify(player);
-      const obj = new Object(playerAddQuotes);
-      // console.log('playerAddQuotes ' + playerAddQuotes);
-      newPlayersStr += playerAddQuotes;
-    });
-
-    // newPlayersStr += "]"
-
-    const newPlayers = newPlayersStr.replaceAll("}{", "}, {").replaceAll(/\'\'+/g, "'").replaceAll( /\"/g, "'");
-    console.log('newPlayers ' +  newPlayers);
-    document.querySelector('#update-players').value = newPlayers;
-    document.querySelector('#update-grid').value = newGrid;
-    document.querySelector('#update-current').value = current;
+      const newPlayers = newPlayersStr.replaceAll("}{", "}, {").replaceAll(/\'\'+/g, "'").replaceAll( /\"/g, "'");
+      console.log('newPlayers ' +  newPlayers);
+      document.querySelector('#update-players').value = newPlayers;
+      document.querySelector('#update-grid').value = newGrid;
+      document.querySelector('#update-current').value = current;
 
 
 
-      }
-    });
 
-
-
-    }
-
-  }
-
-
+}
 
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////// SEARCH DICTIONARY API ///////////////////////////////
@@ -1005,10 +1062,10 @@ async function searchDictionary (keyword)  {
         event.currentTarget.classList.toggle('marked-for-exchange');
         const marked = document.querySelector(".marked-for-exchange");
         if (marked) {
-          document.querySelector(".commit-btn").classList.remove("button-disabled")
+          // document.querySelector(".commit-btn").classList.remove("button-disabled")
           document.querySelector(".cancel-btn").classList.remove("button-disabled")
         } else {
-          document.querySelector(".commit-btn").classList.add("button-disabled")
+          // document.querySelector(".commit-btn").classList.add("button-disabled")
           document.querySelector(".cancel-btn").classList.add("button-disabled")
         }
       } else {
