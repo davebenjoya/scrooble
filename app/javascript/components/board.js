@@ -372,15 +372,19 @@ const pickLetter = () => {   // using keyboard
   }
 
   function markLetters(){
-    document.querySelector('#mark-btn').classList.add("mark-btn-active");
-    document.querySelector('#commit-btn').classList.remove("button-disabled");
-    exchange = true;
-    document.querySelector('#mark-btn').removeEventListener('click', markLetters);
-    document.querySelector('#mark-btn').addEventListener('click', unmarkLetters);
+    const thisUser = document.querySelector(".this-user");
+    if (thisUser.parentNode.classList.contains("player-selected")) {
+      document.querySelector('#mark-btn').classList.add("mark-btn-active");
+      document.querySelector('#commit-btn').classList.remove("button-disabled");
+      exchange = true;
+      document.querySelector('#mark-btn').removeEventListener('click', markLetters);
+      document.querySelector('#mark-btn').addEventListener('click', unmarkLetters);
 
-    if (selectedLetter) {
-      selectedLetter.classList.remove('letter-selected')
-      selectedLetter = null;
+      if (selectedLetter) {
+        selectedLetter.classList.remove('letter-selected')
+        selectedLetter = null;
+      }
+
     }
 
   }
