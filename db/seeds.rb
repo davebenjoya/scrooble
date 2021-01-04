@@ -9,14 +9,14 @@
 Game.destroy_all
 User.destroy_all
 
-User.create!([{ email: 'deike@benjoya.com', password: '123456', username: 'Deike' },
-             { email: 'ed@benjoya.com', password: '123456', username: 'Ed' },
-             { email: 'luna@benjoya.com', password: '123456', username: 'Luna' },
-             { email: 'dave@benjoya.com', password: '123456', username: 'Dave', admin: true },
-             { email: 'dumb@benjoya.com', password: '123456', username: 'Dumbledore' },
-             { email: 'vold@benjoya.com', password: '123456', username: 'Voldemort' },
-             { email: 'ornette@benjoya.com', password: '123456', username: 'Ornette' },
-             { email: 'don@benjoya.com', password: '123456', username: 'Beefheart' }])
+User.create!([{ email: 'deike@benjoya.com', password: 'blue78!', username: 'Deike' },
+             { email: 'ed@benjoya.com', password: 'bear16!', username: 'Ed' },
+             { email: 'luna@benjoya.com', password: 'moon12!', username: 'Luna' },
+             { email: 'dave@benjoya.com', password: 'dave63!', username: 'Dave', admin: true },
+             { email: 'dumb@benjoya.com', password: 'dumb00!', username: 'Dumbledore' },
+             { email: 'vold@benjoya.com', password: 'vold00!', username: 'Voldemort' },
+             { email: 'ornette@benjoya.com', password: 'orne30!', username: 'Ornette' },
+             { email: 'don@benjoya.com', password: 'don41!', username: 'Beefheart' }])
 
 
 
