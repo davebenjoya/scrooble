@@ -7,9 +7,7 @@ const initGameCable = () => {
   if (messagesContainer) {
     id = messagesContainer.dataset.gameId;
   }
-  // setTimeout(subscribe(id),1000)
-
-  subscribe(id);
+  setTimeout(subscribe(id),1000)
 
   function subscribe(id) {
     consumer.subscriptions.create({ channel: "GameChannel", id: id }, {
