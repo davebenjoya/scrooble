@@ -456,7 +456,16 @@ const pickLetter = () => {   // using keyboard
       document.querySelector(".player-selected").title= "It's your turn!";
 
     } else {
-      // document.querySelector(".player-selected").title= "Current Player";
+      document.querySelector(".player-selected").title= "Current Player";
+    }
+
+
+    const thisUser = document.querySelector(".this-user");
+    if (thisUser.parentNode.classList.contains("player-selected")) {
+      document.querySelector(".mark-btn").classList.remove("button-disabled");
+    } else {
+      document.querySelector(".mark-btn").classList.add("button-disabled");
+
     }
 
   }
