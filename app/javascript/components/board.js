@@ -38,6 +38,13 @@ const board = () => {
   let replacement;
   if (newGame){
     document.querySelector("#new-game-btn").addEventListener('click', createNewGame)
+    document.addEventListener("keyup", () => {
+      switch (event.key) {
+        case "Enter":
+          createNewGame();
+          break;
+      }
+    })
   }
 
 
@@ -131,6 +138,8 @@ observer.observe(targetNode, observerOptions);
    }
   }
 
+
+
 ////////////////
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
@@ -207,6 +216,7 @@ observer.observe(targetNode, observerOptions);
         if (submitEscape === true) {
           replacement = document.querySelector("#replace-joker").value.toUpperCase();
           jokerTile.querySelector('.letter').innerHTML = replacement;
+          jokerTile.insertAdjacentHTML('beforeend', `<div class="board-value">0</div>`)
           jokerTile.querySelector('.letter').classList.add("letter-provisional");
           jokerTile.classList.add("joker-replaced");
           buffer.push(replacement);
@@ -219,7 +229,6 @@ observer.observe(targetNode, observerOptions);
           selectedLetter = null;
           submitEscape = false;
         } else {
-          jokers = []
           form.submit();
         }
       });
@@ -476,6 +485,8 @@ const pickLetter = () => {   // using keyboard
       document.querySelector('#mark-btn').classList.add('button-disabled');
       if (selectedLetter) {
         let txt = selectedLetter.querySelector('.my-letter').innerHTML
+        let val = selectedLetter.querySelector('.my-value').innerHTML;
+
         if (txt === "*") {
             const replacement = `Replace Joker with: <input id="replace-joker" maxlength = 1 type=text required>`
             document.querySelector(".modal-body").innerHTML = replacement;
@@ -484,10 +495,13 @@ const pickLetter = () => {   // using keyboard
             // jokers.push(jokerTile);
             $('#exampleModalCenter').modal('show');
         } else {
-            submitEscape = false;
+          submitEscape = false;
           event.target.querySelector('.letter').innerHTML = txt;
           event.target.querySelector('.letter').classList.add("letter-provisional");
           buffer.push(txt);
+
+           event.target.insertAdjacentHTML('beforeend',  ` <div class="board-value">${val}</div>`)
+
           selectedLetter.classList.remove("letter-selected");
           selectedLetter.classList.add("letter-disabled");
           selectedLetter.removeEventListener('click', toggleLetter);
@@ -537,6 +551,7 @@ const pickLetter = () => {   // using keyboard
           ltr.classList.remove("letter-provisional");
           ltr.parentNode.classList.remove("joker-replaced");
           ltr.innerHTML = "";
+          ltr.parentNode.querySelector(".board-value").innerHTML = "";
         });
         buffer = [];
           selectedLetter = null;
@@ -739,6 +754,15 @@ const findVerticallWord = (firstProvisional) => {
 
   const calculateScore = (wordOrientation, firstProvisional) => {  // score for one word
 
+
+          jokers = []
+          document.querySelectorAll(".letter").forEach( (letter, index) => {
+            if (letter.parentNode.classList.contains("joker-replaced")) {
+              jokers.push(index);
+            }
+          })
+
+              // console.log("jokers " + typeof jokers);
     addedScore = 0;
     const tileDivs = document.querySelectorAll('.tile')
     const letterDivs = document.querySelectorAll('.letter')
@@ -780,11 +804,12 @@ const findVerticallWord = (firstProvisional) => {
       console.log(`letter at position ${position} is ${ltr}`)
       newWord += ltr;
 
+
       // assign base value
       Array.from(lettersJSON.letters).forEach( (l , index) => {
         if (Object.keys(l).toString() === ltr) {
           let val =  parseInt(Object.values(Object.values(l)[0])[1]); // value is second property in embedded object
-          // console.log('val  ' + val);
+
           if (tileDivs[position].classList.contains("joker-replaced")) val = 0;
           if (tileDivs[position].classList.contains("double-letter") && letterDivs[position].classList.contains("letter-provisional")) {
             val *= 2;
@@ -949,6 +974,9 @@ const findVerticallWord = (firstProvisional) => {
 }
 
 function populateRailsForm() {
+console.log('jokers ' +  jokers)
+
+       document.querySelector("#update-jokers").value = Object.keys(jokers);
 
       let newGrid = ""
       document.querySelectorAll('.letter').forEach(ltr => {

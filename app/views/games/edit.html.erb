@@ -41,6 +41,7 @@
     <div id="controls">
       <%#= form_for(@game, url: edit_game_path(@game), method: :patch, html: {id: “commit_form”}, remote: true) %>
       <%# end %>
+      <%= @game.jokers.length %>
       <%= form_with(model: @game, method: 'patch', url: game_path(@game), id: "update-game") do |f| %>
       <%=f.hidden_field :current_player, value:1, id:'update-current' %>
       <%=f.hidden_field :players, value: [
@@ -50,6 +51,7 @@
                                { 'name': 'Ed', 'score': '79', 'current_letters': 'USYKTER' }
                               ], id:'update-players' %>
        <%=f.hidden_field :letter_grid, value:'____NONSENSE____', id:'update-grid' %>
+       <%=f.hidden_field :jokers, value:[], id:'update-jokers' %>
        <%#= f.submit "Commit", class: "btn-sm btn-slate-grey", id: "commit-btn" %>
       <% end %>
       <div id = "buttons">

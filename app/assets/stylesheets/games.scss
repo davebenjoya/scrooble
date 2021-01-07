@@ -15,6 +15,15 @@ html {
   background-color: #e0e0d1;
 }
 
+.board-value {
+  font-size: 14px;
+  font-weight: bold;
+  baseline-shift: sub;
+  position: relative;
+  bottom:-8px;
+  opacity: .3;
+}
+
 .delete-btn {
   position: relative;
 top:-17px;
