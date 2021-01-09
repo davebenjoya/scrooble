@@ -24,7 +24,7 @@
 
 
 <%#= @game.name %>
-  <div class="col-2 pr-0" id="dashboard" data-name ="<%= @game.name %>" data-id ="<%= @game.id %>" data-url ="games/<%= @game.id %>/edit" >
+  <div class="col-2 pr-0" id="dashboard" data-name ="<%= @game.name %>" data-id ="<%= @game.id %>" data-url ="games/<%= @game.id %>/edit" data-jokers =  "<%= @game.jokers %>">
     <div>
       <div id="messages" data-game-id=<%= @game.id %>></div>
       <!-- <div data-controller="online-list" data-online-list-sound="insistentHarp.mp3">
@@ -38,10 +38,10 @@
       </div>
     </div>
 
+
     <div id="controls">
       <%#= form_for(@game, url: edit_game_path(@game), method: :patch, html: {id: “commit_form”}, remote: true) %>
       <%# end %>
-      <%= @game.jokers.length %>
       <%= form_with(model: @game, method: 'patch', url: game_path(@game), id: "update-game") do |f| %>
       <%=f.hidden_field :current_player, value:1, id:'update-current' %>
       <%=f.hidden_field :players, value: [
@@ -51,7 +51,7 @@
                                { 'name': 'Ed', 'score': '79', 'current_letters': 'USYKTER' }
                               ], id:'update-players' %>
        <%=f.hidden_field :letter_grid, value:'____NONSENSE____', id:'update-grid' %>
-       <%=f.hidden_field :jokers, value:[], id:'update-jokers' %>
+       <%=f.hidden_field :jokers, value:"7, 82, 154, 206", id:'update-jokers' %>
        <%#= f.submit "Commit", class: "btn-sm btn-slate-grey", id: "commit-btn" %>
       <% end %>
       <div id = "buttons">

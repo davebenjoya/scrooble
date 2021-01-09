@@ -12,7 +12,7 @@ const board = () => {
   const myLettersDiv = document.getElementById("my-letters");
 
   let exchange = false;
-  let jokers = [];
+  let jokers = '';
   let jokerTile  = null;
 
   let current =  ``;
@@ -36,6 +36,19 @@ const board = () => {
   let titleString = '';
   let submitEscape = false;
   let replacement;
+
+
+  lettersJSON.letters.forEach( ltr => {
+    const l = Object.keys(ltr)[0];
+    const f = parseInt(Object.values(ltr)[0].frequency);
+    for (let r = 0; r < f; r++) {
+      allLetters.push(l);
+    };
+  });
+remainingLetters = allLetters;
+
+
+
   if (newGame){
     document.querySelector("#new-game-btn").addEventListener('click', createNewGame)
     document.addEventListener("keyup", () => {
@@ -51,29 +64,23 @@ const board = () => {
 if (editGame) {
   const targetNode = document.querySelector("#messages");
 
-let observer = new MutationObserver(callback);
-function callback (mutations) {
-  console.log ("playersArray " + typeof playersArray);
-  const newStr = document.querySelector("#messages").innerHTML;
-  console.log ("newStr " + newStr);
-  const newObj = new Object(newStr);
-  console.log ("newObj " + newObj);
+  let observer = new MutationObserver(callback);
+  function callback (mutations) {
+    console.log ("playersArray " + typeof playersArray);
+    const newStr = document.querySelector("#messages").innerHTML;
+    console.log ("newStr " + newStr);
+    const newObj = new Object(newStr);
+    console.log ("newObj " + newObj);
+    playersArray = newObj;
+  }
 
 
-  playersArray = newObj;
+  let observerOptions = {
+    childList: true,
+    characterData: true
+  };
 
-  // do something here
-}
-
-
-let observerOptions = {
-  childList: true,
-  characterData: true
-};
-
-observer.observe(targetNode, observerOptions);
-
-
+  observer.observe(targetNode, observerOptions);
 
 }
 //////////////////////////////////////////////////////////////////////////////
@@ -138,10 +145,6 @@ observer.observe(targetNode, observerOptions);
    }
   }
 
-
-
-////////////////
-//////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
@@ -152,10 +155,10 @@ observer.observe(targetNode, observerOptions);
 
     let ltrStr = '';
     myLetters = []
-        chooseLetters();
-        myLetters.forEach(ltr => {
-          ltrStr += ltr;
-        })
+      chooseLetters();
+      myLetters.forEach(ltr => {
+        ltrStr += ltr;
+      })
     return new Object(`{'name': '${name}', 'score': '0', 'current_letters': ${ltrStr}}`)
 
   }
@@ -165,7 +168,7 @@ observer.observe(targetNode, observerOptions);
   if (editGame || showGame) {
     players = document.querySelector("#scores").dataset.players;
 
-    console.log('document.querySelector("#dashboard").dataset.name  ' + document.querySelector("#dashboard").dataset.name)
+    // console.log('document.querySelector("#dashboard").dataset.name  ' + document.querySelector("#dashboard").dataset.name)
     const formattedStr = players.replaceAll("} {", "}@@@{")
                                 .replaceAll("},", "}@@@")
                                 .replaceAll("=>", ": ")
@@ -190,7 +193,7 @@ observer.observe(targetNode, observerOptions);
 
     document.querySelector("#navbar-game").insertAdjacentHTML('afterbegin',titleString)
 
-    console.log('playersArray [0]  '+ playersArray[0])
+    // console.log('playersArray [0]  '+ playersArray[0])
     showScores();
     if (editGame) {
       form = document.getElementById("update-game")
@@ -203,7 +206,7 @@ observer.observe(targetNode, observerOptions);
 
   if (boardDiv) {
     $("#exampleModalCenter").on('shown.bs.modal', function(){
-      console.log('submitEscape   ' + submitEscape)
+      // console.log('submitEscape   ' + submitEscape)
       if (submitEscape === true) {
         document.querySelector("#replace-joker").focus();
         document.querySelector("#replace-joker").addEventListener('input', validateJoker)
@@ -216,7 +219,7 @@ observer.observe(targetNode, observerOptions);
         if (submitEscape === true) {
           replacement = document.querySelector("#replace-joker").value.toUpperCase();
           jokerTile.querySelector('.letter').innerHTML = replacement;
-          jokerTile.insertAdjacentHTML('beforeend', `<div class="board-value">0</div>`)
+          jokerTile.querySelector(".board-value").innerHTML = "0";
           jokerTile.querySelector('.letter').classList.add("letter-provisional");
           jokerTile.classList.add("joker-replaced");
           buffer.push(replacement);
@@ -244,31 +247,40 @@ observer.observe(targetNode, observerOptions);
 
   }
 
+setupBoard()
 
 
 
-    lettersJSON.letters.forEach( ltr => {
-        const l = Object.keys(ltr)[0];
-        const f = parseInt(Object.values(ltr)[0].frequency);
-        for (let r = 0; r < f; r++) {
-          allLetters.push(l);
-        };
-      });
-    remainingLetters = allLetters;
+
+function setupBoard() {
+
+
     let boardHtml = ``
       // console.log('boardDiv.dataset.letterGrid ' + boardDiv.dataset.letterGrid.length);
-    if (boardDiv.dataset.letterGrid.length > 0) {
+    if (boardDiv.dataset.letterGrid.length > 0) {  //  edit existing grid
       const arr = boardDiv.dataset.letterGrid.split(" ");
-      arr.forEach(tile => {
+      let boardVal = ""
+
+
+      arr.forEach((tile, index) => {
         if (tile) {
           if (tile.trim() === "_") {
             tile = " ";
+            boardVal = " "
           } else {
+
+
             boardHasLetters = true;
             const i = remainingLetters.indexOf(tile);
             remainingLetters.splice(i, 1);
+            Array.from(lettersJSON.letters).forEach( l => {
+              if (l[tile]) {
+                 boardVal = l[tile].value;
+              }    });
+
+
           }
-          boardHtml += `<div class='tile'><div class="letter">${tile}</div></div>`
+          boardHtml += `<div class='tile'><div class="letter">${tile}</div><div class="board-value">${boardVal}</div></board-v></div>`
         }
       });
     } else {  // no existing letter grid, ie, a new game
@@ -283,40 +295,33 @@ observer.observe(targetNode, observerOptions);
 
 
     boardDiv.insertAdjacentHTML('beforeend', boardHtml);
+    boardDiv.querySelectorAll('.letter')[112].parentNode.classList.add("center-tile");
+    boardDiv.querySelectorAll('.letter').forEach((ltr, index) => {
 
- boardDiv.querySelectorAll('.letter')[112].parentNode.classList.add("center-tile");
+      let nums = lettersJSON.tw.map(Number);
+      const tripleWords = nums.filter(num => num == index + 1)
+      if (tripleWords.length > 0) {
+        ltr.parentNode.classList.add("triple-word");
+      }
+      nums = lettersJSON.dw.map(Number);
+      const doubleWords = nums.filter(num => num == index + 1)
+      if (doubleWords.length > 0) {
+        ltr.parentNode.classList.add("double-word");
+      }
 
+      nums = lettersJSON.tl.map(Number);
+      const tripleLetters = nums.filter(num => num == index + 1)
+      if (tripleLetters.length > 0) {
+        ltr.parentNode.classList.add("triple-letter");
+      }
 
-     boardDiv.querySelectorAll('.letter').forEach((ltr, index) => {
+      nums = lettersJSON.dl.map(Number);
+      const doubleLetters = nums.filter(num => num == index + 1)
+      if (doubleLetters.length > 0) {
+        ltr.parentNode.classList.add("double-letter");
+      }
 
-
-        let nums = lettersJSON.tw.map(Number);
-        const tripleWords = nums.filter(num => num == index + 1)
-          if (tripleWords.length > 0) {
-            ltr.parentNode.classList.add("triple-word");
-          }
-        nums = lettersJSON.dw.map(Number);
-        const doubleWords = nums.filter(num => num == index + 1)
-        if (doubleWords.length > 0) {
-          ltr.parentNode.classList.add("double-word");
-        }
-
-        nums = lettersJSON.tl.map(Number);
-        const tripleLetters = nums.filter(num => num == index + 1)
-        if (tripleLetters.length > 0) {
-          ltr.parentNode.classList.add("triple-letter");
-        }
-
-
-        nums = lettersJSON.dl.map(Number);
-        const doubleLetters = nums.filter(num => num == index + 1)
-        if (doubleLetters.length > 0) {
-          ltr.parentNode.classList.add("double-letter");
-        }
-
-
-
-        });
+    });
 
 
     document.querySelectorAll('.tile').forEach(tile => {
@@ -326,6 +331,20 @@ observer.observe(targetNode, observerOptions);
     });
   }
 
+
+      const jays = document.querySelector("#dashboard").dataset.jokers
+      if (jays.length > 0) {
+        const jArray = jays.split(',');
+        jArray.forEach(jkr => {
+          const jokerPos = parseInt(jkr)
+          console.log('document.querySelectorAll(".tile") ' + document.querySelectorAll(".tile").length)
+          document.querySelectorAll(".tile")[jokerPos].classList.add("joker-replaced");
+          document.querySelectorAll(".tile")[jokerPos].querySelector(".board-value").innerHTML="0"
+        })
+      }
+
+
+}
 
 const pickLetter = () => {   // using keyboard
   if (submitEscape === false ) {  // replace joker dialogue not visible
@@ -460,7 +479,7 @@ const pickLetter = () => {   // using keyboard
     document.querySelector(".this-user").parentNode.dataToggle= "tooltip";
       document.querySelector(".this-user").parentNode.title= "You!";
 
-    // document.querySelector(".player-selected").dataToggle= "tooltip";
+    document.querySelector(".player-selected").dataToggle= "tooltip";
     if (document.querySelector(".this-user").parentNode.classList.contains("player-selected")) {
       document.querySelector(".player-selected").title= "It's your turn!";
 
@@ -500,7 +519,7 @@ const pickLetter = () => {   // using keyboard
           event.target.querySelector('.letter').classList.add("letter-provisional");
           buffer.push(txt);
 
-           event.target.insertAdjacentHTML('beforeend',  ` <div class="board-value">${val}</div>`)
+          event.target.querySelector(".board-value").innerHTML = `${val}`;
 
           selectedLetter.classList.remove("letter-selected");
           selectedLetter.classList.add("letter-disabled");
@@ -516,7 +535,7 @@ const pickLetter = () => {   // using keyboard
 
   function chooseLetters() { // select my letters from available letters
 
-    console.log(remainingLetters.length);
+    // console.log(remainingLetters.length);
     while (myLetters.length < maxLetters ) {
       const ind = Math.floor(Math.random() * remainingLetters.length)
       // console.log(ind);
@@ -603,12 +622,11 @@ const pickLetter = () => {   // using keyboard
           letter.parentNode.remove();
         }
       });
-      console.log(maxLetters);
-      console.log(myLetters.length);
+      // console.log(maxLetters);
+      // console.log(myLetters.length);
       const numToReplace = maxLetters - myLetters.length
       chooseLetters();
       appendMyLetters(numToReplace);
-
 
       populateRailsForm();
       form.submit()
@@ -629,7 +647,7 @@ const pickLetter = () => {   // using keyboard
         /////////////  V A L I D A T I O N /////////////////////////////////////////
         document.querySelectorAll('.letter').forEach( (ltrP, indexP) => {
           if (ltrP.classList.contains("letter-provisional")) {
-          console.log("ltrP.classList " + ltrP.classList)
+          // console.log("ltrP.classList " + ltrP.classList)
             if (firstTwoProvisionals.length < 2) firstTwoProvisionals.push(indexP);
               if (boardHasLetters) {
                 needsToUseCenter = false;
@@ -754,14 +772,6 @@ const findVerticallWord = (firstProvisional) => {
 
   const calculateScore = (wordOrientation, firstProvisional) => {  // score for one word
 
-
-          jokers = []
-          document.querySelectorAll(".letter").forEach( (letter, index) => {
-            if (letter.parentNode.classList.contains("joker-replaced")) {
-              jokers.push(index);
-            }
-          })
-
               // console.log("jokers " + typeof jokers);
     addedScore = 0;
     const tileDivs = document.querySelectorAll('.tile')
@@ -775,6 +785,20 @@ const findVerticallWord = (firstProvisional) => {
     let horizontalWords = [];
     let verticalWords = [];
     let positions = []
+
+
+    letterDivs.forEach( (letter, index) => {
+      if (letter.parentNode.classList.contains("joker-replaced")) {
+        jokers += `${index.toString()},`;
+      }
+    });
+
+    const jokersTrimmed = jokers.slice(0, jokers.length -1)
+
+    console.log("jokersTrimmed " + jokersTrimmed);
+
+    jokers = jokersTrimmed;
+
 
     if (wordOrientation == 'horizontal' || wordOrientation == 'neutral') {
       positions  =  findHorizontalWord(firstProvisional);
@@ -801,13 +825,19 @@ const findVerticallWord = (firstProvisional) => {
     //  append new word
     positions.forEach(position => {
       const ltr = letterDivs[position].innerHTML;
-      console.log(`letter at position ${position} is ${ltr}`)
+      console.log(letterDivs[position].parentNode)
       newWord += ltr;
 
 
       // assign base value
+
+
+      // console.log(ltr.parentNode)
+
+
       Array.from(lettersJSON.letters).forEach( (l , index) => {
         if (Object.keys(l).toString() === ltr) {
+          console.log(`tileDivs[position].querySelector(".my-value") ` + tileDivs[position].parentNode.querySelector(".my-value"));
           let val =  parseInt(Object.values(Object.values(l)[0])[1]); // value is second property in embedded object
 
           if (tileDivs[position].classList.contains("joker-replaced")) val = 0;
@@ -870,20 +900,20 @@ const findVerticallWord = (firstProvisional) => {
         let tileString = ``
 
 
-        let val = '0'
+        let val
 
         for (let char of newWord) {
           console.log (' char  ',  char)
-
 //const calculateScore
-
-
         Array.from(lettersJSON.letters).forEach( l => {
-            if (l[char]) {
-             val = l[char].value;
-            }
-          });
-
+          if (l[char]) {
+           val = l[char].value;
+          }
+        });
+        // if (pro.classList.contains("joker-replaced")) {
+        //   val = 0;
+        //   console.log("joker-replaced ")
+        // }
         tileString += `<div class="my-tile"><div class="my-letter">${char}</div><div class="my-value">${val}</div> </div>`
         }
         const newWordTiles = `<span class='row pl-3'>${tileString}</span>`
@@ -913,61 +943,7 @@ const findVerticallWord = (firstProvisional) => {
 
     //const calculateScore
     populateRailsForm();
-    ///       POPULATE RAILS FORM  //////////////////////////////////////////
 
-      // let newGrid = ""
-      // document.querySelectorAll('.letter').forEach(ltr => {
-      // if (ltr.innerHTML.trim() === "") {
-      //   newGrid += "_";
-      // } else {
-      //   newGrid += ltr.innerHTML;
-      // };
-      //   newGrid += " ";
-      // });
-
-      // current ++
-      // if (current > playersArray.length - 1) current = 0
-
-      // const me = playersArray.filter(player => player.includes(document.querySelector('#scores').dataset.username.trim()));
-      // const meIndex = playersArray.indexOf(me.toString());
-      // const oldLetters = me[0].split(",")[2].replaceAll(/current_letters:|\"|\}/g, "" ).replace(/'current_letters': /, "").trim();
-      // // const oldScore =  parseInt(me[0].split(",")[1].replaceAll(/score:|\"/g, "" ));
-      // const oldScore =  me[0].split(",")[1].replaceAll(/\'score\':|\"/g, "" ).replaceAll(/\'/g, "" );
-      // const newScore = parseInt(oldScore.replaceAll("'", "")) + addedScore;
-
-      // let newLetters = "'";
-      // myLetters.forEach(letter => {
-      //   newLetters += letter
-      // })
-      // newLetters += "'"
-
-      // const newMe =  Object.values(me)[0].replace(oldScore.toString().trim(), newScore.toString().trim()).replace(oldLetters, newLetters);
-      // playersArray[meIndex] = newMe;
-      // const oldPlayers = players.replaceAll(":", "").replaceAll(/=>/g, ": ");
-
-      // let newPlayersStr = "";
-
-      // playersArray.forEach(player => {
-      // console.log('player  ' + player)
-      //   const playerAddQuotes = player.toString()
-      //   .replace("name","'name'")
-      //   .replace("score","'score'")
-      //   .replace("current_letters","'current_letters'")
-      //   .replaceAll(/\'\'+/g, "'");
-
-      //   // const playerAddQuotes = JSON.stringify(player);
-      //   const obj = new Object(playerAddQuotes);
-      //   // console.log('playerAddQuotes ' + playerAddQuotes);
-      //   newPlayersStr += playerAddQuotes;
-      // });
-
-      // // newPlayersStr += "]"
-
-      // const newPlayers = newPlayersStr.replaceAll("}{", "}, {").replaceAll(/\'\'+/g, "'").replaceAll( /\"/g, "'");
-      // console.log('newPlayers ' +  newPlayers);
-      // document.querySelector('#update-players').value = newPlayers;
-      // document.querySelector('#update-grid').value = newGrid;
-      // document.querySelector('#update-current').value = current;
     }
   });
   }
@@ -976,7 +952,7 @@ const findVerticallWord = (firstProvisional) => {
 function populateRailsForm() {
 console.log('jokers ' +  jokers)
 
-       document.querySelector("#update-jokers").value = Object.keys(jokers);
+       document.querySelector("#update-jokers").value = jokers;
 
       let newGrid = ""
       document.querySelectorAll('.letter').forEach(ltr => {
