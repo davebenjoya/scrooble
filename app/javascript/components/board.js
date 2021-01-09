@@ -338,8 +338,11 @@ function setupBoard() {
         jArray.forEach(jkr => {
           const jokerPos = parseInt(jkr)
           console.log('document.querySelectorAll(".tile") ' + document.querySelectorAll(".tile").length)
-          document.querySelectorAll(".tile")[jokerPos].classList.add("joker-replaced");
-          document.querySelectorAll(".tile")[jokerPos].querySelector(".board-value").innerHTML="0"
+          if (jokerPos) {
+            document.querySelectorAll(".tile")[jokerPos].classList.add("joker-replaced");
+            document.querySelectorAll(".tile")[jokerPos].querySelector(".board-value").innerHTML="0"
+
+          }
         })
       }
 
