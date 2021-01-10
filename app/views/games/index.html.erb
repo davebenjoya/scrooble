@@ -1,4 +1,6 @@
-<div class="p-4 your-games">
+<div class="p-4 your-games" data-username= "<%= current_user.username %>">
+
+
 
   <div class="cards justify-content-between" >
     <%= link_to new_game_path do %>
@@ -24,7 +26,7 @@
         <%= link_to edit_game_path(game) do %>
           <div class="card m-2 p-3 d-flex justify-space-between stored-game" data-players="<%= game.players %>" >
             <div><%= game.name %></div>
-            <div class="players">  </div>
+            <div class="players" data-current="<%= game.current_player %>"></div>
             <div class="status"> <%= status %></div>
            </div>
         <% end %>

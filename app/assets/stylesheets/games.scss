@@ -43,6 +43,12 @@ width: 0px;
   opacity: .3;
 }
 
+.current-player {
+   color: hsl(18, 40, 60);
+   font-weight: bolder;
+   transform: scale(1.4);
+}
+
 .avatar {
   height: 36px;
   border-radius:50%;
