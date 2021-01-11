@@ -50,6 +50,7 @@ width: 0px;
 }
 
 .avatar {
+  padding-top:2px;
   height: 36px;
   border-radius:50%;
   // margin: 8px;
@@ -60,11 +61,12 @@ width: 0px;
   max-height: 32px;
 }
 #navbar-game {
+  margin-top: 6px;
   font-size: 16px;
   font-family: 'Lato', sans-serif;
   font-weight: bolder;
   letter-spacing: 0.4px;
-  color: black;
+  color: white;
 }
 
 .center-tile {
@@ -80,6 +82,7 @@ width: 0px;
 
 .your-games {
   background-color: hsl(210, 41, 21);
+  margin-top: 0px;
   width: 100%;
 }
 
@@ -94,6 +97,7 @@ a {
 
 .status {
   color: hsl(210, 25, 75);
+  font-size: 13px;
 }
 
 #navbarr {
@@ -106,7 +110,7 @@ a {
   font-family: 'Grandstander', display;
   font-size: 20px;
   letter-spacing: 8px;
-  background-color: hsl(60, 20, 85);
+  background-color:  hsl(210, 41, 21);
 }
 
 #navbarr a  {
@@ -119,7 +123,7 @@ a {
 
 .this-user {
   font-weight: bolder;
-  color: hsl(16, 180, 38);
+  color:  hsl(210, 41, 31) ;
 }
 
 .pickem {
@@ -242,15 +246,15 @@ h5 {
 
 #board {
   width: 630px;
-  height: 620px;
+  height: 618px;
   display: grid;
   grid-template-columns: 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67%
    6.67% 6.67% 6.67% 6.67% 6.67%;
   grid-template-rows: 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67%
    6.67% 6.67% 6.67% 6.67% 6.67%;
-  padding: 23px;
+  padding-top: 8px;
   padding-right: 20px;
-  padding-top: 0px;
+  // padding-top: 8px;
 justify-items: center;
   background-color: hsl(60, 20, 85);
 }
@@ -295,15 +299,16 @@ justify-items: center;
 }
 
 .player-selected {
-  background-color: hsl(200, 25, 60);
+  background-color: hsl(50, 87, 46);
   font-weight: bold;
+  color:  hsl(210, 41, 21)  !important;
   transition: all .3s ease-in;
 }
 
 
 
 .tile {
-  height: 36px;
+  height: 35px;
   margin: 0px 2px;
   // padding: 8px;
   display: flex;

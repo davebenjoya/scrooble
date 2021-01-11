@@ -1,4 +1,4 @@
-<div class="p-4 your-games" data-username= "<%= current_user.username %>">
+<div class="px-4 pb-3 pt-1 your-games" data-username= "<%= current_user.username %>">
 
 
 
@@ -15,7 +15,7 @@
       <% status = game.completed ? "Completed" : "In progress" %>
       <% if game.completed %>
         <%= link_to game_path(game) do %>
-          <div class="card m-2 p-3 d-flex justify-space-between stored-game" data-players="<%= game.players %>" >
+          <div class="card m-2 px-3 py-2 d-flex justify-space-between stored-game" data-players="#{game.players}" >
             <div><%= game.name %></div>
             <div class="players">  </div>
             <div class="status"> <%= status %></div>
@@ -24,7 +24,7 @@
       <% else %>
 
         <%= link_to edit_game_path(game) do %>
-          <div class="card m-2 p-3 d-flex justify-space-between stored-game" data-players="<%= game.players %>" >
+          <div class="card m-2 px-3 py-2 d-flex justify-space-between stored-game" data-players="<%= game.players %>" >
             <div><%= game.name %></div>
             <div class="players" data-current="<%= game.current_player %>"></div>
             <div class="status"> <%= status %></div>
