@@ -2,6 +2,7 @@ const gameIndex = ()  => {
   const yourGames = document.querySelector(".your-games");
 
   if (yourGames) {
+    setupPageAnimations();
     document.querySelectorAll(".stored-game").forEach(game => {
       const players = game.dataset.players.replace("[", "").replace("]", "").replaceAll(/\},\s*\{/g, "@@@");
       const playersArr = players.split("@@@");
@@ -24,10 +25,10 @@ const gameIndex = ()  => {
           name = "You, "
           switch (index) {
             case 0:
-              alertPlayer = " — It's your turn.";
+              alertPlayer = `<span class = "player-alert"> — It's your turn.</span>`;
               break;
             case 1:
-              alertPlayer = " — You're up next.";
+              alertPlayer = `<span class = "player-alert">  — You're up next.</span>`;
               break;
               default: null;
           }
@@ -60,8 +61,134 @@ const gameIndex = ()  => {
       const lst = playerList.replace(/,\s*$/, "").replaceAll(", ,", ",");
       game.querySelector(".players").insertAdjacentHTML('beforeend', lst);
       game.querySelector(".players").insertAdjacentHTML('beforeend', alertPlayer);
-    })
+    });
+    setTimeout (function () {
+      document.querySelector("#your-games").classList.remove('your-games-hide');
+
+    }, 1000)
   }
+
+
+  function setupPageAnimations() {
+  // State variable
+  let _isAnimating = false;
+  // Create list of nodes to animate
+  let elementsToAnimate = [];
+  // Events for browser compatibility
+  const eventsPrefixed = ['animationend', 'webkitAnimationEnd', 'oAnimationEnd', 'MSAnimationEnd'];
+
+
+  $(document).on('turbolinks:before-visit', e => {
+    console.log('eeeeeeeee  ' + e.target);
+    // Prevent an infinite loop
+    if (!_isAnimating) {
+
+      // Get the first element to animate
+      const firstEl = $('[data-animate-out]')[0];
+      let isAnimationEventSupported;
+
+      // Check if the browser supports animationend
+      // event, if it does...
+      $(eventsPrefixed).each((ind, event) => {
+        if (`on${event}` in firstEl ) {
+          isAnimationEventSupported = true;
+          return false;
+        }
+      });
+
+      // ...we can begin animating
+      if (isAnimationEventSupported) {
+        _isAnimating = true;
+
+        // Prevent default navigation
+        e.preventDefault();
+
+        // Get the new url
+        const newUrl = event.data.url;
+
+        // Push elements that need animating to an array
+        $('[data-animate-out]').each((ind, el) => {
+          elementsToAnimate.push(el);
+        });
+
+        // Animate the list
+        runAnimations(elementsToAnimate, eventsPrefixed);
+
+        // Once all animations are complete...
+        $(document).one('allAnimationEnd', () => {
+          if (_isAnimating) {
+            // Start the new page load
+            Turbolinks.visit(newUrl);
+            // Reset variables
+            elementsToAnimate = [];
+            _isAnimating = false;
+          }
+        });
+      }
+    }
+  });
+}
+
+function runAnimations(elList, eventsPrefixed) {
+    let animationsFinished = 0;
+    const totalAnimations = elList.length;
+
+    $(elList).each((ind, el) => {
+      // Once each animation has finished
+      $(el).one(
+       eventsPrefixed.join(' '), () => {
+          animationsFinished++;
+          // Check if they're all finished
+          checkForAllFinished(el);
+        }
+      );
+
+      // Fire animation,
+      // adding attribute value as a class
+      $(el).addClass($(el).attr('data-animate-out'));
+    });
+
+
+    function checkForAllFinished(el) {
+      if (animationsFinished === totalAnimations) {
+        // Dispatch custom event once all animations
+        // have finished
+        const event = new CustomEvent(`allAnimationEnd`, {
+          bubbles: true,
+          cancelable: true
+        });
+        el.dispatchEvent(event);
+      }
+    }
+  }
+
+  $(document).on('turbolinks:before-cache', () => {
+  removeAnimateClasses();
+});
+
+$(window).on('popstate', e => {
+  if (_isAnimating) {
+    // Prevent loading previous page
+    // if animations have started
+    e.preventDefault();
+    history.go(1);
+    removeAnimateClasses();
+
+    // Reset variables
+    _isAnimating = false;
+    elementsToAnimate = [];
+  }
+});
+
+// Use regex to remove all animation classes
+function removeAnimateClasses() {
+  const els = $('[data-animate-out], [class*=animate-]');
+  $(els).removeClass((index, className) => {
+    return (className.match(/(^|\s)animate-\S+/g) || []).join(' ');
+  });
+}
+
+
 }
 
 export { gameIndex }

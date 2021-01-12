@@ -42,7 +42,6 @@ end
 
   def edit
     @game = Game.find(params[:id])
-    @date = @game.updated_at.strftime("%b %d, %Y %-I:%M%p")
   end
 
   def update

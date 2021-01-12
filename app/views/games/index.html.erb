@@ -1,10 +1,11 @@
-<div class="px-4 pb-3 pt-1 your-games" data-username= "<%= current_user.username %>">
+<div class="bg">
+<div id="your-games" class="px-4 pb-3 pt-1 your-games-hide your-games" data-animate-out="animate-slide-right" data-username= "<%= current_user.username %>">
 
 
 
   <div class="cards justify-content-between" >
     <%= link_to new_game_path do %>
-      <div class="card m-2 p-3 d-flex justify-content-center align-items-center">
+      <div class="card m-2 p-3 d-flex justify-content-center align-items-center plus-sign">
         <i class="fas fa-plus-circle add-new-card"> </i>
       </div>
     <% end %>
@@ -15,23 +16,27 @@
       <% status = game.completed ? "Completed" : "In progress" %>
       <% if game.completed %>
         <%= link_to game_path(game) do %>
-          <div class="card m-2 px-3 py-2 d-flex justify-space-between stored-game" data-players="#{game.players}" >
+          <div class="card m-2 px-3 py-2 d-flex flex-column justify-space-between stored-game" data-players="#{game.players}" >
             <div><%= game.name %></div>
             <div class="players">  </div>
             <div class="status"> <%= status %></div>
            </div>
+         </div>
         <% end %>
       <% else %>
 
         <%= link_to edit_game_path(game) do %>
-          <div class="card m-2 px-3 py-2 d-flex justify-space-between stored-game" data-players="<%= game.players %>" >
+          <div class="card m-2 px-3 py-2 d-flex flex-column justify-space-between stored-game" data-players="<%= game.players %>" >
             <div><%= game.name %></div>
             <div class="players" data-current="<%= game.current_player %>"></div>
-            <div class="status"> <%= status %></div>
+            <div class="status">Updated <%= game.updated_at.strftime("%b %d, %Y %-I:%M%p") %></div>
            </div>
         <% end %>
       <% end %>
       <% end %>
   </div>
+
+</div>
+
 
 </div>

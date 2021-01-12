@@ -1,8 +1,13 @@
 <div id="navbarr" >
       <% if user_signed_in? %>
         <div>
-          <%= link_to "Scrooble", "/", class: "navbar-title" %>
-          <!-- <a href="/" class="navbar-title">Scrooble</a> -->
+          <% if current_page?('/') %>
+            <div class="navbar-title">Scrooble</div>
+          <% else %>
+            <%= link_to "/" do %>
+              <div class="navbar-title">Scrooble</div>
+            <% end %>
+          <% end %>
         </div>
         <div id="navbar-game"></div>
         <div class="nav-item dropdown">

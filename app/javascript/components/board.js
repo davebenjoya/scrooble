@@ -278,23 +278,32 @@ function setupBoard() {
                  boardVal = l[tile].value;
               }    });
 
-
           }
-          boardHtml += `<div class='tile'><div class="letter">${tile}</div><div class="board-value">${boardVal}</div></board-v></div>`
+          boardHtml += `<div class='tile tile-hide'><div class="letter">${tile}</div><div class="board-value">${boardVal}</div></board-v></div>`
         }
       });
     } else {  // no existing letter grid, ie, a new game
       for (let n = 1; n < 226; n ++) {
 
-          boardHtml += `<div class='tile'><div class="letter"> </div></div>`
+          boardHtml += `<div class='tile tile-hide'><div class="letter"> </div></div>`
       }
 
     }
 
 
 
-
     boardDiv.insertAdjacentHTML('beforeend', boardHtml);
+
+    setTimeout(function() {
+    document.querySelector("#board").classList.remove("board-hide");
+    document.querySelector("#dashboard").classList.remove("dashboard-hide");
+        document.querySelectorAll('.tile-hide').forEach(tile => {
+  tile.classList.add("tile-show");
+
+    }, 500);
+});
+
+
     boardDiv.querySelectorAll('.letter')[112].parentNode.classList.add("center-tile");
     boardDiv.querySelectorAll('.letter').forEach((ltr, index) => {
 

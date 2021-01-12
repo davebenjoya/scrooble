@@ -24,16 +24,13 @@
 
 
 <%#= @game.name %>
-  <div class="col-2 pr-0" id="dashboard" data-name ="<%= @game.name %>" data-id ="<%= @game.id %>" data-url ="games/<%= @game.id %>/edit" data-jokers =  "<%= @game.jokers %>">
+  <div class="pr-0 dashboard dashboard-hide" data-animate-out="animate-slide-left" id="dashboard" data-name ="<%= @game.name %>" data-id ="<%= @game.id %>" data-url ="games/<%= @game.id %>/edit" data-jokers =  "<%= @game.jokers %>">
     <div>
       <div id="messages" data-game-id=<%= @game.id %>></div>
       <!-- <div data-controller="online-list" data-online-list-sound="insistentHarp.mp3">
         <%#= audio_tag "dreamy", id: "btnAudio" %>
         <button data-action="online-list#playSound" data-online-list-target="trigger" >Play</button>
       </div> -->
-      <div id="last">
-       <strong>Last Updated </strong><br/><%= @date %>
-      </div>
       <div id='scores' data-players="<%= @game.players %>" data-current="<%= @game.current_player %>" data-username = "<%= current_user.username %>" >
       </div>
     </div>
@@ -64,7 +61,8 @@
     <div id="my-letters"></div>
   </div>
 
-  <div class='col-10' id="board" data-letter-grid="<%= @game.letter_grid %> " >
+
+  <div class='col-10 board board-hide' id="board" data-animate-out="animate-fade" data-letter-grid="<%= @game.letter_grid %> " >
   </div>
 
 </div>
