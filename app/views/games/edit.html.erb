@@ -39,7 +39,7 @@
     <div id="controls">
       <%#= form_for(@game, url: edit_game_path(@game), method: :patch, html: {id: “commit_form”}, remote: true) %>
       <%# end %>
-      <%= form_with(model: @game, remote: true, id: "update-game") do |f| %>
+      <%= form_with(model: @game, remote: true, url: edit_game_path(@game), id: "update-game") do |f| %>
       <%=f.hidden_field :current_player, value:1, id:'update-current' %>
       <%=f.hidden_field :players, value: [
                                { 'name': 'Dave', 'score': '52', 'current_letters': 'RXDFOEB' },
