@@ -50,6 +50,10 @@ end
     # raise
 
     if @game.update(game_params)
+    #   GameChannel.broadcast_to(
+    #   @game,
+    #   render_to_string(partial: "message", locals: { message: @game.players })
+    # )
       GameChannel.broadcast_to(
       @game,
       render_to_string(partial: "message", locals: { message: @game.players })

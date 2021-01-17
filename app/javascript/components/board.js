@@ -45,11 +45,12 @@ const board = () => {
       allLetters.push(l);
     };
   });
-remainingLetters = allLetters;
+  remainingLetters = allLetters;
 
 
 
   if (newGame){
+    newGame.classList.add("new-page-identifier-show")
     document.querySelector("#new-game-btn").addEventListener('click', createNewGame)
     document.addEventListener("keyup", () => {
       switch (event.key) {
@@ -66,11 +67,11 @@ if (editGame) {
 
   let observer = new MutationObserver(callback);
   function callback (mutations) {
-    console.log ("playersArray " + typeof playersArray);
+    console.log ("callbackplayersArray " + typeof playersArray);
     const newStr = document.querySelector("#messages").innerHTML;
-    console.log ("newStr " + newStr);
+    console.log ("callbacknewStr " + newStr);
     const newObj = new Object(newStr);
-    console.log ("newObj " + newObj);
+    console.log ("callbacknewObj " + newObj);
     playersArray = newObj;
   }
 
@@ -145,10 +146,6 @@ if (editGame) {
    }
   }
 
-//////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////
-
 
   function createPlayerString (name) {
     console.log("remaining  " + remainingLetters);
@@ -159,11 +156,13 @@ if (editGame) {
       myLetters.forEach(ltr => {
         ltrStr += ltr;
       })
-    return new Object(`{'name': '${name}', 'score': '0', 'current_letters': ${ltrStr}}`)
+    return new Object(`{'name': '${name}', 'score': '0', 'current_letters': '${ltrStr}'}`)
 
   }
 
 
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
   if (editGame || showGame) {
     players = document.querySelector("#scores").dataset.players;
@@ -183,7 +182,11 @@ if (editGame) {
       // easing: "cubic-bezier(1, 0, 0, 1)",
       ghostClass: "sortable-ghost", // Class name for the drop placeholder
       chosenClass: "sortable-chosen", // Class name for the chosen item
-      dragClass: "sortable-drag"
+      dragClass: "sortable-drag",
+
+      onUpdate: function (/**Event*/evt) {
+       reorderLetters()
+      }
     })
     current = document.querySelector("#scores").dataset.current;
 
@@ -203,6 +206,43 @@ if (editGame) {
     }
   }
 
+  function reorderLetters() {
+   let oldLetters = ``;
+    myLetters.forEach(letter => {
+      oldLetters += letter
+    })
+
+    let newLetters = ``;
+    document.querySelectorAll(".my-tile").forEach( tile => {
+      newLetters += tile.querySelector(".my-letter").innerHTML;
+    })
+
+    const newPlayers = players.replace(oldLetters, newLetters);
+    // console.log("oldLetters " + oldLetters);
+    // console.log("newLetters " + newLetters);
+    // fetchPatch (newPlayers);
+
+
+
+  }
+
+  function fetchPatch (newPlayers) {
+    // const obj = Object.create(newPlayers);
+    const id = document.querySelector("#dashboard").dataset.id;
+    console.log(" newPlayers " + newPlayers);
+    // console.log(" newPlayers " + newPlayers.slice(1, newPlayers.length-1));
+    fetch(`/games/${id}/edit`, {
+    method: 'PATCH',
+    body: JSON.stringify({
+    players: newPlayers
+    }),
+    headers: {
+    "Content-type": "application/json; charset=UTF-8"
+    }
+    })
+    .then(response => response.json())
+    .then(json => console.log(json))
+  }
 
   if (boardDiv) {
     $("#exampleModalCenter").on('shown.bs.modal', function(){
@@ -295,9 +335,9 @@ function setupBoard() {
     boardDiv.insertAdjacentHTML('beforeend', boardHtml);
 
     setTimeout(function() {
-    document.querySelector("#board").classList.remove("board-hide");
-    document.querySelector("#dashboard").classList.remove("dashboard-hide");
-        document.querySelectorAll('.tile-hide').forEach(tile => {
+      document.querySelector("#board").classList.remove("board-hide");
+      document.querySelector("#dashboard").classList.remove("dashboard-hide");
+      document.querySelectorAll('.tile-hide').forEach(tile => {
   tile.classList.add("tile-show");
 
     }, 500);
@@ -359,6 +399,8 @@ function setupBoard() {
 }
 
 const pickLetter = () => {   // using keyboard
+    const thisUser = document.querySelector(".this-user");
+    if (thisUser.parentNode.classList.contains("player-selected")) {
   if (submitEscape === false ) {  // replace joker dialogue not visible
     switch (event.key) {
       case "Enter":
@@ -377,22 +419,31 @@ const pickLetter = () => {   // using keyboard
       } else {
       if (tile != selectedLetter && !tile.classList.contains("letter-disabled")) {
         if (selectedLetter) selectedLetter.classList.remove("letter-selected");
-        tile.classList.add("letter-selected");
-        selectedLetter =  tile;
-      } else {
-        tile.classList.remove("letter-selected");
-        selectedLetter =  null;
+          tile.classList.add("letter-selected");
+          selectedLetter =  tile;
+        } else {
+          tile.classList.remove("letter-selected");
+          selectedLetter =  null;
+        }
       }
-    }
 
       }
   });
 
   } else { // replace joker dialogue visible
-  if (event.key === "Enter") {
-    // commitLetters();
-  };
+    if (event.key === "Enter") {
+      // commitLetters();
+    }
+  }
+  } else {
+      // alert ("It's not your turn!");
+      myLetters.forEach(ltr => {
+        if (ltr.toLowerCase() === event.key.toLowerCase()) {
+          const currentUserName = document.querySelectorAll(".name-score")[current].querySelector(".name").innerHTML;
+          alert (`It's ${currentUserName}'s turn. You can rearrange your tiles while you wait.`);
 
+        }
+      });
   }
 }
 
@@ -405,7 +456,7 @@ const pickLetter = () => {   // using keyboard
     } else {
 
     }
-      showMyLettersInit();
+    showMyLettersInit();
     document.querySelector('#cancel-btn').addEventListener('click', restoreLetters);
     document.querySelector('#commit-btn').addEventListener('click', commitLetters);
     document.querySelector('#mark-btn').addEventListener('click', markLetters);
@@ -1008,7 +1059,7 @@ console.log('jokers ' +  jokers)
 
         // const playerAddQuotes = JSON.stringify(player);
         const obj = new Object(playerAddQuotes);
-        // console.log('playerAddQuotes ' + playerAddQuotes);
+        console.log('oldPlayers ' + oldPlayers);
         newPlayersStr += playerAddQuotes;
       });
 
@@ -1116,7 +1167,7 @@ async function searchDictionary (keyword)  {
 
     } else {
       const currentUserName = document.querySelectorAll(".name-score")[current].querySelector(".name").innerHTML
-      alert (`It's ${currentUserName}'s turn.`);
+      alert (`It's ${currentUserName}'s turn. You can rearrange your tiles while you wait.`);
     }
   }
 

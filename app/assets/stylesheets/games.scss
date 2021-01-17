@@ -20,9 +20,15 @@
 
 .new-page-identifier {
   background-color: #e0e0d1 !important;
+  transform: translateX(-350px);
+}
+.new-page-identifier-show {
+  transform: translateX(0px);
+  transition: transform 2.7s ease-out;
 }
 
 html {
+  background-color: #e0e0d1;
 }
 
 body {
@@ -115,23 +121,26 @@ width: 0px;
   // background-image: image-url('../../assets/images/star.svg');
 }
 
-.your-games {
-  background-color: hsl(210, 41, 21);
-  margin-top: 0px;
-  width: 100%;
-  transform: translateX(0px);
-  transition: all 1.0s ease-out;
-}
-
 
 .your-games-hide {
+  transform: translateX(1200px);
+  transition: transform 1.0s ease-in;
+
+}
+
+.your-games-show{
+  transform: translateX(0px);
+  transition: transform 1.0s ease-out;
+}
+
+
+#your-games{
   background-color: hsl(210, 41, 21);
   margin-top: 0px;
   width: 100%;
-  transform: translateX(1600px);
-  transition: all 1.0s ease-out;
-
 }
+
+
 
 a {
 
@@ -158,7 +167,7 @@ a {
   animation-fill-mode: forwards;
 }
 .animate-fade {
-  animation: fade 1.3s ease;
+  animation: fade .9s ease;
   animation-fill-mode: forwards;
 }
 @keyframes slide-down {
@@ -388,7 +397,8 @@ h5 {
   grid-template-rows: 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67%
    6.67% 6.67% 6.67% 6.67% 6.67%;
   padding-top: 8px;
-  padding-right: 20px;
+  padding-right: 12px;
+  padding-left: 4px;
   // padding-top: 8px;
 justify-items: center;
   background-color: hsl(60, 20, 85);
