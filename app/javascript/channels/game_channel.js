@@ -11,13 +11,13 @@ const initGameCable = () => {
   }
 
   function subscribe(id) {
-    consumer.subscriptions.create({ channel: "GameChannel", id: id }, {
-    received(data) {
-      console.log("data" + data);
+    // consumer.subscriptions.create({ channel: "GameChannel", id: id }, {
+    // received(data) {
+    //   console.log("data" + data);
       // messagesContainer.style.visible = "hidden";
       // messagesContainer.insertAdjacentHTML('beforeend', data.replaceAll("&#39;", "'"));
-      }
-    });
+    //   }
+    // });
 
   }
 

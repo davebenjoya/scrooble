@@ -1,6 +1,11 @@
 // Place all the styles related to the games controller here.
-// They will 6.67%matically be included in application.css.
+// They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+
+@import 'config/colors';
+
+
 
 #messages {
   visibility: hidden;
@@ -8,35 +13,49 @@
 }
 
 .edit-page-identifier {
-  background-color: #e0e0d1;
+  background-color: $roman-silver;
+  display: flex;
+  @media only screen and (max-width: 984px) {
+    background-color: $indian-yellow;
+    flex-direction: column;
+  }
 
 }
 
+.bg {
+  background-color: $roman-silver;
+
+}
+
+
+
 :root {
-  --blueish: blue;
-  background-color: #e0e0d1;
+  // background-color: $roman-silver;
   --fade-delay: 0;
 }
 
 .new-page-identifier {
-  background-color: #e0e0d1 !important;
-  transform: translateX(-350px);
+  opacity: 0;
+  transition: opacity 0.7s ease-out;
 }
 .new-page-identifier-show {
-  transform: translateX(0px);
-  transition: transform 2.7s ease-out;
+  opacity: 1;
+  transition: opacity 0.7s ease-out;
 }
 
 html {
-  background-color: #e0e0d1;
+  // background-color: #e0e0d1;
+  // background-color: $roman-silver;
+  // background-color: hsl(60, 20, 85);
 }
 
 body {
-  background-color: #e0e0d1;
+  // background-color: $roman-silver;
+  // background-color: #e0e0d1;
 }
 
 .bg {
-  background-color: #e0e0d1;
+  background-color: transparent;
   height: 100%;
   width: 100%;
 
@@ -49,6 +68,11 @@ body {
   position: relative;
   bottom:-8px;
   opacity: .3;
+  @media screen and (max-width: 432px)  {
+    height:30px;
+  font-size: 8px;
+
+  }
 }
 
 .delete-btn {
@@ -65,7 +89,8 @@ width: 0px;
 
 .stored-game {
   height: 70px;
-  color: hsl(20, 20, 40);
+  // color: hsl(20, 20, 40);
+  color: $redwood;
   font-size: 16px;
   font-family: 'Lato', sans-serif;
   font-weight: bolder;
@@ -107,11 +132,14 @@ width: 0px;
   font-family: 'Lato', sans-serif;
   font-weight: bolder;
   letter-spacing: 0.4px;
-  color: white;
+  color: $roman-silver;
 }
 
 .center-tile {
-  background-color: hsl(118, 40, 80) !important;
+  // background-color: hsl(118, 40, 80) !important;
+  background-color: $alice-blue !important;
+  border: 1.5px solid $sunray !important;
+
   // background-image: image-url('../../assets/images/star.svg');
 }
 
@@ -123,19 +151,25 @@ width: 0px;
 
 
 .your-games-hide {
-  transform: translateX(1200px);
-  transition: transform 1.0s ease-in;
+  // transform: translateX(1200px);
+  // transition: transform 1.0s ease-in;
+  opacity: 0;
+  transition: opacity 0.4s ease-out;
+  background-color: transparent;
 
 }
 
 .your-games-show{
-  transform: translateX(0px);
-  transition: transform 1.0s ease-out;
+  opacity: 1;
+  transition: opacity 0.4s ease-in;
+  background-color: transparent;
+  // transform: translateX(0px);
+  // transition: transform 1.0s ease-out;
 }
 
 
 #your-games{
-  background-color: hsl(210, 41, 21);
+  background-color: transparent;
   margin-top: 0px;
   width: 100%;
 }
@@ -219,7 +253,7 @@ a {
 }
 
 .plus-sign {
-  color: hsl(10, 40, 70);
+  color: $space-cadet;
   text-shadow: 1px 2px 2px hsl(20, 15, 50);
 }
 
@@ -249,7 +283,7 @@ a {
   margin: 0px;
   padding: 4px 8px;
   padding-bottom: 0px;
-  background-color:  hsl(210, 41, 21);
+  background-color:  $space-cadet;
 }
 
 #navbarr a  {
@@ -265,15 +299,15 @@ a {
 .this-user {
   font-weight: bolder;
   // font-size: larger;
-  color:  hsl(210, 41, 31) ;
+  color:  $space-cadet;
 }
 
 .pickem {
-  font-size: 16px;
+  font-size: 18px;
   margin-top: 8px;
   font-weight: bold;
-  color:  hsl(200, 60, 60);
-  margin-bottom: 0px;
+  color:  $alice-blue;
+  margin-bottom: 3px;
 }
 
 .opponent {
@@ -291,12 +325,12 @@ input {
   // border: 1px solid hsl(50, 87, 46);
   margin: 8px 0;
   padding: 0 8px;
-  background-color: hsl(200, 60, 60);
-  color: hsl(50, 94, 94);
+  background-color: $space-cadet;
+  color: $alice-blue;
 }
 #new-game-btn:hover {
   background-color: hsl(200, 60, 50);
-  color: hsl(50, 94, 64);
+  color: $indian-yellow;
 }
 
 // input [type ="checkbox"] {
@@ -336,6 +370,8 @@ a:link, #navbar a:visited, #cnavbar a:hover, #navbar a:active,  {
   // color: hsl(90, 85, 40);
   color: black;
 
+  background-color: transparent;
+  // background-color: hsl(60, 20, 85);
   font-family: 'Grandstander', display;
 }
 
@@ -345,7 +381,8 @@ a:link, #navbar a:visited, #cnavbar a:hover, #navbar a:active,  {
 
 .cards {
   display: grid;
-  grid-template-columns: 25% 25% 25% 25%
+  grid-template-columns: 25% 25% 25% 25%;
+  background-color: transparent;
 }
 
 .card {
@@ -388,10 +425,14 @@ h5 {
   color: hsl(200, 120, 30);
 }
 
+turbo_frame_tag {
+  padding: 0px;
+}
+
 #board {
-  width: 630px;
-  height: 618px;
   display: grid;
+  height: 480px;
+  width: 840px;
   grid-template-columns: 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67%
    6.67% 6.67% 6.67% 6.67% 6.67%;
   grid-template-rows: 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67%
@@ -400,8 +441,36 @@ h5 {
   padding-right: 12px;
   padding-left: 4px;
   // padding-top: 8px;
-justify-items: center;
-  background-color: hsl(60, 20, 85);
+  justify-items: center;
+  background-color: transparent;
+
+  @media screen and (max-width: 600px)  {
+    height:400px;
+  }
+
+  // background-color: hsl(60, 20, 85);
+  @media screen and (max-width: 984px){
+    position:relative;
+    // y:8px;
+  // displa y: grid;
+
+  }
+
+  // @media screen and (max-width: 432px)  {
+  //   // height:200px;
+  //   height: 480px !important;
+  // }
+ @media screen and (min-width: 432px)  {
+    // height:200px;
+    height: 600px !important;
+    width: 100%;
+  }
+
+@media screen and (min-width: 984px)  {
+    // height:200px;
+    // height: 600px !important;
+    width: 840px;
+  }
 
 }
 
@@ -423,7 +492,7 @@ justify-items: center;
   padding:0px;
   width: 100%;
   height: 100%;
-  background-color: hsl(60, 20, 85);
+  background-color: $roman-silver;
   z-index: 100;
   display:fixed;
 }
@@ -433,8 +502,15 @@ justify-items: center;
   padding-left: 12px;
   display: flex;
   flex-direction: column;
+    width: 16%;
   justify-content: flex-start;
-  background-color: hsl(60, 20, 85);
+  background-color: transparent;
+  @media only screen and (max-width: 984px) {
+    // background-color: $indian-yellow;
+    flex-direction: row;
+    width: 100%;
+    display: block;
+  }
 }
 
 .dashboard {
@@ -457,7 +533,12 @@ justify-items: center;
   margin: 0;
 
   padding: 0;
-  padding-top: 8px;
+  margin-top: 16px;
+@media only screen and (max-width: 984px) {
+
+width: 50%;
+
+}
 }
 
 .name-score {
@@ -467,6 +548,7 @@ justify-items: center;
   font-size: 12px;
   transition: all .3s ease-in;
   background-color: transparent;
+  min-width: 150px;
 }
 
 .name {
@@ -478,7 +560,7 @@ justify-items: center;
 }
 
 .player-selected {
-  background-color: hsl(50, 87, 46);
+  background-color: $sunray;
   font-weight: bold;
   color:  hsl(210, 41, 21)  !important;
   transition: all .3s ease-in;
@@ -500,8 +582,19 @@ justify-items: center;
   width:90%;
   // height:100%;
   box-shadow: 2px 2px 3px hsla(100, 15, 15, 0.4);
-    opacity: 1;
-    transition: opacity 600ms ease-in;
+  opacity: 1;
+  transition: opacity 600ms ease-in;
+  @media screen and (max-width: 600px)  {
+    height:26px;
+    margin:0;
+    padding:0;
+  // font-size: 8px;
+
+  }
+   @media screen and (max-width: 432px)  {
+    // height:200px;
+  margin-top:0 !important;
+  }
 }
 
 .tile-hide {
@@ -520,22 +613,22 @@ justify-items: center;
 
 
 .double-word {
-  background-color: hsl(18, 15, 82);
+  background-color: $champagne-pink;
   // border: 1px solid hsl(0, 80, 40);
 }
 
 .triple-word {
-  background-color: hsl(18, 20, 70);
+  background-color: $tuscany;
   // border: 1px solid hsl(18, 80, 40);
 }
 
 .double-letter {
-  background-color: hsl(200, 8, 83);
+  background-color: $alice-blue;
   // border: 1px solid hsl(18, 80, 40);
 }
 
 .triple-letter {
-  background-color: hsl(200, 20, 70);
+  background-color: $periwinkle-crayola;
   // border: 1px solid hsl(18, 80, 40);
 }
 .my-tile {
@@ -558,6 +651,15 @@ justify-items: center;
   padding-left: 16px;
   box-shadow: 1px 1px 2px hsla(100, 15, 15, 0.4);
   transition: all .4s ease-in;
+
+  @media screen and (max-width: 600px)  {
+    width:40px;
+    height:40px;
+    margin:0 4px;
+    padding:4px;
+  // font-size: 8px;
+
+  }
 }
 
 .letter {
@@ -575,6 +677,11 @@ justify-items: center;
   // padding-top: 6px;
   // transition: all .3s ease-in;
 pointer-events: none;
+  @media screen and (max-width: 600px)  {
+    // height:30px;
+  font-size: 16px;
+
+  }
 }
 
 .letter-selected {
@@ -588,10 +695,18 @@ pointer-events: none;
 }
 
 .letter-provisional {
-
-  color: hsl(195, 180, 45);
+  color: $india-green;
+  // color: hsl(195, 180, 45);
 }
 
+#scores-buttons {
+  margin: 0;
+  padding: 0;
+  @media only screen and (max-width: 984px) {
+    width: 33%;
+    display:block;
+  }
+}
 
 .letter-disabled {
   opacity: .2;
@@ -599,6 +714,13 @@ pointer-events: none;
 
 #buttons {
   width: 100%;
+
+@media only screen and (max-width: 984px) {
+
+width: 20%;
+display:inline;
+
+}
 }
 .mark-btn {
   width: 30%;
@@ -661,12 +783,20 @@ pointer-events: none;
 #my-letters {
 display: flex;
 text-align: center;
-justify-content: flex-start;
+justify-content: center;
 flex-direction: column;
 align-items: center;
 margin: 8px 48px;
 margin-top: 8px;
 padding: 0;
+
+@media only screen and (max-width: 984px) {
+
+flex-direction: row;
+// display: inline;
+
+
+}
 // border-radius: 4px;
 //   background-color: hsl(60, 17, 93);
 }
@@ -689,5 +819,13 @@ font-size: 32px;
   justify-content: space-around;
   margin: 16px 4px;
   text-align: center;
+
+@media only screen and (max-width: 984px) {
+
+
+  // width: 30%;
+  justify-content: flex-start;
+  display: inline-block;
+}
 }
 

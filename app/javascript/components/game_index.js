@@ -5,6 +5,7 @@ const gameIndex = ()  => {
     setupPageAnimations();
     document.querySelectorAll(".stored-game").forEach(game => {
       const players = game.dataset.players.replace("[", "").replace("]", "").replaceAll(/\},\s*\{/g, "@@@");
+
       const playersArr = players.split("@@@");
       let current = parseInt(game.querySelector(".players").dataset.current);
       const staggeredArrayBegin = playersArr.slice(current);
@@ -59,8 +60,8 @@ const gameIndex = ()  => {
       // game.querySelectorAll(current)
       // console.log('alertPlayer' + alertPlayer);
       const lst = playerList.replace(/,\s*$/, "").replaceAll(", ,", ",");
-      game.querySelector(".players").insertAdjacentHTML('beforeend', lst);
-      game.querySelector(".players").insertAdjacentHTML('beforeend', alertPlayer);
+      // game.querySelector(".players").insertAdjacentHTML('beforeend', lst);
+      // game.querySelector(".players").insertAdjacentHTML('beforeend', alertPlayer);
     });
     setTimeout (function () {
       document.querySelector("#your-games").classList.add('your-games-show');
