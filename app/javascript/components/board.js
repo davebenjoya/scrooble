@@ -15,10 +15,13 @@ const board = () => {
   let jokers = '';
   let jokerTile  = null;
 
-  let current =  ``;
-  let form  = document.querySelector("form");
+  let current =  0;
+  let newGameForm = document.querySelector("#new-game");
+  let newPlayerForm =  document.querySelector("#new-player");
+  let gameForm  = document.querySelector("#update-game");
+  let playerForm  = document.querySelector("#update-player");
   let playersArray;
-  let players = ``;
+  let players = [];
   let realWord = true;
 
   let boardHasLetters = false;
@@ -29,8 +32,8 @@ const board = () => {
   let selectedLetter = null;
   let allLetters = [];
   let buffer = [];
-  let currentPlayer = "Dave";
-  // let form;
+  let currentPlayer = "Dooave";
+  // let gameForm;
   let addedScore = 0;
   let remainingLetters = [];
   let titleString = '';
@@ -45,11 +48,15 @@ const board = () => {
       allLetters.push(l);
     };
   });
-remainingLetters = allLetters;
+  remainingLetters = allLetters;
 
 
 
   if (newGame){
+    setTimeout( function() {
+      newGame.classList.add("new-page-identifier-show");
+    }, 200)
+    // newGame.classList.add("new-page-identifier-show")
     document.querySelector("#new-game-btn").addEventListener('click', createNewGame)
     document.addEventListener("keyup", () => {
       switch (event.key) {
@@ -62,15 +69,23 @@ remainingLetters = allLetters;
 
 
 if (editGame) {
+  currentPlayer = document.querySelector(".this-user").innerHTML
+
+          // if (current == index) {
+          //   currentPlayer = name;
+          //   playerSelected = " player-selected"  // add selected class to this player
+          // }
+
+
   const targetNode = document.querySelector("#messages");
 
   let observer = new MutationObserver(callback);
   function callback (mutations) {
-    console.log ("playersArray " + typeof playersArray);
+    console.log ("callbackplayersArray " + typeof playersArray);
     const newStr = document.querySelector("#messages").innerHTML;
-    console.log ("newStr " + newStr);
+    console.log ("callbacknewStr " + newStr);
     const newObj = new Object(newStr);
-    console.log ("newObj " + newObj);
+    console.log ("callbacknewObj " + newObj);
     playersArray = newObj;
   }
 
@@ -81,6 +96,7 @@ if (editGame) {
   };
 
   observer.observe(targetNode, observerOptions);
+
 
 }
 //////////////////////////////////////////////////////////////////////////////
@@ -108,46 +124,53 @@ if (editGame) {
     newPlayers.push(firstPlayer);
     document.querySelectorAll(".opponent").forEach( oppo => {
      if (oppo.querySelector("input").checked) {
-      const entry  =`${oppo.querySelector(".opponent-name").innerText},${oppo.querySelector(".opponent-name").dataset.email}`;
       const newPlayer = createPlayerString (oppo.querySelector(".opponent-name").innerText);
+      // console.log('newPlayer: ' + newPlayer)
 
       newPlayers.push(newPlayer);
       opponentArray.push(oppo.querySelector(".opponent-name").innerHTML)
      }
     });
+
    if (newPlayers.length > maxPlayers || newPlayers.length < 2) {
     alert ("Pick 1 – 3 opponents")
    } else {
     const newArray = Object.entries(newPlayers);
-    console.log('opponentArray ' +  Object.values(opponentArray));
-    document.querySelector("#new-opponents").value  = Object.values(opponentArray);
+    // console.log('opponentArray ' +  Object.values(opponentArray));
+    document.querySelector("#players").value  = Object.values(opponentArray);
 
-    document.querySelector("#new-players").value = `${Array.from(newPlayers)}`;
-    if (document.querySelector("#game-name").value) {
+    // document.querySelector("#players").value = `${Array.from(newPlayers)}`;
+    if (document.querySelector("#game-name").value) {  // game name field is filled out
       document.querySelector("#new-name").value = document.querySelector("#game-name").value
-    } else {
+    } else {    //  default game name
       const d = new Date();
       const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
       const mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(d);
       const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(d);
       const ho = new Intl.DateTimeFormat('en', { hour: 'numeric', hour12: false }).format(d);
-      const mi = new Intl.DateTimeFormat('en', { minute: '2-digit' }).format(d);
+      const mi = new Intl.DateTimeFormat('en', { minute: 'numeric' }).format(d);
       const wk = new Intl.DateTimeFormat('en', { weekday: 'short' }).format(d);
-      console.log(`${da}-${mo}-${ye}`);
+      // console.log(`${da}-${mo}-${ye}`);
 
       document.querySelector("#new-name").value = `${wk}, ${da} ${mo}, ${ho}:${mi}`
     }
     // document.querySelector("#new-name").value = document.querySelector("#game-name").value
-    console.log(document.querySelector("#new-name").value);
-    document.querySelector("form").submit();
+    // console.log(document.querySelector("#new-name").value);
 
+    let opponentsArray = [];
+    document.querySelectorAll(".opponent").forEach(opponent => {
+      if (opponent.querySelector("input[type=checkbox]").checked) {
+        opponentsArray.push(opponent.dataset.userid) ;
+      // document.querySelector('#new-game-id').value = opponent
+
+      }
+    })
+
+  document.querySelector('#opponents').value = opponentsArray
+    newGameForm.submit();
 
    }
   }
-
-//////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////
 
 
   function createPlayerString (name) {
@@ -159,22 +182,30 @@ if (editGame) {
       myLetters.forEach(ltr => {
         ltrStr += ltr;
       })
-    return new Object(`{'name': '${name}', 'score': '0', 'current_letters': ${ltrStr}}`)
+    return new Object(`{'name': '${name}', 'score': '0', 'current_letters': '${ltrStr}'}`)
 
   }
 
 
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
   if (editGame || showGame) {
-    players = document.querySelector("#scores").dataset.players;
+    playersArray = document.querySelectorAll(".name-score");
 
-    // console.log('document.querySelector("#dashboard").dataset.name  ' + document.querySelector("#dashboard").dataset.name)
-    const formattedStr = players.replaceAll("} {", "}@@@{")
-                                .replaceAll("},", "}@@@")
-                                .replaceAll("=>", ": ")
-                                .replaceAll(" :" , " ")
-                                .replaceAll("{:" , "{");
-    playersArray = formattedStr.split("@@@");
+    const letters = document.querySelector("#my-letters").dataset.playerLetters;
+
+    // console.log('letters ' + letters);
+    for (const letter of letters) {
+      myLetters.push(letter)
+    }
+    console.log('myLetters ' + myLetters);
+    // const formattedStr = players.replaceAll("} {", "}@@@{")
+    //                             .replaceAll("},", "}@@@")
+    //                             .replaceAll("=>", ": ")
+    //                             .replaceAll(" :" , " ")
+    //                             .replaceAll("{:" , "{");
+    // playersArray = formattedStr.split("@@@");
 
     const updateUrl = document.querySelector("#dashboard").dataset.url;
     // console.log('playersArray ' + typeof playersArray)
@@ -183,9 +214,13 @@ if (editGame) {
       // easing: "cubic-bezier(1, 0, 0, 1)",
       ghostClass: "sortable-ghost", // Class name for the drop placeholder
       chosenClass: "sortable-chosen", // Class name for the chosen item
-      dragClass: "sortable-drag"
+      dragClass: "sortable-drag",
+
+      onUpdate: function (/**Event*/evt) {
+       reorderLetters()
+      }
     })
-    current = document.querySelector("#scores").dataset.current;
+    current = parseInt(document.querySelector("#scores").dataset.current);
 
     // element = this;
 
@@ -194,15 +229,50 @@ if (editGame) {
     document.querySelector("#navbar-game").insertAdjacentHTML('afterbegin',titleString)
 
     // console.log('playersArray [0]  '+ playersArray[0])
-    showScores();
-    if (editGame) {
-      form = document.getElementById("update-game")
-      // form.addEventListener("submit", updatePlayers);
-      // form.addEventListener("submit", sendAJAX )
-
-    }
+    // showScores();
   }
 
+  function reorderLetters() {
+   let oldLetters = ``;
+    myLetters.forEach(letter => {
+      oldLetters += letter
+    })
+
+    let newLetters = ``;
+    document.querySelectorAll(".my-tile").forEach( tile => {
+      newLetters += tile.querySelector(".my-letter").innerHTML;
+    })
+
+    const newPlayers = players.replace(oldLetters, newLetters);
+    console.log("oldLetters " + oldLetters);
+    console.log("newLetters " + newLetters);
+    document.querySelectorAll(".player").forEach(player => {
+      if (player.classList.contains("this-user")) {
+        console.log("player " + player.parentNode.id)
+    // fetchReorder (player.parentNode.id, newLetters);
+
+      }
+      })
+  }
+
+  async function fetchReorder (playerId, newLetters ) {
+    // const obj = Object.create(newPlayers);
+    // const id = document.querySelector("#dashboard").dataset.id;
+    // console.log(" newPlayers " + newPlayers);
+    // console.log(" newPlayers " + newPlayers.slice(1, newPlayers.length-1));
+    await fetch(`/players/${playerId}`, {
+      credentials: 'include',
+      method: 'PATCH',
+      body: JSON.stringify({
+      player_letters: newLetters
+      }),
+      headers: {
+      "Content-type": "application/json; charset=UTF-8"
+      }
+    })
+    .then(response => response.text())
+    .then(text => console.log(text))
+  }
 
   if (boardDiv) {
     $("#exampleModalCenter").on('shown.bs.modal', function(){
@@ -232,7 +302,8 @@ if (editGame) {
           selectedLetter = null;
           submitEscape = false;
         } else {
-          form.submit();
+          playerForm.submit();
+          gameForm.submit();
         }
       });
 
@@ -295,9 +366,9 @@ function setupBoard() {
     boardDiv.insertAdjacentHTML('beforeend', boardHtml);
 
     setTimeout(function() {
-    document.querySelector("#board").classList.remove("board-hide");
-    document.querySelector("#dashboard").classList.remove("dashboard-hide");
-        document.querySelectorAll('.tile-hide').forEach(tile => {
+      document.querySelector("#board").classList.remove("board-hide");
+      document.querySelector("#dashboard").classList.remove("dashboard-hide");
+      document.querySelectorAll('.tile-hide').forEach(tile => {
   tile.classList.add("tile-show");
 
     }, 500);
@@ -359,41 +430,52 @@ function setupBoard() {
 }
 
 const pickLetter = () => {   // using keyboard
-  if (submitEscape === false ) {  // replace joker dialogue not visible
-    switch (event.key) {
-      case "Enter":
-        commitLetters();
-        break;
-      case "Escape":
-        restoreLetters();
-        break;
-      default: null;
-    };
-  const tiles = Array.from(document.querySelectorAll(".my-tile"));
-  tiles.reverse().forEach( tile => {
-    if (tile.querySelector(".my-letter").innerHTML === event.key.toUpperCase()) {
-      if (exchange) {
-        tile.classList.toggle("marked-for-exchange");
-      } else {
-      if (tile != selectedLetter && !tile.classList.contains("letter-disabled")) {
-        if (selectedLetter) selectedLetter.classList.remove("letter-selected");
-        tile.classList.add("letter-selected");
-        selectedLetter =  tile;
-      } else {
-        tile.classList.remove("letter-selected");
-        selectedLetter =  null;
-      }
-    }
+  //   const thisUser = document.querySelector(".this-user");
+  //   if (thisUser.parentNode.classList.contains("player-selected")) {
+  // if (submitEscape === false ) {  // replace joker dialogue not visible
+  //   switch (event.key) {
+  //     case "Enter":
+  //       commitLetters();
+  //       break;
+  //     case "Escape":
+  //       restoreLetters();
+  //       break;
+  //     default: null;
+  //   };
+  // const tiles = Array.from(document.querySelectorAll(".my-tile"));
+  // tiles.reverse().forEach( tile => {
+  //   if (tile.querySelector(".my-letter").innerHTML === event.key.toUpperCase()) {
+  //     if (exchange) {
+  //       tile.classList.toggle("marked-for-exchange");
+  //     } else {
+  //     if (tile != selectedLetter && !tile.classList.contains("letter-disabled")) {
+  //       if (selectedLetter) selectedLetter.classList.remove("letter-selected");
+  //         tile.classList.add("letter-selected");
+  //         selectedLetter =  tile;
+  //       } else {
+  //         tile.classList.remove("letter-selected");
+  //         selectedLetter =  null;
+  //       }
+  //     }
 
-      }
-  });
+  //     }
+  // });
 
-  } else { // replace joker dialogue visible
-  if (event.key === "Enter") {
-    // commitLetters();
-  };
+  // } else { // replace joker dialogue visible
+  //   if (event.key === "Enter") {
+  //     // commitLetters();
+  //   }
+  // }
+  // } else {
+  //     // alert ("It's not your turn!");
+  //     myLetters.forEach(ltr => {
+  //       if (ltr.toLowerCase() === event.key.toLowerCase()) {
+  //         const currentUserName = document.querySelectorAll(".name-score")[current].querySelector(".name").innerHTML;
+  //         alert (`It's ${currentUserName}'s turn. You can rearrange your tiles while you wait.`);
 
-  }
+  //       }
+  //     });
+  // }
 }
 
 
@@ -405,7 +487,7 @@ const pickLetter = () => {   // using keyboard
     } else {
 
     }
-      showMyLettersInit();
+    showMyLettersInit();
     document.querySelector('#cancel-btn').addEventListener('click', restoreLetters);
     document.querySelector('#commit-btn').addEventListener('click', commitLetters);
     document.querySelector('#mark-btn').addEventListener('click', markLetters);
@@ -474,10 +556,6 @@ const pickLetter = () => {   // using keyboard
       }
 
        if (editGame) {
-          if (current == index) {
-            currentPlayer = name;
-            playerSelected = " player-selected"  // add selected class to this player
-          }
        }
 
        const nameScoreHtml = `<div class="name-score${playerSelected}"><div class="name${thisUser}">${name}</div><div class="score">${parseInt(score)}</div></div>`
@@ -641,7 +719,7 @@ const pickLetter = () => {   // using keyboard
       appendMyLetters(numToReplace);
 
       populateRailsForm();
-      form.submit()
+      gameForm.submit()
 
       // showMyLettersInit();
        // for (let x of myLetters) {
@@ -962,9 +1040,6 @@ const findVerticallWord = (firstProvisional) => {
 }
 
 function populateRailsForm() {
-console.log('jokers ' +  jokers)
-
-       document.querySelector("#update-jokers").value = jokers;
 
       let newGrid = ""
       document.querySelectorAll('.letter').forEach(ltr => {
@@ -976,52 +1051,35 @@ console.log('jokers ' +  jokers)
         newGrid += " ";
       });
 
+      console.log(typeof playersArray + " playersArray " + playersArray)
       current ++
       if (current > playersArray.length - 1) current = 0
 
-      const me = playersArray.filter(player => player.includes(document.querySelector('#scores').dataset.username.trim()));
-      const meIndex = playersArray.indexOf(me.toString());
-      const oldLetters = me[0].split(",")[2].replaceAll(/current_letters:|\"|\}/g, "" ).replace(/'current_letters': /, "").trim();
-      // const oldScore =  parseInt(me[0].split(",")[1].replaceAll(/score:|\"/g, "" ));
-      const oldScore =  me[0].split(",")[1].replaceAll(/\'score\':|\"/g, "" ).replaceAll(/\'/g, "" );
-      const newScore = parseInt(oldScore.replaceAll("'", "")) + addedScore;
 
-      let newLetters = "'";
+      let newLetters = "'";  // put in single quotes
       myLetters.forEach(letter => {
         newLetters += letter
       })
       newLetters += "'"
 
-      const newMe =  Object.values(me)[0].replace(oldScore.toString().trim(), newScore.toString().trim()).replace(oldLetters, newLetters);
-      playersArray[meIndex] = newMe;
-      const oldPlayers = players.replaceAll(":", "").replaceAll(/=>/g, ": ");
 
-      let newPlayersStr = "";
+    const thisUser = document.querySelector(".this-user");
+      const newScore = parseInt(thisUser.parentNode.querySelector('.score').innerHTML) + addedScore;
 
-      playersArray.forEach(player => {
-      console.log('player  ' + player)
-        const playerAddQuotes = player.toString()
-        .replace("name","'name'")
-        .replace("score","'score'")
-        .replace("current_letters","'current_letters'")
-        .replaceAll(/\'\'+/g, "'");
 
-        // const playerAddQuotes = JSON.stringify(player);
-        const obj = new Object(playerAddQuotes);
-        // console.log('playerAddQuotes ' + playerAddQuotes);
-        newPlayersStr += playerAddQuotes;
-      });
 
-      // newPlayersStr += "]"
+      //  PLAYER FORM (this player)
+      document.querySelector('#update-letters').value = newLetters;
+      console.log (" new score " + newScore);
+      document.querySelector('#update-score').value = newScore;
+      //  GAME FORM
 
-      const newPlayers = newPlayersStr.replaceAll("}{", "}, {").replaceAll(/\'\'+/g, "'").replaceAll( /\"/g, "'");
-      console.log('newPlayers ' +  newPlayers);
-      document.querySelector('#update-players').value = newPlayers;
+
+
+      console.log(typeof current + " current " + current)
       document.querySelector('#update-grid').value = newGrid;
       document.querySelector('#update-current').value = current;
-
-
-
+      document.querySelector('#update-jokers').value = jokers;
 
 }
 
@@ -1115,8 +1173,8 @@ async function searchDictionary (keyword)  {
       }
 
     } else {
-      const currentUserName = document.querySelectorAll(".name-score")[current].querySelector(".name").innerHTML
-      alert (`It's ${currentUserName}'s turn.`);
+      const currentUserName = document.querySelectorAll(".name-score")[current].querySelector(".player").innerHTML
+      alert (`It's ${currentUserName}'s turn. You can rearrange your tiles while you wait.`);
     }
   }
 

@@ -1,5 +1,5 @@
 <div class="bg">
-<div id="your-games" class="px-4 pb-3 pt-1 your-games-hide your-games" data-animate-out="animate-slide-right" data-username= "<%= current_user.username %>">
+<div id="your-games" class="px-4 pb-3 pt-1 your-games-hide" data-animate-out="animate-slide-right" data-username= "<%= current_user.username %>">
 
 
 
@@ -12,26 +12,48 @@
 
 
 
-<% @games.each_with_index do  | game, index | %>
+    <% @games.each_with_index do  | game, index | %>
+      <% player = Player.find_by(user_id: current_user.id) %>
+      <% if player.game_id == game.id %>
       <% status = game.completed ? "Completed" : "In progress" %>
       <% if game.completed %>
         <%= link_to game_path(game) do %>
           <div class="card m-2 px-3 py-2 d-flex flex-column justify-space-between stored-game" data-players="#{game.players}" >
             <div><%= game.name %></div>
-            <div class="players">  </div>
+              <div class="players">
+                <%#= Player.all %>
+                <%# players = Player.where(user_id == @game.id) %>
+                <%# players.each do | player | %>
+                  <%#= player.username %>
+                <%# end %>
+              </div>
             <div class="status"> <%= status %></div>
            </div>
          </div>
         <% end %>
       <% else %>
-
         <%= link_to edit_game_path(game) do %>
           <div class="card m-2 px-3 py-2 d-flex flex-column justify-space-between stored-game" data-players="<%= game.players %>" >
             <div><%= game.name %></div>
-            <div class="players" data-current="<%= game.current_player %>"></div>
+            <div class="players" data-current="<%= game.current_player %>">
+              <% displayName = "" %>
+                <% players  = Player.where(game_id: game.id) %>
+                <% players.each_with_index do | player, index | %>
+                  <% displayName = player.user.username %>
+                  <% if player.user == current_user %>
+                  <% displayName = "You"  %>
+                  <% end %>
+                  <% if index < players.length - 1 %>
+                    <%= displayName %>,
+                    <% else %>
+                    <%= displayName %>
+                  <% end %>
+                <% end %>
+              </div>
             <div class="status">Updated <%= game.updated_at.strftime("%b %d, %Y %-I:%M%p") %></div>
            </div>
         <% end %>
+      <% end %>
       <% end %>
       <% end %>
   </div>

@@ -5,7 +5,7 @@ class UserMailer < ApplicationMailer
   #
   #   en.user_mailer.invitation.subject
   #
-  def invitation(user, sender, game, adverb)
+  def invitation(user, sender, game, opponents, adverb)
     file = File.read("public/random.json")
     adverbs = JSON.parse(file).values[0].split(",")
     greetings = JSON.parse(file).values[1].split(",")
@@ -21,7 +21,7 @@ class UserMailer < ApplicationMailer
     @user = user
     @url = "/games/#{game.id}/edit"
     @others = []
-    game.opponents.split(",").each do |opponent|
+    opponents.each do |opponent|
       if opponent != @user[0].username
         @others << opponent
       end

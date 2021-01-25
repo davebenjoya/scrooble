@@ -1,10 +1,11 @@
 const gameIndex = ()  => {
-  const yourGames = document.querySelector(".your-games");
+  const yourGames = document.querySelector("#your-games");
 
   if (yourGames) {
     setupPageAnimations();
     document.querySelectorAll(".stored-game").forEach(game => {
       const players = game.dataset.players.replace("[", "").replace("]", "").replaceAll(/\},\s*\{/g, "@@@");
+
       const playersArr = players.split("@@@");
       let current = parseInt(game.querySelector(".players").dataset.current);
       const staggeredArrayBegin = playersArr.slice(current);
@@ -21,7 +22,7 @@ const gameIndex = ()  => {
         .replaceAll(":", "").replaceAll(/\'/g, "")
         .replaceAll(/\"/g, "").replaceAll("=>", "").trim();
         // console.log('current user ' + current_user);
-        if (name === document.querySelector(".your-games").dataset.username) {
+        if (name === document.querySelector("#your-games").dataset.username) {
           name = "You, "
           switch (index) {
             case 0:
@@ -59,13 +60,14 @@ const gameIndex = ()  => {
       // game.querySelectorAll(current)
       // console.log('alertPlayer' + alertPlayer);
       const lst = playerList.replace(/,\s*$/, "").replaceAll(", ,", ",");
-      game.querySelector(".players").insertAdjacentHTML('beforeend', lst);
-      game.querySelector(".players").insertAdjacentHTML('beforeend', alertPlayer);
+      // game.querySelector(".players").insertAdjacentHTML('beforeend', lst);
+      // game.querySelector(".players").insertAdjacentHTML('beforeend', alertPlayer);
     });
     setTimeout (function () {
-      document.querySelector("#your-games").classList.remove('your-games-hide');
+      document.querySelector("#your-games").classList.add('your-games-show');
+      console.log("your games div " + document.querySelector("#your-games").classList)
 
-    }, 1000)
+    }, 100)
   }
 
 
@@ -79,7 +81,6 @@ const gameIndex = ()  => {
 
 
   $(document).on('turbolinks:before-visit', e => {
-    console.log('eeeeeeeee  ' + e.target);
     // Prevent an infinite loop
     if (!_isAnimating) {
 
