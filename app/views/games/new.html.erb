@@ -5,29 +5,23 @@
   <div id="players" data-username = <%= current_user.username %>>
       <% @users.each do | user | %>
       <% if user.username != current_user.username %>
-      <div class="opponent d-flex justify-content-between">
+      <div class="opponent d-flex justify-content-between" data-userid = <%= user.id %>>
         <div class="opponent-name" data-email=<%= user.email %>><%= user.username %></div>
         <div><input type="checkbox"></div>
       </div>
       <% end %>
     <% end %>
     <button id="new-game-btn">Start New Game</button>
-
   <% new_grid  = "_ " * 225 %>
 
-   <%= form_for @game do |f| %>
-      <%=f.hidden_field :name, value:'A game', id:'new-name' %>
-      <%=f.hidden_field :completed, value:false, id:'new-completed' %>
-      <%=f.hidden_field :current_player, value:0, id:'new-current' %>
-      <%=f.hidden_field :players, value: [
-                               { 'name': 'Dave', 'score': '52', 'current_letters': 'RXTFOEB' },
-                               { 'name': 'Deike', 'score': '62', 'current_letters': 'LTAUWVQ' },
-                               { 'name': 'Luna', 'score': '82', 'current_letters': 'ZHGNIOC' },
-                               { 'name': 'Ed', 'score': '79', 'current_letters': 'USYKTER' }
-                              ], id:'new-players' %>
-       <%=f.hidden_field :letter_grid, value:"#{new_grid}", id:'new-grid' %>
-       <%=f.hidden_field :opponents, value:"a, b", id:'new-opponents' %>
-       <%#= f.submit "Commit", class: "btn-sm btn-warning", id: "create-btn" %>
-      <% end %>
+  <%= form_with(model: @game, id: 'new-game', method:'POST', action: games_path) do |f| %>
+    <%#= f.hidden_field :players, id:"players" %>
+    <%=f.hidden_field :name, value:'A game', id:'new-name' %>
+    <%=f.hidden_field :completed, value:false, id:'new-completed' %>
+    <%=f.hidden_field :current_player, value:0, id:'new-current' %>
+    <%=f.hidden_field :letter_grid, value:"#{new_grid}", id:'new-grid' %>
+    <%=f.hidden_field :opponents, value:[], id:'opponents' %>
+    <%#= f.check_box :opponents, @users %>
+  <% end %>
 
 </div>

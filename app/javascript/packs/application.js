@@ -4,11 +4,11 @@
 // that code so it'll be compiled.
 
 require("@rails/ujs").start()
-require("turbolinks").start()
-require("@rails/activestorage").start()
+// require("@rails/activestorage").start()
 require("channels")
 require("bootstrap")
 require("controllers")
+require("@hotwired/turbo-rails")
 
 import "../../assets/stylesheets/application";
 
@@ -31,7 +31,8 @@ document.addEventListener('turbolinks:load', (ev) => {
 
 });
 
-document.addEventListener("turbolinks:load", function() {
+document.addEventListener("turbo:load", function() {
+  // console.log ('it works!');
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
         $('[data-toggle="popover"]').popover()

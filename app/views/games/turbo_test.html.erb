@@ -1,0 +1,16 @@
+<body>
+  <div id="navigation">Links targeting the entire page</div>
+
+  <turbo-frame id="message_1">
+    <h1>My message title</h1>
+    <p>My message content</p>
+    <a href="/messages/1/edit">Edit this message</a>
+  </turbo-frame>
+
+  <turbo-frame id="comments">
+    <div id="comment_1">One comment</div>
+    <div id="comment_2">Two comments</div>
+
+    <form action="/messages/comments">...</form>
+  </turbo-frame>
+</body>

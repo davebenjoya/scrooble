@@ -1,0 +1,4 @@
+  <%= form_with(model: @player, id: "new-player", action: new_player_path(@game)) do |f| %>
+    <%=f.hidden_field :user, value:1, id:'new-user-ref' %>
+    <%=f.hidden_field :game, value:1, id:'new-game-ref' %>
+  <% end %>
