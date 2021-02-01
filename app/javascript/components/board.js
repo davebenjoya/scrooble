@@ -69,6 +69,13 @@ const board = () => {
 
 
 if (editGame) {
+
+  document.querySelector("#scores").addEventListener('click', function() {
+    document.querySelector("#scores").classList.toggle("scores-show");
+    document.querySelector(".fa-arrow-circle-left").classList.toggle("arrow-btn-rotate");
+  })
+
+
   currentPlayer = document.querySelector(".this-user").innerHTML
 
           // if (current == index) {
@@ -155,7 +162,6 @@ if (editGame) {
       document.querySelector("#new-name").value = `${wk}, ${da} ${mo}, ${ho}:${mi}`
     }
     // document.querySelector("#new-name").value = document.querySelector("#game-name").value
-    // console.log(document.querySelector("#new-name").value);
 
     let opponentsArray = [];
     document.querySelectorAll(".opponent").forEach(opponent => {
@@ -165,8 +171,9 @@ if (editGame) {
 
       }
     })
+    console.log('opponentsArray ', opponentsArray);
 
-  document.querySelector('#opponents').value = opponentsArray
+  document.querySelector('#new-opponents').value = opponentsArray
     newGameForm.submit();
 
    }
@@ -175,6 +182,7 @@ if (editGame) {
 
   function createPlayerString (name) {
     console.log("remaining  " + remainingLetters);
+    console.log("name  " + name);
 
     let ltrStr = '';
     myLetters = []
@@ -192,9 +200,7 @@ if (editGame) {
 
   if (editGame || showGame) {
     playersArray = document.querySelectorAll(".name-score");
-
     const letters = document.querySelector("#my-letters").dataset.playerLetters;
-
     // console.log('letters ' + letters);
     for (const letter of letters) {
       myLetters.push(letter)
@@ -243,9 +249,9 @@ if (editGame) {
       newLetters += tile.querySelector(".my-letter").innerHTML;
     })
 
-    const newPlayers = players.replace(oldLetters, newLetters);
-    console.log("oldLetters " + oldLetters);
-    console.log("newLetters " + newLetters);
+    // const newPlayers = players.replace(oldLetters, newLetters);
+    // console.log("oldLetters " + oldLetters);
+    // console.log("newLetters " + newLetters);
     document.querySelectorAll(".player").forEach(player => {
       if (player.classList.contains("this-user")) {
         console.log("player " + player.parentNode.id)
@@ -302,7 +308,7 @@ if (editGame) {
           selectedLetter = null;
           submitEscape = false;
         } else {
-          playerForm.submit();
+          console.log ('document.querySelector("#update-score").value', document.querySelector("#update-score").value);
           gameForm.submit();
         }
       });
@@ -1071,7 +1077,7 @@ function populateRailsForm() {
       //  PLAYER FORM (this player)
       document.querySelector('#update-letters').value = newLetters;
       console.log (" new score " + newScore);
-      document.querySelector('#update-score').value = newScore;
+      document.querySelector('#update-score').value = newScore.toString();
       //  GAME FORM
 
 

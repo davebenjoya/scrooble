@@ -11,51 +11,57 @@
     <% end %>
 
 
-
     <% @games.each_with_index do  | game, index | %>
-      <% player = Player.find_by(user_id: current_user.id) %>
-      <% if player.game_id == game.id %>
-      <% status = game.completed ? "Completed" : "In progress" %>
-      <% if game.completed %>
-        <%= link_to game_path(game) do %>
-          <div class="card m-2 px-3 py-2 d-flex flex-column justify-space-between stored-game" data-players="#{game.players}" >
-            <div><%= game.name %></div>
-              <div class="players">
-                <%#= Player.all %>
-                <%# players = Player.where(user_id == @game.id) %>
-                <%# players.each do | player | %>
-                  <%#= player.username %>
-                <%# end %>
-              </div>
-            <div class="status"> <%= status %></div>
-           </div>
-         </div>
-        <% end %>
-      <% else %>
+
+      <% name_string = "" %>
+      <% my_game = false %>
+
+      <% players = Player.where(game: game) %>
+      <% players.each_with_index do | plr, ind | %>
+
+      <% if plr.user == current_user %>
+        <% my_game = true %>
+        <% name_string.concat("You") %>
+        <% else %>
+        <% name_string.concat(plr.user.username)  %>
+      <% end %>
+      <% name_string.concat(", ") if ind < players.length - 1 %>
+      <% end %>
+
+       <% if my_game == true %>
+        <% status = game.completed ? "Completed" : "In progress" %>
+
         <%= link_to edit_game_path(game) do %>
-          <div class="card m-2 px-3 py-2 d-flex flex-column justify-space-between stored-game" data-players="<%= game.players %>" >
-            <div><%= game.name %></div>
-            <div class="players" data-current="<%= game.current_player %>">
-              <% displayName = "" %>
-                <% players  = Player.where(game_id: game.id) %>
-                <% players.each_with_index do | player, index | %>
-                  <% displayName = player.user.username %>
-                  <% if player.user == current_user %>
-                  <% displayName = "You"  %>
-                  <% end %>
-                  <% if index < players.length - 1 %>
-                    <%= displayName %>,
-                    <% else %>
-                    <%= displayName %>
-                  <% end %>
-                <% end %>
-              </div>
-            <div class="status">Updated <%= game.updated_at.strftime("%b %d, %Y %-I:%M%p") %></div>
-           </div>
+
+          <div class="card m-2 px-3 py-2 d-flex flex-column justify-space-between stored-game" data-names="<%= name_string %>" >
+          <div> <%= game.name %></div>
+          <div class="players" data-current="<%= game.current_player %>">
+            <%= name_string %>
+          </div>
+          <div class="status">Updated <%= game.updated_at.strftime("%b %d, %Y %-I:%M%p") %></div>
+         </div>
+
+
+
+
         <% end %>
-      <% end %>
-      <% end %>
-      <% end %>
+        <% end %>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <% end %>
+
   </div>
 
 </div>

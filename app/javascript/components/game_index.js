@@ -1,13 +1,16 @@
+import { Turbo, cable } from "@hotwired/turbo-rails"
+
 const gameIndex = ()  => {
   const yourGames = document.querySelector("#your-games");
 
   if (yourGames) {
-    setupPageAnimations();
+    // setupPageAnimations();
     document.querySelectorAll(".stored-game").forEach(game => {
-      const players = game.dataset.players.replace("[", "").replace("]", "").replaceAll(/\},\s*\{/g, "@@@");
+      const playerNames = game.dataset.names;
 
-      const playersArr = players.split("@@@");
       let current = parseInt(game.querySelector(".players").dataset.current);
+      console.log('playerNames ' + playerNames);
+      const playersArr = playerNames.split(",");
       const staggeredArrayBegin = playersArr.slice(current);
       const staggeredArrayEnd = playersArr.slice(0, current);
       const staggeredArray = staggeredArrayBegin.concat(staggeredArrayEnd);
@@ -80,7 +83,7 @@ const gameIndex = ()  => {
   const eventsPrefixed = ['animationend', 'webkitAnimationEnd', 'oAnimationEnd', 'MSAnimationEnd'];
 
 
-  $(document).on('turbolinks:before-visit', e => {
+  $(document).on('turbo:before-visit', e => {
     // Prevent an infinite loop
     if (!_isAnimating) {
 
@@ -103,7 +106,7 @@ const gameIndex = ()  => {
 
         // Prevent default navigation
         e.preventDefault();
-
+        // console.log ("event " + event.target.data);
         // Get the new url
         const newUrl = event.data.url;
 
@@ -119,7 +122,7 @@ const gameIndex = ()  => {
         $(document).one('allAnimationEnd', () => {
           if (_isAnimating) {
             // Start the new page load
-            Turbolinks.visit(newUrl);
+            Turbo.visit(newUrl);
             // Reset variables
             elementsToAnimate = [];
             _isAnimating = false;
@@ -163,7 +166,7 @@ function runAnimations(elList, eventsPrefixed) {
     }
   }
 
-  $(document).on('turbolinks:before-cache', () => {
+  $(document).on('turbo:before-cache', () => {
   removeAnimateClasses();
 });
 

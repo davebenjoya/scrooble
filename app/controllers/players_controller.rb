@@ -10,7 +10,7 @@ class PlayersController < ApplicationController
   def update
      @player = Player.find(params[:id])
 
-    # raise`
+    # raise
     if @player.update(player_params)
 
       redirect_to edit_game_path(@player.game.id)

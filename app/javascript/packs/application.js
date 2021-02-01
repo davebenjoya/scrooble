@@ -4,7 +4,7 @@
 // that code so it'll be compiled.
 
 require("@rails/ujs").start()
-// require("@rails/activestorage").start()
+require("@rails/activestorage").start()
 require("channels")
 require("bootstrap")
 require("controllers")
@@ -25,7 +25,7 @@ import { gameIndex } from '../components/game_index'
 import { new_game } from '../components/new_game'
 import { initGameCable } from '../channels/game_channel';
 
-document.addEventListener('turbolinks:load', (ev) => {
+document.addEventListener('turbo:load', (ev) => {
 
 
 
