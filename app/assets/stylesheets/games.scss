@@ -5,7 +5,18 @@
 
 @import 'config/colors';
 
+.announce {
+  width: 50%;
+  @media only screen and (max-width: 600px) {
+  width: 90%;
+  }
+}
 
+
+
+.announce-players {
+  margin-left: 16px;
+}
 
 #messages {
   visibility: hidden;
@@ -54,6 +65,9 @@
 .new-page-identifier {
   opacity: 0;
   transition: opacity 0.7s ease-out;
+  margin-top: 16px;
+  background-color: $sunray;
+  border-radius: 8px;
 }
 .new-page-identifier-show {
   opacity: 1;
@@ -612,7 +626,8 @@ turbo_frame_tag {
   right:-6px;
   border: 1px solid $sunray;
   transition: .4s all ease-in;
-  background-color: hsla(70, 20, 50, .8);
+  background-color: hsla(220, 10, 70, .8);
+  box-shadow: 2px 2px 3px  hsla(220, 10, 10, .6);
 
 }
 .arrow-btn {

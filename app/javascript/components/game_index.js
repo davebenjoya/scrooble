@@ -5,71 +5,9 @@ const gameIndex = ()  => {
 
   if (yourGames) {
     // setupPageAnimations();
-    document.querySelectorAll(".stored-game").forEach(game => {
-      const playerNames = game.dataset.names;
 
-      let current = parseInt(game.querySelector(".players").dataset.current);
-      console.log('playerNames ' + playerNames);
-      const playersArr = playerNames.split(",");
-      const staggeredArrayBegin = playersArr.slice(current);
-      const staggeredArrayEnd = playersArr.slice(0, current);
-      const staggeredArray = staggeredArrayBegin.concat(staggeredArrayEnd);
-
-      console.log('staggeredArray ' + staggeredArray.length);
-      let playerList = ``;
-
-        let alertPlayer = "";
-      staggeredArray.forEach((player, index) => {
-        let name =  player.replace(/[\{\}]/, "")
-        .split(",")[0].replace(/name/, "")
-        .replaceAll(":", "").replaceAll(/\'/g, "")
-        .replaceAll(/\"/g, "").replaceAll("=>", "").trim();
-        // console.log('current user ' + current_user);
-        if (name === document.querySelector("#your-games").dataset.username) {
-          name = "You, "
-          switch (index) {
-            case 0:
-              alertPlayer = `<span class = "player-alert"> — It's your turn.</span>`;
-              break;
-            case 1:
-              alertPlayer = `<span class = "player-alert">  — You're up next.</span>`;
-              break;
-              default: null;
-          }
-        } else {
-          name += ", "
-        }
-        // console.log('playersArr.length  ' + playersArr);
-          // if (parseInt(game.querySelector(".players").dataset.current) === index) {
-          //   if (index === playersArr.length - 1 ) {
-          //     name = `<span class= "current-player">${name}  </span>`
-          //   } else {
-          //     name = `<span class= "current-player">${name}, </span>`
-          //   }
-          // }
-          //   if (parseInt(game.querySelector(".players").dataset.current) === index) {
-              // console.log('indefgt hfhx  ' + index);
-          //     name = `<span class= "current-player">${name}, </span>`
-          //   }
-          //   } else {
-          //   if (parseInt(game.querySelector(".players").dataset.current) === index) {
-          //     name = `<span class= "current-player">${name}  </span>`
-          //   }
-          // }
-
-        playerList += name;
-
-      });
-      // game.querySelectorAll(current)
-      // console.log('alertPlayer' + alertPlayer);
-      const lst = playerList.replace(/,\s*$/, "").replaceAll(", ,", ",");
-      // game.querySelector(".players").insertAdjacentHTML('beforeend', lst);
-      // game.querySelector(".players").insertAdjacentHTML('beforeend', alertPlayer);
-    });
-    setTimeout (function () {
+    setTimeout(function () {
       document.querySelector("#your-games").classList.add('your-games-show');
-      console.log("your games div " + document.querySelector("#your-games").classList)
-
     }, 100)
   }
 

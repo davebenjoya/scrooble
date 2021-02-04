@@ -12,10 +12,8 @@
 
 
     <% @games.each_with_index do  | game, index | %>
-
       <% name_string = "" %>
       <% my_game = false %>
-
       <% players = Player.where(game: game) %>
       <% players.each_with_index do | plr, ind | %>
 
@@ -30,9 +28,7 @@
 
        <% if my_game == true %>
         <% status = game.completed ? "Completed" : "In progress" %>
-
         <%= link_to edit_game_path(game) do %>
-
           <div class="card m-2 px-3 py-2 d-flex flex-column justify-space-between stored-game" data-names="<%= name_string %>" >
           <div> <%= game.name %></div>
           <div class="players" data-current="<%= game.current_player %>">
@@ -40,28 +36,9 @@
           </div>
           <div class="status">Updated <%= game.updated_at.strftime("%b %d, %Y %-I:%M%p") %></div>
          </div>
-
-
-
-
-        <% end %>
-        <% end %>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <% end %>
-
+      <% end %>
+    <% end %>
+  <% end %>
   </div>
 
 </div>

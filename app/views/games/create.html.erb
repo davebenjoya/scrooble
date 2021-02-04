@@ -1,2 +1,21 @@
-<h1>Games#create</h1>
-<p>Find me in app/views/games/create.html.erb</p>
+<div class="container p-4 w-50">
+  <h5>New Game Created!</h5>
+  <p>Game name: <strong><%= @game.name %></strong></p>
+  <p>An eminently fair, unbiased, disinterested and WGAF roll of the dice has produced the following order of play:</p>
+  <div class='announce-players'>
+    <% @ran_array.each_with_index do | idString, index |  %>
+      <p><span><%= index + 1 %>. </span> <%= User.find(idString.to_i).username %></p>
+    <% end %>
+  </div>
+    <% fragment = "s have" %>
+    <% fragment = " has" if @ran_array.length < 3 %>
+    <p>Your opponent<%= fragment %> been notified.</p>
+    <%= link_to edit_game_path(@game) do %>
+      <div class='btn btn-primary'>Go to this game</div>
+    <% end %>
+    <%= link_to games_path do %>
+      <div class='btn btn-primary'>Go to My Games</div>
+    <% end %>
+
+  </div>
+</div>

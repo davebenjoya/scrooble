@@ -1,4 +1,6 @@
-<div class="edit-page-identifier">
+<div class="edit-page-identifier" data-playername= <%= current_user.username %> >
+
+
 
   <!-- Button trigger modal -->
 <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
@@ -48,8 +50,10 @@
   </div>
 
 
-    <!-- <div id='scores' data-players="<%= @game.players %>" data-current="<%= @game.current_player %>" data-username = "<%= current_user.username %>"data-player-id = "<%= current_user.username %>" > -->
-      <% players  = Player.where(game_id: @game.id) %>
+    <!-- <div id='scores' data-current="<%= @game.current_player %>" data-username = "<%= current_user.username %>"data-player-id = "<%= current_user.id %>" > -->
+
+    <!-- <div id='scores' > -->
+      <% players  = Player.where(game_id: @game.id).order(:id) %>
 
       <% players.each_with_index do | player, index | %>
         <% name_score_classes = "name-score" %>
@@ -69,7 +73,7 @@
 
     <!-- </div> -->
 
-    <% players  = Player.where(game_id: @game.id) %>
+
     <% players.each do | player | %>
       <% if player.user == current_user %>
         <div id="my-letters" data-player-letters = "<%= player.player_letters %>">
@@ -92,7 +96,7 @@
         <i class="fas fa-arrow-circle-left arrow-btn"></i>
 
       </div>
-      <% players  = Player.where(game_id: @game.id) %>
+      <% players  = Player.where(game_id: @game.id).order(:id) %>
 
       <% players.each_with_index do | player, index | %>
         <% name_score_classes = "name-score" %>

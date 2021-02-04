@@ -32,7 +32,8 @@ const board = () => {
   let selectedLetter = null;
   let allLetters = [];
   let buffer = [];
-  let currentPlayer = "Dooave";
+
+  let currentPlayer;
   // let gameForm;
   let addedScore = 0;
   let remainingLetters = [];
@@ -68,44 +69,58 @@ const board = () => {
   }
 
 
-if (editGame) {
 
-  document.querySelector("#scores").addEventListener('click', function() {
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+
+  if (editGame) {
+    document.querySelector("#scores").addEventListener('click', function() {
     document.querySelector("#scores").classList.toggle("scores-show");
     document.querySelector(".fa-arrow-circle-left").classList.toggle("arrow-btn-rotate");
+    console.log("playername" , document.querySelector(".edit-page-identifier").dataset.playername);
+    currentPlayer = document.querySelector(".edit-page-identifier").dataset.playername;
+
   })
+    playersArray = document.querySelectorAll(".name-score");
+    const letters = document.querySelector("#my-letters").dataset.playerLetters;
+    console.log('letters ' + letters);
+    for (const letter of letters) {
+      myLetters.push(letter)
+    }
+    console.log('myLetters ' + myLetters);
+    // const formattedStr = players.replaceAll("} {", "}@@@{")
+    //                             .replaceAll("},", "}@@@")
+    //                             .replaceAll("=>", ": ")
+    //                             .replaceAll(" :" , " ")
+    //                             .replaceAll("{:" , "{");
+    // playersArray = formattedStr.split("@@@");
 
+    const updateUrl = document.querySelector("#dashboard").dataset.url;
+    // console.log('playersArray ' + typeof playersArray)
+    const sortable = Sortable.create(myLettersDiv, {
+      animation: 600,
+      // easing: "cubic-bezier(1, 0, 0, 1)",
+      ghostClass: "sortable-ghost", // Class name for the drop placeholder
+      chosenClass: "sortable-chosen", // Class name for the chosen item
+      dragClass: "sortable-drag",
 
-  currentPlayer = document.querySelector(".this-user").innerHTML
+      onUpdate: function (/**Event*/evt) {
+       reorderLetters()
+      }
+    })
+    current = parseInt(document.querySelector("#scores").dataset.current);
 
-          // if (current == index) {
-          //   currentPlayer = name;
-          //   playerSelected = " player-selected"  // add selected class to this player
-          // }
+    // element = this;
 
+  if (document.querySelector("#dashboard").dataset) titleString = document.querySelector("#dashboard").dataset.name;
 
-  const targetNode = document.querySelector("#messages");
+    document.querySelector("#navbar-game").insertAdjacentHTML('afterbegin',titleString)
 
-  let observer = new MutationObserver(callback);
-  function callback (mutations) {
-    console.log ("callbackplayersArray " + typeof playersArray);
-    const newStr = document.querySelector("#messages").innerHTML;
-    console.log ("callbacknewStr " + newStr);
-    const newObj = new Object(newStr);
-    console.log ("callbacknewObj " + newObj);
-    playersArray = newObj;
+    // console.log('playersArray [0]  '+ playersArray[0])
+    // showScores();
   }
 
 
-  let observerOptions = {
-    childList: true,
-    characterData: true
-  };
-
-  observer.observe(targetNode, observerOptions);
-
-
-}
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 /////////////////////////      CREATE NEW GAME      //////////////////////////
@@ -174,11 +189,13 @@ if (editGame) {
     console.log('opponentsArray ', opponentsArray);
 
   document.querySelector('#new-opponents').value = opponentsArray
-    newGameForm.submit();
+
+
+        newGameForm.submit();
+
 
    }
   }
-
 
   function createPlayerString (name) {
     console.log("remaining  " + remainingLetters);
@@ -192,50 +209,6 @@ if (editGame) {
       })
     return new Object(`{'name': '${name}', 'score': '0', 'current_letters': '${ltrStr}'}`)
 
-  }
-
-
-//////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////
-
-  if (editGame || showGame) {
-    playersArray = document.querySelectorAll(".name-score");
-    const letters = document.querySelector("#my-letters").dataset.playerLetters;
-    // console.log('letters ' + letters);
-    for (const letter of letters) {
-      myLetters.push(letter)
-    }
-    console.log('myLetters ' + myLetters);
-    // const formattedStr = players.replaceAll("} {", "}@@@{")
-    //                             .replaceAll("},", "}@@@")
-    //                             .replaceAll("=>", ": ")
-    //                             .replaceAll(" :" , " ")
-    //                             .replaceAll("{:" , "{");
-    // playersArray = formattedStr.split("@@@");
-
-    const updateUrl = document.querySelector("#dashboard").dataset.url;
-    // console.log('playersArray ' + typeof playersArray)
-    const sortable = Sortable.create(myLettersDiv, {
-      animation: 600,
-      // easing: "cubic-bezier(1, 0, 0, 1)",
-      ghostClass: "sortable-ghost", // Class name for the drop placeholder
-      chosenClass: "sortable-chosen", // Class name for the chosen item
-      dragClass: "sortable-drag",
-
-      onUpdate: function (/**Event*/evt) {
-       reorderLetters()
-      }
-    })
-    current = parseInt(document.querySelector("#scores").dataset.current);
-
-    // element = this;
-
-  if (document.querySelector("#dashboard").dataset) titleString = document.querySelector("#dashboard").dataset.name;
-
-    document.querySelector("#navbar-game").insertAdjacentHTML('afterbegin',titleString)
-
-    // console.log('playersArray [0]  '+ playersArray[0])
-    // showScores();
   }
 
   function reorderLetters() {
@@ -279,6 +252,20 @@ if (editGame) {
     .then(response => response.text())
     .then(text => console.log(text))
   }
+
+
+
+      if (newGame) {
+        $("#exampleModalCenter").on('shown.bs.modal', function(){
+
+        });
+
+        $("#exampleModalCenter").on('hidden.bs.modal', function(){
+
+        });
+      }
+
+
 
   if (boardDiv) {
     $("#exampleModalCenter").on('shown.bs.modal', function(){
@@ -436,52 +423,52 @@ function setupBoard() {
 }
 
 const pickLetter = () => {   // using keyboard
-  //   const thisUser = document.querySelector(".this-user");
-  //   if (thisUser.parentNode.classList.contains("player-selected")) {
-  // if (submitEscape === false ) {  // replace joker dialogue not visible
-  //   switch (event.key) {
-  //     case "Enter":
-  //       commitLetters();
-  //       break;
-  //     case "Escape":
-  //       restoreLetters();
-  //       break;
-  //     default: null;
-  //   };
-  // const tiles = Array.from(document.querySelectorAll(".my-tile"));
-  // tiles.reverse().forEach( tile => {
-  //   if (tile.querySelector(".my-letter").innerHTML === event.key.toUpperCase()) {
-  //     if (exchange) {
-  //       tile.classList.toggle("marked-for-exchange");
-  //     } else {
-  //     if (tile != selectedLetter && !tile.classList.contains("letter-disabled")) {
-  //       if (selectedLetter) selectedLetter.classList.remove("letter-selected");
-  //         tile.classList.add("letter-selected");
-  //         selectedLetter =  tile;
-  //       } else {
-  //         tile.classList.remove("letter-selected");
-  //         selectedLetter =  null;
-  //       }
-  //     }
+    const thisUser = document.querySelector(".this-user");
+    if (thisUser.parentNode.classList.contains("player-selected")) {
+  if (submitEscape === false ) {  // replace joker dialogue not visible
+    switch (event.key) {
+      case "Enter":
+        commitLetters();
+        break;
+      case "Escape":
+        restoreLetters();
+        break;
+      default: null;
+    };
+  const tiles = Array.from(document.querySelectorAll(".my-tile"));
+  tiles.reverse().forEach( tile => {
+    if (tile.querySelector(".my-letter").innerHTML === event.key.toUpperCase()) {
+      if (exchange) {
+        tile.classList.toggle("marked-for-exchange");
+      } else {
+      if (tile != selectedLetter && !tile.classList.contains("letter-disabled")) {
+        if (selectedLetter) selectedLetter.classList.remove("letter-selected");
+          tile.classList.add("letter-selected");
+          selectedLetter =  tile;
+        } else {
+          tile.classList.remove("letter-selected");
+          selectedLetter =  null;
+        }
+      }
 
-  //     }
-  // });
+      }
+  });
 
-  // } else { // replace joker dialogue visible
-  //   if (event.key === "Enter") {
-  //     // commitLetters();
-  //   }
-  // }
-  // } else {
-  //     // alert ("It's not your turn!");
-  //     myLetters.forEach(ltr => {
-  //       if (ltr.toLowerCase() === event.key.toLowerCase()) {
-  //         const currentUserName = document.querySelectorAll(".name-score")[current].querySelector(".name").innerHTML;
-  //         alert (`It's ${currentUserName}'s turn. You can rearrange your tiles while you wait.`);
+  } else { // replace joker dialogue visible
+    if (event.key === "Enter") {
+      // commitLetters();
+    }
+  }
+  } else {
+      // alert ("It's not your turn!");
+      myLetters.forEach(ltr => {
+        if (ltr.toLowerCase() === event.key.toLowerCase()) {
+          const currentUserName = document.querySelectorAll(".name-score")[current].querySelector(".name").innerHTML;
+          alert (`It's ${currentUserName}'s turn. You can rearrange your tiles while you wait.`);
 
-  //       }
-  //     });
-  // }
+        }
+      });
+  }
 }
 
 
@@ -530,69 +517,6 @@ const pickLetter = () => {   // using keyboard
 
   }
 
-
-  function showScores() {
-    document.querySelector("#scores").innerHTML = ``
-    playersArray.forEach((player, index) => {
-      let playerSelected = "";
-      let thisUser = "";
-      const props = player.split(",");
-
-      const name   = props[0].split(":")[1].replaceAll('"', '').replaceAll("'", "").trim();
-
-      const score   = props[1].split(":")[1].replaceAll('"', '').replaceAll(/\'/g, "");
-      const playerLetters = props[2].split(":")[1].replaceAll(/\}/g, '').replaceAll(/\"|\'/g, "").trim()
-      // props[2].split(":")[1].replaceAll(/[\"}]/g, '').replaceAll("'", "").trim();
-
-      // console.log('props[2].split(":") '   + props[2]);
-      if (playerLetters.length < maxLetters) {
-        chooseLetters();
-        // showMyLettersInit();
-      }
-      for (let x of playerLetters) {
-        const k = remainingLetters.indexOf(x);
-
-        remainingLetters.splice(k,1);
-
-        if (name === document.querySelector('#scores').dataset.username.trim()) {
-          myLetters.push(x);
-          thisUser = " this-user"
-        }
-
-      }
-
-       if (editGame) {
-       }
-
-       const nameScoreHtml = `<div class="name-score${playerSelected}"><div class="name${thisUser}">${name}</div><div class="score">${parseInt(score)}</div></div>`
-
-    // console.log('nameScoreHtml ' + nameScoreHtml);
-
-
-      document.querySelector("#scores").innerHTML += nameScoreHtml;
-    });
-    console.log('document.querySelector(".this-user"). ' + document.querySelector(".this-user"))
-    document.querySelector(".this-user").parentNode.dataToggle= "tooltip";
-      document.querySelector(".this-user").parentNode.title= "You!";
-
-    document.querySelector(".player-selected").dataToggle= "tooltip";
-    if (document.querySelector(".this-user").parentNode.classList.contains("player-selected")) {
-      document.querySelector(".player-selected").title= "It's your turn!";
-
-    } else {
-      document.querySelector(".player-selected").title= "Current Player";
-    }
-
-
-    const thisUser = document.querySelector(".this-user");
-    if (thisUser.parentNode.classList.contains("player-selected")) {
-      document.querySelector(".mark-btn").classList.remove("button-disabled");
-    } else {
-      document.querySelector(".mark-btn").classList.add("button-disabled");
-
-    }
-
-  }
 
   function placeLetter () {
     if (!exchange) {
