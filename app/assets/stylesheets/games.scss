@@ -12,7 +12,10 @@
   }
 }
 
-
+.nav-emp {
+  margin-right: 8px;
+  color: $sunray;
+}
 
 .announce-players {
   margin-left: 16px;
@@ -26,8 +29,9 @@
 .edit-page-identifier {
   background-color: $space-cadet;
     // background-color: $roman-silver;
+    padding-right: 8px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   @media only screen and (max-width: 984px) {
     flex-direction: column;
   }
@@ -124,13 +128,27 @@ width: 0px;
 }
 
 .stored-game {
-  height: 70px;
+  padding: 0;
+  height: 80px;
   // color: hsl(20, 20, 40);
+  display: flex;
+  justify-content: space-between;
   color: $redwood;
   font-size: 16px;
   font-family: 'Lato', sans-serif;
   font-weight: bolder;
 }
+
+.name-status {
+  // width: 67%;
+}
+
+.status-players {
+  display: flex;
+  justify-content: space-between;
+
+}
+
 .sortable-chosen {
   opacity: .3;
 }
@@ -168,7 +186,14 @@ width: 0px;
   font-family: 'Lato', sans-serif;
   font-weight: bolder;
   letter-spacing: 0.4px;
-  color: $roman-silver;
+  color: $honeydew;
+
+  @media only screen and (max-width: 600px) {
+
+  font-size: 14px;
+
+  font-weight: regular;
+  }
 }
 
 .center-tile {
@@ -205,7 +230,7 @@ width: 0px;
 
 
 #your-games{
-  background-color: transparent;
+  background-color: $space-cadet;
   margin-top: 0px;
   width: 100%;
 }
@@ -300,12 +325,16 @@ a {
   margin: 0;
 }
 
-
+.card-name {
+  color: $russian-green;
+}
 
 .status {
   color: hsl(210, 25, 75);
   font-size: 12px;
   bottom: 8px;
+  width: 100%;
+  text-align: center;
 }
 
 .player-alert {
@@ -343,7 +372,7 @@ a {
   font-size: 18px;
   margin-top: 8px;
   font-weight: bold;
-  color:  $alice-blue;
+  color:  $space-cadet;
   margin-bottom: 3px;
 }
 
@@ -401,11 +430,23 @@ a:link, #navbar a:visited, #cnavbar a:hover, #navbar a:active,  {
     text-decoration:none;
 }
 
+.name-players {
+  height: 80%;
+}
+
 .players {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 40%;
+  height: 100%;
   font-size: 13px;
   font-weight: bold;
   // color: hsl(90, 85, 40);
-  color: black;
+  color: $space-cadet;
+  text-align: right;
+  margin:0;
+  line-height: 16px;
 
   background-color: transparent;
   // background-color: hsl(60, 20, 85);
@@ -420,6 +461,15 @@ a:link, #navbar a:visited, #cnavbar a:hover, #navbar a:active,  {
   display: grid;
   grid-template-columns: 25% 25% 25% 25%;
   background-color: transparent;
+  @media only screen and (max-width: 984px) {
+    grid-template-columns: 33% 33% 33%;
+  }
+  @media only screen and (max-width: 760px) {
+    grid-template-columns: 50% 50%;
+  }
+  @media only screen and (max-width: 520px) {
+    grid-template-columns: 100%;
+  }
 }
 
 .card {
@@ -466,6 +516,7 @@ h5 {
 turbo_frame_tag {
   padding: 0px;
 }
+
 
 #board {
   display: grid;
@@ -616,18 +667,19 @@ turbo_frame_tag {
 }
 
 .scores {
-  right:-151px;
+  right:-152px;
   border: 1px solid transparent;
   transition: .6s all ease-in;
-  background-color: hsla(70, 20, 50, 0);
+  background-color: transparent;
 }
 
 .scores-show {
   right:-6px;
   border: 1px solid $sunray;
   transition: .4s all ease-in;
-  background-color: hsla(220, 10, 70, .8);
-  box-shadow: 2px 2px 3px  hsla(220, 10, 10, .6);
+  // background-color: hsla(220, 10, 70, .8);
+  background-color: hsla(220, 10, 70, .9);
+  box-shadow: 2px 2px 3px  hsla(220, 10, 10, .8);
 
 }
 .arrow-btn {
@@ -653,7 +705,7 @@ turbo_frame_tag {
   justify-content: space-between;
   padding: 2px 16px;
   padding-right:24px;
-  margin-left: 16px;
+  margin-left: 20px;
   font-size: 12px;
   transition: all .3s ease-in;
   background-color: transparent;
@@ -666,7 +718,7 @@ turbo_frame_tag {
 }
 
 .score {
-  padding-right: 2px;
+  padding-right: 8px;
 }
 
 .player-selected {
@@ -868,7 +920,7 @@ pointer-events: none;
   left:8px;
   border-radius: 4px;
   padding: 0px 4px;
-  background-color: hsl(60, 17, 68);
+  background-color: $sunray;
   opacity: 1;
   transition: all .5s;
   // color: white;

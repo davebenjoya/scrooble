@@ -1,7 +1,9 @@
 <%= render "modal" %>
 
-<div class="container ml-5 p-2 w-25 new-page-identifier">
-  <h3 class="pickem">Game name:</h3>
+<% defaults = [Faker::JapaneseMedia::StudioGhibli.character, Faker::Movies::Lebowski.character, Faker::Book.title, Faker::Creature::Animal.name.capitalize(), Faker::Superhero.power.capitalize(), Faker::Superhero.name, Faker::Superhero.prefix.concat(" ").concat(Faker::Creature::Animal.name.capitalize())] %>
+<% default_name = defaults[rand(defaults.length)] %>
+<div class="container ml-5 p-2 w-25 new-page-identifier" data-default-name ="<%= default_name %>">
+  <h3 class="pickem">Name your game, or we'll name it for you:</h3>
   <input type="text" id="game-name" placeholder="A game">
   <p class="pickem">Pick 1–3 Opponents</p>
   <div id="players" data-username = <%= current_user.username %>>

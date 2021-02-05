@@ -113,8 +113,10 @@ const board = () => {
     // element = this;
 
   if (document.querySelector("#dashboard").dataset) titleString = document.querySelector("#dashboard").dataset.name;
+    const ps =  document.querySelector(".player-selected").querySelector(".player").innerText;
+    const navbarString = `<span class='nav-emp'>${titleString}</span> Up now:  <span class='nav-emp'>${ps}</span>`;
 
-    document.querySelector("#navbar-game").insertAdjacentHTML('afterbegin',titleString)
+    document.querySelector("#navbar-game").insertAdjacentHTML('afterbegin', navbarString)
 
     // console.log('playersArray [0]  '+ playersArray[0])
     // showScores();
@@ -164,26 +166,15 @@ const board = () => {
     // document.querySelector("#players").value = `${Array.from(newPlayers)}`;
     if (document.querySelector("#game-name").value) {  // game name field is filled out
       document.querySelector("#new-name").value = document.querySelector("#game-name").value
-    } else {    //  default game name
-      const d = new Date();
-      const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
-      const mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(d);
-      const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(d);
-      const ho = new Intl.DateTimeFormat('en', { hour: 'numeric', hour12: false }).format(d);
-      const mi = new Intl.DateTimeFormat('en', { minute: 'numeric' }).format(d);
-      const wk = new Intl.DateTimeFormat('en', { weekday: 'short' }).format(d);
-      // console.log(`${da}-${mo}-${ye}`);
-
-      document.querySelector("#new-name").value = `${wk}, ${da} ${mo}, ${ho}:${mi}`
+    } else {    //  no name entered, use faker-generated name from dataset
+      const myGameName = document.querySelector(".new-page-identifier").dataset.defaultName
+      document.querySelector("#new-name").value = myGameName;
     }
-    // document.querySelector("#new-name").value = document.querySelector("#game-name").value
 
     let opponentsArray = [];
     document.querySelectorAll(".opponent").forEach(opponent => {
       if (opponent.querySelector("input[type=checkbox]").checked) {
         opponentsArray.push(opponent.dataset.userid) ;
-      // document.querySelector('#new-game-id').value = opponent
-
       }
     })
     console.log('opponentsArray ', opponentsArray);
@@ -252,20 +243,6 @@ const board = () => {
     .then(response => response.text())
     .then(text => console.log(text))
   }
-
-
-
-      if (newGame) {
-        $("#exampleModalCenter").on('shown.bs.modal', function(){
-
-        });
-
-        $("#exampleModalCenter").on('hidden.bs.modal', function(){
-
-        });
-      }
-
-
 
   if (boardDiv) {
     $("#exampleModalCenter").on('shown.bs.modal', function(){

@@ -52,10 +52,7 @@ end
         user = User.where(id: opponentId.to_i)
         Player.create(user_id: opponentId.to_i, game:@game)
         if user[0] != current_user
-
-          adverb = "emphatically"
-          UserMailer.invitation(user, current_user, @game, opponent_array,
-                                adverb.capitalize()).deliver
+          UserMailer.invitation(user, current_user, @game, opponent_array).deliver
         end
       end
     # redirect_to edit_game_path(@game)

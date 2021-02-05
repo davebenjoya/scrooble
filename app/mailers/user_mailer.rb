@@ -5,7 +5,7 @@ class UserMailer < ApplicationMailer
   #
   #   en.user_mailer.invitation.subject
   #
-  def invitation(user, sender, game, opponents, adverb)
+  def invitation(user, sender, game, opponents)
     file = File.read("public/random.json")
     adverbs = JSON.parse(file).values[0].split(",")
     greetings = JSON.parse(file).values[1].split(",")
@@ -18,6 +18,7 @@ class UserMailer < ApplicationMailer
     @adverb = adverbs[ran].strip.capitalize()
     # raise
     @sender = sender
+    @game = game
     @user = user
     @url = "/games/#{game.id}/edit"
     @others = []

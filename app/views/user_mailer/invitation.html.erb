@@ -1,6 +1,6 @@
 <p><%= @greeting %> <%= @user[0].username %>,</p>
 
-<%= sentence_ending = "" %>
+<% sentence_ending = "" %>
 <% case @others.length %>
   <% when 0 %>
   <%  sentence_ending = "." %>
@@ -10,7 +10,7 @@
   <%  sentence_ending = ", along with #{@others[0]} and  #{@others[1]}."  %>
 <% end %>
 
-<p><%= @sender.username %> has invited you to a game of Scrooble<%= sentence_ending %></p>
+<p><%= @sender.username %> has invited you to a game of Scrooble (named <%= @game.name %>)<%= sentence_ending %></p>
 
 <p><a href=<%=@url%>>Click here to join the game.</a></p>
 

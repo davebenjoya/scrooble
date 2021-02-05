@@ -1,7 +1,7 @@
 <div class="bg">
 <div id="your-games" class="px-4 pb-3 pt-1 your-games-hide" data-animate-out="animate-slide-right" data-username= "<%= current_user.username %>">
 
-
+  <h5 class='pt-2 pl-2'>My Games</h5>
 
   <div class="cards justify-content-between" >
     <%= link_to new_game_path do %>
@@ -10,8 +10,8 @@
       </div>
     <% end %>
 
-
-    <% @games.each_with_index do  | game, index | %>
+    <% ordered_games = @games.order(updated_at: :desc) %>
+    <% ordered_games.each_with_index do  | game, index | %>
       <% name_string = "" %>
       <% my_game = false %>
       <% players = Player.where(game: game) %>
@@ -27,14 +27,18 @@
       <% end %>
 
        <% if my_game == true %>
-        <% status = game.completed ? "Completed" : "In progress" %>
+        <% status = game.completed ? "Completed" : "Updated" %>
         <%= link_to edit_game_path(game) do %>
-          <div class="card m-2 px-3 py-2 d-flex flex-column justify-space-between stored-game" data-names="<%= name_string %>" >
-          <div> <%= game.name %></div>
+          <div class="card m-2 px-2 py-1 stored-game" data-names="<%= name_string %>" >
+          <div class = 'name-players d-flex justify-content-between w-100'>
+            <div class= 'card-name'> <%= game.name %></div>
           <div class="players" data-current="<%= game.current_player %>">
-            <%= name_string %>
+            <% name_string.split(",").each do | player | %>
+              <div><%= player %> </div>
+            <% end %>
           </div>
-          <div class="status">Updated <%= game.updated_at.strftime("%b %d, %Y %-I:%M%p") %></div>
+          </div>
+            <div class="status"><%= status %> <%= game.updated_at.strftime("%b %d, %Y %-I:%M%p") %></div>
          </div>
       <% end %>
     <% end %>
