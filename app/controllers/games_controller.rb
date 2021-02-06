@@ -5,7 +5,6 @@ class GamesController < ApplicationController
 
   def index
     @games = Game.all
-    # @games = Game.where( "players LIKE ?", "%" + current_user.username + "%" )
   end
 
   def show
@@ -18,8 +17,24 @@ def formatted_updated_at
 end
 
   def new
-    @game = Game.new
-    @users = User.all
+
+    @default_name = random_name()
+
+    if @default_name.split(" ").length > 6
+      new_name = ""
+      @default_name.split(" ").each_with_index do | word, index |
+        if index < 6
+          new_name.concat(word).concat(" ").strip
+        end
+      end
+      @default_name = new_name
+    end
+
+    while Game.find_by(name: @default_name)
+       @default_name = random_name()
+    end
+
+
   end
 
   def create
@@ -83,6 +98,24 @@ end
   end
 end
 private
+
+  def random_name
+
+     @game = Game.new
+    @users = User.all
+    ghibli = Faker::JapaneseMedia::StudioGhibli.character
+    lebowski = Faker::Movies::Lebowski.character
+    book = Faker::Book.title
+    animal = Faker::Creature::Animal.name.capitalize
+    power = Faker::Superhero.power.titlecase
+    hero = Faker::Superhero.name
+    prefix = Faker::Superhero.prefix.concat(" ").concat(animal)
+    chem = Faker::Science.element.concat(" ").concat(animal)
+
+    defaults = [ghibli, lebowski, book, animal, power, hero, prefix, chem]
+    defaults[rand(defaults.length)]
+  end
+
 
   def game_params
     params.require(:game).permit(:letter_grid, :current_player, :name,

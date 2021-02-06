@@ -54,6 +54,16 @@ const board = () => {
 
 
   if (newGame){
+    document.querySelectorAll(".toggle-stats").forEach(stat => {
+      stat.addEventListener('click', function() {
+        console.log('in the func' , stat.parentNode.parentNode);
+        stat.parentNode.parentNode.querySelector(".stats").classList.toggle("stats-show");
+        stat.parentNode.parentNode.querySelector(".stats-mask").classList.toggle("stats-mask-show");
+        stat.parentNode.parentNode.querySelector(".stats-text").classList.toggle("stats-text-show");
+        stat.parentNode.parentNode.querySelector(".stats-btn").classList.toggle("stats-btn-rotate");
+
+      })
+    })
     setTimeout( function() {
       newGame.classList.add("new-page-identifier-show");
     }, 200)

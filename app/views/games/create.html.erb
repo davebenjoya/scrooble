@@ -1,7 +1,7 @@
-<div class="container p-4 w-80">
+<div class="container mt-4 p-4 w-80 create-page-identifier">
   <h5>New Game Created!</h5>
   <p>Game name: <strong><%= @game.name %></strong></p>
-  <p>An eminently fair, unbiased, disinterested and WGAF roll of the dice has produced the following order of play:</p>
+  <p>An eminently fair, unbiased, disinterested and WGAF roll of the dice has mandated the following order of play:</p>
   <div class='announce-players'>
     <% @ran_array.each_with_index do | idString, index |  %>
       <p><span><%= index + 1 %>. </span> <%= User.find(idString.to_i).username %></p>
@@ -9,12 +9,12 @@
   </div>
     <% fragment = "s have" %>
     <% fragment = " has" if @ran_array.length < 3 %>
-    <p>Your opponent<%= fragment %> been notified.</p>
+    <p>Your opponent<%= fragment %> been invited to this game.</p>
     <%= link_to edit_game_path(@game) do %>
-      <div class='btn btn-primary'>Go to this game</div>
+      <div class='new-game-btn'>Go to <%= @game.name %></div>
     <% end %>
     <%= link_to games_path do %>
-      <div class='btn btn-primary'>Go to My Games</div>
+      <div class='new-game-btn'>Go to My Games</div>
     <% end %>
 
   </div>
