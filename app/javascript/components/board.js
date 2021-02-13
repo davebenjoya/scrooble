@@ -27,10 +27,9 @@ const board = () => {
   let boardHasLetters = false;
 
   let myLetters = [];
-  const maxLetters = 7;
+  let maxLetters = 7;
   const maxPlayers = 4;
   let selectedLetter = null;
-  let allLetters = [];
   let buffer = [];
 
   let currentPlayer;
@@ -42,21 +41,12 @@ const board = () => {
   let replacement;
 
 
-  lettersJSON.letters.forEach( ltr => {
-    const l = Object.keys(ltr)[0];
-    const f = parseInt(Object.values(ltr)[0].frequency);
-    for (let r = 0; r < f; r++) {
-      allLetters.push(l);
-    };
-  });
-  remainingLetters = allLetters;
 
 
 
   if (newGame){
     document.querySelectorAll(".toggle-stats").forEach(stat => {
       stat.addEventListener('click', function() {
-        console.log('in the func' , stat.parentNode.parentNode);
         stat.parentNode.parentNode.querySelector(".stats").classList.toggle("stats-show");
         stat.parentNode.parentNode.querySelector(".stats-mask").classList.toggle("stats-mask-show");
         stat.parentNode.parentNode.querySelector(".stats-text").classList.toggle("stats-text-show");
@@ -84,26 +74,23 @@ const board = () => {
 //////////////////////////////////////////////////////////////////////////////
 
   if (editGame) {
+    remainingLetters = document.querySelector("#dashboard").dataset.remaining;
+    // console.log('remainingLetters::::::: ', typeof remainingLetters);
+    // console.log('myLetters ' + typeof myLetters);
     document.querySelector("#scores").addEventListener('click', function() {
-    document.querySelector("#scores").classList.toggle("scores-show");
-    document.querySelector(".fa-arrow-circle-left").classList.toggle("arrow-btn-rotate");
-    console.log("playername" , document.querySelector(".edit-page-identifier").dataset.playername);
+      document.querySelector("#scores").classList.toggle("scores-show");
+      document.querySelector(".fa-arrow-circle-left").classList.toggle("arrow-btn-rotate");
+    })
     currentPlayer = document.querySelector(".edit-page-identifier").dataset.playername;
-
-  })
+    const remain = (document.querySelector("#dashboard").dataset.remaining.replaceAll(/\"\"/g , '"'));
+    remainingLetters =  remain.split(',').splice(1, remain.length - 1);
+    // console.log("remainingLettersssss  ", remainingLetters[1]);
     playersArray = document.querySelectorAll(".name-score");
     const letters = document.querySelector("#my-letters").dataset.playerLetters;
     console.log('letters ' + letters);
     for (const letter of letters) {
       myLetters.push(letter)
     }
-    console.log('myLetters ' + myLetters);
-    // const formattedStr = players.replaceAll("} {", "}@@@{")
-    //                             .replaceAll("},", "}@@@")
-    //                             .replaceAll("=>", ": ")
-    //                             .replaceAll(" :" , " ")
-    //                             .replaceAll("{:" , "{");
-    // playersArray = formattedStr.split("@@@");
 
     const updateUrl = document.querySelector("#dashboard").dataset.url;
     // console.log('playersArray ' + typeof playersArray)
@@ -143,16 +130,7 @@ const board = () => {
   function createNewGame () {
 
 
-    lettersJSON.letters.forEach( ltr => {
-        const l = Object.keys(ltr)[0];
-        const f = parseInt(Object.values(ltr)[0].frequency);
-        for (let r = 0; r < f; r++) {
-          allLetters.push(l);
-        };
-      });
-    remainingLetters = allLetters;
     let opponentArray = []
-    // remainingLetters = allLetters
     let newPlayers  = []
     const firstPlayer = createPlayerString (document.querySelector("#players").dataset.username);
     newPlayers.push(firstPlayer);
@@ -169,7 +147,6 @@ const board = () => {
    if (newPlayers.length > maxPlayers || newPlayers.length < 2) {
     alert ("Pick 1 – 3 opponents")
    } else {
-    const newArray = Object.entries(newPlayers);
     // console.log('opponentArray ' +  Object.values(opponentArray));
     document.querySelector("#players").value  = Object.values(opponentArray);
 
@@ -187,11 +164,42 @@ const board = () => {
         opponentsArray.push(opponent.dataset.userid) ;
       }
     })
-    console.log('opponentsArray ', opponentsArray);
 
-  document.querySelector('#new-opponents').value = opponentsArray
+    document.querySelector('#new-opponents').value = opponentsArray;
+
+    remainingLetters = [];
+
+  // short letter list
+    lettersJSON.short.forEach( ltr => {
+
+  // standard letter list
+  // lettersJSON.letters.forEach( ltr => {
+    const l = Object.keys(ltr)[0];
+    const f = parseInt(Object.values(ltr)[0].frequency);
+    for (let r = 0; r < f; r++) {
+      remainingLetters.push(l);
+      };
+    });
+
+    console.log('opponentsArray', opponentsArray);
+
+    let lettersArray = []
+    for (let p = 0; p < opponentsArray.length + 1; p++ ) {
+      let myString = "";
+      for (let i = 0; i < maxLetters; i ++ ) {
+        const pos = Math.floor(Math.random() * remainingLetters.length);
+        console.log("pos " , pos );
+        myString += remainingLetters[pos];
+        remainingLetters.splice(pos, 1);
+      }
+      lettersArray.push(myString);
+    }
 
 
+    console.log('lettersArray' + typeof lettersArray);
+    document.querySelector('#new-player-letters').value = lettersArray;
+    document.querySelector('#new-remaining').value = remainingLetters;
+    console.log("remainingLetters ", remainingLetters);
         newGameForm.submit();
 
 
@@ -199,12 +207,11 @@ const board = () => {
   }
 
   function createPlayerString (name) {
-    console.log("remaining  " + remainingLetters);
     console.log("name  " + name);
 
     let ltrStr = '';
     myLetters = []
-      chooseLetters();
+      // chooseLetters();
       myLetters.forEach(ltr => {
         ltrStr += ltr;
       })
@@ -282,7 +289,6 @@ const board = () => {
           selectedLetter = null;
           submitEscape = false;
         } else {
-          console.log ('document.querySelector("#update-score").value', document.querySelector("#update-score").value);
           gameForm.submit();
         }
       });
@@ -347,12 +353,19 @@ function setupBoard() {
 
     setTimeout(function() {
       document.querySelector("#board").classList.remove("board-hide");
-      document.querySelector("#dashboard").classList.remove("dashboard-hide");
-      document.querySelectorAll('.tile-hide').forEach(tile => {
-  tile.classList.add("tile-show");
 
-    }, 500);
-});
+      if (document.querySelector("#dashboard").dataset.completed === "false") {
+        document.querySelector("#dashboard").classList.remove("dashboard-hide");
+
+      } else {
+
+
+      }
+      document.querySelectorAll('.tile-hide').forEach(tile => {
+        tile.classList.add("tile-show");
+
+        }, 500);
+      });
 
 
     boardDiv.querySelectorAll('.letter')[112].parentNode.classList.add("center-tile");
@@ -471,20 +484,32 @@ const pickLetter = () => {   // using keyboard
     document.querySelector('#cancel-btn').addEventListener('click', restoreLetters);
     document.querySelector('#commit-btn').addEventListener('click', commitLetters);
     document.querySelector('#mark-btn').addEventListener('click', markLetters);
+    document.querySelector('#end-btn').addEventListener('click', endGame);
   }
+
+  function endGame() {
+    document.querySelector('#update-player-completed').value = true;
+    gameForm.submit();
+  }
+
+
 
   function markLetters(){
     const thisUser = document.querySelector(".this-user");
     if (thisUser.parentNode.classList.contains("player-selected")) {
-      document.querySelector('#mark-btn').classList.add("mark-btn-active");
-      document.querySelector('#commit-btn').classList.remove("button-disabled");
-      exchange = true;
-      document.querySelector('#mark-btn').removeEventListener('click', markLetters);
-      document.querySelector('#mark-btn').addEventListener('click', unmarkLetters);
+      if (remainingLetters.length >= maxLetters) {
+        document.querySelector('#mark-btn').classList.add("mark-btn-active");
+        document.querySelector('#commit-btn').classList.remove("button-disabled");
+        exchange = true;
+        document.querySelector('#mark-btn').removeEventListener('click', markLetters);
+        document.querySelector('#mark-btn').addEventListener('click', unmarkLetters);
 
-      if (selectedLetter) {
-        selectedLetter.classList.remove('letter-selected')
-        selectedLetter = null;
+        if (selectedLetter) {
+          selectedLetter.classList.remove('letter-selected')
+          selectedLetter = null;
+        }
+      } else {
+        alert(`There are fewer than ${maxLetters} letters remaining, so you can't exchange yours. `)
       }
 
     }
@@ -541,18 +566,35 @@ const pickLetter = () => {   // using keyboard
 
 
   function chooseLetters() { // select my letters from available letters
+    remainingLetters = document.querySelector("#dashboard").dataset.remaining.replaceAll(/\,/g,"");
 
-    // console.log(remainingLetters.length);
-    while (myLetters.length < maxLetters ) {
-      const ind = Math.floor(Math.random() * remainingLetters.length)
-      // console.log(ind);
-      const ran = remainingLetters[ind]
-      myLetters.push(ran);
-       // const ind = remainingLetters.indexOf(selectedLetter.querySelector('.my-letter').innerHTML);
-      remainingLetters.splice(ind, 1);
-    }
-    // console.log(remainingLetters.length);
-    // console.log ("_____________________")
+
+      if (remainingLetters.length > 0 ) {
+        let maxLettersLocal = maxLetters
+        if (remainingLetters.length < maxLettersLocal - myLetters.length) {
+          maxLettersLocal = myLetters.length + remainingLetters.length;
+        }
+        while (myLetters.length < maxLettersLocal ) {
+          const ind = Math.floor((Math.random() * remainingLetters.length));
+          console.log('ind', ind);
+          const ran = remainingLetters[ind];
+          // .replaceAll('"', '').replaceAll(' ', '').replaceAll(/\[/g, '').replaceAll(/\]/g, '')
+          console.log('ran ' + ran);
+
+          myLetters.push(ran);
+           // const ind = remainingLetters.indexOf(selectedLetter.querySelector('.my-letter').innerHTML);
+          const beginString = remainingLetters.slice(0, ind);
+          const endString = remainingLetters.slice(ind + 1);
+          remainingLetters = beginString + endString;
+        }
+
+        console.log(' my   letteerrrrs'  , myLetters);
+        console.log(remainingLetters.length);
+        console.log ("_____________________")
+
+      }  // end if remainingLetters.length > 0
+
+
   }
 
   function restoreLetters () {
@@ -616,12 +658,20 @@ const pickLetter = () => {   // using keyboard
 
 
   /////////////////////////////////////////////////////////////////
+
   ///////////        COMMIT or REPLACE LETTERS    /////////////////
+
   /////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////
 
   function commitLetters () {  // ltrP = provisonal; ltrB = on board
+
+
     if (exchange === true ) {  // exchange chosen letters
+     if (remainingLetters.length < maxLetters) {
+      alert (`There are fewer than ${maxLetters} remaining, so they cannot be exchanged` )
+      restoreLetters();
+    } else {
       document.querySelectorAll(".my-letter").forEach( (letter, index)=> {
         if (letter.parentNode.classList.contains("marked-for-exchange")) {
           myLetters.splice(myLetters.indexOf(letter.innerHTML), 1);
@@ -634,16 +684,9 @@ const pickLetter = () => {   // using keyboard
       const numToReplace = maxLetters - myLetters.length
       chooseLetters();
       appendMyLetters(numToReplace);
-
       populateRailsForm();
       gameForm.submit()
-
-      // showMyLettersInit();
-       // for (let x of myLetters) {
-       //  const k = remainingLetters.indexOf(x);
-
-       //  remainingLetters.splice(k,1);
-       //  }
+    };
 
     } else {  //  new word
       if (document.querySelector(".letter-provisional")) {
@@ -700,32 +743,15 @@ const pickLetter = () => {   // using keyboard
           ////// remove used letters from myLetters
 
         }
-        // updatePlayers();
-
-
-
-
-
-
-
         }
 
-
       }
-
-
-
     }
-
 }
 // end commitLetters
 
 
-
     //////////////////////////////////// end validation ///////////////////////////////
-
-
-
 
 
 
@@ -832,19 +858,15 @@ const findVerticallWord = (firstProvisional) => {
     //  append new word
     positions.forEach(position => {
       const ltr = letterDivs[position].innerHTML;
-      console.log(letterDivs[position].parentNode)
+      // console.log(letterDivs[position].parentNode)
       newWord += ltr;
 
 
       // assign base value
 
-
-      // console.log(ltr.parentNode)
-
-
       Array.from(lettersJSON.letters).forEach( (l , index) => {
         if (Object.keys(l).toString() === ltr) {
-          console.log(`tileDivs[position].querySelector(".my-value") ` + tileDivs[position].parentNode.querySelector(".my-value"));
+          // console.log(`tileDivs[position].querySelector(".my-value") ` + tileDivs[position].parentNode.querySelector(".my-value"));
           let val =  parseInt(Object.values(Object.values(l)[0])[1]); // value is second property in embedded object
 
           if (tileDivs[position].classList.contains("joker-replaced")) val = 0;
@@ -991,12 +1013,15 @@ function populateRailsForm() {
       document.querySelector('#update-score').value = newScore.toString();
       //  GAME FORM
 
+      let lettersString = '';
 
-
-      console.log(typeof current + " current " + current)
+      console.log( " newGrid " + newGrid)
       document.querySelector('#update-grid').value = newGrid;
       document.querySelector('#update-current').value = current;
       document.querySelector('#update-jokers').value = jokers;
+      console.log("remainingLetters ", remainingLetters);
+      document.querySelector('#update-remaining').value = remainingLetters;
+      // document.querySelector('#update-letters').value = JSON.stringify(myLetters);
 
 }
 
@@ -1021,10 +1046,10 @@ async function searchDictionary (keyword)  {
 
 
   function appendMyLetters(num) {
-      console.log('appendMyLetters ' + num);
+
     let val;
     for (let d = 0; d < num; d++ ) {
-      const ltr = myLetters[d]
+      const ltr = Object.values(myLetters)[d]
       Array.from(lettersJSON.letters).forEach( l => {
       if (l[ltr]) {
        val = l[ltr].value;

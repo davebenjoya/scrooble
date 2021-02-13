@@ -3,7 +3,7 @@
 <% default_name = @default_name %>
 
 
-<div class="ml-5 p-2 new-page-identifier" data-default-name ="<%= default_name %>">
+<div class="p-2 new-page-identifier" data-default-name ="<%= default_name %>">
   <h3 class="pickem">Name your game, or we'll name it for you:</h3>
   <input type="text" id="game-name" placeholder="A game">
   <p class="pickem">Pick 1–3 Opponents:</p>
@@ -65,6 +65,8 @@
     <%=f.hidden_field :current_player, value:0, id:'new-current' %>
     <%=f.hidden_field :letter_grid, value:"#{new_grid}", id:'new-grid' %>
     <%=f.hidden_field :opponents, value:[], id:'new-opponents' %>
+    <%=f.hidden_field :all_player_letters, value:[], id:'new-player-letters' %>
+    <%=f.hidden_field :remaining_letters, value: 'ABCDEFG', id:'new-remaining' %>
     <%#= f.check_box :opponents, @users %>
   <% end %>
 

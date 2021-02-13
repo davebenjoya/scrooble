@@ -18,7 +18,7 @@ zepp = User.create!({ email: 'zepp@benjoya.com', password: 'zepp00!', username: 
 
 
 
-game1 = Game.create({ name: 'Friday 3AM',
+fri = Game.create({ name: 'Friday 3AM',
               completed: false,
               current_player: 0,
               letter_grid: "_ _ _ _ _ _ B R A I N _ _ _ _
@@ -37,7 +37,7 @@ game1 = Game.create({ name: 'Friday 3AM',
                             _ _ _ _ _ _ _ _ _ _ _ C _ _ _
                             _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ " })
 
-game2 = Game.create({ name: 'Familienspiel',
+fam = Game.create({ name: 'Familienspiel',
               completed: true,
               current_player: 0,
               letter_grid: "_ _ _ _ _ _ B R A I N _ _ _ _
@@ -56,7 +56,85 @@ game2 = Game.create({ name: 'Familienspiel',
                             _ _ _ _ _ _ _ _ _ _ _ C _ _ _
                             _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ " })
 
-Player.create!([{ game: game1, user: deike, player_letters: "EPIAFCZ", player_score: 38 }, { game: game1, user: eddie, player_letters: "DRUJSKO", player_score: 30 }, { game: game2, user: deike, player_letters: "EPIAFCZ", player_score: 138 }, { game: game2, user: dave, player_letters: "DRUJSKO", player_score: 150 }, { game: game2, user: luna, player_letters: "DRUJSKO", player_score: 174 } , { game: game2, user: eddie, player_letters: "DRUJSKO", player_score: 150 } ])
+fam2 = Game.create({ name: 'Familien Zwei',
+              completed: false,
+              current_player: 0,
+              letter_grid: "_ _ _ _ _ _ B R A I N _ _ _ _
+                            _ _ _ _ _ _ O _ _ D _ _ _ _ _
+                            _ _ _ _ C R A S H _ _ _ _ _ _
+                            _ _ _ _ O _ _ U _ _ _ _ _ _ _
+                            _ _ _ _ O _ _ R _ _ _ _ _ _ _
+                            _ _ G A L L O P _ _ _ _ _ _ _
+                            _ _ _ _ _ _ _ R _ _ _ _ _ _ _
+                            _ _ _ _ _ _ _ I _ _ _ _ _ _ _
+                            _ _ _ _ _ _ _ S _ _ _ G _ _ _
+                            _ _ _ _ _ _ _ E S T U A R Y _
+                            _ _ _ _ _ _ _ D _ _ _ R _ _ _
+                            _ _ _ _ _ _ _ _ _ _ _ L _ _ _
+                            _ _ _ _ _ _ _ _ _ _ _ I _ _ _
+                            _ _ _ _ _ _ _ _ _ _ _ C _ _ _
+                            _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ " })
+
+kita = Game.create({ name: 'Kita Invitational',
+              completed: true,
+              current_player: 0,
+              letter_grid: "_ _ _ _ _ _ B R A I N _ _ _ _
+                            _ _ _ _ _ _ O _ _ D _ _ _ _ _
+                            _ _ _ _ C R A S H _ _ _ _ _ _
+                            _ _ _ _ O _ _ U _ _ _ _ _ _ _
+                            _ _ _ _ O _ _ R _ _ _ _ _ _ _
+                            _ _ G A L L O P _ _ _ _ _ _ _
+                            _ _ _ _ _ _ _ R _ _ _ _ _ _ _
+                            _ _ _ _ _ _ _ I _ _ _ _ _ _ _
+                            _ _ _ _ _ _ _ S _ _ _ G _ _ _
+                            _ _ _ _ _ _ _ E S T U A R Y _
+                            _ _ _ _ _ _ _ D _ _ _ R _ _ _
+                            _ _ _ _ _ _ _ _ _ _ _ L _ _ _
+                            _ _ _ _ _ _ _ _ _ _ _ I _ _ _
+                            _ _ _ _ _ _ _ _ _ _ _ C _ _ _
+                            _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ " })
+
+
+jesus = Game.create({ name: 'Jesus Quintana',
+              completed: true,
+              current_player: 0,
+              letter_grid: "_ _ _ _ _ _ B R A I N _ _ _ _
+                            _ _ _ _ _ _ O _ _ D _ _ _ _ _
+                            _ _ _ _ C R A S H _ _ _ _ _ _
+                            _ _ _ _ O _ _ U _ _ _ _ _ _ _
+                            _ _ _ _ O _ _ R _ _ _ _ _ _ _
+                            _ _ G A L L O P _ _ _ _ _ _ _
+                            _ _ _ _ _ _ _ R _ _ _ _ _ _ _
+                            _ _ _ _ _ _ _ I _ _ _ _ _ _ _
+                            _ _ _ _ _ _ _ S _ _ _ G _ _ _
+                            _ _ _ _ _ _ _ E S T U A R Y _
+                            _ _ _ _ _ _ _ D _ _ _ R _ _ _
+                            _ _ _ _ _ _ _ _ _ _ _ L _ _ _
+                            _ _ _ _ _ _ _ _ _ _ _ I _ _ _
+                            _ _ _ _ _ _ _ _ _ _ _ C _ _ _
+                            _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ " })
+
+Player.create!([
+    { game: fri, user: deike, player_letters: "EPIAFCZ", player_score: 38 },
+    { game: fri, user: eddie, player_letters: "DRUJSKO", player_score: 30 },
+
+    { game: fam, user: deike, player_letters: "EPIAFCZ", player_score: 138 },
+    { game: fam, user: dave, player_letters: "DRUJSKO", player_score: 190 },
+    { game: fam, user: eddie, player_letters: "DRUJSKO", player_score: 150 },
+    { game: fam, user: luna, player_letters: "DRUJSKO", player_score: 174 },
+
+    { game: fam2, user: eddie, player_letters: "DRUJSKO", player_score: 180 },
+    { game: fam2, user: grou, player_letters: "DRUJSKO", player_score: 207 },
+    { game: fam2, user: dave, player_letters: "DRUJSKO", player_score: 118 },
+
+    { game: kita, user: dave, player_letters: "DRUJSKO", player_score: 166 },
+    { game: kita, user: eddie, player_letters: "DRUJSKO", player_score: 300 },
+
+    { game: jesus, user: orne, player_letters: "DRUJSKO", player_score: 180 },
+    { game: jesus, user: dave, player_letters: "DRUJSKO", player_score: 202 },
+    { game: jesus, user: dumb, player_letters: "DRUJSKO", player_score: 191 },
+    { game: jesus, user: vold, player_letters: "DRUJSKO", player_score: 72 }
+  ])
 
 
 

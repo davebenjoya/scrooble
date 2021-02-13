@@ -5,6 +5,14 @@ class GamesController < ApplicationController
 
   def index
     @games = Game.all
+    @myGames = [1]
+    Player.where(user: current_user).each do |plr|
+      @myGames << Game.find(plr.game_id)
+    end
+    # raise
+    #@current_games = @my_games.where("completed = false")
+    # @completed_games = @my_games.where(completed: true)
+
   end
 
   def show
@@ -13,7 +21,7 @@ class GamesController < ApplicationController
   end
 
 def formatted_updated_at
-  updated_at.strftime("%M %D, %Y %H:%M ")
+  updated_at.strftime("%M %D, %Y %H:%M")
 end
 
   def new
@@ -21,7 +29,7 @@ end
     @default_name = random_name()
 
     if @default_name.split(" ").length > 6
-      new_name = ""
+      new_name = '';
       @default_name.split(" ").each_with_index do | word, index |
         if index < 6
           new_name.concat(word).concat(" ").strip
@@ -40,16 +48,18 @@ end
   def create
 
     @game = Game.new(game_params)
+    @game.remaining_letters = params['game']['remaining_letters']
     # # authorize @game
     if @game.save
       opponent_array = []
-
+      # raise
       # first iterate to build list of all opponents' names
       params["game"]['opponents'].split(',').each do |opponentId|
         user = User.where(id: opponentId.to_i)
         opponent_array << user[0].username
       end
 
+      # raise
 
       # randomize order of players
       un_ran_array = params["game"]['opponents'].split(",") # make array from opponent ids
@@ -62,10 +72,11 @@ end
         @ran_array << myId unless @ran_array.include?(myId)
       end
 
-      # then build each player object and send email
-      @ran_array.each do |opponentId|
+      # then build each player object and send email to opponents
+      @ran_array.each_with_index do |opponentId, index|
         user = User.where(id: opponentId.to_i)
-        Player.create(user_id: opponentId.to_i, game:@game)
+        letters = params["game"]['all_player_letters'].split(',')[index]
+        Player.create(user_id: opponentId.to_i, game:@game, player_letters: letters)
         if user[0] != current_user
           UserMailer.invitation(user, current_user, @game, opponent_array).deliver
         end
@@ -80,18 +91,43 @@ end
 
   def edit
     @game = Game.find(params[:id])
+    game_players = Player.where(game: @game)
+    @player = game_players.find_by(user: current_user)
   end
 
   def update
      @game = Game.find(params[:id])
-     game_players = Player.where(game: @game)
-     @player = game_players.find_by(user: current_user)
+     # raise
+     @game.update({ remaining_letters: params["game"]["remaining_letters"] })
+     players = Player.where(game: @game)
+     @player = players.find_by(user: current_user)
+     # raise
+     if params['game']['player_completed'] == 'true'
+        @player.update({ completed: true })
 
-    if @game.update(game_params)
-      @player.update({player_score: params["game"]["my_score"] })
-      @player.update({ player_letters: params["game"]["my_letters"].gsub(/\'/, "") })
-     redirect_to edit_game_path(@game)
-   end
+        falses = players.length
+        players.each do |pl|
+          falses -= 1 if pl.completed
+        end
+        if falses == 0
+          @game.update({ completed: true })
+          redirect_to game_path(@game)
+          # raise
+        else
+          redirect_to edit_game_path(@game)
+        end
+      else
+        if @game.update(game_params)
+          @player.update({ player_score: params["game"]["my_score"] })
+          @player.update({ player_letters: params["game"]["my_letters"].gsub(/\'/, "") })
+         redirect_to edit_game_path(@game)
+       end
+     end
+
+  end
+
+  def finish
+
   end
 
   def destroy
@@ -118,6 +154,6 @@ private
 
 
   def game_params
-    params.require(:game).permit(:letter_grid, :current_player, :name,
-                   :completed, :jokers, opponents:[])
+    params.require(:game).permit(:letter_grid, :current_player, :name, :completed, :jokers,
+                   :opponents => [], :all_player_letters => [], :remaining_letters => [])
   end
