@@ -1,23 +1,19 @@
 # require('/javascript/components/random_words.json')
+
 require 'json'
 class GamesController < ApplicationController
   # skip_before_action :authenticate_user!, only: [:index, :show]
 
   def index
     @games = Game.all
-    @myGames = [1]
-    Player.where(user: current_user).each do |plr|
-      @myGames << Game.find(plr.game_id)
-    end
-    # raise
-    #@current_games = @my_games.where("completed = false")
-    # @completed_games = @my_games.where(completed: true)
 
   end
 
   def show
      @game = Game.find(params[:id])
      @date = @game.updated_at.strftime("%b %d, %Y %-I:%M%p")
+     @players = Player.where(game: @game)
+     @winner = @players.order(player_score: :desc)[0].user.username
   end
 
 def formatted_updated_at
@@ -93,6 +89,7 @@ end
     @game = Game.find(params[:id])
     game_players = Player.where(game: @game)
     @player = game_players.find_by(user: current_user)
+    redirect_to game_path(@game) if (@game.completed == true)
   end
 
   def update
@@ -120,6 +117,10 @@ end
         if @game.update(game_params)
           @player.update({ player_score: params["game"]["my_score"] })
           @player.update({ player_letters: params["game"]["my_letters"].gsub(/\'/, "") })
+          if (params["game"]["my_letters"].length < 1 && params["game"]["remaining_letters"] < 1)
+            raise
+
+          end
          redirect_to edit_game_path(@game)
        end
      end

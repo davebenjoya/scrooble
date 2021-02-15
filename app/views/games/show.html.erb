@@ -1,13 +1,21 @@
-<div class="row show-page-identifier">
-  <div class="col-2 pr-0" id="dashboard-show">
-    <h5 class='px-3'><%= @game.name %></h5>
+<div class="row show-page-identifier" data-name="<%= @game.name %>" data-winner=<%= @winner %> >
+  <div id="show-dashboard">
     <div id="last">
       <strong>Completed</strong><br/> <%= @date %>
     </div>
-    <div id='scores' class= 'px-0' data-scores="<%= @game.scores %>">
+    <div class="show-scores">
+      <%  @players.each do |player| %>
+      <div class="show-name-score">
+        <div class="show-name"> <%= player.user.username %></div>
+        <div class="show-score"><%= player.player_score %></div>
       </div>
-      <div id="summary"></div>
-  </div>
-  <div class='col-10' id="board" data-letter-grid="<%= @game.letter_grid %>" >
-  </div>
+      <% end %>
+    </div>
+      <div id="summary">
+        <h5 class='summary-head'>summarybot</h5>
+        <p class='summary-body'>Something happened, it was very exciting.</p>
+      </div>
+  </div>  </div>
+
+  <div id="board" data-letter-grid="<%= @game.letter_grid %>"  data-jokers="<%= @game.jokers %>" >
 </div>

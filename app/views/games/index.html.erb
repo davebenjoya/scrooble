@@ -16,8 +16,10 @@
       <% ordered = players.reorder(player_score: :desc) %>
       <% winner  = ordered[0] if game.completed %>
       <% status = game.completed ? "Completed" : "Updated" %>
+      <% players_quit_arr = [] %>
 
       <% players.each_with_index do | plr, ind | %>
+      <% players_quit_arr << ind if plr.completed %>
         <% if plr.user == current_user %>
           <% my_game = true %>
           <% name_string.concat("You") %>
@@ -47,7 +49,8 @@
                 <% end %>
               </div>
             </div>
-            <div class="status status-completed"><%= status %> <%= game.updated_at.strftime("%b %d, %Y %-I:%M%p") %></div>
+            <div class="status status-completed"><%= status %> <%= time_ago_in_words(game.updated_at) %> ago</div>
+
             </div>
           <% end %>
 
@@ -58,16 +61,17 @@
               <div class= 'card-name'> <%= game.name %></div>
               <div class="players" data-current="<%= game.current_player %>">
                 <% name_string.split(",").each_with_index do | player_name, i | %>
+                  <% quit_class = players_quit_arr.include?(i) ?  "player-quit" : "" %>
                   <% if game.current_player == i %>
                     <% arrow_classes = player_name == "You" ? "fas fa-arrow-right fa-arrow-right-pulse" : "fas fa-arrow-right" %>
                     <div><i class="<%= arrow_classes %>"> </i> <%= player_name %> </div>
                   <% else %>
-                    <div> <%= player_name %> </div>
+                    <div class=<%= quit_class %>> <%= player_name %> </div>
                   <% end %>
                 <% end %>
               </div>
             </div>
-            <div class="status"><%= status %> <%= game.updated_at.strftime("%b %d, %Y %-I:%M%p") %></div>
+            <div class="status"><%= status %> <%= time_ago_in_words(game.updated_at) %> ago</div>
          </div>
         <% end %>
       <% end %>

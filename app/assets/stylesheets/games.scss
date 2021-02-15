@@ -5,6 +5,46 @@
 
 @import 'config/colors';
 
+.show-page-identifier {
+  background-color: $roman-silver;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.summary-body {
+  font-size: 12px;
+}
+
+.show-scores {
+  display: flex;
+  flex-direction: column;
+  min-width: 16%;
+  // width: 50%;
+}
+
+.show-name-score {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  // margin-left: 16px;
+  // padding-right: 16px;
+  color: $space-cadet;
+  // padding:0;
+}
+
+
+
+.show-name {
+
+}
+
+.show-score {
+  font-weight: bold;
+}
+
 .announce {
   width: 50%;
   @media only screen and (max-width: 600px) {
@@ -706,8 +746,7 @@ a:link, #navbar a:visited, #cnavbar a:hover, #navbar a:active,  {
 }
 
 #last {
-  padding: 4px 16px;
-  margin:0;
+  // display: block;
   // background-color: hsl(60, 25, 80);
   font-size: 12px;
 }
@@ -838,6 +877,32 @@ turbo_frame_tag {
   }
 }
 
+#show-dashboard {
+  width: 100%;
+  padding: 8px;
+margin-left: 8px;
+  display: flex;
+  flex-direction: row;
+    // width: 16%;
+  justify-content: space-around;
+  align-items: center;
+  background-color: transparent;
+  @media only screen and (max-width: 984px) {
+    // background-color: $indian-yellow;
+    // flex-direction: row;
+    // width: 100%;
+    // display: inline;
+  // justify-content: space-between;
+  }
+
+  @media only screen and (max-width: 600px) {
+    // background-color: $indian-yellow;
+
+    // display: block;
+  // justify-content: space-between;
+  }
+}
+
 .dashboard {
   transform: translate(0px);
   transition: all .4s ease-in;
@@ -879,7 +944,7 @@ turbo_frame_tag {
   @media only screen and (max-width: 984px) {
   margin-top: 4px;
   z-index: 600;
-  // width: 50%;
+  // width: 100%;
   }
 }
 
@@ -961,6 +1026,9 @@ turbo_frame_tag {
   transition: all .3s ease-in;
 }
 
+.player-quit {
+  opacity: .5;
+}
 
 
 .tile {
@@ -1179,7 +1247,7 @@ pointer-events: none;
 
 }
 
-.mark-btn {
+.exchange-btn {
   width: 30%;
   box-shadow: -1px -1px 2px inset $space-cadet;
   color: $space-cadet;
@@ -1200,7 +1268,7 @@ pointer-events: none;
 }
 
 
-.mark-btn-active {
+.exchange-btn-active {
   // margin-bottom: 4px;
   left:8px;
   background-color: $honeydew;
