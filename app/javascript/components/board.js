@@ -508,6 +508,7 @@ const pickLetter = () => {   // using keyboard
 
   function endGame() {
     document.querySelector('#update-player-completed').value = true;
+    populateRailsForm();
     gameForm.submit();
   }
 
@@ -578,6 +579,7 @@ const pickLetter = () => {   // using keyboard
   function chooseLetters() { // select my letters from available letters
     remainingLetters = document.querySelector("#dashboard").dataset.remaining.replaceAll(/\,/g,"");
 
+          console.log('remainingLetters 581: ', remainingLetters);
 
       if (remainingLetters.length > 0 ) {
         let maxLettersLocal = maxLetters
@@ -598,9 +600,9 @@ const pickLetter = () => {   // using keyboard
           remainingLetters = beginString + endString;
         }
 
-        console.log(' my   letteerrrrs'  , myLetters);
-        console.log(remainingLetters.length);
-        console.log ("_____________________")
+        // console.log(' my   letteerrrrs'  , myLetters);
+        // console.log(remainingLetters.length);
+        // console.log ("_____________________")
 
       }  // end if remainingLetters.length > 0
 
@@ -1032,6 +1034,12 @@ function populateRailsForm() {
       console.log("remainingLetters ", remainingLetters);
       document.querySelector('#update-remaining').value = remainingLetters;
       if (remainingLetters.length < 1 && myLetters.length < 1) {
+        console.log("_________________________ ")
+        console.log(" ")
+        console.log("all letters used ")
+        console.log("  ")
+        console.log("_________________________ ")
+        document.querySelector('#update-letters').value = "";
         document.querySelector('#update-player-completed').value = true;
         document.querySelector('#update-completed').value = true;
       }

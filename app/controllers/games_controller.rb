@@ -89,18 +89,34 @@ end
     @game = Game.find(params[:id])
     game_players = Player.where(game: @game)
     @player = game_players.find_by(user: current_user)
-    redirect_to game_path(@game) if (@game.completed == true)
+    if (@game.completed == true)
+      game_players.each do |p|
+        p.update({ completed: true })
+        # raise
+      end
+      redirect_to game_path(@game)
+    end
   end
 
   def update
-     @game = Game.find(params[:id])
-     # raise
-     @game.update({ remaining_letters: params["game"]["remaining_letters"] })
-     players = Player.where(game: @game)
-     @player = players.find_by(user: current_user)
-     # raise
-     if params['game']['player_completed'] == 'true'
-        @player.update({ completed: true })
+   @game = Game.find(params[:id])
+   @game.update({ remaining_letters: params["game"]["remaining_letters"] })
+   players = Player.where(game: @game)
+   @player = players.find_by(user: current_user)
+   # raise
+        if @game.update(game_params)
+          @player.update({ player_score: params["game"]["my_score"] })
+          @player.update({ player_letters: params["game"]["my_letters"].gsub(/\'/, "") })
+        end
+    if (@game.completed == true)
+      players.each do |p|
+        p.update({ completed: true })
+        # raise
+      end
+      redirect_to game_path(@game)
+    else
+      if params['game']['player_completed'] == 'true'
+        @player.update({ player_score: params['game']['my_score'], completed: true })
 
         falses = players.length
         players.each do |pl|
@@ -114,21 +130,15 @@ end
           redirect_to edit_game_path(@game)
         end
       else
-        if @game.update(game_params)
-          @player.update({ player_score: params["game"]["my_score"] })
-          @player.update({ player_letters: params["game"]["my_letters"].gsub(/\'/, "") })
-          if (params["game"]["my_letters"].length < 1 && params["game"]["remaining_letters"] < 1)
-            raise
 
-          end
          redirect_to edit_game_path(@game)
-       end
+      end
      end
 
   end
 
   def finish
-
+    raise
   end
 
   def destroy

@@ -50,3 +50,5 @@ document.addEventListener("turbo:load", function() {
   // new_game();
 });
 
+
+import "controllers"

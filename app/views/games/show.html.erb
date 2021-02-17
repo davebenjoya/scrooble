@@ -1,4 +1,4 @@
-<div class="row show-page-identifier" data-name="<%= @game.name %>" data-winner=<%= @winner %> >
+<div class="show-page-identifier" data-name="<%= @game.name %>" data-winner=<%= @winner %> >
   <div id="show-dashboard">
     <div id="last">
       <strong>Completed</strong><br/> <%= @date %>
@@ -11,11 +11,7 @@
       </div>
       <% end %>
     </div>
-      <div id="summary">
-        <h5 class='summary-head'>summarybot</h5>
-        <p class='summary-body'>Something happened, it was very exciting.</p>
-      </div>
-  </div>  </div>
+  </div>
 
   <div id="board" data-letter-grid="<%= @game.letter_grid %>"  data-jokers="<%= @game.jokers %>" >
 </div>

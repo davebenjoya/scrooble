@@ -33,7 +33,7 @@ gem 'sidekiq-failures', '~> 1.0'
 
 gem 'font-awesome-rails', '~> 4.6', '>= 4.6.3.1'
 
-# gem 'redis', '~> 3.3', '>= 3.3.1'
+gem 'redis', '~> 3.3', '>= 3.3.1'
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
@@ -64,3 +64,5 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+gem "hotwire-rails", "~> 0.1.3"
