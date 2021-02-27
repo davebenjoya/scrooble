@@ -300,6 +300,7 @@ const board = () => {
           selectedLetter = null;
           submitEscape = false;
         } else {
+          // close modal, submit to db
           gameForm.submit();
         }
       });
@@ -321,46 +322,31 @@ setupBoard();
 
 
 function setupBoard() {
-  console.log(' set up')
+    console.log("set up board ")
+    let grid = ``;
 
-    let boardHtml = ``
-      // console.log('boardDiv.dataset.letterGrid ' + boardDiv.dataset.letterGrid.length);
-    if (boardDiv.dataset.letterGrid.length > 0) {  //  edit existing grid
-      const arr = boardDiv.dataset.letterGrid.split(" ");
-      let boardVal = ""
+    if (document.querySelector("#dashboard")) {
+      grid = document.querySelector("#dashboard").dataset.letterGrid;
+    } else {
+      grid = document.querySelector("#board").dataset.letterGrid;
+    }
+
+    if (grid.length > 0) {  //  edit existing grid
+      // const arr = grid.split(" ");
+      const arr = document.querySelectorAll(".tile");
 
 
       arr.forEach((tile, index) => {
-        if (tile) {
-          if (tile.trim() === "_") {
-            tile = " ";
-            boardVal = " "
-          } else {
-
-
-            boardHasLetters = true;
-            const i = remainingLetters.indexOf(tile);
-            remainingLetters.splice(i, 1);
-            Array.from(lettersJSON.letters).forEach( l => {
-              if (l[tile]) {
-                 boardVal = l[tile].value;
-              }    });
-
+      let boardVal = "";
+        Array.from(lettersJSON.letters).forEach( l => {
+          if (l[tile.querySelector(".letter").innerHTML]) {
+            boardHasLetters = true
+            boardVal = l[tile.querySelector(".letter").innerHTML].value;
           }
-          boardHtml += `<div class='tile tile-hide'><div class="letter">${tile}</div><div class="board-value">${boardVal}</div></board-v></div>`
-        }
       });
-    } else {  // no existing letter grid, ie, a new game
-      for (let n = 1; n < 226; n ++) {
-
-          boardHtml += `<div class='tile tile-hide'><div class="letter"> </div></div>`
-      }
-
+        tile.querySelector(".board-value").innerHTML = `${boardVal}`
+    });
     }
-
-
-
-    boardDiv.insertAdjacentHTML('beforeend', boardHtml);
 
     setTimeout(function() {
       document.querySelector("#board").classList.remove("board-hide");
@@ -416,11 +402,20 @@ function setupBoard() {
   }
 
     let jays = "";
-      jays = document.querySelector("#board").dataset.jokers
+
+
+    if (document.querySelector("#dashboard")) {
+      jays = document.querySelector("#dashboard").dataset.jokers;
+    } else {
+      jays = document.querySelector("#board").dataset.jokers;
+    }
+
+
       if (jays.length > 0) {
         const jArray = jays.split(',');
         jArray.forEach(jkr => {
-          const jokerPos = parseInt(jkr)
+          const jokerPos = parseInt(jkr);
+          console.log('jkr ' + jkr);
           console.log('document.querySelectorAll(".tile") ' + document.querySelectorAll(".tile").length)
           if (jokerPos) {
             document.querySelectorAll(".tile")[jokerPos].classList.add("joker-replaced");
@@ -679,6 +674,17 @@ const pickLetter = () => {   // using keyboard
   function commitLetters () {  // ltrP = provisonal; ltrB = on board
      remainingLetters = document.querySelector("#dashboard").dataset.remaining.replaceAll(/\,/g,"");
 
+    let adjToBoardTiles = false;
+
+
+    // hide selected tiles
+    document.querySelectorAll(".letter-disabled").forEach( (letter)=> {
+
+          letter.remove();
+
+      });
+
+
     if (exchange === true ) {  // exchange chosen letters
      if (remainingLetters.length < maxLetters) {
       alert (`There are fewer than ${maxLetters} remaining, so they cannot be exchanged` )
@@ -697,68 +703,102 @@ const pickLetter = () => {   // using keyboard
       chooseLetters();
       appendMyLetters(numToReplace);
       populateRailsForm();
-      gameForm.submit()
+      // gameForm.submit()
     };
 
     } else {  //  new word
-      if (document.querySelector(".letter-provisional")) {
+      // if (document.querySelector(".letter-provisional")) {
         const firstTwoProvisionals = [];
-        let adjToBoardTiles = null;
         let wordOrientation = null;
         let needsToUseCenter = true;
-        /////////////  V A L I D A T I O N /////////////////////////////////////////
-        document.querySelectorAll('.letter').forEach( (ltrP, indexP) => {
-          if (ltrP.classList.contains("letter-provisional")) {
-          // console.log("ltrP.classList " + ltrP.classList)
-            if (firstTwoProvisionals.length < 2) firstTwoProvisionals.push(indexP);
-              if (boardHasLetters) {
-                needsToUseCenter = false;
-        //  check that at least one new letter is adjacent to existing tiles
-                document.querySelectorAll('.letter').forEach( (ltrB, indexB) => {
-                  const notBlank = ltrB.innerHTML.trim().length > 0;
-                  const notProv  = !ltrB.classList.contains("letter-provisional");
-                  if (notBlank && notProv) {
-                    if ( indexP == indexB + 1 || indexP == indexB - 1 || indexP == indexB + 15  || indexP == indexB - 15){
-                      adjToBoardTiles = true;
-                    }
-                  }
-                });
-              } else {
-        // if this is the first move of the game, there are no letters on the board
-                // needsToUseCenter = true
-                adjToBoardTiles = true;
-                if (ltrP.parentNode.classList.contains("center-tile")) {
-                  needsToUseCenter = false;
-                }
 
+
+
+
+
+
+
+
+        /////////////  V A L I D A T I O N /////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+        document.querySelectorAll('.letter').forEach( (ltrP, indexP) => {
+          // not first move -- center tile is already occupied and adjToBoardTiles set to false
+          if (ltrP.innerHTML.trim() != "" && !ltrP.classList.contains("letter-provisional")) {
+            needsToUseCenter = false;
+            // adjToBoardTiles = false;
+          }
+
+          // find positions of first 2 provisionals to determine orientation of main word
+          if (ltrP.classList.contains("letter-provisional")) {
+            if (firstTwoProvisionals.length < 2) firstTwoProvisionals.push(indexP); // add first 2 to array
+            if (boardHasLetters == true) {
+              console.log ("adjToBoardTiles 755 755  ", adjToBoardTiles);
+
+              console.log('ltrP.innerHTML  ' +  ltrP.innerHTML)
+
+
+              //  check that at least one new letter is adjacent to existing tiles
+              document.querySelectorAll('.letter').forEach( (ltrB, indexB) => {
+                const notBlank = ltrB.innerHTML.trim().length > 0;
+                const notProv  = !ltrB.classList.contains("letter-provisional");
+                if (notBlank && notProv) {
+                  if ( indexP == indexB + 1 || indexP == indexB - 1 || indexP == indexB + 15  || indexP == indexB - 15){
+                    console.log ("indexP ", indexP);
+                    adjToBoardTiles = true;
+                  }
+                }
+              });
+
+            } else {
+              // if this is the first move of the game, there are no letters on the board
+              // needsToUseCenter = true
+              console.log ("adjToBoardTiles 755 755  ", adjToBoardTiles);
+              adjToBoardTiles = true;
+              if (ltrP.parentNode.classList.contains("center-tile")) {
+                needsToUseCenter = false;
               }
+            }
             }
           });
 
-        if (needsToUseCenter === true) {
+
+
+        console.log ("adjToBoardTiles ", adjToBoardTiles);
+
+
+        if (needsToUseCenter === true) {  // first move, not using center
           alert ("First word must use the center tile.")
           restoreLetters();
-        } else {
-        //    check orientation if more than one new letter, otherwise assign "neutral"
-        wordOrientation = firstTwoProvisionals.length > 1 ? checkOrientation(firstTwoProvisionals) :  "neutral";
+        } else { // first move using center or subsequent move
+        //   check orientation if more than one new letter, otherwise assign "neutral"
+          wordOrientation = firstTwoProvisionals.length > 1 ? checkOrientation(firstTwoProvisionals) :  "neutral";
 
-        if (!wordOrientation) {
-          alert("New words must be in a single row or column.");
-          restoreLetters();
-          } else if (!adjToBoardTiles) {
-            alert("New letters must be adjacent to existing letters.");
+          if (!wordOrientation) { // checkOrientation returns null, new letters in different rows and columns
+            alert("New words must be in a single row or column.");
             restoreLetters();
-        } else {
-          ///  pass orientation and first letter to caluclateScore
-          // console.log("firstTwoProvisionals " + firstTwoProvisionals);
-          calculateScore(wordOrientation, firstTwoProvisionals[0]);
-          ////// remove used letters from myLetters
-
-        }
+          } else {  // wordOrientation != null
+            if (adjToBoardTiles == false) {
+              alert("New letters must be adjacent to existing letters.");
+              restoreLetters();
+            } else {
+            ///  pass orientation and first letter to caluclateScore
+            calculateScore(wordOrientation, firstTwoProvisionals[0]);
+            }
+          }
         }
 
       }
-    }
+    // }
 }
 // end commitLetters
 
@@ -1039,7 +1079,6 @@ function populateRailsForm() {
         console.log("all letters used ")
         console.log("  ")
         console.log("_________________________ ")
-        document.querySelector('#update-letters').value = "";
         document.querySelector('#update-player-completed').value = true;
         document.querySelector('#update-completed').value = true;
       }
@@ -1080,7 +1119,7 @@ async function searchDictionary (keyword)  {
       const tileHtml = `<div class='my-tile'><div class="my-letter">${ltr}</div><div class="my-value">${val}</div></div>`
       myLettersDiv.insertAdjacentHTML('beforeend', tileHtml);
       myLettersDiv.lastChild.addEventListener('click', toggleLetter);
-      console.log('tileHtml ' + tileHtml);
+      // console.log('tileHtml ' + tileHtml);
     }
   }
 

@@ -1,2 +1,15 @@
- <div class='board board-hide col-12' id="board" data-animate-out="animate-fade" data-letter-grid="<%= @game.letter_grid %> " data-jokers="<%= @game.jokers %>" >
-  </div>
+<%#= turbo_stream_from 'tiles' %>
+<div class='board board-hide' id="board" data-animate-out="animate-fade" >
+    <%#= @game.letter_grid %>
+<% @game.letter_grid.split(" ").each_with_index do |ltr, index| %>
+    <% ltr = " " if ltr == "_" %>
+      <%#= turbo_frame_tag "tile-#{index+1}" do %>
+        <div class='tile tile-hide'>
+          <div class="letter"><%= ltr %></div>
+          <div class="board-value"></div>
+        </div>
+      <%# end %>
+  <% end %>
+</div>
+<%# end %>
+
