@@ -44,7 +44,7 @@ end
   def create
 
     @game = Game.new(game_params)
-    @game.remaining_letters = params['game']['remaining_letters']
+    # @game.remaining_letters = params['game']['remaining_letters']
     # # authorize @game
     if @game.save
       opponent_array = []
