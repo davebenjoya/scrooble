@@ -19,7 +19,9 @@
       <% players_quit_arr = [] %>
 
       <% players.each_with_index do | plr, ind | %>
-      <% players_quit_arr << ind if plr.completed %>
+      <%  if plr.completed %>
+        <% players_quit_arr << ind %>
+      <% end %>
         <% if plr.user == current_user %>
           <% my_game = true %>
           <% name_string.concat("You") %>
