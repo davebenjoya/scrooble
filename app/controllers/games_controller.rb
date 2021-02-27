@@ -104,16 +104,23 @@ end
    players = Player.where(game: @game)
    @player = players.find_by(user: current_user)
    # raise
-        if @game.update(game_params)
-          @player.update({ player_score: params["game"]["my_score"] })
-          @player.update({ player_letters: params["game"]["my_letters"].gsub(/\'/, "") })
-        end
+
+     # respond_to do |format|
+     #  format.turbo_stream
+      # format.html { redirect_to edit_game_path(@game) }
+    # end
+  redirect_to edit_game_path(@game)
+
+    if @game.update(game_params)
+      @player.update({ player_score: params["game"]["my_score"] })
+      @player.update({ player_letters: params["game"]["my_letters"].gsub(/\'/, "") })
+    end
     if (@game.completed == true)
       players.each do |p|
         p.update({ completed: true })
         # raise
       end
-      redirect_to game_path(@game)
+      # redirect_to game_path(@game)
     else
       if params['game']['player_completed'] == 'true'
         @player.update({ player_score: params['game']['my_score'], completed: true })
@@ -124,14 +131,14 @@ end
         end
         if falses == 0
           @game.update({ completed: true })
-          redirect_to game_path(@game)
+          redirect_to game_path(@game) and return
           # raise
         else
-          redirect_to edit_game_path(@game)
+          redirect_to edit_game_path(@game) and return
         end
       else
 
-         redirect_to edit_game_path(@game)
+         # redirect_to edit_game_path(@game)
       end
      end
 

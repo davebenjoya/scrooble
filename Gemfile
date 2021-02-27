@@ -33,7 +33,7 @@ gem 'sidekiq-failures', '~> 1.0'
 
 gem 'font-awesome-rails', '~> 4.6', '>= 4.6.3.1'
 
-gem 'redis', '~> 3.3', '>= 3.3.1'
+# gem 'redis', '~> 3.3', '>= 3.3.1'
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 

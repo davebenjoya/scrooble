@@ -1,0 +1,25 @@
+<div id='scores' class="scores" data-players="<%= @game.players %>" data-current="<%= @game.current_player %>" data-username = "<%= current_user.username %>"data-player-id = "<%= current_user.username %>" >
+  <div style='height:20px'>
+    <i class="fas fa-arrow-circle-left arrow-btn"></i>
+  </div>
+  <% players  = Player.where(game_id: @game.id).order(:id) %>
+
+  <% players.each_with_index do | player, index | %>
+  <% player.completed = true if @game.completed == true %>
+    <% name_score_classes = "name-score" %>
+    <% player_classes = "player" %>
+    <% if player.user == current_user %>
+       <% player_classes.concat(" this-user") %>
+    <% end %>
+    <% if  @game.current_player == index %>
+      <% name_score_classes.concat(" player-selected") %>
+    <% end %>
+
+      <%= turbo_frame_tag "players" do %>
+        <div id = "<%= player.id %>" class = "<%= name_score_classes %>">
+            <div class="<%= player_classes %>"><%= player.user.username %></div>
+            <div class="score"><%= player.player_score %></div>
+        </div>
+      <% end %>
+  <% end %>
+</div>
