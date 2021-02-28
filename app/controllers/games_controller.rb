@@ -131,10 +131,11 @@ end
         end
         if falses == 0
           @game.update({ completed: true })
-          redirect_to game_path(@game) and return
+          redirect_to game_path(@game)
           # raise
         else
-          redirect_to edit_game_path(@game) and return
+          flash[:notice] = 'Game has ended'
+          redirect_to edit_game_path(@game)
         end
       else
 

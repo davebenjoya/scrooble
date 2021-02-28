@@ -78,7 +78,7 @@ const board = () => {
 // window.addEventListener("beforeunload", function(event) {
 //   console.log ("GlobalEventHandlers.onclose ") });
 //
-    remainingLetters = document.querySelector("#dashboard").dataset.remaining.split(",");
+    remainingLetters = document.querySelector("#dashboard").dataset.remaining.trim().split(",");
     console.log('remainingLetters::::::: ',  remainingLetters);
     // console.log('myLetters ' + typeof myLetters);
     document.querySelector("#scores").addEventListener('click', function() {
@@ -90,7 +90,7 @@ const board = () => {
     // remainingLetters =  remain.split(',').splice(1, remain.length - 1);
     // console.log("remainingLettersssss  ", remainingLetters[1]);
     playersArray = document.querySelectorAll(".name-score");
-    const letters = document.querySelector("#my-letters").dataset.playerLetters;
+    const letters = document.querySelector("#my-letters").dataset.playerLetters.replace(",", "");
     console.log('letters ' + letters);
     for (const letter of letters) {
       myLetters.push(letter)
