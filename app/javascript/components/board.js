@@ -548,21 +548,43 @@ const pickLetter = () => {   // using keyboard
             $('#exampleModalCenter').modal('show');
         } else {
           submitEscape = false;
-          event.target.querySelector('.letter').innerHTML = txt;
-          event.target.querySelector('.letter').classList.add("letter-provisional");
-          buffer.push(txt);
+          if (event.target.querySelector('.letter').classList.contains("letter-provisional")) {
+            //  switch letter, remove disabled class
+          } else {
+            event.target.querySelector('.letter').innerHTML = txt;
+            event.target.querySelector('.letter').classList.add("letter-provisional");
+            buffer.push(txt);
 
-          event.target.querySelector(".board-value").innerHTML = `${val}`;
+            event.target.querySelector(".board-value").innerHTML = `${val}`;
 
-          selectedLetter.classList.remove("letter-selected");
-          selectedLetter.classList.add("letter-disabled");
-          selectedLetter.removeEventListener('click', toggleLetter);
-          document.querySelector('.commit-btn').classList.remove("button-disabled");
-          document.querySelector('.cancel-btn').classList.remove("button-disabled");
-          selectedLetter = null;
+            selectedLetter.classList.remove("letter-selected");
+            selectedLetter.classList.add("letter-disabled");
+            selectedLetter.removeEventListener('click', toggleLetter);
+            event.target.addEventListener('click', restoreOne);
+            document.querySelector('.commit-btn').classList.remove("button-disabled");
+            document.querySelector('.cancel-btn').classList.remove("button-disabled");
+            selectedLetter = null;
+
+          }
         }
       }
     }
+  }
+
+  function restoreOne() {
+    let enableFlag = false;
+    document.querySelectorAll('.letter-disabled').forEach(ltr => {
+        if (ltr.querySelector('.my-letter').innerHTML == event.target.querySelector('.letter').innerHTML) {
+      if (enableFlag == false) {   // only enable one letter
+        event.target.querySelector('.letter').innerHTML = ""
+          ltr.classList.remove('letter-disabled')
+          enableFlag = true;
+        }
+      }
+    })
+
+    // classList.remove("button-disabled");
+
   }
 
 
