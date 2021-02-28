@@ -40,11 +40,6 @@ const board = () => {
   let submitEscape = false;
   let replacement;
 
-
-
-
-
-
   if (newGame){
     document.querySelectorAll(".toggle-stats").forEach(stat => {
       stat.addEventListener('click', function() {
@@ -69,8 +64,6 @@ const board = () => {
     })
   }
 
-
-
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
@@ -79,23 +72,22 @@ const board = () => {
 // save order of player's letters on leaving page
     window.onbeforeunload = function(){
   // return 'Are you sure you want to leave?';
-  console.log('myLetters : :  :  ' , myLetters);
+  // console.log('myLetters : :  :  ' , myLetters);
 };
-
 
 // window.addEventListener("beforeunload", function(event) {
 //   console.log ("GlobalEventHandlers.onclose ") });
 //
-    remainingLetters = document.querySelector("#dashboard").dataset.remaining;
-    // console.log('remainingLetters::::::: ', typeof remainingLetters);
+    remainingLetters = document.querySelector("#dashboard").dataset.remaining.split(",");
+    console.log('remainingLetters::::::: ',  remainingLetters);
     // console.log('myLetters ' + typeof myLetters);
     document.querySelector("#scores").addEventListener('click', function() {
       document.querySelector("#scores").classList.toggle("scores-show");
       document.querySelector(".fa-arrow-circle-left").classList.toggle("arrow-btn-rotate");
     })
     currentPlayer = document.querySelector(".edit-page-identifier").dataset.playername;
-    const remain = (document.querySelector("#dashboard").dataset.remaining.replaceAll(/\"\"/g , '"'));
-    remainingLetters =  remain.split(',').splice(1, remain.length - 1);
+    // const remain = (document.querySelector("#dashboard").dataset.remaining.replaceAll(/\"\"/g , '"'));
+    // remainingLetters =  remain.split(',').splice(1, remain.length - 1);
     // console.log("remainingLettersssss  ", remainingLetters[1]);
     playersArray = document.querySelectorAll(".name-score");
     const letters = document.querySelector("#my-letters").dataset.playerLetters;
@@ -139,8 +131,6 @@ const board = () => {
 
 
   function createNewGame () {
-
-
     let opponentArray = []
     let newPlayers  = []
     const firstPlayer = createPlayerString (document.querySelector("#players").dataset.username);
@@ -205,6 +195,11 @@ const board = () => {
       }
       lettersArray.push(myString);
     }
+
+    let remainLtrStr = "";
+    remainingLetters.forEach( ltr => {
+      remainLtrStr += ltr
+    })
 
 
     console.log('lettersArray' + typeof lettersArray);
@@ -572,9 +567,8 @@ const pickLetter = () => {   // using keyboard
 
 
   function chooseLetters() { // select my letters from available letters
-    remainingLetters = document.querySelector("#dashboard").dataset.remaining.replaceAll(/\,/g,"");
 
-          console.log('remainingLetters 581: ', remainingLetters);
+          console.log('myLetters.length : ', myLetters.length);
 
       if (remainingLetters.length > 0 ) {
         let maxLettersLocal = maxLetters
@@ -672,7 +666,7 @@ const pickLetter = () => {   // using keyboard
   /////////////////////////////////////////////////////////////////
 
   function commitLetters () {  // ltrP = provisonal; ltrB = on board
-     remainingLetters = document.querySelector("#dashboard").dataset.remaining.replaceAll(/\,/g,"");
+     remainingLetters = document.querySelector("#dashboard").dataset.remaining.split(",");
 
     let adjToBoardTiles = false;
 
@@ -680,7 +674,7 @@ const pickLetter = () => {   // using keyboard
     // hide selected tiles
     document.querySelectorAll(".letter-disabled").forEach( (letter)=> {
 
-          letter.remove();
+          letter.parentNode.style = "opacity: 0;";
 
       });
 
@@ -698,7 +692,6 @@ const pickLetter = () => {   // using keyboard
         }
       });
       // console.log(maxLetters);
-      // console.log(myLetters.length);
       const numToReplace = maxLetters - myLetters.length
       chooseLetters();
       appendMyLetters(numToReplace);
@@ -708,27 +701,12 @@ const pickLetter = () => {   // using keyboard
 
     } else {  //  new word
       // if (document.querySelector(".letter-provisional")) {
+      console.log('myLetters.length  ', myLetters.length);
         const firstTwoProvisionals = [];
         let wordOrientation = null;
         let needsToUseCenter = true;
 
-
-
-
-
-
-
-
         /////////////  V A L I D A T I O N /////////////////////////////////////////
-
-
-
-
-
-
-
-
-
 
 
         document.querySelectorAll('.letter').forEach( (ltrP, indexP) => {
@@ -741,12 +719,8 @@ const pickLetter = () => {   // using keyboard
           // find positions of first 2 provisionals to determine orientation of main word
           if (ltrP.classList.contains("letter-provisional")) {
             if (firstTwoProvisionals.length < 2) firstTwoProvisionals.push(indexP); // add first 2 to array
-            if (boardHasLetters == true) {
-              console.log ("adjToBoardTiles 755 755  ", adjToBoardTiles);
-
-              console.log('ltrP.innerHTML  ' +  ltrP.innerHTML)
-
-
+            if (boardHasLetters == true) {  // not first move of the game
+              console.log (" NOT first move ")
               //  check that at least one new letter is adjacent to existing tiles
               document.querySelectorAll('.letter').forEach( (ltrB, indexB) => {
                 const notBlank = ltrB.innerHTML.trim().length > 0;
@@ -762,7 +736,7 @@ const pickLetter = () => {   // using keyboard
             } else {
               // if this is the first move of the game, there are no letters on the board
               // needsToUseCenter = true
-              console.log ("adjToBoardTiles 755 755  ", adjToBoardTiles);
+              console.log (" first move ")
               adjToBoardTiles = true;
               if (ltrP.parentNode.classList.contains("center-tile")) {
                 needsToUseCenter = false;
@@ -1012,9 +986,13 @@ const findVerticallWord = (firstProvisional) => {
 
       myLettersDiv.querySelectorAll('.letter-disabled').forEach( ltr => { // 'disabled' means it's been placed on the board
         const ind = myLetters.indexOf(ltr.querySelector(".my-letter").innerHTML);
+        console.log('ltr ' , ltr)
+        console.log('ind ' , ind)
         myLetters.splice(ind, 1);
-        ltr.remove();
+
+        // ltr.remove();
       });
+        console.log('myLetters 2  ' , myLetters)
       buffer = [];
       selectedLetter = null;
       const numToReplace  =  maxLetters - myLetters.length;
@@ -1066,8 +1044,9 @@ function populateRailsForm() {
       //  GAME FORM
 
       let lettersString = '';
+      // let remainArray = remainingLetters.split(",")
 
-      console.log( " newGrid " + newGrid)
+      // console.log( " newGrid " + newGrid)
       document.querySelector('#update-grid').value = newGrid;
       document.querySelector('#update-current').value = current;
       document.querySelector('#update-jokers').value = jokers;

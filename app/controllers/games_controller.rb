@@ -44,7 +44,7 @@ end
   def create
 
     @game = Game.new(game_params)
-    # @game.remaining_letters = params['game']['remaining_letters']
+    @game.remaining_letters = params['game']['remaining_letters']
     # # authorize @game
     if @game.save
       opponent_array = []
@@ -74,7 +74,7 @@ end
         letters = params["game"]['all_player_letters'].split(',')[index]
         Player.create(user_id: opponentId.to_i, game:@game, player_letters: letters)
         if user[0] != current_user
-          UserMailer.invitation(user, current_user, @game, opponent_array).deliver
+          # UserMailer.invitation(user, current_user, @game, opponent_array).deliver
         end
       end
     # redirect_to edit_game_path(@game)
