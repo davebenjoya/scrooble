@@ -15,11 +15,11 @@
       <% name_score_classes.concat(" player-selected") %>
     <% end %>
 
-      <%= turbo_frame_tag "players" do %>
+      <%#= turbo_frame_tag "players" do %>
         <div id = "<%= player.id %>" class = "<%= name_score_classes %>">
             <div class="<%= player_classes %>"><%= player.user.username %></div>
             <div class="score"><%= player.player_score %></div>
         </div>
-      <% end %>
+      <%# end %>
   <% end %>
 </div>
