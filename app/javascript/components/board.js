@@ -171,10 +171,10 @@ const board = () => {
     remainingLetters = [];
 
   // short letter list
-    lettersJSON.short.forEach( ltr => {
+    // lettersJSON.short.forEach( ltr => {
 
   // standard letter list
-  // lettersJSON.letters.forEach( ltr => {
+  lettersJSON.letters.forEach( ltr => {
     const l = Object.keys(ltr)[0];
     const f = parseInt(Object.values(ltr)[0].frequency);
     for (let r = 0; r < f; r++) {
