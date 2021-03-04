@@ -1,9 +1,13 @@
 import lettersJSON from './letters.json';
+import  pLetters  from './player_letters'
 // import 'new_game.js';
 // import Sortable from "sortablejs";
 import { Sortable, MultiDrag, Swap, OnSpill, AutoScroll } from "sortablejs";
 
 const board = () => {
+
+  let val = pLetters.something;
+  console.log(val);
   const newGame = document.querySelector(".new-page-identifier");
   const editGame = document.querySelector(".edit-page-identifier");
   const showGame = document.querySelector(".show-page-identifier");
@@ -82,7 +86,8 @@ const board = () => {
   console.log('myLetters : :  :  ' , myLetters);
 };
 
-
+  // pLetters();
+  console.log('fddg gdfgr ', pLetters.initP);
 // window.addEventListener("beforeunload", function(event) {
 //   console.log ("GlobalEventHandlers.onclose ") });
 //
