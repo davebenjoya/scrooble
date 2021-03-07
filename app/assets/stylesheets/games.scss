@@ -5,6 +5,10 @@
 
 @import 'config/colors';
 
+ :root {
+  --bulge-delay: .2s;
+}
+
 .show-page-identifier {
   background-color: $roman-silver;
   display: flex;
@@ -12,6 +16,7 @@
   align-items: center;
   padding-left: 16px;
   padding-right: 16px;
+  width: 100%;
 }
 
 .summary-body {
@@ -773,7 +778,7 @@ turbo_frame_tag {
 #board {
   display: grid;
   height: 480px;
-  width: 840px;
+  width: 100%;
   grid-template-columns: 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67%
    6.67% 6.67% 6.67% 6.67% 6.67%;
   grid-template-rows: 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67% 6.67%
@@ -1176,6 +1181,22 @@ pointer-events: none;
 .letter-provisional {
   color: $india-green;
   // color: hsl(195, 180, 45);
+}
+
+.letter-new {
+  opacity: 0;
+}
+
+.letter-new-show {
+  opacity: 1;
+  animation: bulge .8s ease-in-out 1 alternate
+}
+
+@keyframes bulge {
+
+  0% {transform: scale(1.0)}
+  100% {transform: scale(1.4)}
+
 }
 
 #scores-buttons {

@@ -21,6 +21,7 @@ import "../../assets/images/star.svg";
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 import { board } from '../components/board'
+import { pLetters } from '../components/player_letters'
 import { show_game } from '../components/show_game'
 import { gameIndex } from '../components/game_index'
 import { new_game } from '../components/new_game'
@@ -45,8 +46,9 @@ document.addEventListener("turbo:load", function() {
   }, 2000);
   gameIndex();
   board();
+  pLetters();
   show_game();
-  // initGameCable();
+  initGameCable();
   // new_game();
 });
 
