@@ -1,6 +1,5 @@
 <div class="edit-page-identifier" data-playername= <%= current_user.username %> >
 
- <% flash[:game_update] %>
   <!-- Button trigger modal -->
 <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
   Launch demo modal
@@ -23,6 +22,7 @@
 
 <%#= @game.remaining_letters %>
 <%#= @game.name %>
+
 <div class="pr-0 dashboard dashboard-hide" data-current = <%= @game.current_player %> data-animate-out="animate-slide-left" id="dashboard" data-name ="<%= @game.name %>" data-id ="<%= @game.id %>" data-url ="games/<%= @game.id %>/edit" data-remaining =  "<%= @game.remaining_letters %>" data-jokers =  "<%= @game.jokers %>" data-completed =  "<%= @player.completed %>">
   <div id="scores-buttons">
     <div id="messages" data-game-id=<%= @game.id %>>
@@ -33,16 +33,12 @@
       <%#= audio_tag "dreamy", id: "btnAudio" %>
       <button data-action="online-list#playSound" data-online-list-target="trigger" >Play</button>
     </div> -->
+
     <div id="controls">
-      <%#= form_with(model: @game, id: "update-game", action: edit_game_path(@game)) do |f| %>
-      <%#=f.hidden_field :current_player, value:1, id:'update-current' %>
-        <%#=f.hidden_field :player_completed, value:false, id:'update-player-completed'  %>
-        <%#=f.hidden_field :letter_grid, value:'____NONSENSE____', id:'update-grid' %>
-        <%#=f.hidden_field :jokers, value:"7, 82, 154, 206", id:'update-jokers' %>
-        <%#=f.hidden_field :my_score, value: "12", id:'update-score' %>
-        <%#=f.hidden_field :my_letters, value: 'ABCDEFG', id:'update-letters' %>
-        <%#=f.hidden_field :remaining_letters, value:'AAAAAAABCDEFHIIKLMNOOOPRRSSTTUUUY', id:'update-remaining' %>
+      <%#= turbo_frame_tag "edit_form_tag" %>
+        <%= render 'edit_form', game:@game %>
       <%# end %>
+
 
        <%= form_with(model: @game, id: "update-game", action: edit_game_path(@game), remote: true) do |f| %>
       <%=f.hidden_field :current_player, id:'update-current' %>
@@ -55,12 +51,14 @@
         <%=f.hidden_field :remaining_letters, id:'update-remaining' %>
       <% end %>
 
+
       <div id = "buttons">
         <button id='commit-btn' class="commit-btn button-disabled"><i class="fas fa-check"></i></button>
         <button id='cancel-btn' class="cancel-btn button-disabled"><i class="fas fa-ban"></i></button>
         <button id='exchange-btn' class="exchange-btn button-disabled"><i class="fas fa-exchange-alt"></i></button>
        <button id='end-btn' class="end-btn "><i class="fas fa-hand-paper"></i></button>
       </div>
+
     </div>
   </div>
 
@@ -87,8 +85,6 @@
       <% end %>
 
     <!-- </div> -->
-
-
     <% players.each do | player | %>
       <% if player.user == current_user %>
         <div id="my-letters" data-player-letters = "<%= player.player_letters %>">
@@ -99,40 +95,17 @@
 
   </div>
 
+
 <%#= turbo_stream_from "games" %>
 <%= turbo_frame_tag "game" do %>
   <%= render "board", game:@game %>
 <% end %>
 
-    <div id='scores' class="scores" data-players="<%= @game.players %>" data-current="<%= @game.current_player %>" data-username = "<%= current_user.username %>"data-player-id = "<%= current_user.username %>" >
-      <div style='height:20px'>
-        <i class="fas fa-arrow-circle-left arrow-btn"></i>
-      </div>
-      <% players  = Player.where(game_id: @game.id).order(:id) %>
 
-      <% players.each_with_index do | player, index | %>
-      <% player.completed = true if @game.completed == true %>
-        <% name_score_classes = "name-score" %>
-        <% player_classes = "player" %>
-        <% if player.user == current_user %>
-           <% player_classes.concat(" this-user") %>
-        <% end %>
-        <% if  @game.current_player == index %>
-          <% name_score_classes.concat(" player-selected") %>
-        <% end %>
 
-        <div id = "<%= player.id %>" class = "<%= name_score_classes %>">
-          <div class="<%= player_classes %>"><%= player.user.username %></div>
-          <div class="score"><%= player.player_score %></div>
-        </div>
-      <% end %>
-    </div>
+    <%= render "players" %>
 
 </div>
-
-
-
-
 
 
 

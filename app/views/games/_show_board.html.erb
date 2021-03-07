@@ -1,0 +1,13 @@
+ <div class='board board-hide' id="board" data-animate-out="animate-fade"
+      data-letter-grid="<%= @game.letter_grid %> "
+      data-jokers ="<%= @game.jokers  %>" >
+    <%#= @game.letter_grid %>
+    <% @game.letter_grid.split(" ").each_with_index do |ltr, index| %>
+    <% ltr = " " if ltr == "_" %>
+        <div class='tile tile-hide'>
+          <div class="letter"><%= ltr %></div>
+          <div class="board-value"></div>
+        </div>
+  <% end %>
+</div>
+
