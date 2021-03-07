@@ -15,8 +15,8 @@ const initGameCable = () => {
         // console.log("data "  , data); // called when data is broadcast in the cable
         // data contains values for message([0]), grid([1]), up([2] - current player)
         const dataArray = data.split(",")
-        $("#messages").innerHTML = dataArray[0];
-
+        // $("#messages").innerHTML = dataArray[0];
+        alert(dataArray[0])
         document.querySelector("#board").setAttribute('data-letter-grid', "dataArray[1]");
         // document.querySelector("#board").setAttribute('data-letter-grid', "dataArray[1]");
         updateBoard(dataArray[1]);
