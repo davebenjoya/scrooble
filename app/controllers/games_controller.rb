@@ -77,7 +77,7 @@ end
         letters = params["game"]['all_player_letters'].split(',')[index]
         Player.create(user_id: opponentId.to_i, game:@game, player_letters: letters)
         if user[0] != current_user
-          UserMailer.invitation(user, current_user, @game, opponent_array).deliver
+          # UserMailer.invitation(user, current_user, @game, opponent_array).deliver
         end
       end
     # redirect_to edit_game_path(@game)
@@ -107,6 +107,7 @@ end
    players = Player.where(game: @game)
    @player = players.find_by(user: current_user)
    # raise
+
     if @game.update(game_params)
       added_score = params["game"]["my_score"].to_i - @player.player_score
       @player.update({ player_score: params["game"]["my_score"] })
@@ -120,12 +121,13 @@ end
     )
 
         end
+
     if (@game.completed == true)
       players.each do |p|
         p.update({ completed: true })
         # raise
       end
-      redirect_to game_path(@game)
+      # redirect_to game_path(@game)
     else
       if params['game']['player_completed'] == 'true'
         @player.update({ player_score: params['game']['my_score'], completed: true })
@@ -136,14 +138,15 @@ end
         end
         if falses == 0
           @game.update({ completed: true })
-          redirect_to game_path(@game)
+          flash[:notice] = 'Game has ended'
+          redirect_to game_path(@game) && return
           # raise
         else
-          redirect_to edit_game_path(@game)
+          redirect_to edit_game_path(@game) && return
         end
       else
 
-         redirect_to edit_game_path(@game)
+         redirect_to edit_game_path(@game) && return
       end
      end
 
