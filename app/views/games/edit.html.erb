@@ -100,9 +100,9 @@
   </div>
 
 <%#= turbo_stream_from "games" %>
-<%= turbo_frame_tag "game" do %>
+<%#= turbo_frame_tag "game" do %>
   <%= render "board", game:@game %>
-<% end %>
+<%# end %>
 
     <div id='scores' class="scores" data-players="<%= @game.players %>" data-current="<%= @game.current_player %>" data-username = "<%= current_user.username %>"data-player-id = "<%= current_user.username %>" >
       <div style='height:20px'>
