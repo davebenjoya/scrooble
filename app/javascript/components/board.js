@@ -2,8 +2,12 @@ import lettersJSON from './letters.json';
 // import 'new_game.js';
 // import Sortable from "sortablejs";
 import { Sortable, MultiDrag, Swap, OnSpill, AutoScroll } from "sortablejs";
+import   pLetters  from './player_letters'
 
 const board = () => {
+
+console.log('pLetters ',  pLetters);
+console.log('pLetters.something ',  pLetters.something);
   const newGame = document.querySelector(".new-page-identifier");
   const editGame = document.querySelector(".edit-page-identifier");
   const showGame = document.querySelector(".show-page-identifier");
@@ -74,6 +78,7 @@ const board = () => {
   // return 'Are you sure you want to leave?';
   // console.log('myLetters : :  :  ' , myLetters);
 };
+
 
 // window.addEventListener("beforeunload", function(event) {
 //   console.log ("GlobalEventHandlers.onclose ") });
@@ -995,9 +1000,6 @@ const findVerticallWord = (firstProvisional) => {
         }
         const newWordTiles = `<span class='row pl-3'>${tileString}</span>`
 
-        document.querySelector(".modal-body").innerHTML = newWordTiles + alertString;
-        $('#exampleModalCenter').modal('show');
-
         if (selectedLetter ) {
           selectedLetter.classList.remove('letter-selected')
           selectedLetter = null;
@@ -1024,6 +1026,10 @@ const findVerticallWord = (firstProvisional) => {
 
     //const calculateScore
     populateRailsForm();
+
+        document.querySelector(".modal-body").innerHTML = newWordTiles + alertString;
+        // $('#exampleModalCenter').modal('show');
+        gameForm.submit();
 
     }
   });
@@ -1084,6 +1090,7 @@ function populateRailsForm() {
         document.querySelector('#update-completed').value = true;
       }
       // document.querySelector('#update-letters').value = JSON.stringify(myLetters);
+
 
 }
 

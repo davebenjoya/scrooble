@@ -1,5 +1,5 @@
 <div class="edit-page-identifier" data-playername= <%= current_user.username %> >
-  <%#= @game.remaining_letters %>
+
   <!-- Button trigger modal -->
 <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
   Launch demo modal
@@ -22,13 +22,35 @@
 
 <%#= @game.remaining_letters %>
 <%#= @game.name %>
-<div class="pr-0 dashboard dashboard-hide" data-animate-out="animate-slide-left" id="dashboard" data-name ="<%= @game.name %>" data-id ="<%= @game.id %>" data-url ="games/<%= @game.id %>/edit" data-remaining =  "<%= @game.remaining_letters %>" data-jokers =  "<%= @game.jokers %>" data-completed =  "<%= @player.completed %>" data-letter-grid="<%= @game.letter_grid %> " >
+
+<div class="pr-0 dashboard dashboard-hide" data-current = <%= @game.current_player %> data-animate-out="animate-slide-left" id="dashboard" data-name ="<%= @game.name %>" data-id ="<%= @game.id %>" data-url ="games/<%= @game.id %>/edit" data-remaining =  "<%= @game.remaining_letters %>" data-jokers =  "<%= @game.jokers %>" data-completed =  "<%= @player.completed %>">
   <div id="scores-buttons">
-    <div id="messages" data-game-id=<%= @game.id %>></div>
+    <div id="messages" data-game-id=<%= @game.id %>>
+
+      <%#= render 'message'  %>
+    </div>
+    <!-- <div data-controller="online-list" data-online-list-sound="insistentHarp.mp3">
+      <%#= audio_tag "dreamy", id: "btnAudio" %>
+      <button data-action="online-list#playSound" data-online-list-target="trigger" >Play</button>
+    </div> -->
+
     <div id="controls">
       <%#= turbo_frame_tag "edit_form_tag" %>
         <%= render 'edit_form', game:@game %>
       <%# end %>
+
+
+       <%= form_with(model: @game, id: "update-game", action: edit_game_path(@game), remote: true) do |f| %>
+      <%=f.hidden_field :current_player, id:'update-current' %>
+        <%=f.hidden_field :completed, value: false, id:'update-completed'  %>
+        <%=f.hidden_field :player_completed, value: false, id:'update-player-completed'  %>
+        <%=f.hidden_field :letter_grid, id:'update-grid' %>
+        <%=f.hidden_field :jokers, id:'update-jokers' %>
+        <%=f.hidden_field :my_score, id:'update-score' %>
+        <%=f.hidden_field :my_letters, id:'update-letters' %>
+        <%=f.hidden_field :remaining_letters, id:'update-remaining' %>
+      <% end %>
+
 
       <div id = "buttons">
         <button id='commit-btn' class="commit-btn button-disabled"><i class="fas fa-check"></i></button>
@@ -73,10 +95,13 @@
 
   </div>
 
-<%#= turbo_stream_from "board_stream" %>
-<%#= turbo_frame_tag "board_frame" do %>
-  <%= render "board"%>
-<%# end %>
+
+<%#= turbo_stream_from "games" %>
+<%= turbo_frame_tag "game" do %>
+  <%= render "board", game:@game %>
+<% end %>
+
+
 
     <%= render "players" %>
 

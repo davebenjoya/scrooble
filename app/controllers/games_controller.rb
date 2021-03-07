@@ -4,6 +4,9 @@ require 'json'
 class GamesController < ApplicationController
   # skip_before_action :authenticate_user!, only: [:index, :show]
 
+
+
+
   def index
     @games = Game.all
 
@@ -105,16 +108,20 @@ end
    @player = players.find_by(user: current_user)
    # raise
 
-     # respond_to do |format|
-     #  format.turbo_stream
-      # format.html { redirect_to edit_game_path(@game) }
-    # end
-  redirect_to edit_game_path(@game)
-
     if @game.update(game_params)
+      added_score = params["game"]["my_score"].to_i - @player.player_score
       @player.update({ player_score: params["game"]["my_score"] })
       @player.update({ player_letters: params["game"]["my_letters"].gsub(/\'/, "") })
-    end
+
+      mess = "#{@player.user.username} added #{added_score} #{'point'.pluralize(added_score)}"
+      GameChannel.broadcast_to(
+      @game,
+      # flash[:game_update] = "The snozberries taste like snozberries!"
+      render_to_string(partial: "message", locals: { message: mess, grid: @game.letter_grid, up: @game.current_player })
+    )
+
+        end
+
     if (@game.completed == true)
       players.each do |p|
         p.update({ completed: true })
