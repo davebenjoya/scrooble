@@ -130,7 +130,7 @@ console.log('pLetters.something ',  pLetters.something);
 
   if (document.querySelector("#dashboard").dataset) titleString = document.querySelector("#dashboard").dataset.name;
     const ps =  document.querySelector(".player-selected").querySelector(".player").innerText;
-    const navbarString = `<span class='nav-emp'>${titleString}</span> Up now:  <span class='nav-emp'>${ps}</span>`;
+    const navbarString = `<div class='nav-emp'>${titleString}</div> <div class = 'navbar-player'>Up now:  <span class='nav-emp'>${ps}</span></div>`;
 
     document.querySelector("#navbar-game").insertAdjacentHTML('afterbegin', navbarString)
 
@@ -718,7 +718,7 @@ const pickLetter = () => {   // using keyboard
           if (ltrP.classList.contains("letter-provisional")) {
           // console.log("ltrP.classList " + ltrP.classList)
             if (firstTwoProvisionals.length < 2) firstTwoProvisionals.push(indexP);
-              if (boardHasLetters) {
+              // if (boardHasLetters) {
                 needsToUseCenter = false;
         //  check that at least one new letter is adjacent to existing tiles
                 document.querySelectorAll('.letter').forEach( (ltrB, indexB) => {
@@ -738,7 +738,7 @@ const pickLetter = () => {   // using keyboard
                   needsToUseCenter = false;
                 }
 
-              }
+              // }
             }
           });
 
