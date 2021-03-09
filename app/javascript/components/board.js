@@ -120,7 +120,7 @@ console.log('pLetters.something ',  pLetters.something);
 
   if (document.querySelector("#dashboard").dataset) titleString = document.querySelector("#dashboard").dataset.name;
     const ps =  document.querySelector(".player-selected").querySelector(".player").innerText;
-    const navbarString = `<span class='nav-emp'>${titleString}</span> Up now:  <span class='nav-emp'>${ps}</span>`;
+    const navbarString = `<div class='nav-emp'>${titleString}</div> <div class = 'navbar-player'>Up now:  <span class='nav-emp'>${ps}</span></div>`;
 
     document.querySelector("#navbar-game").insertAdjacentHTML('afterbegin', navbarString)
 
@@ -745,29 +745,27 @@ const pickLetter = () => {   // using keyboard
 
           // find positions of first 2 provisionals to determine orientation of main word
           if (ltrP.classList.contains("letter-provisional")) {
-            if (firstTwoProvisionals.length < 2) firstTwoProvisionals.push(indexP); // add first 2 to array
-            if (boardHasLetters == true) {  // not first move of the game
-              console.log (" NOT first move ")
-              //  check that at least one new letter is adjacent to existing tiles
-              document.querySelectorAll('.letter').forEach( (ltrB, indexB) => {
-                const notBlank = ltrB.innerHTML.trim().length > 0;
-                const notProv  = !ltrB.classList.contains("letter-provisional");
-                if (notBlank && notProv) {
-                  if ( indexP == indexB + 1 || indexP == indexB - 1 || indexP == indexB + 15  || indexP == indexB - 15){
-                    console.log ("indexP ", indexP);
-                    adjToBoardTiles = true;
+
+          // console.log("ltrP.classList " + ltrP.classList)
+            if (firstTwoProvisionals.length < 2) firstTwoProvisionals.push(indexP);
+              // if (boardHasLetters) {
+                needsToUseCenter = false;
+        //  check that at least one new letter is adjacent to existing tiles
+                document.querySelectorAll('.letter').forEach( (ltrB, indexB) => {
+                  const notBlank = ltrB.innerHTML.trim().length > 0;
+                  const notProv  = !ltrB.classList.contains("letter-provisional");
+                  if (notBlank && notProv) {
+                    if ( indexP == indexB + 1 || indexP == indexB - 1 || indexP == indexB + 15  || indexP == indexB - 15){
+                      adjToBoardTiles = true;
+                    }
+
                   }
                 }
               });
 
-            } else {
-              // if this is the first move of the game, there are no letters on the board
-              // needsToUseCenter = true
-              console.log (" first move ")
-              adjToBoardTiles = true;
-              if (ltrP.parentNode.classList.contains("center-tile")) {
-                needsToUseCenter = false;
-              }
+
+              // }
+
             }
             }
           });

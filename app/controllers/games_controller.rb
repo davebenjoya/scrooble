@@ -117,7 +117,7 @@ end
       GameChannel.broadcast_to(
       @game,
       # flash[:game_update] = "The snozberries taste like snozberries!"
-      render_to_string(partial: "message", locals: { message: mess, grid: @game.letter_grid, up: @game.current_player })
+      render_to_string(partial: "message", locals: { message: mess, grid: @game.letter_grid, up: @game.current_player, score: @player.player_score })
     )
 
         end
