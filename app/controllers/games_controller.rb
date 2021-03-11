@@ -9,7 +9,6 @@ class GamesController < ApplicationController
 
   def index
     @games = Game.all
-
   end
 
   def show
@@ -50,6 +49,11 @@ end
     @game.remaining_letters = params['game']['remaining_letters']
     # # authorize @game
     if @game.save
+       MyGamesChannel.broadcast_to(
+          @games,
+          # flash[:game_update] = "next player: #{nextP}, last player: #{@game.current_player}"
+          render_to_string(partial: "my_games", locals: {games: @games})
+        )
       opponent_array = []
       # raise
       # first iterate to build list of all opponents' names
@@ -76,10 +80,12 @@ end
         user = User.where(id: opponentId.to_i)
         letters = params["game"]['all_player_letters'].split(',')[index]
         Player.create(user_id: opponentId.to_i, game:@game, player_letters: letters)
+
         if user[0] != current_user
           # UserMailer.invitation(user, current_user, @game, opponent_array).deliver
         end
       end
+
     # redirect_to edit_game_path(@game)
     else
       puts "Not saved"
@@ -103,9 +109,16 @@ end
 
   def update
    @game = Game.find(params[:id])
-   @game.update({ remaining_letters: params["game"]["remaining_letters"] })
-   players = Player.where(game: @game)
+     players = Player.where(game: @game)
    @player = players.find_by(user: current_user)
+
+      nextP = @game.current_player.to_i
+      lastP = @game.current_player.to_i - 1
+           if lastP < 0
+        lastP = players.length - 1
+      end
+   @game.update({ remaining_letters: params["game"]["remaining_letters"], current_player: params["game"]["current_player"] })
+      # raise
    # raise
 
     if @game.update(game_params)
@@ -114,13 +127,13 @@ end
       @player.update({ player_letters: params["game"]["my_letters"].gsub(/\'/, "") })
 
       mess = "#{@player.user.username} added #{added_score} #{'point'.pluralize(added_score)}"
+
       GameChannel.broadcast_to(
       @game,
-      # flash[:game_update] = "The snozberries taste like snozberries!"
-      render_to_string(partial: "message", locals: { message: mess, grid: @game.letter_grid, up: @game.current_player, score: @player.player_score })
+      # flash[:game_update] = "next player: #{nextP}, last player: #{@game.current_player}"
+      render_to_string(partial: "message", locals: { message: mess, grid: @game.letter_grid, up: lastP, next_player: nextP, score: @player.player_score })
     )
 
-        end
 
     if (@game.completed == true)
       players.each do |p|
@@ -150,6 +163,7 @@ end
       end
      end
 
+        end
   end
 
   def finish
