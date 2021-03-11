@@ -752,14 +752,14 @@ const pickLetter = () => {   // using keyboard
 
                   }
                 }
-              });
+              );
 
 
               // }
 
             }
             }
-          });
+          );
 
 
 
