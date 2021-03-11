@@ -15,10 +15,10 @@ const initGameCable = () => {
         console.log("data "  , data); // called when data is broadcast in the cable
         // data contains values for message([0]), grid([1]), up([2] - last player), next_player([3]), score[4]
         const dataArray = data.split(",")
-        alert(`Message: ${dataArray[0]}
-          Last Player:  ${dataArray[2]}
-          New CurrentPlayer: ${dataArray[3]}
-          Score:  ${dataArray[4]}`);
+        // alert(`Message: ${dataArray[0]}
+        //   Last Player:  ${dataArray[2]}
+        //   New CurrentPlayer: ${dataArray[3]}
+        //   Score:  ${dataArray[4]}`);
         document.querySelectorAll(".score").[(parseInt(dataArray[2]))].innerHTML = dataArray[4];
         document.querySelector("#board").setAttribute('data-letter-grid', "dataArray[1]");
         updateBoard(dataArray[1]);  // grid
