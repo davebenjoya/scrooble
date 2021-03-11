@@ -26,6 +26,7 @@ import { show_game } from '../components/show_game'
 import { gameIndex } from '../components/game_index'
 import { new_game } from '../components/new_game'
 import { initGameCable } from '../channels/game_channel';
+import { initIndexCable } from '../channels/my_games_channel';
 
 document.addEventListener('turbo:load', (ev) => {
 
@@ -49,6 +50,7 @@ document.addEventListener("turbo:load", function() {
   pLetters();
   show_game();
   initGameCable();
+  initIndexCable();
   // new_game();
 });
 

@@ -6,8 +6,6 @@ import   pLetters  from './player_letters'
 
 const board = () => {
 
-console.log('pLetters ',  pLetters);
-console.log('pLetters.something ',  pLetters.something);
   const newGame = document.querySelector(".new-page-identifier");
   const editGame = document.querySelector(".edit-page-identifier");
   const showGame = document.querySelector(".show-page-identifier");
@@ -83,19 +81,9 @@ console.log('pLetters.something ',  pLetters.something);
 // save order of player's letters on leaving page
     window.onbeforeunload = function(){
   // return 'Are you sure you want to leave?';
-  console.log('myLetters : :  :  ' , myLetters);
 };
 
-  // pLetters();
-  console.log('fddg gdfgr ', pLetters.initP);
-  // pLetters.initP();
-
-// window.addEventListener("beforeunload", function(event) {
-//   console.log ("GlobalEventHandlers.onclose ") });
-//
     remainingLetters = document.querySelector("#dashboard").dataset.remaining;
-    // console.log('remainingLetters::::::: ', typeof remainingLetters);
-    // console.log('myLetters ' + typeof myLetters);
     document.querySelector("#scores").addEventListener('click', function() {
       document.querySelector("#scores").classList.toggle("scores-show");
       document.querySelector(".fa-arrow-circle-left").classList.toggle("arrow-btn-rotate");
@@ -134,7 +122,6 @@ console.log('pLetters.something ',  pLetters.something);
 
     document.querySelector("#navbar-game").insertAdjacentHTML('afterbegin', navbarString)
 
-    // console.log('playersArray [0]  '+ playersArray[0])
     // showScores();
   }
 
