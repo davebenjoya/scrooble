@@ -82,7 +82,7 @@ end
         Player.create(user_id: opponentId.to_i, game:@game, player_letters: letters)
 
         if user[0] != current_user
-          UserMailer.invitation(user, current_user, @game, opponent_array).deliver
+          # UserMailer.invitation(user, current_user, @game, opponent_array).deliver
         end
       end
 
@@ -120,6 +120,7 @@ end
    @game.update({ remaining_letters: params["game"]["remaining_letters"], current_player: params["game"]["current_player"] })
       # raise
    # raise
+
     if @game.update(game_params)
       added_score = params["game"]["my_score"].to_i - @player.player_score
       @player.update({ player_score: params["game"]["my_score"] })
@@ -132,12 +133,14 @@ end
       # flash[:game_update] = "next player: #{nextP}, last player: #{@game.current_player}"
       render_to_string(partial: "message", locals: { message: mess, grid: @game.letter_grid, up: lastP, next_player: nextP, score: @player.player_score })
     )
+
+
     if (@game.completed == true)
       players.each do |p|
         p.update({ completed: true })
         # raise
       end
-      redirect_to game_path(@game)
+      # redirect_to game_path(@game)
     else
       if params['game']['player_completed'] == 'true'
         @player.update({ player_score: params['game']['my_score'], completed: true })
@@ -148,14 +151,15 @@ end
         end
         if falses == 0
           @game.update({ completed: true })
-          redirect_to game_path(@game)
+          flash[:notice] = 'Game has ended'
+          redirect_to game_path(@game) && return
           # raise
         else
-          redirect_to edit_game_path(@game)
+          redirect_to edit_game_path(@game) && return
         end
       else
 
-         redirect_to edit_game_path(@game)
+         redirect_to edit_game_path(@game) && return
       end
      end
 
