@@ -5,8 +5,6 @@ class GamesController < ApplicationController
   # skip_before_action :authenticate_user!, only: [:index, :show]
 
 
-
-
   def index
     @games = Game.all
   end
@@ -26,9 +24,9 @@ end
 
     @default_name = random_name()
 
-    if @default_name.split(" ").length > 6
+    if @default_name.split(' ').length > 6
       new_name = '';
-      @default_name.split(" ").each_with_index do | word, index |
+      @default_name.split(' ').each_with_index do | word, index |
         if index < 6
           new_name.concat(word).concat(" ").strip
         end
@@ -109,30 +107,29 @@ end
 
   def update
    @game = Game.find(params[:id])
-     players = Player.where(game: @game)
-   @player = players.find_by(user: current_user)
+    players = Player.where(game: @game)
+    @player = players.find_by(user: current_user)
+  added_score = params["game"]["my_score"].to_i - @player.player_score
+   mess = "#{@player.user.username} added #{added_score} #{'point'.pluralize(added_score)}"
 
-      nextP = @game.current_player.to_i
-      lastP = @game.current_player.to_i - 1
-           if lastP < 0
-        lastP = players.length - 1
-      end
-   @game.update({ remaining_letters: params["game"]["remaining_letters"], current_player: params["game"]["current_player"] })
-      # raise
-   # raise
 
     if @game.update(game_params)
-      added_score = params["game"]["my_score"].to_i - @player.player_score
+      @game.update({
+        remaining_letters: params["game"]["remaining_letters"],
+        current_player: params["game"]["current_player"]
+      })
+
       @player.update({ player_score: params["game"]["my_score"] })
       @player.update({ player_letters: params["game"]["my_letters"].gsub(/\'/, "") })
 
-      mess = "#{@player.user.username} added #{added_score} #{'point'.pluralize(added_score)}"
-
-      GameChannel.broadcast_to(
+ GameChannel.broadcast_to(
       @game,
       # flash[:game_update] = "next player: #{nextP}, last player: #{@game.current_player}"
-      render_to_string(partial: "message", locals: { message: mess, grid: @game.letter_grid, up: lastP, next_player: nextP, score: @player.player_score })
+      render_to_string(partial: "message", locals: { message: mess, grid: @game.letter_grid, player: @player.user.username, score: added_score })
     )
+
+
+
 
 
     if (@game.completed == true)
@@ -140,7 +137,7 @@ end
         p.update({ completed: true })
         # raise
       end
-      # redirect_to game_path(@game)
+      redirect_to game_path(@game)
     else
       if params['game']['player_completed'] == 'true'
         @player.update({ player_score: params['game']['my_score'], completed: true })
@@ -152,18 +149,18 @@ end
         if falses == 0
           @game.update({ completed: true })
           flash[:notice] = 'Game has ended'
-          redirect_to game_path(@game) && return
+          redirect_to game_path(@game)
           # raise
         else
-          redirect_to edit_game_path(@game) && return
+          redirect_to edit_game_path(@game) and return
         end
       else
 
-         redirect_to edit_game_path(@game) && return
       end
      end
 
         end
+         redirect_to edit_game_path(@game) and return
   end
 
   def finish

@@ -42,6 +42,11 @@ const board = () => {
   let submitEscape = false;
   let replacement;
 
+
+
+
+
+
   if (newGame){
     document.querySelectorAll(".toggle-stats").forEach(stat => {
       stat.addEventListener('click', function() {
@@ -66,6 +71,8 @@ const board = () => {
     })
   }
 
+
+
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
@@ -77,18 +84,17 @@ const board = () => {
 };
 
     remainingLetters = document.querySelector("#dashboard").dataset.remaining;
-
     document.querySelector("#scores").addEventListener('click', function() {
       document.querySelector("#scores").classList.toggle("scores-show");
       document.querySelector(".fa-arrow-circle-left").classList.toggle("arrow-btn-rotate");
     })
     currentPlayer = document.querySelector(".edit-page-identifier").dataset.playername;
-    // const remain = (document.querySelector("#dashboard").dataset.remaining.replaceAll(/\"\"/g , '"'));
-    // remainingLetters =  remain.split(',').splice(1, remain.length - 1);
+    const remain = (document.querySelector("#dashboard").dataset.remaining.replaceAll(/\"\"/g , '"'));
+    remainingLetters =  remain.split(',').splice(1, remain.length - 1);
     // console.log("remainingLettersssss  ", remainingLetters[1]);
     playersArray = document.querySelectorAll(".name-score");
-    const letters = document.querySelector("#my-letters").dataset.playerLetters.replace(",", "");
-    console.log('letters ' + letters);
+    const letters = document.querySelector("#my-letters").dataset.playerLetters;
+    // console.log('letters ' + letters);
     for (const letter of letters) {
       myLetters.push(letter)
     }
@@ -127,6 +133,8 @@ const board = () => {
 
 
   function createNewGame () {
+
+
     let opponentArray = []
     let newPlayers  = []
     const firstPlayer = createPlayerString (document.querySelector("#players").dataset.username);
@@ -167,10 +175,10 @@ const board = () => {
     remainingLetters = [];
 
   // short letter list
-    // lettersJSON.short.forEach( ltr => {
+    lettersJSON.short.forEach( ltr => {
 
   // standard letter list
-  lettersJSON.letters.forEach( ltr => {
+  // lettersJSON.letters.forEach( ltr => {
     const l = Object.keys(ltr)[0];
     const f = parseInt(Object.values(ltr)[0].frequency);
     for (let r = 0; r < f; r++) {
@@ -191,11 +199,6 @@ const board = () => {
       }
       lettersArray.push(myString);
     }
-
-    let remainLtrStr = "";
-    remainingLetters.forEach( ltr => {
-      remainLtrStr += ltr
-    })
 
 
     console.log('lettersArray' + typeof lettersArray);
@@ -291,7 +294,6 @@ const board = () => {
           selectedLetter = null;
           submitEscape = false;
         } else {
-          // close modal, submit to db
           gameForm.submit();
         }
       });
@@ -313,37 +315,52 @@ setupBoard();
 
 
 function setupBoard() {
-    console.log("set up board ")
-    let grid = ``;
+  console.log(' set up')
 
-    if (document.querySelector("#dashboard")) {
-      grid = document.querySelector("#dashboard").dataset.letterGrid;
-    } else {
-      grid = document.querySelector("#board").dataset.letterGrid;
-    }
-
-    if (grid.length > 0) {  //  edit existing grid
-      // const arr = grid.split(" ");
-      const arr = document.querySelectorAll(".tile");
+    let boardHtml = ``
+      // console.log('boardDiv.dataset.letterGrid ' + boardDiv.dataset.letterGrid.length);
+    if (boardDiv.dataset.letterGrid.length > 0) {  //  edit existing grid
+      const arr = boardDiv.dataset.letterGrid.split(" ");
+      let boardVal = ""
 
 
       arr.forEach((tile, index) => {
-      let boardVal = "";
-        Array.from(lettersJSON.letters).forEach( l => {
-          if (l[tile.querySelector(".letter").innerHTML]) {
-            boardHasLetters = true
-            boardVal = l[tile.querySelector(".letter").innerHTML].value;
+        if (tile) {
+          if (tile.trim() === "_") {
+            tile = " ";
+            boardVal = " "
+          } else {
+
+
+            boardHasLetters = true;
+            const i = remainingLetters.indexOf(tile);
+            remainingLetters.splice(i, 1);
+            Array.from(lettersJSON.letters).forEach( l => {
+              if (l[tile]) {
+                 boardVal = l[tile].value;
+              }    });
+
           }
+          boardHtml += `<div class='tile tile-hide'><div class="letter">${tile}</div><div class="board-value">${boardVal}</div></board-v></div>`
+        }
       });
-        tile.querySelector(".board-value").innerHTML = `${boardVal}`
-    });
+    } else {  // no existing letter grid, ie, a new game
+      for (let n = 1; n < 226; n ++) {
+
+          boardHtml += `<div class='tile tile-hide'><div class="letter"> </div></div>`
+      }
+
     }
+
+
+
+    boardDiv.insertAdjacentHTML('beforeend', boardHtml);
 
     setTimeout(function() {
       document.querySelector("#board").classList.remove("board-hide");
 
       if (document.querySelector("#dashboard")) {
-        console.log('document.querySelector("#dashboard").dataset.completed   ' ,  document.querySelector("#dashboard").dataset.completed);
+        // console.log('document.querySelector("#dashboard").dataset.completed   ' ,  document.querySelector("#dashboard").dataset.completed);
       if (document.querySelector("#dashboard").dataset.completed == "false") {
         document.querySelector("#dashboard").classList.remove("dashboard-hide");
       }
@@ -393,20 +410,11 @@ function setupBoard() {
   }
 
     let jays = "";
-
-
-    if (document.querySelector("#dashboard")) {
-      jays = document.querySelector("#dashboard").dataset.jokers;
-    } else {
-      jays = document.querySelector("#board").dataset.jokers;
-    }
-
-
+      jays = document.querySelector("#board").dataset.jokers
       if (jays.length > 0) {
         const jArray = jays.split(',');
         jArray.forEach(jkr => {
-          const jokerPos = parseInt(jkr);
-          console.log('jkr ' + jkr);
+          const jokerPos = parseInt(jkr)
           console.log('document.querySelectorAll(".tile") ' + document.querySelectorAll(".tile").length)
           if (jokerPos) {
             document.querySelectorAll(".tile")[jokerPos].classList.add("joker-replaced");
@@ -544,49 +552,28 @@ const pickLetter = () => {   // using keyboard
             $('#exampleModalCenter').modal('show');
         } else {
           submitEscape = false;
-          if (event.target.querySelector('.letter').classList.contains("letter-provisional")) {
-            //  switch letter, remove disabled class
-          } else {
-            event.target.querySelector('.letter').innerHTML = txt;
-            event.target.querySelector('.letter').classList.add("letter-provisional");
-            buffer.push(txt);
+          event.target.querySelector('.letter').innerHTML = txt;
+          event.target.querySelector('.letter').classList.add("letter-provisional");
+          buffer.push(txt);
 
-            event.target.querySelector(".board-value").innerHTML = `${val}`;
+          event.target.querySelector(".board-value").innerHTML = `${val}`;
 
-            selectedLetter.classList.remove("letter-selected");
-            selectedLetter.classList.add("letter-disabled");
-            selectedLetter.removeEventListener('click', toggleLetter);
-            event.target.addEventListener('click', restoreOne);
-            document.querySelector('.commit-btn').classList.remove("button-disabled");
-            document.querySelector('.cancel-btn').classList.remove("button-disabled");
-            selectedLetter = null;
-
-          }
+          selectedLetter.classList.remove("letter-selected");
+          selectedLetter.classList.add("letter-disabled");
+          selectedLetter.removeEventListener('click', toggleLetter);
+          document.querySelector('.commit-btn').classList.remove("button-disabled");
+          document.querySelector('.cancel-btn').classList.remove("button-disabled");
+          selectedLetter = null;
         }
       }
     }
   }
 
-  function restoreOne() {
-    let enableFlag = false;
-    document.querySelectorAll('.letter-disabled').forEach(ltr => {
-        if (ltr.querySelector('.my-letter').innerHTML == event.target.querySelector('.letter').innerHTML) {
-      if (enableFlag == false) {   // only enable one letter
-        event.target.querySelector('.letter').innerHTML = ""
-          ltr.classList.remove('letter-disabled')
-          enableFlag = true;
-        }
-      }
-    })
-
-    // classList.remove("button-disabled");
-
-  }
-
 
   function chooseLetters() { // select my letters from available letters
+    remainingLetters = document.querySelector("#dashboard").dataset.remaining.replaceAll(/\,/g,"");
 
-          console.log('myLetters.length : ', myLetters.length);
+          console.log('remainingLetters 581: ', remainingLetters);
 
       if (remainingLetters.length > 0 ) {
         let maxLettersLocal = maxLetters
@@ -684,18 +671,7 @@ const pickLetter = () => {   // using keyboard
   /////////////////////////////////////////////////////////////////
 
   function commitLetters () {  // ltrP = provisonal; ltrB = on board
-     remainingLetters = document.querySelector("#dashboard").dataset.remaining.split(",");
-
-    let adjToBoardTiles = false;
-
-
-    // hide selected tiles
-    document.querySelectorAll(".letter-disabled").forEach( (letter)=> {
-
-          letter.parentNode.style = "opacity: 0;";
-
-      });
-
+     remainingLetters = document.querySelector("#dashboard").dataset.remaining.replaceAll(/\,/g,"");
 
     if (exchange === true ) {  // exchange chosen letters
      if (remainingLetters.length < maxLetters) {
@@ -710,33 +686,23 @@ const pickLetter = () => {   // using keyboard
         }
       });
       // console.log(maxLetters);
+      // console.log(myLetters.length);
       const numToReplace = maxLetters - myLetters.length
       chooseLetters();
       appendMyLetters(numToReplace);
       populateRailsForm();
-      // gameForm.submit()
+      gameForm.submit()
     };
 
     } else {  //  new word
-      // if (document.querySelector(".letter-provisional")) {
-      console.log('myLetters.length  ', myLetters.length);
+      if (document.querySelector(".letter-provisional")) {
         const firstTwoProvisionals = [];
+        let adjToBoardTiles = null;
         let wordOrientation = null;
         let needsToUseCenter = true;
-
         /////////////  V A L I D A T I O N /////////////////////////////////////////
-
-
         document.querySelectorAll('.letter').forEach( (ltrP, indexP) => {
-          // not first move -- center tile is already occupied and adjToBoardTiles set to false
-          if (ltrP.innerHTML.trim() != "" && !ltrP.classList.contains("letter-provisional")) {
-            needsToUseCenter = false;
-            // adjToBoardTiles = false;
-          }
-
-          // find positions of first 2 provisionals to determine orientation of main word
           if (ltrP.classList.contains("letter-provisional")) {
-
           // console.log("ltrP.classList " + ltrP.classList)
             if (firstTwoProvisionals.length < 2) firstTwoProvisionals.push(indexP);
               // if (boardHasLetters) {
@@ -749,46 +715,44 @@ const pickLetter = () => {   // using keyboard
                     if ( indexP == indexB + 1 || indexP == indexB - 1 || indexP == indexB + 15  || indexP == indexB - 15){
                       adjToBoardTiles = true;
                     }
-
                   }
+                });
+              } else {
+        // if this is the first move of the game, there are no letters on the board
+                // needsToUseCenter = true
+                adjToBoardTiles = true;
+                if (ltrP.parentNode.classList.contains("center-tile")) {
+                  needsToUseCenter = false;
                 }
-              );
-
 
               // }
-
             }
-            }
-          );
+          });
 
-
-
-        console.log ("adjToBoardTiles ", adjToBoardTiles);
-
-
-        if (needsToUseCenter === true) {  // first move, not using center
+        if (needsToUseCenter === true) {
           alert ("First word must use the center tile.")
           restoreLetters();
-        } else { // first move using center or subsequent move
-        //   check orientation if more than one new letter, otherwise assign "neutral"
-          wordOrientation = firstTwoProvisionals.length > 1 ? checkOrientation(firstTwoProvisionals) :  "neutral";
+        } else {
+        //    check orientation if more than one new letter, otherwise assign "neutral"
+        wordOrientation = firstTwoProvisionals.length > 1 ? checkOrientation(firstTwoProvisionals) :  "neutral";
 
-          if (!wordOrientation) { // checkOrientation returns null, new letters in different rows and columns
-            alert("New words must be in a single row or column.");
+        if (!wordOrientation) {
+          alert("New words must be in a single row or column.");
+          restoreLetters();
+          } else if (!adjToBoardTiles) {
+            alert("New letters must be adjacent to existing letters.");
             restoreLetters();
-          } else {  // wordOrientation != null
-            if (adjToBoardTiles == false) {
-              alert("New letters must be adjacent to existing letters.");
-              restoreLetters();
-            } else {
-            ///  pass orientation and first letter to caluclateScore
-            calculateScore(wordOrientation, firstTwoProvisionals[0]);
-            }
-          }
+        } else {
+          ///  pass orientation and first letter to caluclateScore
+          // console.log("firstTwoProvisionals " + firstTwoProvisionals);
+          calculateScore(wordOrientation, firstTwoProvisionals[0]);
+          ////// remove used letters from myLetters
+
+        }
         }
 
       }
-    // }
+    }
 }
 // end commitLetters
 
@@ -999,13 +963,9 @@ const findVerticallWord = (firstProvisional) => {
 
       myLettersDiv.querySelectorAll('.letter-disabled').forEach( ltr => { // 'disabled' means it's been placed on the board
         const ind = myLetters.indexOf(ltr.querySelector(".my-letter").innerHTML);
-        console.log('ltr ' , ltr)
-        console.log('ind ' , ind)
         myLetters.splice(ind, 1);
-
-        // ltr.remove();
+        ltr.remove();
       });
-        console.log('myLetters 2  ' , myLetters)
       buffer = [];
       selectedLetter = null;
       const numToReplace  =  maxLetters - myLetters.length;
@@ -1061,9 +1021,8 @@ function populateRailsForm() {
       //  GAME FORM
 
       let lettersString = '';
-      // let remainArray = remainingLetters.split(",")
 
-      // console.log( " newGrid " + newGrid)
+      console.log( " newGrid " + newGrid)
       document.querySelector('#update-grid').value = newGrid;
       document.querySelector('#update-current').value = current;
       document.querySelector('#update-jokers').value = jokers;
@@ -1075,6 +1034,7 @@ function populateRailsForm() {
         console.log("all letters used ")
         console.log("  ")
         console.log("_________________________ ")
+        document.querySelector('#update-letters').value = "";
         document.querySelector('#update-player-completed').value = true;
         document.querySelector('#update-completed').value = true;
       }
@@ -1116,7 +1076,7 @@ async function searchDictionary (keyword)  {
       const tileHtml = `<div class='my-tile'><div class="my-letter">${ltr}</div><div class="my-value">${val}</div></div>`
       myLettersDiv.insertAdjacentHTML('beforeend', tileHtml);
       myLettersDiv.lastChild.addEventListener('click', toggleLetter);
-      // console.log('tileHtml ' + tileHtml);
+      console.log('tileHtml ' + tileHtml);
     }
   }
 

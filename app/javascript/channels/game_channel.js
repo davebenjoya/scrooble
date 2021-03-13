@@ -12,17 +12,15 @@ const initGameCable = () => {
 
     consumer.subscriptions.create({ channel: "GameChannel", id: id }, {
       received(data) {
-        console.log("data "  , data); // called when data is broadcast in the cable
-        // data contains values for message([0]), grid([1]), up([2] - last player), next_player([3]), score[4]
+        // console.log("data "  , data); // called when data is broadcast in the cable
+        // data contains values for message([0]), grid([1]), player([2] - next player), score[3]
         const dataArray = data.split(",")
-        // alert(`Message: ${dataArray[0]}
-        //   Last Player:  ${dataArray[2]}
-        //   New CurrentPlayer: ${dataArray[3]}
-        //   Score:  ${dataArray[4]}`);
-        document.querySelectorAll(".score").[(parseInt(dataArray[2]))].innerHTML = dataArray[4];
-        document.querySelector("#board").setAttribute('data-letter-grid', "dataArray[1]");
+        alert(`Message: ${dataArray[0]}
+          Old Player:  ${dataArray[2]}
+          Score:  ${dataArray[3]}`);
+
         updateBoard(dataArray[1]);  // grid
-        updateCurrentPlayer(dataArray[3])  // new current player index
+        updatePlayers(dataArray[2], dataArray[3]) // pass last player and last player's updated score
       },
 
        });
@@ -31,6 +29,7 @@ const initGameCable = () => {
 //   }
 
 ////////////////////////////////////////////////////////
+
 
   const updateBoard = (newString) => {
     const oldTiles = document.querySelectorAll(".tile");
@@ -58,17 +57,31 @@ const initGameCable = () => {
 
 
 
-  const updateCurrentPlayer = (num) => {
-    console.log ("num , ", num);
+  const updatePlayers = (lastPlayer, addedScore) => {
     // set current player name in navbar
-    document.querySelector("#dashboard").setAttribute('data-current', num);
-    const player =  document.querySelectorAll(".player")[parseInt(num)].innerHTML;
+    // document.querySelector("#dashboard").setAttribute('data-current', num);
+    let newIndex  = 0;
+    const players =  document.querySelectorAll(".player")
+    let player = "Morty"
+    players.forEach( (plr, index)=> {
+        console.log("plr.innerHTML ", plr.innerHTML);
+      if (plr.innerHTML.trim() === lastPlayer.trim()) {
+        const oldScore = plr.parentNode.querySelector(".score").innerHTML
+        const newScore = (parseInt(oldScore) + parseInt(addedScore)).toString();
+        plr.parentNode.querySelector(".score").innerHTML = newScore;
+        newIndex = index + 1;
+        if (newIndex > players.length -1) newIndex = 0;
+        player = document.querySelectorAll(".player")[newIndex].innerHTML;
+      }
+    })
+
+
     document.querySelector("#navbar-game").querySelector(".nav-emp:last-child").innerHTML = player;
 
     // set current player style in scoreboard
     document.querySelector(".player-selected").classList.remove("player-selected");
-    document.querySelectorAll(".player")[parseInt(num)].parentNode.classList.add("player-selected");
-    document.querySelector("#scores").setAttribute('data-current', num);
+    document.querySelectorAll(".player")[newIndex].parentNode.classList.add("player-selected");
+    document.querySelector("#scores").setAttribute('data-current', newIndex);
   }
 
 
