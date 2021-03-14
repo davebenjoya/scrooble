@@ -905,7 +905,7 @@ turbo_frame_tag {
 
 #dashboard {
   padding-top: 8px;
-  // padding-left: 12px;
+  margin-right: 12px;
   display: flex;
   flex-direction: column;
     width: 16%;
@@ -955,9 +955,9 @@ margin-left: 8px;
 
 .dashboard {
   transform: translate(0px);
-  transition: all .4s ease-in;
+  transition: all .8s ease-out;
    @media only screen and (max-width: 984px) {
-  transition: all .8s ease-in;
+  transition: all .8s ease-out;
 
 
    }
@@ -970,7 +970,7 @@ margin-left: 8px;
    @media only screen and (max-width: 984px) {
     // background-color: $indian-yellow;
 
-  transform: translate(0px, -200px);
+  transform: translate(-1000px, 0px);
     display: block;
   transition: all .8s ease-in;
 
@@ -988,11 +988,11 @@ margin-left: 8px;
   margin: 0;
   align-items: center;
   justify-content: space-around;
-  border-radius: 8px;
+  border-radius: 4px;
   padding-left: 8px;
   padding-top: 8px;
   padding-bottom: 8px;
-  top: 80px;
+  top: 50px;
   // left:-8px;
   position: fixed;
   @media only screen and (max-width: 984px) {
@@ -1007,7 +1007,7 @@ margin-left: 8px;
   border: 1px solid transparent;
   transition: .6s all ease-in-out;
   background-color: hsla(220, 10, 70, .4);
-  transform: scaleY(.4);
+  // transform: scaleY(.4);
 }
 
 .scores:hover {
@@ -1100,7 +1100,8 @@ margin-left: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: hsl(50, 19, 90);
+  // background-color: hsl(50, 19, 90);
+  background-color: $isabelline;
   border-radius: 4px;
   border: 1px solid gray;
   // font-size: 12px;
@@ -1141,7 +1142,31 @@ margin-left: 8px;
 
 }
 
+.tile-index {
+  width: 24px;
+  height: 24px;
+  // padding: 4px;
+  text-align: center;
+  // vertical-align: center;
+  border-radius: 4px;
+  // display:block;
+  border: 1px solid $space-cadet;
+  background-color: $isabelline;
+  box-shadow: 1px 1px 3px $space-cadet;
+}
 
+.remaining {
+  // vertical-align: center;
+}
+
+.tiles-remaining {
+  font-size: 12px;
+  margin-left: 4px;
+}
+
+.letter-index {
+  color: $space-cadet;
+}
 
 .double-word {
   background-color: $champagne-pink;
@@ -1203,19 +1228,14 @@ margin-left: 8px;
 }
 
 .letter {
-  // margin:0;
   padding-top: 4px;
   font-family: 'Grandstander', display;
   font-size: 28px;
-  // color: hsl(200, 30, 6);
-  color: hsl(200, 110, 28);
+
+  color: $space-cadet;
   width: 22px;
-  // height: 22px;
   text-align: center;
-  text-shadow: 1px 1px hsla(200, 80, 12, .6);
-  // padding: 8px;
-  // padding-top: 6px;
-  // transition: all .3s ease-in;
+  // text-shadow: 1px 1px hsla(200, 80, 12, .6);
 pointer-events: none;
   @media screen and (max-width: 984px)  {
     // height:30px;

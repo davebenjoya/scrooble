@@ -83,15 +83,15 @@ const board = () => {
   // return 'Are you sure you want to leave?';
 };
 
-    remainingLetters = document.querySelector("#dashboard").dataset.remaining;
+    // remainingLetters = document.querySelector("#dashboard").dataset.remaining;
     document.querySelector("#scores").addEventListener('click', function() {
       document.querySelector("#scores").classList.toggle("scores-show");
-      document.querySelector(".fa-arrow-circle-left").classList.toggle("arrow-btn-rotate");
+      // document.querySelector(".fa-arrow-circle-left").classList.toggle("arrow-btn-rotate");
     })
     currentPlayer = document.querySelector(".edit-page-identifier").dataset.playername;
-    const remain = (document.querySelector("#dashboard").dataset.remaining.replaceAll(/\"\"/g , '"'));
+    const remain = (document.querySelector("#dashboard").dataset.remaining);
     remainingLetters =  remain.split(',').splice(1, remain.length - 1);
-    // console.log("remainingLettersssss  ", remainingLetters[1]);
+    console.log("remainingLetters  ", remainingLetters);
     playersArray = document.querySelectorAll(".name-score");
     const letters = document.querySelector("#my-letters").dataset.playerLetters;
     // console.log('letters ' + letters);
@@ -571,9 +571,9 @@ const pickLetter = () => {   // using keyboard
 
 
   function chooseLetters() { // select my letters from available letters
-    remainingLetters = document.querySelector("#dashboard").dataset.remaining.replaceAll(/\,/g,"");
+    // remainingLetters = document.querySelector("#dashboard").dataset.remaining.replaceAll(/\,/g,"");
 
-          console.log('remainingLetters 581: ', remainingLetters);
+          // console.log('remainingLetters : ', remainingLetters);
 
       if (remainingLetters.length > 0 ) {
         let maxLettersLocal = maxLetters
@@ -592,6 +592,7 @@ const pickLetter = () => {   // using keyboard
           const beginString = remainingLetters.slice(0, ind);
           const endString = remainingLetters.slice(ind + 1);
           remainingLetters = beginString + endString;
+
         }
 
         // console.log(' my   letteerrrrs'  , myLetters);
@@ -671,7 +672,7 @@ const pickLetter = () => {   // using keyboard
   /////////////////////////////////////////////////////////////////
 
   function commitLetters () {  // ltrP = provisonal; ltrB = on board
-     remainingLetters = document.querySelector("#dashboard").dataset.remaining.replaceAll(/\,/g,"");
+     // remainingLetters = document.querySelector("#dashboard").dataset.remaining.replaceAll(/\,/g,"");
 
     if (exchange === true ) {  // exchange chosen letters
      if (remainingLetters.length < maxLetters) {
@@ -681,7 +682,7 @@ const pickLetter = () => {   // using keyboard
       document.querySelectorAll(".my-letter").forEach( (letter, index)=> {
         if (letter.parentNode.classList.contains("marked-for-exchange")) {
           myLetters.splice(myLetters.indexOf(letter.innerHTML), 1);
-          remainingLetters += letter.innerHTML;
+          remainingLetters.push(letter.innerHTML);
           letter.parentNode.remove();
         }
       });
@@ -1026,7 +1027,13 @@ function populateRailsForm() {
       document.querySelector('#update-grid').value = newGrid;
       document.querySelector('#update-current').value = current;
       document.querySelector('#update-jokers').value = jokers;
-      console.log("remainingLetters ", remainingLetters);
+      let remainingArray = Object.values(remainingLetters);
+      let remainingString = ""
+      remainingArray.forEach( (letter, index ) => {
+        remainingString += letter
+        if (index < remainingArray.length -1 ) remainingString += ","
+      })
+      console.log("remainingString  ", remainingString);
       document.querySelector('#update-remaining').value = remainingLetters;
       if (remainingLetters.length < 1 && myLetters.length < 1) {
         console.log("_________________________ ")
