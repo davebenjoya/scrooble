@@ -1,7 +1,8 @@
 <div id='scores' class="scores" data-players="<%= @game.players %>" data-current="<%= @game.current_player %>" data-username = "<%= current_user.username %>"data-player-id = "<%= current_user.username %>" >
-  <div style='height:20px'>
+  <!-- <div style='height:20px'>
     <i class="fas fa-arrow-circle-left arrow-btn"></i>
-  </div>
+  </div> -->
+  <div>
   <% players  = Player.where(game_id: @game.id).order(:id) %>
 
   <% players.each_with_index do | player, index | %>
@@ -22,4 +23,6 @@
         </div>
       <%# end %>
   <% end %>
+
+  </div>
 </div>
