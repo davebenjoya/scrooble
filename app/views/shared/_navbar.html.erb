@@ -10,12 +10,15 @@
           <% end %>
         </div>
         <div id="navbar-game"></div>
-        <div class="nav-item dropdown">
-          <%= image_tag "don.png", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
-          <div class="dropdown-menu dropdown-menu-right pl-3" aria-labelledby="navbarDropdown">
-            <p>Logged in as <%= current_user.username %> </p>
-            <%= link_to "Log out", destroy_user_session_path, method: :delete%>
-          </div>
+        <div class="nav-item-last">
+            <div class="logged-in-as">
+              Logged in as <%= current_user.username %>
+            </div>
+          <%#= image_tag "don.png", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
+            <div class="logout">
+            <%= link_to "Log out", destroy_user_session_path, method: :delete, id: "logout" %>
+
+            </div>
         </div>
       <% else %>
         <div class="nav-item">
