@@ -5,6 +5,24 @@ const gameIndex = ()  => {
 
   if (yourGames) {
     // setupPageAnimations();
+    const numOfBgs = 6;
+    let currentBg = 0;
+   let bgClass = ``;
+
+
+
+    let tileClass = ``;
+    document.querySelectorAll(".tile-index").forEach ( t => {
+    const leading  = currentBg < 10 ? "0" : "";
+    tileClass = `tile` + leading + (currentBg + 1).toString();
+      t.classList.add(`${tileClass}`)
+      currentBg ++ ;
+      if (currentBg > numOfBgs - 1) currentBg = 0;
+    })
+
+
+
+
 
     setTimeout(function () {
       document.querySelector("#your-games").classList.add('your-games-show');

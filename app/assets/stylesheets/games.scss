@@ -509,7 +509,8 @@ a {
 }
 
 .card-name {
-  color: $midnight-green;
+  color: $space-cadet;
+  line-height:18px;
 }
 
 .status {
@@ -799,12 +800,12 @@ a:link, #navbar a:visited, #cnavbar a:hover, #navbar a:active,  {
 
 .my-value {
   position: relative;
-  font-size: 14px;
-  // font-weight:bold;
+  font-size: 13px;
+  font-weight:bold;
   // right: -4px;
-  bottom: -14px;
+  bottom: -12px;
   pointer-events: none;
-  color: $midnight-green;
+  color: $space-cadet;
 }
 
 h5 {
@@ -1143,16 +1144,24 @@ margin-left: 8px;
 }
 
 .tile-index {
-  width: 24px;
-  height: 24px;
+  // background-image: url('../images/tile04.jpg');
+  width: 18px;
+  height: 18px;
+  filter: brightness(1.1);
+
+  border-right: 2px solid hsla(40, 130, 20, .3);
+  border-bottom: 2px solid hsla(40, 130, 12, .3);
+  border-left: 2px solid hsla(40, 130, 45, .3);
+  border-top: 2px solid hsla(40, 130, 60, .4);
   // padding: 4px;
+  margin-bottom: 3px;
   text-align: center;
   // vertical-align: center;
-  border-radius: 4px;
+  border-radius: 3px;
   // display:block;
-  border: 1px solid $space-cadet;
+  // border: 1px solid  $roman-silver;
   background-color: $isabelline;
-  box-shadow: 1px 1px 3px $space-cadet;
+  box-shadow: 1px 1px 2px $space-cadet;
 }
 
 .remaining {
@@ -1162,10 +1171,14 @@ margin-left: 8px;
 .tiles-remaining {
   font-size: 12px;
   margin-left: 4px;
+  color: $indian-yellow;
 }
 
 .letter-index {
-  color: $space-cadet;
+  color:  $roman-silver;
+  font-size: 12px;
+  font-weight: bold;
+  font-family: 'Lato', sans-serif;
 }
 
 .double-word {
@@ -1187,8 +1200,35 @@ margin-left: 8px;
   background-color: $periwinkle-crayola;
   // border: 1px solid hsl(18, 80, 40);
 }
-.my-tile {
 
+
+.tile01 {
+  background-image: url('../images/tile01.jpg');
+}
+
+.tile02 {
+  background-image: url('../images/tile02.jpg');
+}
+
+.tile03 {
+  background-image: url('../images/tile03.jpg');
+}
+
+.tile04 {
+  background-image: url('../images/tile04.jpg');
+}
+
+.tile05 {
+  background-image: url('../images/tile05.jpg');
+}
+
+.tile06 {
+  background-image: url('../images/tile06.jpg');
+}
+
+
+.my-tile {
+  // background-image: url('../images/tile01.jpg');
   margin: 4px;
   padding: 8px;
   width: 48px;
@@ -1198,14 +1238,17 @@ margin-left: 8px;
   align-items: center;
   background-color: $roman-silver;
   border-radius: 4px;
-  border: 1px solid hsla(200, 130, 20, .7);
+  border-right: 4px solid hsla(40, 130, 20, .3);
+  border-bottom: 4px solid hsla(40, 130, 12, .3);
+  border-left: 4px solid hsla(40, 130, 45, .3);
+  border-top: 4px solid hsla(40, 130, 60, .4);
   // font-size: 12px;
   width:48px;
   // height:100%;
   // margin-left: 8px;
   opacity: 1;
   padding-left: 16px;
-  box-shadow: 1px 1px 2px hsla(100, 15, 15, 0.4);
+  box-shadow: 1px 1px 2px hsla(100, 15, 5, 0.4);
   transition: all .4s ease-in;
 
   @media screen and (max-width: 984px)  {
@@ -1251,10 +1294,11 @@ pointer-events: none;
 
 .letter-selected {
   background-color: $honeydew;
-  border: 1px solid hsl(200, 130, 40);
+  // border: 1px solid hsl(200, 130, 40);
   // border: 1px solid var(--bluish);
   transform: translate(-1px, -1px);
-  box-shadow: 2px 2px 3px hsla(100, 15, 15, 0.4);
+  filter: brightness(1.35);
+  // color: $indian-yellow !important;
   transition: all .3s ease-in;
 pointer-events: none;
 }

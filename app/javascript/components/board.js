@@ -42,7 +42,9 @@ const board = () => {
   let submitEscape = false;
   let replacement;
 
-
+  // tile background images
+  const numOfBgs = 6;
+  let currentBg = 0;
 
 
 
@@ -554,6 +556,7 @@ const pickLetter = () => {   // using keyboard
           submitEscape = false;
           event.target.querySelector('.letter').innerHTML = txt;
           event.target.querySelector('.letter').classList.add("letter-provisional");
+          // event.target.style.backgroundImage = url('../images/tile01.jpg');
           buffer.push(txt);
 
           event.target.querySelector(".board-value").innerHTML = `${val}`;
@@ -1034,7 +1037,7 @@ function populateRailsForm() {
         if (index < remainingArray.length -1 ) remainingString += ","
       })
       console.log("remainingString  ", remainingString);
-      document.querySelector('#update-remaining').value = remainingLetters;
+      document.querySelector('#update-remaining').value = remainingString;
       if (remainingLetters.length < 1 && myLetters.length < 1) {
         console.log("_________________________ ")
         console.log(" ")
@@ -1099,8 +1102,14 @@ async function searchDictionary (keyword)  {
        val = l[ltr].value;
       }
     });
+    // use multiple bg images in tiles
+    let bgClass = ``;
+    const leading  = currentBg < 10 ? "0" : "";
+    bgClass = `tile` + leading + (currentBg + 1).toString();
+    currentBg ++ ;
+    if (currentBg > numOfBgs - 1 ) currentBg = 0;
 
-    const tileHtml = `<div class='my-tile'><div class="my-letter">${ltr}</div><div class="my-value">${val}</div></div>`
+    const tileHtml = `<div class='my-tile ${bgClass}'><div class="my-letter">${ltr}</div><div class="my-value">${val}</div></div>`
       // setTimeout(addLetterDelayed, 800 + (360 * index), tileHtml)
     myLettersDiv.insertAdjacentHTML('beforeend', tileHtml);
     });
