@@ -95,8 +95,13 @@ const board = () => {
       // document.querySelector(".fa-arrow-circle-left").classList.toggle("arrow-btn-rotate");
     })
     currentPlayer = document.querySelector(".edit-page-identifier").dataset.playername;
-    const remain = (document.querySelector("#dashboard").dataset.remaining);
-    remainingLetters =  remain.split(',').splice(1, remain.length - 1);
+    const remain = (document.querySelector("#dashboard").dataset.remaining.split(','));
+    remainingLetters =  [];
+    remain.forEach( ltr => {
+      if (ltr.match(/[A-Z] | */) && ltr.length === 1 ) {
+        remainingLetters.push(ltr) ;
+      }
+    });
     console.log("remainingLetters  ", remainingLetters);
     playersArray = document.querySelectorAll(".name-score");
     const letters = document.querySelector("#my-letters").dataset.playerLetters;
@@ -209,7 +214,13 @@ const board = () => {
 
     console.log('lettersArray' + typeof lettersArray);
     document.querySelector('#new-player-letters').value = lettersArray;
-    document.querySelector('#new-remaining').value = remainingLetters;
+    //  REMAINING STRING    !!!!!
+      let remainingString = ""
+      remainingLetters.forEach( (letter, index ) => {
+        remainingString += letter
+        if (index < remainingLetters.length -1 ) remainingString += ","
+      })
+    document.querySelector('#new-remaining').value = remainingString;
     console.log("remainingLetters ", remainingLetters);
         newGameForm.submit();
 
@@ -580,7 +591,7 @@ const pickLetter = () => {   // using keyboard
   function chooseLetters() { // select my letters from available letters
     // remainingLetters = document.querySelector("#dashboard").dataset.remaining.replaceAll(/\,/g,"");
 
-          // console.log('remainingLetters : ', remainingLetters);
+          console.log('remainingLetters : ', remainingLetters);
 
       if (remainingLetters.length > 0 ) {
         let maxLettersLocal = maxLetters
@@ -590,14 +601,19 @@ const pickLetter = () => {   // using keyboard
         while (myLetters.length < maxLettersLocal ) {
           const ind = Math.floor((Math.random() * remainingLetters.length));
           console.log('ind', ind);
+          if (remainingLetters[ind] === ",") {
+            console.log("commmmaaa")
+            ind --;
+          }
           const ran = remainingLetters[ind];
           // .replaceAll('"', '').replaceAll(' ', '').replaceAll(/\[/g, '').replaceAll(/\]/g, '')
           console.log('ran ' + ran);
 
           myLetters.push(ran);
            // const ind = remainingLetters.indexOf(selectedLetter.querySelector('.my-letter').innerHTML);
+          const endString = remainingLetters.slice(ind + 2);
           const beginString = remainingLetters.slice(0, ind);
-          const endString = remainingLetters.slice(ind + 1);
+
           remainingLetters = beginString + endString;
 
         }
@@ -1041,8 +1057,10 @@ function populateRailsForm() {
       let remainingArray = Object.values(remainingLetters);
       let remainingString = ""
       remainingArray.forEach( (letter, index ) => {
-        remainingString += letter
-        if (index < remainingArray.length -1 ) remainingString += ","
+        if (letter != ",") {
+          remainingString += letter
+          if (index < remainingArray.length -1 ) remainingString += ",";
+        }
       })
       console.log("remainingString  ", remainingString);
       document.querySelector('#update-remaining').value = remainingString;

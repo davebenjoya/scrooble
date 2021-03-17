@@ -25,7 +25,7 @@
             {"X": {"frequency": "1", "value" : "8"}},
             {"Y": {"frequency": "2", "value" : "4"}},
             {"Z": {"frequency": "1", "value" : "10"}},
-            {"*": {"frequency": "18", "value" : "0"}}
+            {"*": {"frequency": "2", "value" : "0"}}
           ],
 "short": [{"A": {"frequency": "2", "value" : "1"}},
             {"C": {"frequency": "1", "value" : "3"}},
