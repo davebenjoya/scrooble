@@ -3,7 +3,8 @@ Rails.application.routes.draw do
   get 'user_games/show'
   get 'user_games/create'
   get 'user_games/update'
-  devise_for :users
+  devise_for :users, sign_out_via: [:get, :post]
+
   resources :games
   resources :players
   root to: 'games#index'
