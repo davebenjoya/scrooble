@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_12_204706) do
+ActiveRecord::Schema.define(version: 2021_03_17_144905) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 2021_02_12_204706) do
     t.text "scores"
     t.integer "current_player", default: 0, null: false
     t.string "jokers", default: "{}"
-    t.string "remaining_letters", default: "{}"
+    t.string "remaining_letters", default: ""
   end
 
   create_table "players", force: :cascade do |t|

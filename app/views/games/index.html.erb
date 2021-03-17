@@ -59,7 +59,8 @@
           <% players.each do | plr | %>
             <% remaining_tiles += plr.player_letters.length %>
           <% end %>
-          <% remaining_tiles += game.remaining_letters.length %>
+          <% remain_stripped =  game.remaining_letters.gsub(",", "")%>
+          <% remaining_tiles += remain_stripped.length %>
           <%= link_to edit_game_path(game) do %>
             <div class="card m-2 stored-game" data-names="<%= name_string %>" >
 

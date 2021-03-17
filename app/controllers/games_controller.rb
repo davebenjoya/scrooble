@@ -44,7 +44,8 @@ end
   def create
 
     @game = Game.new(game_params)
-    @game.remaining_letters = params['game']['remaining_letters']
+    @game.update({remaining_letters: params['game']['remaining_letters']})
+    # raise
     # # authorize @game
     if @game.save
        MyGamesChannel.broadcast_to(
