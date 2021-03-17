@@ -1,10 +1,14 @@
 import lettersJSON from './letters.json';
+
+// import { calculateScore, findHorizontalWord, findVerticallWord } from './scoring';
 // import 'new_game.js';
 // import Sortable from "sortablejs";
 import { Sortable, MultiDrag, Swap, OnSpill, AutoScroll } from "sortablejs";
 import   pLetters  from './player_letters'
-
+// import   calculateScore  from './scoring';
 const board = () => {
+  // calculateScore();
+  // scoring.somting();
 
   const newGame = document.querySelector(".new-page-identifier");
   const editGame = document.querySelector(".edit-page-identifier");
@@ -747,6 +751,7 @@ const pickLetter = () => {   // using keyboard
             alert("New letters must be adjacent to existing letters.");
             restoreLetters();
         } else {
+
           ///  pass orientation and first letter to caluclateScore
           // console.log("firstTwoProvisionals " + firstTwoProvisionals);
           calculateScore(wordOrientation, firstTwoProvisionals[0]);
@@ -811,7 +816,7 @@ const findVerticallWord = (firstProvisional) => {
 
 }
 
-//    calculateScore
+   // calculateScore
 
   const calculateScore = (wordOrientation, firstProvisional) => {  // score for one word
 
@@ -971,7 +976,10 @@ const findVerticallWord = (firstProvisional) => {
         ltr.remove();
       });
       buffer = [];
-      selectedLetter = null;
+      // selectedLetter = null;
+      //      document.querySelectorAll(".letter-disabled").forEach(letter => {
+      //       letter.remove();
+      //     })
       const numToReplace  =  maxLetters - myLetters.length;
       chooseLetters();
       appendMyLetters(numToReplace);
@@ -1162,4 +1170,4 @@ async function searchDictionary (keyword)  {
 
 
 
-export { board }
+export {board}
