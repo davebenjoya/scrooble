@@ -554,36 +554,59 @@ const pickLetter = () => {   // using keyboard
 
   function placeLetter () {
     if (!exchange) {
-      document.querySelector('#exchange-btn').removeEventListener('click', markLetters);
-      document.querySelector('#exchange-btn').classList.add('button-disabled');
-      if (selectedLetter) {
-        let txt = selectedLetter.querySelector('.my-letter').innerHTML
-        let val = selectedLetter.querySelector('.my-value').innerHTML;
 
-        if (txt === "*") {
-            const replacement = `Replace Joker with: <input id="replace-joker" maxlength = 1 type=text required>`
-            document.querySelector(".modal-body").innerHTML = replacement;
-            jokerTile = event.target;
-            submitEscape = true;
-            // jokers.push(jokerTile);
-            $('#exampleModalCenter').modal('show');
-        } else {
-          submitEscape = false;
-          event.target.querySelector('.letter').innerHTML = txt;
-          event.target.querySelector('.letter').classList.add("letter-provisional");
-          // event.target.style.backgroundImage = url('../images/tile01.jpg');
-          buffer.push(txt);
+        if(event.target.querySelector('.letter').classList.contains("letter-provisional")) {
+      event.target.querySelector('.letter').classList.remove("letter-provisional")
+      let enableFlag = false;  // if player has more than one of the same letter, only enable one
+      document.querySelectorAll(".letter-disabled").forEach (ltr => {
+        if (event.target.querySelector('.letter').innerHTML === ltr.querySelector('.my-letter').innerHTML ) {
+          if (enableFlag === false) {
 
-          event.target.querySelector(".board-value").innerHTML = `${val}`;
+            ltr.classList.remove("letter-disabled");
+            ltr.addEventListener('click', toggleLetter);
+            selectedLetter = null;
+            enableFlag = true;
 
-          selectedLetter.classList.remove("letter-selected");
-          selectedLetter.classList.add("letter-disabled");
-          selectedLetter.removeEventListener('click', toggleLetter);
-          document.querySelector('.commit-btn').classList.remove("button-disabled");
-          document.querySelector('.cancel-btn').classList.remove("button-disabled");
-          selectedLetter = null;
+          }
+
         }
-      }
+
+
+      })
+      event.target.querySelector('.letter').innerHTML = "";
+      event.target.querySelector('.board-value').innerHTML = "";
+        } else {
+          document.querySelector('#exchange-btn').removeEventListener('click', markLetters);
+          document.querySelector('#exchange-btn').classList.add('button-disabled');
+          if (selectedLetter) {
+            let txt = selectedLetter.querySelector('.my-letter').innerHTML
+            let val = selectedLetter.querySelector('.my-value').innerHTML;
+
+            if (txt === "*") {
+                const replacement = `Replace Joker with: <input id="replace-joker" maxlength = 1 type=text required>`
+                document.querySelector(".modal-body").innerHTML = replacement;
+                jokerTile = event.target;
+                submitEscape = true;
+                // jokers.push(jokerTile);
+                $('#exampleModalCenter').modal('show');
+            } else {
+              submitEscape = false;
+              event.target.querySelector('.letter').innerHTML = txt;
+              event.target.querySelector('.letter').classList.add("letter-provisional");
+              // event.target.style.backgroundImage = url('../images/tile01.jpg');
+              buffer.push(txt);
+
+              event.target.querySelector(".board-value").innerHTML = `${val}`;
+
+              selectedLetter.classList.remove("letter-selected");
+              selectedLetter.classList.add("letter-disabled");
+              selectedLetter.removeEventListener('click', toggleLetter);
+              document.querySelector('.commit-btn').classList.remove("button-disabled");
+              document.querySelector('.cancel-btn').classList.remove("button-disabled");
+              selectedLetter = null;
+            }
+          }
+        }
     }
   }
 
