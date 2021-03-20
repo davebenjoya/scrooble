@@ -533,6 +533,9 @@ a {
 }
 
 .card-name {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   color: $space-cadet;
   line-height:18px;
 }
@@ -1188,7 +1191,12 @@ margin-left: 8px;
   box-shadow: 1px 1px 2px $space-cadet;
 }
 
+#user_username {
+  width: 200px;
+}
+
 .remaining {
+  margin-top: 4px;
   // vertical-align: center;
 }
 

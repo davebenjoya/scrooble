@@ -1,5 +1,5 @@
 <div class="ml-5">
-  <h2>Sign up</h2>
+
 
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>
@@ -10,15 +10,14 @@
     </div>
 
     <div class="field">
-      <p>User Name</p>
-      <%= f.label :username %><br />
-      <%= f.text_field :username, autofocus: true, autocomplete: "username" %>
+      <%= f.label :username %> <em>(15 characters max)</em><br />
+      <%= f.text_field :username, autofocus: true, autocomplete: "username", maxlength: 15 %>
     </div>
 
     <div class="field">
       <%= f.label :password %>
       <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em>
+         <em>(<%= @minimum_password_length %> characters min)</em>
       <% end %><br />
       <%= f.password_field :password, autocomplete: "new-password" %>
     </div>
