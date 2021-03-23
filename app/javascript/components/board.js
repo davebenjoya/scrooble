@@ -30,6 +30,10 @@ const board = () => {
   let players = [];
   let realWord = true;
 
+  const clickSounds = ['m1', 'm2', 'm3', 'm4', 'm5', 'm6'];
+  let currentClickSound = 0
+
+
   let boardHasLetters = false;
 
   let myLetters = [];
@@ -603,7 +607,11 @@ function endGame() {
             buffer.push(txt);
 
             event.target.querySelector(".board-value").innerHTML = `${val}`;
+            document.querySelector('#btnAudio').src = '../../assets/audios/' + clickSounds[currentClickSound] + ".mp3";
 
+            document.querySelector('#btnAudio').play();
+            currentClickSound ++
+            if (currentClickSound > clickSounds.length -1) currentClickSound = 0
             selectedLetter.classList.remove("letter-selected");
             selectedLetter.classList.add("letter-disabled");
             selectedLetter.removeEventListener('click', toggleLetter);
@@ -1030,10 +1038,14 @@ const findVerticallWord = (firstProvisional) => {
       appendMyLetters(numToReplace);
 
 
+
     //const calculateScore
     populateRailsForm();
 
         document.querySelector(".modal-body").innerHTML = newWordTiles + alertString;
+
+      // document.querySelector('#update-message').value =  newWordTiles + alertString;
+      document.querySelector("#update-msg").value =  "A messsssage";
         // $('#exampleModalCenter').modal('show');
         gameForm.submit();
 

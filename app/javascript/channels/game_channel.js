@@ -15,9 +15,7 @@ const initGameCable = () => {
         // console.log("data "  , data); // called when data is broadcast in the cable
         // data contains values for message([0]), grid([1]), player([2] - next player), score[3]
         const dataArray = data.split(",")
-        // alert(`Message: ${dataArray[0]}
-        //   Old Player:  ${dataArray[2]}
-        //   Score:  ${dataArray[3]}`);
+        alert(`${dataArray[0]}`)
 
         updateBoard(dataArray[1]);  // grid
         updatePlayers(dataArray[2], dataArray[3]) // pass last player and last player's updated score

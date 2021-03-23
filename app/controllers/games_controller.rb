@@ -112,7 +112,8 @@ end
     @player = players.find_by(user: current_user)
   added_score = params["game"]["my_score"].to_i - @player.player_score
    mess = "#{@player.user.username} added #{added_score} #{'point'.pluralize(added_score)}"
-
+   # mess = params["game"]["message"]
+   # raise
 
     if @game.update(game_params)
       @game.update({
@@ -192,6 +193,6 @@ private
 
 
   def game_params
-    params.require(:game).permit(:letter_grid, :current_player, :name, :completed, :jokers,
+    params.require(:game).permit(:letter_grid, :current_player, :name, :completed, :msg, :jokers,
                    :opponents => [], :all_player_letters => [], :remaining_letters => [])
   end

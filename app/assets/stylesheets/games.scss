@@ -10,17 +10,65 @@
 }
 
 
+.avatar-div {
+  display: flex;
+  flex-direction: column;
+  height: 220 px;
+  align-items: center;
+  text-align: center;
+}
+
+.avatar-lg {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 1px solid $indian-yellow;
+  // clip-path: circle(50px at 50px 100px);
+  object-fit: cover;
+  margin-bottom: 8px;
+}
+
+.user-paren {
+  color: $roman-silver;
+}
+
+.edit-user-identifier {
+  color: $alice-blue;
+  font-size: 12px;
+  margin-top: 4px;
+  margin-bottom: 12px;
+  width: 80% !important;
+}
+
+.edit-user-identifier input[type="submit"] {
+  // widt
+  margin-top: 8px;
+  margin-left: 16px;
+}
+
+.edit-user-identifier label {
+  line-height: 8px;
+  margin-top: 16px;
+  margin-bottom: 0px;
+}
+
 .logged-in-as {
   color: $roman-silver;
   margin: 0;
   padding: 0;
+  text-align: center;
 
 }
 
-#logout {
-  color: $honeydew !important;
-  margin: 0;
-  padding: 0;
+.dropdown-menu {
+  background-color: hsla(220, 40, 40, .6) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+
+}
+
+.dropdown-item {
+  color: $indian-yellow !important;
   font-size: 13px;
 
 }
@@ -267,8 +315,9 @@ body {
   baseline-shift: sub;
   position: relative;
   bottom:-8px;
-  opacity: .3;
-  @media screen and (max-width: 600px)  {
+  opacity: .8;
+  color: $space-cadet;
+   @media screen and (max-width: 600px)  {
     // height:30px;
   font-size: 10px;
 
@@ -398,15 +447,18 @@ width: 0px;
 
   font-weight: regular;
   }
-
-
-
 }
+
+
 
 .center-tile {
   // background-color: hsl(118, 40, 80) !important;
-  background-color: $cream !important;
-  border: 1px solid $space-cadet !important;
+  background-color: $redwood !important;
+  // border: 1px solid $space-cadet !important;
+  background-image: url('../images/star.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
 
   // background-image: image-url('../assets/images/star.svg');
 }
@@ -414,7 +466,6 @@ width: 0px;
 
 .joker-replaced {
   border: 2px solid hsl(118, 70, 70) !important;
-  // background-image: image-url('../../assets/images/star.svg');
 }
 
 
@@ -1129,7 +1180,7 @@ margin-left: 8px;
   justify-content: center;
   align-items: center;
   // background-color: hsl(50, 19, 90);
-  background-color: $isabelline;
+  background-color: $white;
   border-radius: 4px;
   border: 1px solid gray;
   // font-size: 12px;
