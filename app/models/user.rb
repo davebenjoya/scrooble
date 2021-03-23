@@ -5,4 +5,5 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   has_many :players
   has_many :games, through: :players
+  has_one_attached :avatar
 end

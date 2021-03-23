@@ -17,6 +17,7 @@ gem 'sass-rails', '>= 6'
 gem 'webpacker', '~> 4.0'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 #
+
 gem 'turbo-rails'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.7'
@@ -33,10 +34,14 @@ gem 'sidekiq-failures', '~> 1.0'
 
 gem 'font-awesome-rails', '~> 4.6', '>= 4.6.3.1'
 
+
+gem 'gravatar_image_tag', '~> 1.2'
+
+# gem "image_processing"
 # gem 'redis', '~> 3.3', '>= 3.3.1'
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
-
+gem 'image_processing', '~> 1.12', '>= 1.12.1'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
