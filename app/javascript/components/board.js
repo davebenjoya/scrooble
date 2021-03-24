@@ -523,9 +523,12 @@ const pickLetter = () => {   // using keyboard
 
 
 function endGame() {
-    document.querySelector('#update-player-completed').value = true;
+  if (window.confirm("Do you really want to quit the game?")) {
+     document.querySelector('#update-player-completed').value = true;
     populateRailsForm();
     gameForm.submit();
+}
+
   }
 
 
@@ -607,11 +610,11 @@ function endGame() {
             buffer.push(txt);
 
             event.target.querySelector(".board-value").innerHTML = `${val}`;
-            document.querySelector('#btnAudio').src = '../../assets/audios/' + clickSounds[currentClickSound] + ".mp3";
+            // document.querySelector('#btnAudio').src = '../../assets/audios/' + clickSounds[currentClickSound] + ".mp3";
 
-            document.querySelector('#btnAudio').play();
-            currentClickSound ++
-            if (currentClickSound > clickSounds.length -1) currentClickSound = 0
+            // document.querySelector('#btnAudio').play();
+            // currentClickSound ++
+            // if (currentClickSound > clickSounds.length -1) currentClickSound = 0
             selectedLetter.classList.remove("letter-selected");
             selectedLetter.classList.add("letter-disabled");
             selectedLetter.removeEventListener('click', toggleLetter);

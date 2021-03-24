@@ -223,9 +223,10 @@ input[type=submit] {
 }
 
 .edit-page-identifier {
-  background-color: $space-cadet;
+  background-color: $prussian-blue;
     // background-color: $roman-silver;
   // padding-right: 8px;
+  height: 100%;
   text-align: center;
   display: flex;
   align-items: center;
@@ -497,7 +498,7 @@ width: 0px;
 
 
 #your-games{
-  background-color: $space-cadet;
+  background-color: $prussian-blue;
   margin-top: 0px;
   width: 100%;
 }
@@ -619,7 +620,7 @@ a {
   margin: 0px;
   padding: 4px 8px;
   padding-bottom: 0px;
-  background-color:  $space-cadet;
+  background-color:  $prussian-blue;
   z-index: 600;
 }
 
@@ -1464,12 +1465,13 @@ pointer-events: none;
   // border-radius: 4px;
   padding: 0px 4px;
   margin-top: 4px;
-  box-shadow: -1px -1px 2px inset $space-cadet;
-  color: $space-cadet;
-  // background: linear-gradient(0turn, $sepia, $indian-yellow 65%, $sunray 78%);
-  background: linear-gradient(0turn, $sepia, $redwood 35%, $copper-penny 55%, $silver-pink 78%, $copper-penny 95%);
-  border-radius: 16px;
-  border: none;
+  // box-shadow: -1px -1px 2px inset $space-cadet;
+  color: $prussian-blue;
+ background: linear-gradient(0turn, $midnight-green, $russian-green 55%, $tea-green 72%, $russian-green 88%);
+  box-shadow: 1px 1px 3px inset $pine-tree;
+  border-radius: 13px;
+  border: 1px solid $prussian-blue;
+  // border: none;
   // background-color: linear-gradient ($indian-yellow, $sunray);
   opacity: 1;
   transition: all .5s;
@@ -1482,18 +1484,21 @@ pointer-events: none;
 }
 
 .end-btn:hover {
-  color: $honeydew;
-  background-color: linear-gradient ($indian-yellow, $sunray);
+  color: $indian-yellow;
+   // box-shadow: 1px 1px 3px inset $pine-tree;
+
+ // background: linear-gradient(0turn, $midnight-green, $russian-green 45%, $tea-green 72%, $russian-green 88%);
 
 }
 
 .exchange-btn {
   width: 30%;
-  box-shadow: -1px -1px 2px inset $space-cadet;
   color: $space-cadet;
-  background: linear-gradient(0turn, $sepia, $indian-yellow 65%, $sunray 78%);
-  border-radius: 16px;
+  background: linear-gradient(0turn, $midnight-green, $russian-green 55%, $tea-green 72%, $russian-green 88%);
+  box-shadow: 1px 1px 3px inset $pine-tree;
+   border-radius: 16px;
   // margin-bottom: 4px;
+  // border: 1px solid $space-cadet;
   border: none;
   left:8px;
   padding: 0px 4px;
@@ -1511,9 +1516,9 @@ pointer-events: none;
 .exchange-btn-active {
   // margin-bottom: 4px;
   left:8px;
-  background-color: $honeydew;
+  // background-color: $honeydew;
   opacity: 1;
-  color: hsl(10, 88, 74);
+  color: $indian-yellow;
   // border: 1px solid hsl(10, 88, 74) !important;
 
   transition: all .5s;
@@ -1525,11 +1530,12 @@ pointer-events: none;
   // left:8px;
   border: none;
   border-radius: 16px;
-  padding: 0px 4px;;
-  box-shadow: -1px -1px 2px inset $space-cadet;
+  padding: 0px 4px;
   color: $space-cadet;
-  background: linear-gradient(0turn, $sepia, $indian-yellow 65%, $sunray 78%);
-  border-radius: 16px;
+  background: linear-gradient(0turn, $midnight-green, $russian-green 55%, $tea-green 72%, $russian-green 88%);
+  box-shadow: 1px 1px 3px inset $pine-tree;
+
+   border-radius: 16px;
   opacity: 1;
   transition: all .5s;
   @media only screen and (max-width: 600px) {
@@ -1545,7 +1551,8 @@ pointer-events: none;
   left:8px;
   box-shadow: -1px -1px 2px inset $space-cadet;
   color: $space-cadet;
-  background: linear-gradient(0turn, $sepia, $indian-yellow 65%, $sunray 78%);
+  background: linear-gradient(0turn, $midnight-green, $russian-green 55%, $tea-green 72%, $russian-green 88%);
+  box-shadow: 1px 1px 3px inset $pine-tree;
   border-radius: 16px;
   border-radius: 16px;
   color: $space-cadet;
