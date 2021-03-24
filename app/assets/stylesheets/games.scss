@@ -53,7 +53,7 @@
 }
 
 .logged-in-as {
-  color: $roman-silver;
+  color: $honeydew;
   margin: 0;
   padding: 0;
   text-align: center;
@@ -61,16 +61,25 @@
 }
 
 .dropdown-menu {
-  background-color: hsla(220, 40, 40, .6) !important;
+  background-color: hsla(120, 40, 80, .8) !important;
   margin: 0 !important;
   padding: 0 !important;
+  border-radius-left: 8px;
+  box-shadow: 0 0 5px inset black;
 
 }
 
 .dropdown-item {
-  color: $indian-yellow !important;
+  color: $space-cadet !important;
   font-size: 13px;
+  text-shadow: none !important;
+}
 
+.dropdown-item:hover {
+  background-color: $space-cadet !important;
+  color: $honeydew !important;
+  font-size: 13px;
+  text-shadow: none !important;
 }
 
 .nav-item-last {
@@ -1432,6 +1441,7 @@ pointer-events: none;
     text-align: center;
   width: 100%;
   margin:0;
+  margin-left: 32px;
   padding:0;
   // display:inline;
   }
@@ -1456,7 +1466,8 @@ pointer-events: none;
   margin-top: 4px;
   box-shadow: -1px -1px 2px inset $space-cadet;
   color: $space-cadet;
-  background: linear-gradient(0turn, $sepia, $indian-yellow 65%, $sunray 78%);
+  // background: linear-gradient(0turn, $sepia, $indian-yellow 65%, $sunray 78%);
+  background: linear-gradient(0turn, $sepia, $redwood 35%, $copper-penny 55%, $silver-pink 78%, $copper-penny 95%);
   border-radius: 16px;
   border: none;
   // background-color: linear-gradient ($indian-yellow, $sunray);
@@ -1472,7 +1483,7 @@ pointer-events: none;
 
 .end-btn:hover {
   color: $honeydew;
-  // background-color: linear-gradient ($indian-yellow, $sunray);
+  background-color: linear-gradient ($indian-yellow, $sunray);
 
 }
 
