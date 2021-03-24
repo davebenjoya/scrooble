@@ -11,7 +11,13 @@
             <%#= image_tag resource.avatar.variant(resize_and_pad: [100,100, gravity: 'north', background: :transparent]), class: 'rounded-circle' %>
             <%= image_tag resource.avatar, class: 'avatar-lg' %>
           <% else %>
-            <%= image_tag gravatar_image_url(current_user.email, size: 100), width:100, height:100, class: 'rounded-circle'%>
+
+           <% if  gravatar_image_url(current_user.email) != "http://gravatar.com/avatar/3314c35d12993a5b2f39e0a5a66536f9" %>
+            <%= image_tag gravatar_image_url(current_user.email, size:140), class: 'avatar-lg' %>
+          <% else %>
+          <!-- if user doesn't have a gravatar, use default image  -->
+            <%= image_tag "bear", height:140, width:140, class: 'avatar-lg' %>
+           <% end  %>
           <% end %>
         </div>
         <div class="col-sm-8">
