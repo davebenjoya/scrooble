@@ -1,4 +1,13 @@
-<div class="edit-page-identifier" data-playername= <%= current_user.username %> >
+
+  <div id="messages" class = "messages" data-game-id=<%= @game.id %>>
+      <%#= render 'message'  %>
+    </div>
+
+
+<div class="edit-page-identifier" data-name ="<%= @game.name %>" data-playername= "<%= current_user.username %>"  >
+
+
+
 
   <!-- Button trigger modal -->
 <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
@@ -21,16 +30,16 @@
 </div>
 
 <%#= @game.remaining_letters %>
-<%#= @game.name %>
+<% if @player.completed %>
 
+<% else %>
 <div class="pr-0 dashboard dashboard-hide" data-current = <%= @game.current_player %> data-animate-out="animate-slide-left" id="dashboard" data-name ="<%= @game.name %>" data-id ="<%= @game.id %>" data-url ="games/<%= @game.id %>/edit" data-remaining =  "<%= @game.remaining_letters %>" data-jokers =  "<%= @game.jokers %>" data-completed =  "<%= @player.completed %>">
-  <div id="scores-buttons">
-    <div id="messages" data-game-id=<%= @game.id %>>
 
-      <%#= render 'message'  %>
-    </div>
+
+    <div id="scores-buttons">
+
     <!-- <div data-controller="online-list" data-online-list-sound="insistentHarp.mp3"> -->
-      <%#= audio_tag "m1", id: "btnAudio" %>
+      <%= audio_tag "m1", id: "btnAudio" %>
       <!-- <button data-action="online-list#playSound" data-online-list-target="trigger" >Play</button> -->
     <!-- </div> -->
 
@@ -62,6 +71,8 @@
 
     </div>
   </div>
+
+<% end %>
 
 
     <!-- <div id='scores' data-current="<%= @game.current_player %>" data-username = "<%= current_user.username %>"data-player-id = "<%= current_user.id %>" > -->
@@ -106,6 +117,7 @@
 
     <%= render "players" %>
 
+
 </div>
 
 
@@ -113,3 +125,10 @@
 
 
 
+<template id="scores-template">
+  <!-- <div id="scoreboard"> -->
+    <%= render "players" %>
+
+  <!-- </div> -->
+
+</template>

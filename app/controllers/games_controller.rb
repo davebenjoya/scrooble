@@ -124,7 +124,7 @@ end
       @player.update({ player_score: params["game"]["my_score"] })
       @player.update({ player_letters: params["game"]["my_letters"].gsub(/\'/, "") })
 
- GameChannel.broadcast_to(
+    GameChannel.broadcast_to(
       @game,
       # flash[:game_update] = "next player: #{nextP}, last player: #{@game.current_player}"
       render_to_string(partial: "message", locals: { message: mess, grid: @game.letter_grid, player: @player.user.username, score: added_score })
@@ -151,7 +151,7 @@ end
         if falses == 0
           @game.update({ completed: true })
           flash[:notice] = 'Game has ended'
-          redirect_to game_path(@game)
+          redirect_to game_path(@game) and return
           # raise
         else
           redirect_to edit_game_path(@game) and return

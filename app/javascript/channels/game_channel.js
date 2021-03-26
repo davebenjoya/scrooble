@@ -15,7 +15,19 @@ const initGameCable = () => {
         // console.log("data "  , data); // called when data is broadcast in the cable
         // data contains values for message([0]), grid([1]), player([2] - next player), score[3]
         const dataArray = data.split(",")
-        alert(`${dataArray[0]}`)
+        // alert(`${dataArray[0]}`)
+
+        document.querySelector('#messages').classList.add("messages-show");
+        document.querySelector('#messages').innerHTML = `${dataArray[0]}`;
+
+        setTimeout(function () {
+        document.querySelector('#messages').classList.remove("messages-show");
+      }, 5000);
+
+            document.querySelector('#btnAudio').src = '../../assets/dreamy.mp3';
+            console.log(document.querySelector('#btnAudio').src);
+
+            document.querySelector('#btnAudio').play();
 
         updateBoard(dataArray[1]);  // grid
         updatePlayers(dataArray[2], dataArray[3]) // pass last player and last player's updated score
@@ -74,7 +86,7 @@ const initGameCable = () => {
     })
 
 
-    document.querySelector("#navbar-game").querySelector(".nav-emp:last-child").innerHTML = player;
+    document.querySelector("#navbar-game").querySelector(".nav-emp:last-child").innerHTML = `Up now: ${player}`;
 
     // set current player style in scoreboard
     document.querySelector(".player-selected").classList.remove("player-selected");

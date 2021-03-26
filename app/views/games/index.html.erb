@@ -19,7 +19,7 @@
       <% players_quit_arr = [] %>
 
       <% players.each_with_index do | plr, ind | %>
-      <%# players_quit_arr << ind if plr.completed %>
+      <% players_quit_arr << ind if plr.completed %>
         <% if plr.user == current_user %>
           <% my_game = true %>
           <% name_string.concat("You") %>
@@ -30,6 +30,15 @@
       <% end %>
 
       <% if my_game == true %>
+
+              <% ago = time_ago_in_words(game.updated_at)
+              .sub("and", "")
+              .sub(" days", "d")
+              .sub(" hours", "h")
+              .sub(" minutes", "m")
+              .sub(" minute", "m")
+              .sub(" seconds", "s")
+              .sub("a ", "1") %>
         <% if game.completed %>
           <%= link_to game_path(game) do %>
             <div class="card m-2 stored-game stored-game-completed" data-names="<%= name_string %>" >
@@ -49,7 +58,7 @@
                 <% end %>
               </div>
             </div>
-            <div class="status status-completed"><%= status %> <%= time_ago_in_words(game.updated_at) %> ago</div>
+            <div class="status status-completed"><%= status %> <%=ago %> ago</div>
 
             </div>
           <% end %>
@@ -63,34 +72,30 @@
           <% remaining_tiles += remain_stripped.length %>
           <%= link_to edit_game_path(game) do %>
             <div class="card m-2 stored-game" data-names="<%= name_string %>" >
+                <div class= 'card-name'> <%= game.name %> </div>
 
               <div class = 'name-players d-flex justify-content-between w-100'>
-                <div class= 'card-name'> <%= game.name %>
               <div class="remaining d-flex align-items-center">
                 <div class="tile-index"><div class="letter-index"></div></div><span class="tiles-remaining"><%= remaining_tiles %></span>
 
-              </div></div>
+      </div>
                 <div class="players" data-current="<%= game.current_player %>">
+                  <span class="index-player-names">
                   <% name_string.split(",").each_with_index do | player_name, i | %>
-                    <%# quit_class = players_quit_arr.include?(i) ?  "player-quit" : "" %>
-                    <% quit_class = "" %>
-                    <% if game.current_player == i %>
+                  <% comma = i < name_string.split(",").length - 1 ? "," : "" %>
+                    <% quit_class = players_quit_arr.include?(i) ?  "player-quit" : "" %>
+                    <%# quit_class = "" %>
                       <% arrow_classes = player_name == "You" ? "fas fa-arrow-right fa-arrow-right-pulse" : "fas fa-arrow-right" %>
-                      <div><i class="<%= arrow_classes %>"> </i> <%= player_name %> </div>
+                    <% if game.current_player == i && quit_class == "" %>
+                      <span><i class="<%= arrow_classes %>"> </i> <%= player_name %><%= comma %>  </span>
                     <% else %>
-                      <div class=<%= quit_class %>> <%= player_name %> </div>
+                      <span class=<%= quit_class %>> <%= player_name %><%= comma %> </span>
                     <% end %>
                   <% end %>
+
+                  </span>
                 </div>
               </div>
-              <% ago = time_ago_in_words(game.updated_at)
-              .sub("and", "")
-              .sub(" days", "d")
-              .sub(" hours", "h")
-              .sub(" minutes", "m")
-              .sub(" minute", "m")
-              .sub(" seconds", "s")
-              .sub("a ", "1") %>
               <div class="status"><%= status %> <%= ago %> ago</div>
            </div>
           <% end %>

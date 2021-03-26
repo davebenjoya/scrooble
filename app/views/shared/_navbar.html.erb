@@ -9,7 +9,9 @@
             <% end %>
           <% end %>
         </div>
-        <div id="navbar-game"></div>
+        <div id="navbar-game">
+
+        </div>
         <div class="nav-item-last">
           <% if current_user.avatar.attached? %>
             <%= image_tag current_user.avatar, crop: :thumb , class: 'avatar dropdown-toggle', id: 'navbarDropdown', data: { toggle: 'dropdown' }, 'aria-haspopup': true, 'aria-expanded': false %>
