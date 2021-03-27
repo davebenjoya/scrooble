@@ -105,7 +105,11 @@
 
 
                       <div class="index-avatar <%= quit_class %>" data-username="<%= players[i].user.username %>" >
-                        <%= image_tag av, class:"avatar avatar-index" if av.attached? %>
+                        <%  if av.attached?  %>
+                          <%= image_tag av, class:'avatar avatar-index' %>
+                        <% else %>
+                          <%= image_tag 'snufkin', class:'avatar avatar-index' %>
+                        <% end %>
                       </div>
                     <% end %>
                   </div>
