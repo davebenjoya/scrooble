@@ -397,7 +397,19 @@ width: 0px;
   font-family: 'Lato', sans-serif;
   font-weight: bolder;
   // background-color: $midnight-green !important;
-  background: radial-gradient(farthest-corner at 40px 40px, $tea-green 30%, $russian-green 80%);
+  background: radial-gradient(farthest-corner at 0px 0px, $kombu-green 20%, $russian-green 90%);
+
+  box-shadow: 0px 0px 4px inset $rich-black !important;
+
+  border-bottom: 1px solid $india-green !important;
+  border-right: 1px solid $india-green !important;
+  border-left: 2px solid $lime-green !important;
+  border-top: 1px solid $lime-green !important;
+}
+
+.stored-game-completed {
+  padding: 0 !important;
+    background: radial-gradient(farthest-corner at 0px 0px, $deep-space-sparkle 20%, $roman-silver 90%);
 
   box-shadow: 0px 0px 4px inset $rich-black !important;
 
@@ -405,26 +417,16 @@ width: 0px;
   border-right: 1px solid $roman-silver !important;
   border-left: 2px solid $isabelline !important;
   border-top: 1px solid $isabelline !important;
-}
-
-.stored-game-completed {
-  padding: 0 !important;
-    background: radial-gradient(farthest-corner at 0px 0px, $roman-silver 10%, $deep-space-sparkle 80%);
-
-  box-shadow: 0px 0px 4px inset $rich-black !important;
-
-  border: 1px solid $roman-silver !important;
-  border-right: 2px solid $roman-silver !important;
-  border-left: 2px solid $isabelline !important;
-  border-top: 1px solid $isabelline !important;
 
   // border: 1px solid black;
 }
 
 .name-completed {
-  color: $space-cadet !important;
+  color: $gunmetal !important;
   padding-left: 8px;
   padding-top: 8px;
+
+  text-shadow: none !important;
 }
 
 .players-completed {
@@ -434,10 +436,11 @@ width: 0px;
 }
 
 .status-completed {
-  color: $silver-pink !important;
-  background-color: $redwood !important;
-  padding-right: 4px !important;
-  border-top: 1px solid $barn-red;
+  color: $space-cadet !important;
+  // background-color: $deep-space-sparkle !important;
+  padding: 8px !important;
+  margin-right: 8px;
+  // border-top: 1px solid $gunmetal;
   width:100%;
 }
 
@@ -454,11 +457,26 @@ width: 0px;
 }
 
 .avatar {
-  padding-top:4px;
-  padding-right:2px;
+  // padding-top:4px;
+  // padding-right:2px;
   height: 40px;
   border-radius:50%;
   // margin: 8px;
+}
+
+.avatar-index {
+  margin-left:4px !important;
+  margin-right:4px !important;
+  width: 28px;
+  height: 28px;
+  box-shadow: 1px 1px 2px black !important;
+  transform: scale(1);
+  transition: .4s all ease-out;
+}
+
+.avatar-index:hover {
+  transform: scale(1.5);
+  transition: .4s all ease-out;
 }
 
 .dropdown-menu-right {
@@ -638,14 +656,13 @@ a {
 }
 
 .plus-sign {
-  color: $midnight-green;
+  color: $gunmetal;
   text-shadow: 1px 1px 2px $rich-black !important;
   // box-shadow: 1px 2px 2px inset hsl(20, 15, 50) !important;
   // background-color: $heliotrope-gray !important;
+    background: radial-gradient(farthest-corner at 0px 0px, $deep-space-sparkle 20%, $roman-silver 90%);
 
 
-
-  background: radial-gradient(farthest-corner at 0px 0px, $roman-silver 10%, $deep-space-sparkle 80%);
 
   box-shadow: 0px 0px 4px inset $rich-black !important;
 
@@ -663,19 +680,21 @@ a {
 }
 
 .card-name {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  color: $space-cadet;
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: flex-start;
+  color: $honeydew;
   line-height:18px;
+  text-shadow: 1px 1px 1px $gunmetal;
 }
 
 .status {
-  color: $space-cadet;
+  color: $honeydew;
   font-size: 12px;
   // bottom: 8px;
   width: 100%;
   text-align: right;
+  padding-top: 8px;
   padding-right: 0px;
 }
 
@@ -893,13 +912,34 @@ a:link, #navbar a:visited, #cnavbar a:hover, #navbar a:active,  {
 
 .index-player-names {
   width: 100%;
-  // display:inline;
+  display:flex;
+  justify-content: center;
+}
+.index-players-text {
+  color: $honeydew;
+  font-weight: lighter !important;
+  padding-right: 4px;
+}
+.index-players-text-completed {
+  color: $roman-silver;
+  font-weight: regular;
+  padding-right: 4px;
+}
+
+.index-avatars {
+  display:flex;
+  // width: 100%;
+}
+
+.index-avatar {
+  // width: 50%;
 }
 
 .players {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
+  align-items: center;
   width: 100%;
   height: 100%;
   font-size: 13px;
@@ -1398,9 +1438,10 @@ box-shadow: 2px 1px 3px $midnight-green;
 }
 
 .tiles-remaining {
-  font-size: 12px;
+  font-size: 11px;
+  font-weight: light !important;
   margin-left: 4px;
-  color: $redwood;
+  color: $lime-green;
 }
 
 .letter-index {

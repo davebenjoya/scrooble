@@ -2,7 +2,7 @@ import { Turbo, cable } from "@hotwired/turbo-rails"
 
 const gameIndex = ()  => {
   const yourGames = document.querySelector("#your-games");
-
+  let agoTemp = ``;
   if (yourGames) {
     // setupPageAnimations();
     const numOfBgs = 6;
@@ -20,7 +20,17 @@ const gameIndex = ()  => {
       if (currentBg > numOfBgs - 1) currentBg = 0;
     })
 
+    document.querySelectorAll(".avatar-index").forEach( av => {
+      av.addEventListener('mouseover', () => {
+        const stat = av.closest(".card").querySelector(".status").innerHTML;
+        agoTemp =  stat;
+        av.closest(".card").querySelector(".status").innerHTML = av.parentNode.dataset.username;
+      });
 
+      av.addEventListener('mouseout', () => {
+        av.closest(".card").querySelector(".status").innerHTML = agoTemp;
+      });
+    })
 
 
 
