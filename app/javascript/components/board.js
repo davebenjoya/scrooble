@@ -16,6 +16,7 @@ const board = () => {
   const boardDiv = document.getElementById("board");
   const scoresDiv = document.getElementById("scores");
   const myLettersDiv = document.getElementById("my-letters");
+  const dash = document.querySelector("#dashboard");
 
   let exchange = false;
   let jokers = '';
@@ -98,7 +99,9 @@ const board = () => {
       document.querySelector("#scores").classList.toggle("scores-show");
       // document.querySelector(".fa-arrow-circle-left").classList.toggle("arrow-btn-rotate");
     })
+
     currentPlayer = document.querySelector(".edit-page-identifier").dataset.playername;
+    if (dash) {
     const remain = (document.querySelector("#dashboard").dataset.remaining.split(','));
     remainingLetters =  [];
     remain.forEach( ltr => {
@@ -127,16 +130,35 @@ const board = () => {
        reorderLetters()
       }
     })
+
+      titleString = document.querySelector("#dashboard").dataset.name;
+
+    } else {  // there is no dashboard
+    titleString = editGame.dataset.name;
+
+    }
     current = parseInt(document.querySelector("#scores").dataset.current);
 
     // element = this;
-
-  if (document.querySelector("#dashboard").dataset) titleString = document.querySelector("#dashboard").dataset.name;
+  // if (document.querySelector("#dashboard").dataset) titleString = document.querySelector("#dashboard").dataset.name;
     const ps =  document.querySelector(".player-selected").querySelector(".player").innerText;
-    const navbarString = `<div class='nav-emp'>${titleString}</div> <div class = 'navbar-player'>Up now:  <span class='nav-emp'>${ps}</span></div>`;
+    const navbarString = `<span class="navbar-scores">${titleString} <i class="fas fa-arrow-down score-arrow"></i></span> <span class = 'navbar-player'><span class='nav-emp'>Up now: ${ps}</span> </span> <div id= "scoreboard-mask"> <div id="scoreboard" class="scoreboard">${scores.innerHTML}</div></div>`;
 
     document.querySelector("#navbar-game").insertAdjacentHTML('afterbegin', navbarString)
 
+
+     document.querySelector(".navbar-scores").addEventListener('click', function() {
+      console.log (' click arrow');
+      document.querySelector("#scoreboard").classList.toggle("scoreboard-show");
+      document.querySelector(".score-arrow").classList.toggle("score-arrow-rotate");
+      // document.querySelector(".fa-arrow-circle-left").classList.toggle("arrow-btn-rotate");
+    })
+     document.querySelector("#scoreboard").addEventListener('click', function() {
+      console.log (' click scoreboard')
+      document.querySelector("#scoreboard").classList.toggle("scoreboard-show");
+      document.querySelector(".score-arrow").classList.toggle("score-arrow-rotate");
+      // document.querySelector(".fa-arrow-circle-left").classList.toggle("arrow-btn-rotate");
+    })
     // showScores();
   }
 
@@ -501,7 +523,7 @@ const pickLetter = () => {   // using keyboard
 }
 
 
-  if (myLettersDiv) {
+  if (dash) {
     document.addEventListener('keydown', pickLetter);
     // console.log(myLetters);
     if (myLetters.length < 1 ) {  // myLetters has not been populated from DB
@@ -509,6 +531,7 @@ const pickLetter = () => {   // using keyboard
     } else {
 
     }
+
     showMyLettersInit();
     document.querySelector('#cancel-btn').addEventListener('click', restoreLetters);
     document.querySelector('#commit-btn').addEventListener('click', commitLetters);
@@ -610,11 +633,12 @@ function endGame() {
             buffer.push(txt);
 
             event.target.querySelector(".board-value").innerHTML = `${val}`;
-            // document.querySelector('#btnAudio').src = '../../assets/audios/' + clickSounds[currentClickSound] + ".mp3";
+            document.querySelector('#btnAudio').src = '../../assets/' + clickSounds[currentClickSound] + ".mp3";
+            console.log(document.querySelector('#btnAudio').src);
 
-            // document.querySelector('#btnAudio').play();
-            // currentClickSound ++
-            // if (currentClickSound > clickSounds.length -1) currentClickSound = 0
+            document.querySelector('#btnAudio').play();
+            currentClickSound ++
+            if (currentClickSound > clickSounds.length -1) currentClickSound = 0
             selectedLetter.classList.remove("letter-selected");
             selectedLetter.classList.add("letter-disabled");
             selectedLetter.removeEventListener('click', toggleLetter);

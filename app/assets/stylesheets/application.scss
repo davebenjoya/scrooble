@@ -19,6 +19,12 @@
 @import 'bootstrap/scss/bootstrap';
 
 html, body {
-  background-color: $space-cadet;
+  background: linear-gradient(5deg, $gunmetal 25%, $midnight-green 40%, $gunmetal 85% ) no-repeat;
+
   overflow-x: hidden;
+}
+
+html {
+
+  background-color: $gunmetal;
 }
