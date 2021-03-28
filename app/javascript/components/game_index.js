@@ -24,7 +24,7 @@ const gameIndex = ()  => {
       av.addEventListener('mouseover', () => {
         const stat = av.closest(".card").querySelector(".status").innerHTML;
         agoTemp =  stat;
-        av.closest(".card").querySelector(".status").innerHTML = av.parentNode.dataset.username;
+        av.closest(".card").querySelector(".status").innerHTML = av.parentNode.dataset.username + ": " + av.parentNode.dataset.score ;
       });
 
       av.addEventListener('mouseout', () => {
