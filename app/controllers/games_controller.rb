@@ -193,6 +193,6 @@ private
 
 
   def game_params
-    params.require(:game).permit(:letter_grid, :current_player, :name, :completed, :msg, :jokers,
+    params.require(:game).permit(:letter_grid, :current_player, :name, :completed, :message, :jokers,
                    :opponents => [], :all_player_letters => [], :remaining_letters => [])
   end
