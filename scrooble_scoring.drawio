@@ -1,9 +1,17 @@
-<mxfile host="app.diagrams.net" modified="2021-03-28T21:27:03.197Z" agent="5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36" etag="76GhIDwUwZ34Ug-NdsM0" version="14.5.3" type="github">
+<mxfile host="app.diagrams.net" modified="2021-03-28T22:02:32.126Z" agent="5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36" etag="OQ7pH3tpo9mX5o2XFWpO" version="14.5.3" type="github">
   <diagram id="KmPHyXRd9AAnZFTOhBj1" name="Page-1">
-    <mxGraphModel dx="1629" dy="514" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1469" dy="514" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="690" pageHeight="980" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="_AxOFC-AINdAkmEs332U-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=none;startFill=0;endArrow=classic;endFill=1;strokeWidth=1;fillColor=#85FFFB;fontColor=#0000CC;" edge="1" parent="1" source="_AxOFC-AINdAkmEs332U-23">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1180" y="230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_AxOFC-AINdAkmEs332U-23" value="" style="whiteSpace=wrap;html=1;aspect=fixed;strokeColor=#B09500;fontColor=#ffffff;fillColor=#FFD966;" vertex="1" parent="1">
+          <mxGeometry x="790" y="40" width="310" height="310" as="geometry" />
+        </mxCell>
         <mxCell id="SoHk7hT5f_enM3RVXxlu-56" value="yes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="SoHk7hT5f_enM3RVXxlu-1" target="SoHk7hT5f_enM3RVXxlu-7" edge="1">
           <mxGeometry x="0.2308" y="-15" relative="1" as="geometry">
             <mxPoint x="-15" y="-15" as="offset" />
@@ -191,7 +199,7 @@
         </mxCell>
         <mxCell id="SoHk7hT5f_enM3RVXxlu-74" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;startArrow=none;startFill=0;endArrow=classic;endFill=1;" parent="1" source="SoHk7hT5f_enM3RVXxlu-54" edge="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="620" y="180" as="targetPoint" />
+            <mxPoint x="620" y="160" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="SoHk7hT5f_enM3RVXxlu-75" value="yes" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="SoHk7hT5f_enM3RVXxlu-74" vertex="1" connectable="0">
@@ -202,11 +210,48 @@
         <mxCell id="SoHk7hT5f_enM3RVXxlu-54" value="are&amp;nbsp;&lt;b&gt;all&lt;/b&gt;&amp;nbsp;&lt;br&gt;new letters&lt;br&gt;adjacent to other new letters?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
           <mxGeometry x="490" width="90" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="_AxOFC-AINdAkmEs332U-11" value="create wordArray&lt;br&gt;iterate through&amp;nbsp;&lt;br&gt;provisional tiles&lt;br&gt;check horizontal&lt;br&gt;check vertical&lt;br&gt;add word" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
-          <mxGeometry x="560" y="200" width="120" height="90" as="geometry" />
+        <mxCell id="_AxOFC-AINdAkmEs332U-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=none;startFill=0;endArrow=classic;endFill=1;strokeWidth=1;fillColor=#85FFFB;fontColor=#0000CC;" edge="1" parent="1" source="_AxOFC-AINdAkmEs332U-11">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="780" y="245" as="targetPoint" />
+          </mxGeometry>
         </mxCell>
-        <mxCell id="_AxOFC-AINdAkmEs332U-12" value="iterate through&amp;nbsp;&lt;br&gt;wordArray&amp;nbsp; &amp;nbsp;&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
-          <mxGeometry x="560" y="310" width="120" height="90" as="geometry" />
+        <mxCell id="_AxOFC-AINdAkmEs332U-11" value="create &lt;br&gt;word/value Array&lt;br&gt;=&amp;gt; iterate through&amp;nbsp;&lt;br&gt;provisional tiles&lt;br&gt;check horizontally adjacent&lt;br&gt;add word/value?&lt;br&gt;check vertically adjacent&lt;br&gt;add word/value?" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="560" y="170" width="170" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="_AxOFC-AINdAkmEs332U-12" value="iterate through&amp;nbsp;&lt;br&gt;wordArray&amp;nbsp;&lt;br&gt;create alert string&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="1190" y="190" width="120" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="_AxOFC-AINdAkmEs332U-16" value="&lt;span style=&quot;background-color: rgb(255 , 217 , 102)&quot;&gt;yes&lt;/span&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=none;startFill=0;endArrow=classic;endFill=1;" edge="1" parent="1" source="_AxOFC-AINdAkmEs332U-14">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="980" y="94" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_AxOFC-AINdAkmEs332U-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;startArrow=none;startFill=0;endArrow=classic;endFill=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="_AxOFC-AINdAkmEs332U-14" target="_AxOFC-AINdAkmEs332U-18">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="930" y="260" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="845" y="250" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_AxOFC-AINdAkmEs332U-20" value="no" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=#FFD966;" vertex="1" connectable="0" parent="_AxOFC-AINdAkmEs332U-19">
+          <mxGeometry x="-0.8431" y="1" relative="1" as="geometry">
+            <mxPoint y="21" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_AxOFC-AINdAkmEs332U-14" value="is there more than one provisional tile in the word?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="790" y="40" width="110" height="107" as="geometry" />
+        </mxCell>
+        <mxCell id="_AxOFC-AINdAkmEs332U-21" value="&lt;span style=&quot;&quot;&gt;yes&lt;/span&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;startArrow=none;startFill=0;endArrow=classic;endFill=1;fontColor=#0000CC;labelBackgroundColor=#FFD966;" edge="1" parent="1" source="_AxOFC-AINdAkmEs332U-15">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1020" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_AxOFC-AINdAkmEs332U-15" value="is this the first provisional tile?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="980" y="40" width="110" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="_AxOFC-AINdAkmEs332U-18" value="&lt;font color=&quot;#ffff99&quot;&gt;add word/value&lt;/font&gt;" style="ellipse;whiteSpace=wrap;html=1;fontColor=#ffffff;fillColor=#6d8764;strokeColor=#3A5431;" vertex="1" parent="1">
+          <mxGeometry x="960" y="210" width="120" height="80" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
