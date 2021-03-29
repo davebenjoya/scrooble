@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-03-29T09:16:11.143Z" agent="5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36" etag="grtHJkkAQ-OiJZb9Wv9V" version="14.5.3" type="github">
+<mxfile host="app.diagrams.net" modified="2021-03-29T09:18:30.347Z" agent="5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36" etag="-VhfHDt9MoF75c2LNHME" version="14.5.3" type="github">
   <diagram id="KmPHyXRd9AAnZFTOhBj1" name="Page-1">
     <mxGraphModel dx="1473" dy="514" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="690" pageHeight="980" math="0" shadow="0">
       <root>
@@ -225,7 +225,7 @@
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="940" y="440" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="880" y="430" />
+              <mxPoint x="875" y="430" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -253,6 +253,9 @@
         </mxCell>
         <mxCell id="iAa0ijknWMUfrmJ30W93-10" value="are there horizontally adjacent tiles?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
           <mxGeometry x="820" y="40" width="110" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="iAa0ijknWMUfrmJ30W93-12" value="are there vertically adjacent tiles?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="990" y="40" width="110" height="80" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
