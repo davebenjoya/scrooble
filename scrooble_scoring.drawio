@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2021-03-31T10:06:48.006Z" agent="5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36" etag="4OFA-9yiMP_8vE2niIfJ" version="14.5.3" type="github">
+<mxfile host="app.diagrams.net" modified="2021-03-31T10:08:23.790Z" agent="5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36" etag="JNPNpmPsTvCY7IJ_I13_" version="14.5.3" type="github">
   <diagram id="KmPHyXRd9AAnZFTOhBj1" name="Page-1">
-    <mxGraphModel dx="2252" dy="1665" grid="0" gridSize="10" guides="0" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="690" pageHeight="980" math="0" shadow="0">
+    <mxGraphModel dx="2075" dy="1576" grid="0" gridSize="10" guides="0" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="690" pageHeight="980" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -112,7 +112,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="SoHk7hT5f_enM3RVXxlu-22" value="first turn&lt;br&gt;of game?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#eeeeee;strokeColor=#36393d;" parent="1" vertex="1">
-          <mxGeometry x="273" y="-51" width="100" height="50" as="geometry" />
+          <mxGeometry x="277" y="-49" width="100" height="50" as="geometry" />
         </mxCell>
         <mxCell id="_AxOFC-AINdAkmEs332U-7" value="yes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=none;startFill=0;endArrow=classic;endFill=1;" parent="1" source="SoHk7hT5f_enM3RVXxlu-11" target="SoHk7hT5f_enM3RVXxlu-53" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -474,13 +474,16 @@
           <mxGeometry x="79" y="-190" width="110" height="70" as="geometry" />
         </mxCell>
         <mxCell id="a0S-27R4YYvynodJsr7F-2" value="all letters in &lt;br&gt;same row &lt;br&gt;or column?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
-          <mxGeometry x="197" y="-195" width="110" height="80" as="geometry" />
+          <mxGeometry x="227" y="-194" width="110" height="80" as="geometry" />
         </mxCell>
         <mxCell id="a0S-27R4YYvynodJsr7F-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;fillColor=#00FFFF;gradientColor=#9933FF;" edge="1" parent="1" source="iAa0ijknWMUfrmJ30W93-62" target="a0S-27R4YYvynodJsr7F-2">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="323" y="-56" as="targetPoint" />
             <mxPoint x="33" y="-155" as="sourcePoint" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="a0S-27R4YYvynodJsr7F-4" value="first turn&lt;br&gt;of game?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#eeeeee;strokeColor=#36393d;" vertex="1" parent="1">
+          <mxGeometry x="86" y="-106" width="100" height="50" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
