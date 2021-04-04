@@ -1,5 +1,5 @@
 <div class="container edit-user-identifier">
-  <h2>Edit <%= resource_name.to_s.humanize %></h2>
+  <p class='edit-user-head'>Edit <%= resource_name.to_s.humanize %></p>
 
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <%= f.hidden_field :updated_at, value: DateTime.current %>
@@ -21,8 +21,10 @@
            <% end  %>
           <% end %>
         </div>
-        <div class="col-sm-8">
-          <%= f.file_field :avatar, direct_upload: true  %>
+        <div class="choose">
+          <p><%= f.file_field :avatar, direct_upload: true, id:'file'  %>
+          <label for="file">Choose a file</label>
+          <%= resource.avatar.filename %> </p>
         </div>
       </div>
 
@@ -36,12 +38,12 @@
     <% end %>
 
     <div class="field">
-      <%= f.label :current_password %> <span class='user-paren'>required to confirm changes</span><br />
+      <%= f.label :current_password %> <div class='user-paren'>Required to confirm changes</div>
       <%= f.password_field :current_password, autocomplete: "current-password" %>
     </div>
 
     <div class="field">
-      <%= f.label :new_password %> <span class='user-paren'>leave blank to keep current password</span><br />
+      <%= f.label :new_password %> <div class='user-paren'>Leave blank to keep current password</div>
       <%= f.password_field :password, autocomplete: "new-password" %>
       <% if @minimum_password_length %>
         <br />
@@ -60,10 +62,10 @@
     </div>
   <% end %>
 
+  <div id='delete-account-div'>
   <hr/>
-
-  <p class='m-0'>Delete my account <%= button_to "Delete", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
-
+    <div>Delete my account</div><div><%= button_to "Delete", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, id:'delete-acct-btn' %></div>
+  </div>
 
 
 </div>

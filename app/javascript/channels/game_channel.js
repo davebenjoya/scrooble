@@ -13,16 +13,17 @@ const initGameCable = () => {
     consumer.subscriptions.create({ channel: "GameChannel", id: id }, {
       received(data) {
         // console.log("data "  , data); // called when data is broadcast in the cable
-        // data contains values for message([0]), grid([1]), player([2] - next player), score[3]
+        // data contains values for message([0]), grid([1]), player([2] - last player), score[3]
         const dataArray = data.split(",")
-        // alert(`${dataArray[0]}`)
+        const delayLength = dataArray[0].length * 50
+        const buffer = document.querySelector('#messages').innerHTML
+        document.querySelector('#messages').innerHTML = `${dataArray[0]}`;
 
         document.querySelector('#messages').classList.add("messages-show");
-        document.querySelector('#messages').innerHTML = `${dataArray[0]}`;
 
         setTimeout(function () {
         document.querySelector('#messages').classList.remove("messages-show");
-      }, 5000);
+      }, delayLength);
 
             document.querySelector('#btnAudio').src = '../../assets/dreamy.mp3';
             console.log(document.querySelector('#btnAudio').src);
@@ -68,23 +69,29 @@ const initGameCable = () => {
 
 
   const updatePlayers = (lastPlayer, addedScore) => {
+        // console.log("updatePlayers ", updatePlayers);
     // set current player name in navbar
     // document.querySelector("#dashboard").setAttribute('data-current', num);
-    let newIndex  = 0;
+    // let newIndex  = 0;
     const players =  document.querySelectorAll(".player")
     let player = "Morty"
+    let newIndex;
+    console.log("players.length ", players.length);
     players.forEach( (plr, index)=> {
-        console.log("plr.innerHTML ", plr.innerHTML);
-      if (plr.innerHTML.trim() === lastPlayer.trim()) {
+        console.log("plr.innerText.trim() ", plr.innerText.trim());
+        console.log("lastPlayer.trim() ", lastPlayer.trim());
+      if (plr.innerText.trim() === lastPlayer.trim()) {
         const oldScore = plr.parentNode.querySelector(".score").innerHTML
         const newScore = (parseInt(oldScore) + parseInt(addedScore)).toString();
         plr.parentNode.querySelector(".score").innerHTML = newScore;
         newIndex = index + 1;
-        if (newIndex > players.length -1) newIndex = 0;
+        if (newIndex > players.length -1) {
+          newIndex = 0;
+        }
+        console.log("newIndex ", newIndex);
         player = document.querySelectorAll(".player")[newIndex].innerHTML;
       }
     })
-
 
     document.querySelector("#navbar-game").querySelector(".nav-emp:last-child").innerHTML = `Up now: ${player}`;
 

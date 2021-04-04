@@ -111,8 +111,8 @@ end
     players = Player.where(game: @game)
     @player = players.find_by(user: current_user)
   added_score = params["game"]["my_score"].to_i - @player.player_score
-   mess = "#{@player.user.username} added #{added_score} #{'point'.pluralize(added_score)}"
-   # mess = params["game"]["message"]
+   # mess = "#{@player.user.username} added #{added_score} #{'point'.pluralize(added_score)}"
+   mess = params["game"]["msg"]
    # raise
 
     if @game.update(game_params)
@@ -127,7 +127,7 @@ end
     GameChannel.broadcast_to(
       @game,
       # flash[:game_update] = "next player: #{nextP}, last player: #{@game.current_player}"
-      render_to_string(partial: "message", locals: { message: mess, grid: @game.letter_grid, player: @player.user.username, score: added_score })
+      render_to_string(partial: "message", locals: { msg: mess, grid: @game.letter_grid, player: @player.user.username, score: added_score })
     )
 
 
@@ -193,6 +193,6 @@ private
 
 
   def game_params
-    params.require(:game).permit(:letter_grid, :current_player, :name, :completed, :message, :jokers,
+    params.require(:game).permit(:letter_grid, :updated_at, :current_player, :name, :completed, :jokers,
                    :opponents => [], :all_player_letters => [], :remaining_letters => [])
   end

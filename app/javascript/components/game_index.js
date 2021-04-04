@@ -1,10 +1,30 @@
 import { Turbo, cable } from "@hotwired/turbo-rails"
 
 const gameIndex = ()  => {
+  let crawlEndDelay = 1000;
+  if (document.querySelector(".index-page-identifier")) {
+  setTimeout( () => {
+    document.querySelector(".crawl-start").classList.add("crawl-show");
+    console.log("transition end");
+  }, 1000);
+
+  crawlEndDelay = 5000;
+
+  }
+
+
+  setTimeout( () => {
+    document.querySelector(".crawl-start").classList.add("crawl-end");
+    console.log("transition end");
+  }, crawlEndDelay);
+
+
+  document.querySelector("#navbar-game").innerHTML = `<span class="my-games-head">My Games</span>`;
   const yourGames = document.querySelector("#your-games");
   let agoTemp = ``;
   if (yourGames) {
     // setupPageAnimations();
+
     const numOfBgs = 6;
     let currentBg = 0;
    let bgClass = ``;
@@ -137,17 +157,17 @@ function runAnimations(elList, eventsPrefixed) {
 });
 
 $(window).on('popstate', e => {
-  if (_isAnimating) {
-    // Prevent loading previous page
-    // if animations have started
-    e.preventDefault();
-    history.go(1);
-    removeAnimateClasses();
+  // if (_isAnimating) {
+  //   // Prevent loading previous page
+  //   // if animations have started
+  //   e.preventDefault();
+  //   history.go(1);
+  //   removeAnimateClasses();
 
-    // Reset variables
-    _isAnimating = false;
-    elementsToAnimate = [];
-  }
+  //   // Reset variables
+  //   _isAnimating = false;
+  //   elementsToAnimate = [];
+  // }
 });
 
 // Use regex to remove all animation classes

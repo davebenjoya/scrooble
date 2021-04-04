@@ -1,7 +1,18 @@
 <div id="navbarr" >
       <% if user_signed_in? %>
-        <div>
+        <div id = "navbar-left" >
           <% if current_page?('/') %>
+          <% logo_letters  = "
+            <a class='scr-ltr'>S</a>
+            <a class='scr-ltr'>c</a>
+            <a class='scr-ltr'>r</a>
+            <a class='scr-ltr'>o</a>
+            <a class='scr-ltr'>o</a>
+            <a class='scr-ltr'>b</a>
+            <a class='scr-ltr'>l</a>
+            <a class='scr-ltr'>e</a>"
+            %>
+
             <div class="navbar-title">Scrooble</div>
           <% else %>
             <%= link_to "/" do %>

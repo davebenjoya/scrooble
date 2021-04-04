@@ -17,12 +17,9 @@
               <input type="checkbox">
               <%= user.username %>
             </div>
-            <div class="toggle-stats">
-              <span class='stats-label'>stats </span> <i class="fas fa-arrow-circle-down stats-btn"></i>
-            </div>
-          </div>
 
-          <% my_comp_games = 0 %>
+
+   <% my_comp_games = 0 %>
           <% my_total_score = 0 %>
           <% my_high_score = 0 %>
           <% duration_array = [] %>
@@ -46,28 +43,33 @@
           <% my_long_game = sorted_dur.reverse[0] %>
 
 
-
           <% if my_comp_games > 0 %>
             <% my_avg = (my_total_score / my_comp_games).to_i %>
-          <% else %>
-            <% my_avg = "NA" %>
-            <% my_high_score = "NA" %>
-          <% end %>
+
+            <div class="toggle-stats">
+              <span class='stats-label'>stats </span> <i class="fas fa-arrow-circle-down stats-btn"></i>
+            </div>
+          </div>
+
 
           <div class="stats-mask">
               <div class='stats'>
-               <div class = 'stats-text'>Completed Games: <span class='stats-num'><%= my_comp_games %></span></div>
-               <div class = 'stats-text'>Average Score: <span class='stats-num'><%= my_avg %></span></div>
-               <div class = 'stats-text'>High Score: <span class='stats-num'><%= my_high_score %></span></div>
+               <div class = 'stats-text'>Completed Games <span class='stats-num'><%= my_comp_games %></span></div>
+               <div class = 'stats-text'>Average Score <span class='stats-num'><%= my_avg %></span></div>
+               <div class = 'stats-text'>High Score <span class='stats-num'><%= my_high_score %></span></div>
               </div>
 
 
           </div>
+          <% end %>
         </div>
       <% end %>
     <% end %>
   </div>
+  <div class="btn-container">
     <button id="new-game-btn">Start New Game</button>
+
+  </div>
   <% new_grid  = "_ " * 225 %>
 
   <%= form_with(model: @game, id: 'new-game', method:'POST', action: games_path) do |f| %>

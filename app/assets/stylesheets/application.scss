@@ -19,12 +19,28 @@
 @import 'bootstrap/scss/bootstrap';
 
 html, body {
-  background: linear-gradient(8deg, $raisin-black 25%, $gunmetal 40%, $raisin-black 90% ) no-repeat;
+  // background: linear-gradient(5deg, $raisin-black 20% , $dark-jungle-green 60%, $raisin-black 85% ) no-repeat;
+ // overflow-x: hidden;
 
-  overflow-x: hidden;
 }
 
 html {
+  background: linear-gradient(4deg, hsl(220, 30, 20) 5% , hsl(220, 30, 12) 15% ) no-repeat;
 
-  background-color: $raisin-black;
+  // background-color:hsl(220, 30, 25);
+  height: 100%;
+
+  min-height:600px;
+}
+
+body {
+
+  background: linear-gradient(4deg, hsl(220, 30, 12) 40% , hsl(220, 30, 30) 60%, hsl(220, 30, 21) 90% ) no-repeat;
+// background-color: hsl(220, 30, 12);
+  // display: flex;
+  // min-height:600px;
+
+
+  // background-color:transparent;
+  // background-color:hsl(220, 30, 12);
 }

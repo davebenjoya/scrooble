@@ -1,6 +1,157 @@
-import { board } from './board';
-import lettersJSON from './letters.json';
 
+import lettersJSON from './letters.json';
+ // const calculateNewWordScores = () =>{
+  const provisionals = document.querySelectorAll(".letter-provisional");
+
+
+  let addedScore = 0;
+  let wordMultiplier = 1;
+  let bonusString = ``;
+  let wordArray = [];
+  let totalAdded = 0;
+  let scoreString = ``;
+
+
+  function firstWordCommit() {
+    console.log('firstWordCommit')
+    let word = ``;
+    document.querySelectorAll(".letter-provisional").forEach( ltr => {
+      scoreTile(ltr)
+      word += ltr.innerHTML
+    });
+    addedScore *= wordMultiplier * 2;
+    bonusString += `First play double word score.`;
+    const wordObj = Object.create({word: word, score: addedScore, bonus:bonusString});
+    wordArray.push(wordObj);
+    buildAlert();
+    return [totalAdded, scoreString];
+  }
+
+  function wordsCommit() {
+    console.log('wordsCommit')
+  totalAdded = 0;
+  wordMultiplier = 1;
+  scoreString = ``;
+  bonusString = ``;
+
+   document.querySelectorAll(".letter").forEach( (ltr, index) => {
+    if (ltr.classList.contains("letter-provisional")) {
+      let vertFlag = false;
+      let provs = 0
+      let posArray = []
+      let word = ``;
+      let horAdjacent = checkHorAdj(index);
+      if (horAdjacent) {
+        posArray = findHorizontalWord(index)
+      } else if (checkVertAdj(index)) { // no horizontal with this letter, check vertical
+        vertFlag = true;
+        posArray = findVerticallWord(index)
+      }
+
+      posArray.forEach( (pos, i) => {
+        scoreTile(document.querySelectorAll(".letter")[pos])
+        if (document.querySelectorAll(".letter")[pos].classList.contains("letter-provisional")) provs ++;
+        word += document.querySelectorAll(".letter")[pos].innerHTML
+      });
+
+        console.log('worrrrd ' + word);
+      // addedScore *= wordMultiplier
+      if (provs === 1 || index === posArray[0] ) {
+        const wordObj = Object.create({word: word, score: addedScore, bonus:bonusString});
+        wordArray.push(wordObj);
+      }
+      if (vertFlag === false) {
+
+        word = ``;
+        addedScore = 0;
+        bonusString = ``
+        posArray = findVerticallWord(index);
+        posArray.forEach( (pos, i) => {
+          scoreTile(document.querySelectorAll(".letter")[pos])
+          word += document.querySelectorAll(".letter")[pos].innerHTML
+        });
+
+        const wordObj2 = Object.create({word: word, score: addedScore, bonus:bonusString});
+        wordArray.push(wordObj2);
+      }
+
+      };
+    });
+    // addedScore *= wordMultiplier * 2;
+    // bonusString += `First play double word score.`;
+
+    console.log("wordArray " , wordArray )
+    buildAlert();
+
+    return [totalAdded, scoreString];
+    // return [20, "Multiple word and letter bonuses"];
+
+  }
+
+  function checkHorAdj(pos) {
+    const posLeft = pos - 1;
+    const posRight = pos + 1;
+        console.log('document.querySelectorAll(".letter")[posRight].innerHTML.trim() ', document.querySelectorAll(".letter")[posRight].innerHTML.trim());
+    if ( (document.querySelectorAll(".letter")[posLeft].innerHTML.trim() != "" && document.querySelectorAll(".letter")[posLeft].classList.contains("letter-provisional")=== false)
+          || (document.querySelectorAll(".letter")[posRight].innerHTML.trim() != "" && document.querySelectorAll(".letter")[posRight].classList.contains("letter-provisional")=== false)) {
+      return true
+      }
+    return false;
+  }
+
+
+  function checkVertAdj(pos) {
+    const posAbove = pos - 15;
+    const posBelow = pos + 15;
+    if ( (document.querySelectorAll(".letter")[posAbove].innerHTML.trim() != "" && document.querySelectorAll(".letter")[posAbove].classList.contains("letter-provisional") === false)
+          || (document.querySelectorAll(".letter")[posBelow].innerHTML.trim() != "" && document.querySelectorAll(".letter")[posBelow].classList.contains("letter-provisional") === false)) {
+      return true
+      }
+    return false;
+  }
+
+  function buildAlert() {
+    const name = document.querySelector('.nav-emp').innerText.split(":")[1].trim();
+    scoreString = `${name} scored `;
+    console.log("wordArray " , wordArray )
+    wordArray.forEach( word => {
+      totalAdded += word.score;
+      console.log("totalAdded " , totalAdded )
+      const s = word.score != 1 ? `s` : ``;
+      scoreString += `${word.score} point${s} for ${word.word}. ${word.bonus}`
+    });
+    if (wordArray.length > 1 ){
+      const t = totalAdded != 1 ? `s` : ``;
+      scoreString += `Total ${totalAdded} point${t}.`
+    }
+    alert(scoreString);
+  }
+
+  function scoreTile(ltr) {
+
+    let val =  parseInt(ltr.parentNode.querySelector(".board-value").innerHTML)
+
+    if (ltr.closest(".tile").classList.contains("double-letter") && ltr.classList.contains("letter-provisional")) {
+      val *= 2;
+      if (bonusString.length > 0) bonusString += `. `;
+      bonusString += ` ${ltr.innerHTML} Double Letter Score = ${val}. `;
+      console.log('bonusString', bonusString);
+    }
+    if (ltr.closest(".tile").classList.contains("triple-letter") && ltr.classList.contains("letter-provisional")) {
+      val *= 3;
+      if (bonusString.length > 0) bonusString += `. `;
+      bonusString += ` ${ltr.innerHTML} Triple Letter Score = ${val}. `;
+    }
+    if (ltr.closest(".tile").classList.contains("double-word") && ltr.classList.contains("letter-provisional")) {
+      wordMultiplier *= 2;
+    }
+    if (ltr.closest(".tile").classList.contains("triple-word") && ltr.classList.contains("letter-provisional")) {
+      wordMultiplier *= 3;
+    }
+
+    addedScore += val;
+
+  }
 
 //    findHorizontalWord
 
@@ -49,194 +200,6 @@ const findVerticallWord = (firstProvisional) => {
 }
 
 
+ // }
 
-
-
-  const calculateScore = (wordOrientation, firstProvisional) => {  // score for one word
-
-              // console.log("jokers " + typeof jokers);
-    let addedScore = 0;
-    const tileDivs = document.querySelectorAll('.tile')
-    const letterDivs = document.querySelectorAll('.letter')
-    const provDivs = document.querySelectorAll('.letter-provisional')
-    let firstLetterPosition = firstProvisional
-    let lastLetterPosition = firstProvisional
-    let wordMultiplier = 1;
-    let newWord = "";
-    let bonusString = ``;
-    let horizontalWords = [];
-    let verticalWords = [];
-    let positions = []
-    let jokers = "";
-
-    letterDivs.forEach( (letter, index) => {
-      if (letter.parentNode.classList.contains("joker-replaced")) {
-        jokers += `${index.toString()},`;
-      }
-    });
-
-    const jokersTrimmed = jokers.slice(0, jokers.length -1)
-
-    console.log("jokersTrimmed " + jokersTrimmed);
-
-    jokers = jokersTrimmed;
-
-
-    if (wordOrientation == 'horizontal' || wordOrientation == 'neutral') {
-      positions  =  findHorizontalWord(firstProvisional);
-    } else {
-      positions = findVerticallWord(firstProvisional);
-    }
-    // console.log('positions ' + positions);
-    let contiguous  = true;
-    letterDivs.forEach((letterDiv, index) => {
-     if (letterDiv.classList.contains("letter-provisional")) {
-        if (!positions.includes(index)) {
-          contiguous = false;
-        };
-     };
-    });
-
-    if (contiguous === false) {
-      alert ("All letters must be contiguous!");
-      restoreLetters();
-    } else {
-    firstLetterPosition = positions[0];
-    lastLetterPosition = positions[positions.length - 1]
-    newWord = "";
-    //  append new word
-    positions.forEach(position => {
-      const ltr = letterDivs[position].innerHTML;
-      // console.log(letterDivs[position].parentNode)
-      newWord += ltr;
-
-
-      // assign base value
-
-      Array.from(lettersJSON.letters).forEach( (l , index) => {
-        if (Object.keys(l).toString() === ltr) {
-          // console.log(`tileDivs[position].querySelector(".my-value") ` + tileDivs[position].parentNode.querySelector(".my-value"));
-          let val =  parseInt(Object.values(Object.values(l)[0])[1]); // value is second property in embedded object
-
-          if (tileDivs[position].classList.contains("joker-replaced")) val = 0;
-          if (tileDivs[position].classList.contains("double-letter") && letterDivs[position].classList.contains("letter-provisional")) {
-            val *= 2;
-            if (bonusString.length > 0) bonusString += `; `;
-            bonusString += ` ${ltr} Double Letter Score = ${val}`;
-            console.log("double letter");
-          }
-          if (tileDivs[position].classList.contains("triple-letter") && letterDivs[position].classList.contains("letter-provisional")) {
-            val *= 3;
-            if (bonusString.length > 0) bonusString += `; `;
-            bonusString += ` ${ltr} Triple Letter Score = ${val}`;
-            console.log("triple letter");
-          }
-          if (tileDivs[position].classList.contains("double-word") && letterDivs[position].classList.contains("letter-provisional")) {
-            wordMultiplier *= 2;
-            console.log("double word");
-          }
-          if (tileDivs[position].classList.contains("triple-word") && letterDivs[position].classList.contains("letter-provisional")) {
-            wordMultiplier *= 3;
-            console.log("triple word");
-          }
-
-          addedScore += val;
-        }
-      });
-    });
-//const calculateScore
-    searchDictionary(newWord).then (word => {
-      if (word.error === "Not Found") {
-        restoreLetters();
-        alert (`${newWord} is not a real word.`);
-      } else {
-        document.querySelectorAll(".letter-provisional").forEach(pro => pro.classList.remove("letter-provisional"));
-       switch (wordMultiplier) {
-          case 2:
-           if (bonusString.length > 0) bonusString += `; `;
-                bonusString += `Double Word Score`;
-          break;
-          case 3:
-           if (bonusString.length > 0) bonusString += `; `;
-                bonusString += `Triple Word Score`;
-          break;
-          case 4:
-           if (bonusString.length > 0) bonusString += `; `;
-                bonusString += ` Oh my god, 2 Double Word Scores.`;
-          break;
-          case 9:
-           if (bonusString.length > 0) bonusString += `; `;
-                bonusString += `Jesus Fucking Christ!! 2 Triple Word Scores!!!!!`;
-          break;
-        }
-
-        addedScore *= wordMultiplier;
-
-        let alertString = `${board.currentPlayer} added ${addedScore} `
-        alertString += addedScore === 1  ? `point.` :  `points.`
-        alertString += `${bonusString}`
-        let tileString = ``
-
-
-        let val
-
-        for (let char of newWord) {
-          console.log (' char  ',  char)
-//const calculateScore
-        Array.from(lettersJSON.letters).forEach( l => {
-          if (l[char]) {
-           val = l[char].value;
-          }
-        });
-        // if (pro.classList.contains("joker-replaced")) {
-        //   val = 0;
-        //   console.log("joker-replaced ")
-        // }
-        tileString += `<div class="my-tile"><div class="my-letter">${char}</div><div class="my-value">${val}</div> </div>`
-        }
-        const newWordTiles = `<span class='row pl-3'>${tileString}</span>`
-
-        if (board.selectedLetter ) {
-          board.selectedLetter.classList.remove('letter-selected')
-          board.selectedLetter = null;
-        }
-        // const num  =  maxLetters - myLetters.length; // how many tiles need to be replaced?
-        // chooseLetters();
-        // appendMyLetters(num);
-
-      document.querySelectorAll('.letter-disabled').forEach( ltr => { // 'disabled' means it's been placed on the board
-        const ind = board.myLetters.indexOf(ltr.querySelector(".my-letter").innerHTML);
-        myLetters.splice(ind, 1);
-        ltr.remove();
-      });
-      buffer = [];
-      selectedLetter = null;
-      const numToReplace  =  maxLetters - myLetters.length;
-      chooseLetters();
-      appendMyLetters(numToReplace);
-
-
-    //const calculateScore
-    populateRailsForm();
-
-        document.querySelector(".modal-body").innerHTML = newWordTiles + alertString;
-        // $('#exampleModalCenter').modal('show');
-        gameForm.submit();
-
-    }
-  });
-  }
-}
-
-const url = "https://api.wordnik.com/v4/word.json/@@@/definitions?limit=3&includeRelated=false&sourceDictionaries=all&useCanonical=false&includeTags=false&api_key=bws5w0ajrmgaqjxopiobxgwa1sr5cg78y8gzhgeqhrrp10le9";
-
-async function searchDictionary (keyword)  {
-  const newUrl = url.replace("@@@", keyword).toLowerCase();
-  const response = await fetch(newUrl);
-  const word = await response.json();
-  return word;
-}
-
-
-// Exporting variables and functions
-export default calculateScore;
+ export { firstWordCommit, wordsCommit }
