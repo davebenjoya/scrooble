@@ -1,0 +1,19 @@
+---
+development:
+  cloud_name: duhbsxy4a
+  api_key: '661759571558554'
+  api_secret: Ql--0vDYZ8M8wEeSYXTqI-k6mwU
+  enhance_image_tag: true
+  static_file_support: false
+production:
+  cloud_name: duhbsxy4a
+  api_key: '661759571558554'
+  api_secret: Ql--0vDYZ8M8wEeSYXTqI-k6mwU
+  enhance_image_tag: true
+  static_file_support: true
+test:
+  cloud_name: duhbsxy4a
+  api_key: '661759571558554'
+  api_secret: Ql--0vDYZ8M8wEeSYXTqI-k6mwU
+  enhance_image_tag: true
+  static_file_support: false
