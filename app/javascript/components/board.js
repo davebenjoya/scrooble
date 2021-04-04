@@ -1,11 +1,12 @@
 import lettersJSON from './letters.json';
-
+import { validateLetters } from './validation'
 // import { calculateScore, findHorizontalWord, findVerticallWord } from './scoring';
 // import 'new_game.js';
 // import Sortable from "sortablejs";
 import { Sortable, MultiDrag, Swap, OnSpill, AutoScroll } from "sortablejs";
 import   pLetters  from './player_letters'
 // import   calculateScore  from './scoring';
+
 const board = () => {
   // calculateScore();
   // scoring.somting();
@@ -24,9 +25,9 @@ const board = () => {
 
   let current =  0;
   let newGameForm = document.querySelector("#new-game");
-  let newPlayerForm =  document.querySelector("#new-player");
-  let gameForm  = document.querySelector("#update-game");
-  let playerForm  = document.querySelector("#update-player");
+  let newPlayerForm = document.querySelector("#new-player");
+  let gameForm = document.querySelector("#update-game");
+  let playerForm = document.querySelector("#update-player");
   let playersArray;
   let players = [];
   let realWord = true;
@@ -92,7 +93,7 @@ const board = () => {
 // save order of player's letters on leaving page
     window.onbeforeunload = function(){
   // return 'Are you sure you want to leave?';
-};
+    };
 
     // remainingLetters = document.querySelector("#dashboard").dataset.remaining;
     document.querySelector("#scores").addEventListener('click', function() {
@@ -142,24 +143,22 @@ const board = () => {
     // element = this;
   // if (document.querySelector("#dashboard").dataset) titleString = document.querySelector("#dashboard").dataset.name;
     const ps =  document.querySelector(".player-selected").querySelector(".player").innerText;
-    const navbarString = `<span class="navbar-scores">${titleString} <i class="fas fa-arrow-down score-arrow"></i></span> <span class = 'navbar-player'><span class='nav-emp'>Up now: ${ps}</span> </span> <div id= "scoreboard-mask"> <div id="scoreboard" class="scoreboard">${scores.innerHTML}</div></div>`;
+    const navbarString = `<span class="navbar-scores">${titleString} <i class="fas fa-arrow-down score-arrow"></i></span> <span class = 'navbar-player'><span class='nav-emp'>Up now: ${ps}</span> </span>`;
 
-    document.querySelector("#navbar-game").insertAdjacentHTML('afterbegin', navbarString)
+    document.querySelector("#navbar-game").innerHTML =  navbarString;
 
 
-     document.querySelector(".navbar-scores").addEventListener('click', function() {
+    document.querySelector(".navbar-scores").addEventListener('click', function() {
       console.log (' click arrow');
-      document.querySelector("#scoreboard").classList.toggle("scoreboard-show");
+      document.querySelector("#scores").classList.toggle("scores-show");
+      // console.log(document.querySelector("#scores"));
       document.querySelector(".score-arrow").classList.toggle("score-arrow-rotate");
-      // document.querySelector(".fa-arrow-circle-left").classList.toggle("arrow-btn-rotate");
     })
-     document.querySelector("#scoreboard").addEventListener('click', function() {
+    document.querySelector("#scores").addEventListener('click', function() {
       console.log (' click scoreboard')
-      document.querySelector("#scoreboard").classList.toggle("scoreboard-show");
+      document.querySelector("#scores").classList.toggle("scores-show");
       document.querySelector(".score-arrow").classList.toggle("score-arrow-rotate");
-      // document.querySelector(".fa-arrow-circle-left").classList.toggle("arrow-btn-rotate");
-    })
-    // showScores();
+      })
   }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -462,12 +461,9 @@ function setupBoard() {
           if (jokerPos) {
             document.querySelectorAll(".tile")[jokerPos].classList.add("joker-replaced");
             document.querySelectorAll(".tile")[jokerPos].querySelector(".board-value").innerHTML="0"
-
           }
         })
       }
-
-
 }
 
 const pickLetter = () => {   // using keyboard
@@ -503,13 +499,13 @@ const pickLetter = () => {   // using keyboard
             }
         });
 
-  }
-
-  } else { // replace joker dialogue visible
-    if (event.key === "Enter") {
-      // commitLetters();
     }
-  }
+
+    } else { // replace joker dialogue visible
+      if (event.key === "Enter") {
+        // commitLetters();
+      }
+    }
   } else {
       // alert ("It's not your turn!");
       myLetters.forEach(ltr => {
@@ -521,8 +517,6 @@ const pickLetter = () => {   // using keyboard
       });
   }
 }
-
-
   if (dash) {
     document.addEventListener('keydown', pickLetter);
     // console.log(myLetters);
@@ -532,7 +526,7 @@ const pickLetter = () => {   // using keyboard
 
     }
 
-    showMyLettersInit();
+  showMyLettersInit();
     document.querySelector('#cancel-btn').addEventListener('click', restoreLetters);
     document.querySelector('#commit-btn').addEventListener('click', commitLetters);
     document.querySelector('#exchange-btn').addEventListener('click', markLetters);
@@ -550,10 +544,8 @@ function endGame() {
      document.querySelector('#update-player-completed').value = true;
     populateRailsForm();
     gameForm.submit();
-}
-
   }
-
+}
 
   function endGameConfirm() {
     alert("Are you sure you want to quit the game? ")
@@ -561,16 +553,15 @@ function endGame() {
 
 
   function markLetters(){
-        document.querySelector('#exchange-btn').classList.add("exchange-btn-active");
-        document.querySelector('#commit-btn').classList.remove("button-disabled");
-        exchange = true;
-        document.querySelector('#exchange-btn').removeEventListener('click', markLetters);
-        document.querySelector('#exchange-btn').addEventListener('click', unmarkLetters);
-
-        if (selectedLetter) {
-          selectedLetter.classList.remove('letter-selected')
-          selectedLetter = null;
-        }
+    document.querySelector('#exchange-btn').classList.add("exchange-btn-active");
+    document.querySelector('#commit-btn').classList.remove("button-disabled");
+    exchange = true;
+    document.querySelector('#exchange-btn').removeEventListener('click', markLetters);
+    document.querySelector('#exchange-btn').addEventListener('click', unmarkLetters);
+    if (selectedLetter) {
+      selectedLetter.classList.remove('letter-selected')
+      selectedLetter = null;
+    }
   }
 
   function unmarkLetters() {
@@ -583,41 +574,32 @@ function endGame() {
     exchange = false;
     document.querySelector('#exchange-btn').addEventListener('click', markLetters);
     document.querySelector('#exchange-btn').removeEventListener('click', unmarkLetters);
-
   }
-
 
   function placeLetter () {
     if (!exchange) {
-
-        if(event.target.querySelector('.letter').classList.contains("letter-provisional")) {
-      event.target.querySelector('.letter').classList.remove("letter-provisional")
-      let enableFlag = false;  // if player has more than one of the same letter, only enable one
-      document.querySelectorAll(".letter-disabled").forEach (ltr => {
-        if (event.target.querySelector('.letter').innerHTML === ltr.querySelector('.my-letter').innerHTML ) {
-          if (enableFlag === false) {
-
-            ltr.classList.remove("letter-disabled");
-            ltr.addEventListener('click', toggleLetter);
-            if (selectedLetter) selectedLetter.classList.remove("letter-selected")
-            selectedLetter = null;
-            enableFlag = true;
-
+      if(event.target.querySelector('.letter').classList.contains("letter-provisional")) {
+        event.target.querySelector('.letter').classList.remove("letter-provisional")
+        let enableFlag = false;  // if player has more than one of the same letter, only enable one
+        document.querySelectorAll(".letter-disabled").forEach (ltr => {
+          if (event.target.querySelector('.letter').innerHTML === ltr.querySelector('.my-letter').innerHTML ) {
+            if (enableFlag === false) {
+              ltr.classList.remove("letter-disabled");
+              ltr.addEventListener('click', toggleLetter);
+              if (selectedLetter) selectedLetter.classList.remove("letter-selected")
+              selectedLetter = null;
+              enableFlag = true;
+            }
           }
-
-        }
-
-
-      })
+        })
         event.target.querySelector('.letter').innerHTML = "";
         event.target.querySelector('.board-value').innerHTML = "";
-      } else {
+    } else {
         document.querySelector('#exchange-btn').removeEventListener('click', markLetters);
         document.querySelector('#exchange-btn').classList.add('button-disabled');
         if (selectedLetter) {
           let txt = selectedLetter.querySelector('.my-letter').innerHTML
           let val = selectedLetter.querySelector('.my-value').innerHTML;
-
           if (txt === "*") {
               const replacement = `Replace Joker with: <input id="replace-joker" maxlength = 1 type=text required>`
               document.querySelector(".modal-body").innerHTML = replacement;
@@ -631,11 +613,9 @@ function endGame() {
             event.target.querySelector('.letter').classList.add("letter-provisional");
             // event.target.style.backgroundImage = url('../images/tile01.jpg');
             buffer.push(txt);
-
             event.target.querySelector(".board-value").innerHTML = `${val}`;
             document.querySelector('#btnAudio').src = '../../assets/' + clickSounds[currentClickSound] + ".mp3";
             console.log(document.querySelector('#btnAudio').src);
-
             document.querySelector('#btnAudio').play();
             currentClickSound ++
             if (currentClickSound > clickSounds.length -1) currentClickSound = 0
@@ -651,45 +631,30 @@ function endGame() {
     }
   }
 
-
   function chooseLetters() { // select my letters from available letters
-    // remainingLetters = document.querySelector("#dashboard").dataset.remaining.replaceAll(/\,/g,"");
-
-          console.log('remainingLetters : ', remainingLetters);
-
-      if (remainingLetters.length > 0 ) {
-        let maxLettersLocal = maxLetters
-        if (remainingLetters.length < maxLettersLocal - myLetters.length) {
-          maxLettersLocal = myLetters.length + remainingLetters.length;
+    if (remainingLetters.length > 0 ) {
+      let maxLettersLocal = maxLetters
+      if (remainingLetters.length < maxLettersLocal - myLetters.length) {
+        maxLettersLocal = myLetters.length + remainingLetters.length;
+      }
+      while (myLetters.length < maxLettersLocal ) {
+        const ind = Math.floor((Math.random() * remainingLetters.length));
+        console.log('ind', ind);
+        if (remainingLetters[ind] === ",") {
+          console.log("commmmaaa")
+          ind --;
         }
-        while (myLetters.length < maxLettersLocal ) {
-          const ind = Math.floor((Math.random() * remainingLetters.length));
-          console.log('ind', ind);
-          if (remainingLetters[ind] === ",") {
-            console.log("commmmaaa")
-            ind --;
-          }
-          const ran = remainingLetters[ind];
-          // .replaceAll('"', '').replaceAll(' ', '').replaceAll(/\[/g, '').replaceAll(/\]/g, '')
-          console.log('ran ' + ran);
+        const ran = remainingLetters[ind];
+        myLetters.push(ran);
+         // const ind = remainingLetters.indexOf(selectedLetter.querySelector('.my-letter').innerHTML);
+        const endString = remainingLetters.slice(ind + 2);
+        const beginString = remainingLetters.slice(0, ind);
 
-          myLetters.push(ran);
-           // const ind = remainingLetters.indexOf(selectedLetter.querySelector('.my-letter').innerHTML);
-          const endString = remainingLetters.slice(ind + 2);
-          const beginString = remainingLetters.slice(0, ind);
-
-          remainingLetters = beginString + endString;
-
-        }
-
-        // console.log(' my   letteerrrrs'  , myLetters);
-        // console.log(remainingLetters.length);
-        // console.log ("_____________________")
-
-      }  // end if remainingLetters.length > 0
-
-
+        remainingLetters = beginString + endString;
+      }
+    }  // end if remainingLetters.length > 0
   }
+
 
   function restoreLetters () {
     if (!document.querySelector(".cancel-btn").classList.contains("button-disabled")) {
@@ -721,35 +686,6 @@ function endGame() {
     }
   }
 
-  function checkOrientation(arr){
-    if (arr.length > 1 ) {
-      let topRow =[]
-      let leftColumn = []
-
-      for (let k = 0; k < 15; k++) {
-       topRow.push(k);
-       leftColumn.push(k * 15);
-      }
-
-      const tile1Column = arr[0] % 15
-      let tile1Row = 0;
-      leftColumn.forEach(num => {
-        if  (arr[0] >= num + 15) {
-          tile1Row ++
-        }
-      });
-      const tile2Column = arr[1] % 15
-      let tile2Row = 0;
-      leftColumn.forEach(num => {
-        if  (arr[1] >= num + 15) {
-          tile2Row ++
-        }
-      });
-      if (tile1Column == tile2Column) return "vertical";
-      if (tile1Row == tile2Row) return "horizontal";
-    }
-  }
-
 
   /////////////////////////////////////////////////////////////////
 
@@ -758,10 +694,25 @@ function endGame() {
   /////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////
 
-  function commitLetters () {  // ltrP = provisonal; ltrB = on board
-     // remainingLetters = document.querySelector("#dashboard").dataset.remaining.replaceAll(/\,/g,"");
-
+  function commitLetters () {
     if (exchange === true ) {  // exchange chosen letters
+      commitExchange();
+    } else {  //  new word
+      const added = validateLetters();
+      if (added) {
+        addedScore = added[0];
+        console.log('addedScoreaddedScore ' , addedScore );
+
+      document.querySelector('#update-msg').value = added[1];
+        populateRailsForm()
+        gameForm.submit();
+      } else {
+        restoreLetters();
+      }
+    }
+  }
+
+function commitExchange() {
      if (remainingLetters.length < maxLetters) {
       alert (`There are fewer than ${maxLetters} remaining, so they cannot be exchanged` )
       restoreLetters();
@@ -781,305 +732,20 @@ function endGame() {
       populateRailsForm();
       gameForm.submit()
     };
-
-    } else {  //  new word
-      if (document.querySelector(".letter-provisional")) {
-        const firstTwoProvisionals = [];
-        let adjToBoardTiles = null;
-        let wordOrientation = null;
-        let needsToUseCenter = true;
-        /////////////  V A L I D A T I O N /////////////////////////////////////////
-        document.querySelectorAll('.letter').forEach( (ltrP, indexP) => {
-          if (ltrP.classList.contains("letter-provisional")) {
-          // console.log("ltrP.classList " + ltrP.classList)
-            if (firstTwoProvisionals.length < 2) firstTwoProvisionals.push(indexP);
-              // if (boardHasLetters) {
-                needsToUseCenter = false;
-        //  check that at least one new letter is adjacent to existing tiles
-                document.querySelectorAll('.letter').forEach( (ltrB, indexB) => {
-                  const notBlank = ltrB.innerHTML.trim().length > 0;
-                  const notProv  = !ltrB.classList.contains("letter-provisional");
-                  if (notBlank && notProv) {
-                    if ( indexP == indexB + 1 || indexP == indexB - 1 || indexP == indexB + 15  || indexP == indexB - 15){
-                      adjToBoardTiles = true;
-                    }
-                  }
-                });
-              } else {
-        // if this is the first move of the game, there are no letters on the board
-                // needsToUseCenter = true
-                adjToBoardTiles = true;
-                if (ltrP.parentNode.classList.contains("center-tile")) {
-                  needsToUseCenter = false;
-                }
-
-              // }
-            }
-          });
-
-        if (needsToUseCenter === true) {
-          alert ("First word must use the center tile.")
-          restoreLetters();
-        } else {
-        //    check orientation if more than one new letter, otherwise assign "neutral"
-        wordOrientation = firstTwoProvisionals.length > 1 ? checkOrientation(firstTwoProvisionals) :  "neutral";
-
-        if (!wordOrientation) {
-          alert("New words must be in a single row or column.");
-          restoreLetters();
-          } else if (!adjToBoardTiles) {
-            alert("New letters must be adjacent to existing letters.");
-            restoreLetters();
-        } else {
-
-          ///  pass orientation and first letter to caluclateScore
-          // console.log("firstTwoProvisionals " + firstTwoProvisionals);
-          calculateScore(wordOrientation, firstTwoProvisionals[0]);
-          ////// remove used letters from myLetters
-
-        }
-        }
-
-      }
-    }
-}
-// end commitLetters
-
-
-    //////////////////////////////////// end validation ///////////////////////////////
-
-
-
-//    findHorizontalWord
-
-const findHorizontalWord = (firstProvisional) => {
-  let allPositions = [];
-  for (let b = firstProvisional -1; b >= (firstProvisional - (firstProvisional % 15 )); b --) { // from first provisional letter to left edge
-    if (document.querySelectorAll('.letter')[b].innerHTML != " ") {  //a character to the left?
-      allPositions.unshift(b);
-    } else {  // blank tile to the left
-      break;
-    }
-  } ;
-  // console.log('allPositions ' + allPositions);
-  for (let c = firstProvisional; c < firstProvisional + (15 - (firstProvisional % 15 )); c ++ ) { // from first provisional letter to right edge
-    if (document.querySelectorAll('.letter')[c].innerHTML != " " && (c + 1) % 15 != 0) {  //a character to the right and not in last column
-      allPositions.push(c);
-    } else {  // blank tile to the right
-      break;
-    }
-  };
-  return allPositions;
-}
-
-//    findVerticallWord
-
-const findVerticallWord = (firstProvisional) => {
-  // console.log('firstProvisional ' + firstProvisional);
-  let allPositions = [];
-  for (let b = firstProvisional -15; b >= 0 ; b -= 15) { // from first provisional letter to top edge
-    if (document.querySelectorAll('.letter')[b].innerHTML != " ") {  //a character to the top?
-      allPositions.unshift(b);
-    } else {  // blank tile to the top
-      break;
-    }
-  } ;
-  // console.log('allPositions ' + allPositions);
-  for (let c = firstProvisional; c < 225; c += 15 ) { // from first provisional letter to bottom edge
-    if (document.querySelectorAll('.letter')[c].innerHTML != " " && (c + 1) % 15 != 0) {  //a character to the bottom and not in last column
-      allPositions.push(c);
-    } else {  // blank tile to the bottom
-      break;
-    }
-  };
-  return allPositions;
-
-}
-
-   // calculateScore
-
-  const calculateScore = (wordOrientation, firstProvisional) => {  // score for one word
-
-              // console.log("jokers " + typeof jokers);
-    addedScore = 0;
-    const tileDivs = document.querySelectorAll('.tile')
-    const letterDivs = document.querySelectorAll('.letter')
-    const provDivs = document.querySelectorAll('.letter-provisional')
-    let firstLetterPosition = firstProvisional
-    let lastLetterPosition = firstProvisional
-    let wordMultiplier = 1;
-    let newWord = "";
-    let bonusString = ``;
-    let horizontalWords = [];
-    let verticalWords = [];
-    let positions = []
-
-
-    letterDivs.forEach( (letter, index) => {
-      if (letter.parentNode.classList.contains("joker-replaced")) {
-        jokers += `${index.toString()},`;
-      }
-    });
-
-    const jokersTrimmed = jokers.slice(0, jokers.length -1)
-
-    console.log("jokersTrimmed " + jokersTrimmed);
-
-    jokers = jokersTrimmed;
-
-
-    if (wordOrientation == 'horizontal' || wordOrientation == 'neutral') {
-      positions  =  findHorizontalWord(firstProvisional);
-    } else {
-      positions = findVerticallWord(firstProvisional);
-    }
-    // console.log('positions ' + positions);
-    let contiguous  = true;
-    letterDivs.forEach((letterDiv, index) => {
-     if (letterDiv.classList.contains("letter-provisional")) {
-        if (!positions.includes(index)) {
-          contiguous = false;
-        };
-     };
-    });
-
-    if (contiguous === false) {
-      alert ("All letters must be contiguous!");
-      restoreLetters();
-    } else {
-    firstLetterPosition = positions[0];
-    lastLetterPosition = positions[positions.length - 1]
-    newWord = "";
-    //  append new word
-    positions.forEach(position => {
-      const ltr = letterDivs[position].innerHTML;
-      // console.log(letterDivs[position].parentNode)
-      newWord += ltr;
-
-
-      // assign base value
-
-      Array.from(lettersJSON.letters).forEach( (l , index) => {
-        if (Object.keys(l).toString() === ltr) {
-          // console.log(`tileDivs[position].querySelector(".my-value") ` + tileDivs[position].parentNode.querySelector(".my-value"));
-          let val =  parseInt(Object.values(Object.values(l)[0])[1]); // value is second property in embedded object
-
-          if (tileDivs[position].classList.contains("joker-replaced")) val = 0;
-          if (tileDivs[position].classList.contains("double-letter") && letterDivs[position].classList.contains("letter-provisional")) {
-            val *= 2;
-            if (bonusString.length > 0) bonusString += `; `;
-            bonusString += ` ${ltr} Double Letter Score = ${val}`;
-            console.log("double letter");
-          }
-          if (tileDivs[position].classList.contains("triple-letter") && letterDivs[position].classList.contains("letter-provisional")) {
-            val *= 3;
-            if (bonusString.length > 0) bonusString += `; `;
-            bonusString += ` ${ltr} Triple Letter Score = ${val}`;
-            console.log("triple letter");
-          }
-          if (tileDivs[position].classList.contains("double-word") && letterDivs[position].classList.contains("letter-provisional")) {
-            wordMultiplier *= 2;
-            console.log("double word");
-          }
-          if (tileDivs[position].classList.contains("triple-word") && letterDivs[position].classList.contains("letter-provisional")) {
-            wordMultiplier *= 3;
-            console.log("triple word");
-          }
-
-          addedScore += val;
-        }
-      });
-    });
-//const calculateScore
-    searchDictionary(newWord).then (word => {
-      if (word.error === "Not Found") {
-        restoreLetters();
-        alert (`${newWord} is not a real word.`);
-      } else {
-        document.querySelectorAll(".letter-provisional").forEach(pro => pro.classList.remove("letter-provisional"));
-       switch (wordMultiplier) {
-          case 2:
-           if (bonusString.length > 0) bonusString += `; `;
-                bonusString += `Double Word Score`;
-          break;
-          case 3:
-           if (bonusString.length > 0) bonusString += `; `;
-                bonusString += `Triple Word Score`;
-          break;
-          case 4:
-           if (bonusString.length > 0) bonusString += `; `;
-                bonusString += ` Oh my god, 2 Double Word Scores.`;
-          break;
-          case 9:
-           if (bonusString.length > 0) bonusString += `; `;
-                bonusString += `Jesus Fucking Christ!! 2 Triple Word Scores!!!!!`;
-          break;
-        }
-
-        addedScore *= wordMultiplier;
-
-        let alertString = `${currentPlayer} added ${addedScore} `
-        alertString += addedScore === 1  ? `point.` :  `points.`
-        alertString += `${bonusString}`
-        let tileString = ``
-
-
-        let val
-
-        for (let char of newWord) {
-          console.log (' char  ',  char)
-//const calculateScore
-        Array.from(lettersJSON.letters).forEach( l => {
-          if (l[char]) {
-           val = l[char].value;
-          }
-        });
-        // if (pro.classList.contains("joker-replaced")) {
-        //   val = 0;
-        //   console.log("joker-replaced ")
-        // }
-        tileString += `<div class="my-tile"><div class="my-letter">${char}</div><div class="my-value">${val}</div> </div>`
-        }
-        const newWordTiles = `<span class='row pl-3'>${tileString}</span>`
-
-        if (selectedLetter ) {
-          selectedLetter.classList.remove('letter-selected')
-          selectedLetter = null;
-        }
-        // const num  =  maxLetters - myLetters.length; // how many tiles need to be replaced?
-        // chooseLetters();
-        // appendMyLetters(num);
-
-      myLettersDiv.querySelectorAll('.letter-disabled').forEach( ltr => { // 'disabled' means it's been placed on the board
-        const ind = myLetters.indexOf(ltr.querySelector(".my-letter").innerHTML);
-        myLetters.splice(ind, 1);
-        ltr.remove();
-      });
-      buffer = [];
-      // selectedLetter = null;
-      //      document.querySelectorAll(".letter-disabled").forEach(letter => {
-      //       letter.remove();
-      //     })
-      const numToReplace  =  maxLetters - myLetters.length;
-      chooseLetters();
-      appendMyLetters(numToReplace);
-
-
-
-    //const calculateScore
-    populateRailsForm();
-
-        document.querySelector(".modal-body").innerHTML = newWordTiles + alertString;
-
-      // document.querySelector('#update-message').value =  newWordTiles + alertString;
-      document.querySelector("#update-msg").value =  "A messsssage";
-        // $('#exampleModalCenter').modal('show');
-        gameForm.submit();
-
-    }
-  });
   }
-}
+
+
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////            ////////////////////////
+////////////////| |/////////////////  POPULATE  ////////////////////////
+////////////////| |/////////////////            ////////////////////////
+//////////////\     ////////////////  RAILS     ////////////////////////
+///////////////\   /////////////////            ////////////////////////
+////////////////\ //////////////////  FORM      ////////////////////////
+////////////////////////////////////            ////////////////////////
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 
 function populateRailsForm() {
 
@@ -1112,7 +778,7 @@ function populateRailsForm() {
 
       //  PLAYER FORM (this player)
       document.querySelector('#update-letters').value = newLetters;
-      console.log (" new score " + newScore);
+      console.log (" addedScore " + addedScore);
       document.querySelector('#update-score').value = newScore.toString();
       //  GAME FORM
 
@@ -1133,11 +799,6 @@ function populateRailsForm() {
       console.log("remainingString  ", remainingString);
       document.querySelector('#update-remaining').value = remainingString;
       if (remainingLetters.length < 1 && myLetters.length < 1) {
-        console.log("_________________________ ")
-        console.log(" ")
-        console.log("all letters used ")
-        console.log("  ")
-        console.log("_________________________ ")
         document.querySelector('#update-letters').value = "";
         document.querySelector('#update-player-completed').value = true;
         document.querySelector('#update-completed').value = true;
