@@ -1,15 +1,15 @@
 import { Turbo, cable } from "@hotwired/turbo-rails"
 
 const gameIndex = ()  => {
+  const indexPage = document.querySelector(".index-page-identifier")
   let crawlEndDelay = 1000;
-  if (document.querySelector(".index-page-identifier")) {
-  setTimeout( () => {
-    document.querySelector(".crawl-start").classList.add("crawl-show");
-    console.log("transition end");
-  }, 1000);
-
-  crawlEndDelay = 5000;
-
+  if (indexPage) {
+    setTimeout( () => {
+      document.querySelector(".crawl-start").classList.add("crawl-show");
+      console.log("transition end");
+    }, 1000);
+    crawlEndDelay = 5000;
+    document.querySelector("#navbar-game").innerHTML = `<span class="my-games-head">My Games</span>`;
   }
 
 
@@ -18,9 +18,7 @@ const gameIndex = ()  => {
     console.log("transition end");
   }, crawlEndDelay);
 
-
-  document.querySelector("#navbar-game").innerHTML = `<span class="my-games-head">My Games</span>`;
-  const yourGames = document.querySelector("#your-games");
+ const yourGames = document.querySelector("#your-games");
   let agoTemp = ``;
   if (yourGames) {
     // setupPageAnimations();
