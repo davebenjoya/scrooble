@@ -22,6 +22,8 @@
           <% end %>
         </div>
         <div class="choose">
+        <!--   <input type="file" name="file">
+    <input type="submit" value="Upload File" name="submit"> -->
           <p><%= f.file_field :avatar, direct_upload: true, id:'file'  %>
           <label for="file">Choose a file</label>
           <%= resource.avatar.filename %> </p>
