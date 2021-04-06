@@ -12,23 +12,22 @@ const initGameCable = () => {
 
     consumer.subscriptions.create({ channel: "GameChannel", id: id }, {
       received(data) {
-        // console.log("data "  , data); // called when data is broadcast in the cable
-        // data contains values for message([0]), grid([1]), player([2] - last player), score[3]
         const dataArray = data.split(",")
-        const delayLength = dataArray[0].length * 50
-        const buffer = document.querySelector('#messages').innerHTML
-        document.querySelector('#messages').innerHTML = `${dataArray[0]}`;
+        const delayLength = (dataArray[0].length * 80) + 600;
+        const msgFirstWord = dataArray[0].split(" ")[0]
+        // document.querySelector('#messages').classList.add("messages-show");
+        if (document.querySelector('.this-user').innerText != msgFirstWord) {
+          document.querySelector(".message-body").innerHTML = `${dataArray[0]}`;
+          $('#message-modal').modal('show');
 
-        document.querySelector('#messages').classList.add("messages-show");
+          setTimeout(function () {
+            $('#message-modal').modal('hide');;
+          }, delayLength);
 
-        setTimeout(function () {
-        document.querySelector('#messages').classList.remove("messages-show");
-      }, delayLength);
-
-            document.querySelector('#btnAudio').src = '../../assets/dreamy.mp3';
-            console.log(document.querySelector('#btnAudio').src);
-
-            document.querySelector('#btnAudio').play();
+          document.querySelector('#btnAudio').src = '../../assets/dreamy.mp3';
+          console.log(document.querySelector('#btnAudio').src);
+          document.querySelector('#btnAudio').play();
+      }
 
         updateBoard(dataArray[1]);  // grid
         updatePlayers(dataArray[2], dataArray[3]) // pass last player and last player's updated score
@@ -61,25 +60,15 @@ const initGameCable = () => {
           });
         }
       }
-
     })
-
   }
 
-
-
   const updatePlayers = (lastPlayer, addedScore) => {
-        // console.log("updatePlayers ", updatePlayers);
-    // set current player name in navbar
-    // document.querySelector("#dashboard").setAttribute('data-current', num);
-    // let newIndex  = 0;
     const players =  document.querySelectorAll(".player")
     let player = "Morty"
     let newIndex;
     console.log("players.length ", players.length);
     players.forEach( (plr, index)=> {
-        console.log("plr.innerText.trim() ", plr.innerText.trim());
-        console.log("lastPlayer.trim() ", lastPlayer.trim());
       if (plr.innerText.trim() === lastPlayer.trim()) {
         const oldScore = plr.parentNode.querySelector(".score").innerHTML
         const newScore = (parseInt(oldScore) + parseInt(addedScore)).toString();
@@ -94,8 +83,6 @@ const initGameCable = () => {
     })
 
     document.querySelector("#navbar-game").querySelector(".nav-emp:last-child").innerHTML = `Up now: ${player}`;
-
-    // set current player style in scoreboard
     document.querySelector(".player-selected").classList.remove("player-selected");
     document.querySelectorAll(".player")[newIndex].parentNode.classList.add("player-selected");
     document.querySelector("#scores").setAttribute('data-current', newIndex);

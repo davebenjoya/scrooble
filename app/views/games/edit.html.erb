@@ -1,9 +1,4 @@
 
-  <div id="messages" class = "messages" data-game-id=<%= @game.id %>>
-      <%#= render 'message'  %>
-    </div>
-
-
 <div class="edit-page-identifier" data-name ="<%= @game.name %>" data-playername= "<%= current_user.username %>"  >
 
 
@@ -28,6 +23,18 @@
     </div>
   </div>
 </div>
+
+
+<div class="modal fade message" id="message-modal" tabindex="-1" role="dialog" aria-labelledby="messageModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content-message">
+      <div class="message-body">
+        ...
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <%#= @game.remaining_letters %>
 <% if @player.completed %>
@@ -97,6 +104,11 @@
 
 
 </div>
+
+
+  <div id="messages" class = "messages" data-game-id=<%= @game.id %>>
+      <%#= render 'message'  %>
+    </div>
 
 
 

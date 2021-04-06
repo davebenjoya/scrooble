@@ -10,6 +10,9 @@ require("bootstrap")
 require("controllers")
 require("@hotwired/turbo-rails")
 
+
+// import "@hotwired/turbo-rails"
+
 import "../../assets/stylesheets/application";
 
 import "../../assets/images/star.svg";
