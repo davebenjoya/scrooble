@@ -360,6 +360,35 @@ turbo-frame {
   margin-left: 16px;
 }
 
+.message {
+  text-align: center !important;
+  background-color: hsla(160, 60, 70, .5) !important;
+}
+
+.modal-content-message {
+  border-radius: 8px;
+  text-align: center;
+  color: $honeydew;
+  padding: 32px;
+  margin: 32px;
+   background: radial-gradient(farthest-corner at 0px 0px, $deep-space-sparkle 20%, $roman-silver 90%);
+
+
+
+  box-shadow: 0px 0px 4px inset $rich-black !important;
+
+  border: 1px solid $roman-silver !important;
+  border-right: 1px solid $roman-silver !important;
+  border-left: 2px solid $isabelline !important;
+  border-top: 1px solid $isabelline !important;
+
+
+}
+
+.message-body {
+
+}
+
 #messages {
   // visibility: hidden;
   // height: 0;
@@ -367,12 +396,15 @@ turbo-frame {
   overflow: hidden;
   text-align: center;
   font-size:12px;
+  z-index: 300;
 
 }
 
 .messages {
   visibility: hidden;
-  height: 0;
+  display: fixed;
+  height: 18px;
+  top: 50%;
   transition: all 0.4s ease-out;
   // color: $indian-yellow;
 }
@@ -637,7 +669,7 @@ width: 0px;
   font-family: 'Grandstander', display;
   letter-spacing: 7px;
   margin-left:12px;
-  padding-top: 8px;
+  padding-top: 12px;
   animation: .8s ease-in 8s 1 both navbar-title-squeeze ;
 
 }
@@ -1472,19 +1504,11 @@ margin-left: 8px;
   padding-top: 20px;
   width: 180px !important;
   right: 25% !important;
-  // margin: 32px;
   position: absolute;
   top: -120px;
   transition: .6s all ease-in-out;
-// mask-image: none;
-// -webkit-mask-image: url(#scoreboard-mask);
-//   mask-image: url(#scoreboard-mask);
 clip-path: border-box;
-  // -webkit-mask-image: linear-gradient(to bottom, transparent 25%, black 75%);
-  // mask-image: linear-gradient(to bottom, transparent 25%, black 75%);
-  // clip-path: rectangle(0, 0, 400px, 200px, 16px, 16px)
-  // mask-clip: border-box;
-  // clip-path: inset-rectangle(0, 0, 0, 0, 16px, 16px);
+border: 1px solid $tea-green;
 box-shadow: 2px 1px 3px $midnight-green;
   z-index: 100;
 
@@ -1492,9 +1516,6 @@ box-shadow: 2px 1px 3px $midnight-green;
 
 #scores-mask {
   pointer-events: none;
-  // clip-path: rectangle(50px, 50px, 400px, 200px, 16px, 16px)
-  // clip-path: circle(60px at center);
-  // clip-path: rectangle(x, y, width, height, rounded-x, rounded-y)
 clip-path: border-box;
   position: absolute;
   height: 200px;
@@ -1502,14 +1523,14 @@ clip-path: border-box;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  top: 14px;
+  top: 8px;
   // left: 50%;
   // left:0;
-  margin-top: -8px;
+  // margin-top: -12px;
   z-index: 100;
 
-  -webkit-mask-image: linear-gradient(to bottom, transparent 8%, black 12%);
-  mask-image: linear-gradient(to bottom, transparent 8%, black 12%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 8%, hsla(180, 60, 70, .9) 11%);
+  mask-image: linear-gradient(to bottom, transparent 8%, hsla(180, 60, 70, .9) 11%);
 
 }
 
@@ -1879,6 +1900,10 @@ pointer-events: none;
   }
 
 
+  @media only screen and (min-width: 984px) {
+    width: 80% !important;
+  }
+
   @media screen and (max-width: 600px)  {
     margin:0;
     padding:0;
@@ -1907,6 +1932,11 @@ pointer-events: none;
   opacity: 1;
   transition: all .5s;
   // color: white;
+
+
+  @media only screen and (min-width: 984px) {
+    width: 100% !important;
+  }
   @media only screen and (max-width: 600px) {
 
     width: 24%;
@@ -1936,6 +1966,10 @@ pointer-events: none;
   opacity: 1;
   transition: all .5s;
   // color: white;
+
+  @media only screen and (min-width: 984px) {
+    width: 100% !important;
+  }
   @media only screen and (max-width: 600px) {
 
     width: 24%;
@@ -1991,6 +2025,11 @@ pointer-events: none;
   border: none;
   transition: all .5s;
   // color: white;
+
+  @media only screen and (min-width: 984px) {
+    width: 100% !important;
+  }
+
   @media only screen and (max-width: 600px) {
 
     width: 23%;
@@ -2014,6 +2053,14 @@ align-items: center;
 margin: 8px 8px;
 margin-top: 8px;
 padding: 0;
+
+
+
+  @media only screen and (min-width: 984px) {
+    width: 100% !important;
+margin-left: 16px !important;
+  }
+
 @media only screen and (max-width: 984px) {
 
 flex-direction: row;

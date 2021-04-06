@@ -56,9 +56,12 @@ import lettersJSON from './letters.json';
 
         console.log('worrrrd ' + word);
       // addedScore *= wordMultiplier
-      if (provs === 1 || index === posArray[0] ) {
-        const wordObj = Object.create({word: word, score: addedScore, bonus:bonusString});
-        wordArray.push(wordObj);
+      if (provs < 2 || index === posArray[0] ) {
+        if (word.length > 1) {
+          const wordObj = Object.create({word: word, score: addedScore, bonus:bonusString});
+          wordArray.push(wordObj);
+
+        }
       }
       if (vertFlag === false) {
 
@@ -71,8 +74,10 @@ import lettersJSON from './letters.json';
           word += document.querySelectorAll(".letter")[pos].innerHTML
         });
 
-        const wordObj2 = Object.create({word: word, score: addedScore, bonus:bonusString});
-        wordArray.push(wordObj2);
+        if (word.length > 1) {
+          const wordObj2 = Object.create({word: word, score: addedScore, bonus:bonusString});
+          wordArray.push(wordObj2);
+        }
       }
 
       };
@@ -80,7 +85,7 @@ import lettersJSON from './letters.json';
     // addedScore *= wordMultiplier * 2;
     // bonusString += `First play double word score.`;
 
-    console.log("wordArray " , wordArray )
+    // console.log("wordArray " , wordArray[0].word )
     buildAlert();
 
     return [totalAdded, scoreString];
@@ -91,6 +96,12 @@ import lettersJSON from './letters.json';
   function checkHorAdj(pos) {
     const posLeft = pos - 1;
     const posRight = pos + 1;
+
+
+    if (!document.querySelectorAll(".letter")[posLeft] || !document.querySelectorAll(".letter")[posRight] ) {
+      return true;
+    }
+
         console.log('document.querySelectorAll(".letter")[posRight].innerHTML.trim() ', document.querySelectorAll(".letter")[posRight].innerHTML.trim());
     if ( (document.querySelectorAll(".letter")[posLeft].innerHTML.trim() != "" && document.querySelectorAll(".letter")[posLeft].classList.contains("letter-provisional")=== false)
           || (document.querySelectorAll(".letter")[posRight].innerHTML.trim() != "" && document.querySelectorAll(".letter")[posRight].classList.contains("letter-provisional")=== false)) {
@@ -103,6 +114,11 @@ import lettersJSON from './letters.json';
   function checkVertAdj(pos) {
     const posAbove = pos - 15;
     const posBelow = pos + 15;
+
+    if (!document.querySelectorAll(".letter")[posAbove] || !document.querySelectorAll(".letter")[posBelow] ) {
+      return true;
+    }
+
     if ( (document.querySelectorAll(".letter")[posAbove].innerHTML.trim() != "" && document.querySelectorAll(".letter")[posAbove].classList.contains("letter-provisional") === false)
           || (document.querySelectorAll(".letter")[posBelow].innerHTML.trim() != "" && document.querySelectorAll(".letter")[posBelow].classList.contains("letter-provisional") === false)) {
       return true
@@ -124,7 +140,10 @@ import lettersJSON from './letters.json';
       const t = totalAdded != 1 ? `s` : ``;
       scoreString += `Total ${totalAdded} point${t}.`
     }
-    alert(scoreString);
+
+    const ownScore  = scoreString.replace(`${name}`, `You`);
+
+    alert(ownScore);
   }
 
   function scoreTile(ltr) {

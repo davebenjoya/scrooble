@@ -110,7 +110,7 @@ const board = () => {
         remainingLetters.push(ltr) ;
       }
     });
-    console.log("remainingLetters  ", remainingLetters);
+    // console.log("remainingLetters  ", remainingLetters);
     playersArray = document.querySelectorAll(".name-score");
     const letters = document.querySelector("#my-letters").dataset.playerLetters;
     // console.log('letters ' + letters);
@@ -512,7 +512,6 @@ const pickLetter = () => {   // using keyboard
         if (ltr.toLowerCase() === event.key.toLowerCase()) {
           const currentUserName = document.querySelectorAll(".name-score")[current].querySelector(".name").innerHTML;
           alert (`It's ${currentUserName}'s turn. You can rearrange your tiles while you wait.`);
-
         }
       });
   }
@@ -778,7 +777,7 @@ function populateRailsForm() {
 
       //  PLAYER FORM (this player)
       document.querySelector('#update-letters').value = newLetters;
-      console.log (" addedScore " + addedScore);
+      console.log (" newScore " + newScore);
       document.querySelector('#update-score').value = newScore.toString();
       //  GAME FORM
 

@@ -76,10 +76,12 @@ import { firstWordCommit, wordsCommit } from './scoring';
     let nsew = [-15, 15, 1, -1]
     provisonals.forEach( prov => {
       nsew.forEach( tileDiff => {
-      if (document.querySelectorAll(".letter")[prov + tileDiff].innerHTML.trim() != "" &&
-          document.querySelectorAll(".letter")[prov  + tileDiff].classList.contains("letter-provisional") === false) {
-        adjacentToBoardTiles = true;
-      }
+        if (document.querySelectorAll(".letter")[prov + tileDiff]) {
+          if (document.querySelectorAll(".letter")[prov + tileDiff].innerHTML.trim() != "" &&
+              document.querySelectorAll(".letter")[prov  + tileDiff].classList.contains("letter-provisional") === false) {
+            adjacentToBoardTiles = true;
+          }
+        }
       })
     })
     const added = wordsCommit();
