@@ -37,26 +37,29 @@ import lettersJSON from './letters.json';
    document.querySelectorAll(".letter").forEach( (ltr, index) => {
     if (ltr.classList.contains("letter-provisional")) {
       let vertFlag = false;
-      let provs = 0
+      let provsArray = []
       let posArray = []
       let word = ``;
       let horAdjacent = checkHorAdj(index);
       if (horAdjacent) {
+
         posArray = findHorizontalWord(index)
+        console.log('posArray ' + posArray);
       } else if (checkVertAdj(index)) { // no horizontal with this letter, check vertical
         vertFlag = true;
         posArray = findVerticallWord(index)
       }
-
       posArray.forEach( (pos, i) => {
         scoreTile(document.querySelectorAll(".letter")[pos])
-        if (document.querySelectorAll(".letter")[pos].classList.contains("letter-provisional")) provs ++;
+        if (document.querySelectorAll(".letter")[pos].classList.contains("letter-provisional")) {
+          provsArray.push(pos);
+        }
         word += document.querySelectorAll(".letter")[pos].innerHTML
       });
+        console.log('index ' + index);
 
-        console.log('worrrrd ' + word);
       // addedScore *= wordMultiplier
-      if (provs < 2 || index === posArray[0] ) {
+      if (provsArray.length < 2 || index === provsArray[0] ) {
         if (word.length > 1) {
           const wordObj = Object.create({word: word, score: addedScore, bonus:bonusString});
           wordArray.push(wordObj);

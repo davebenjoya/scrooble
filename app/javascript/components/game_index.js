@@ -40,9 +40,10 @@ const gameIndex = ()  => {
 
     document.querySelectorAll(".avatar-index").forEach( av => {
       av.addEventListener('mouseover', () => {
+        const quit = av.parentNode.classList.contains("player-quit") ? " (quit the game)" : "";
         const stat = av.closest(".card").querySelector(".status").innerHTML;
         agoTemp =  stat;
-        av.closest(".card").querySelector(".status").innerHTML = av.parentNode.dataset.username + ": " + av.parentNode.dataset.score ;
+        av.closest(".card").querySelector(".status").innerHTML =`<span class='index-score'>` +  av.parentNode.dataset.username + ": " + `</span>` + av.parentNode.dataset.score + `${quit}` ;
       });
 
       av.addEventListener('mouseout', () => {
