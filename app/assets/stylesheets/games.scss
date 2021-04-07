@@ -25,6 +25,11 @@ hr {
   color: honeydew;
 }
 
+
+.index-score {
+  color: $space-cadet;
+}
+
  .new-game-btn {
   color: $sunray !important;
 }
@@ -609,7 +614,7 @@ width: 0px;
 }
 
 .status-completed {
-  color: $space-cadet !important;
+  color: $alice-blue !important;
   // background-color: $deep-space-sparkle !important;
   padding: 8px !important;
   margin-right: 8px;

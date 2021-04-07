@@ -246,7 +246,7 @@ const board = () => {
         if (index < remainingLetters.length -1 ) remainingString += ","
       })
     document.querySelector('#new-remaining').value = remainingString;
-    console.log("remainingLetters ", remainingLetters);
+    // console.log("remainingLetters ", remainingLetters);
         newGameForm.submit();
 
 
@@ -795,7 +795,7 @@ function populateRailsForm() {
           if (index < remainingArray.length -1 ) remainingString += ",";
         }
       })
-      console.log("remainingString  ", remainingString);
+      // console.log("remainingString  ", remainingString);
       document.querySelector('#update-remaining').value = remainingString;
       if (remainingLetters.length < 1 && myLetters.length < 1) {
         document.querySelector('#update-letters').value = "";
