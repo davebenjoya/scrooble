@@ -8,6 +8,11 @@
 
   <% players.each_with_index do | player, index | %>
   <% player.completed = true if @game.completed == true %>
+    <% moves = Move.where(player_id: player.id) %>
+    <% player_score = 0 %>
+    <% moves.each do |move| %>
+      <% player_score += move.added_score %>
+    <% end %>
     <% name_score_classes = "name-score" %>
     <% player_classes = "player" %>
     <% if player.user == current_user %>
@@ -20,7 +25,7 @@
       <%#= turbo_frame_tag "players" do %>
         <div id = "<%= player.id %>" class = "<%= name_score_classes %>">
             <div class="<%= player_classes %>"><%= player.user.username %></div>
-            <div class="score"><%= player.player_score %></div>
+            <div class="score"><%= player_score %></div>
         </div>
       <%# end %>
   <% end %>

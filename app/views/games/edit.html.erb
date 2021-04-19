@@ -1,8 +1,5 @@
 
-<div class="edit-page-identifier" data-name ="<%= @game.name %>" data-playername= "<%= current_user.username %>"  >
-
-
-
+<div class="edit-page-identifier" data-name ="<%= @game.name %>" data-playername= "<%= current_user.username %>"  data-userid= "<%= current_user.id %>" data-playerid = "<%= @player.id %>"  >
 
   <!-- Button trigger modal -->
 <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
@@ -24,16 +21,6 @@
   </div>
 </div>
 
-
-<div class="modal fade message" id="message-modal" tabindex="-1" role="dialog" aria-labelledby="messageModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content-message">
-      <div class="message-body">
-        ...
-      </div>
-    </div>
-  </div>
-</div>
 
 
 <%#= @game.remaining_letters %>
@@ -110,6 +97,17 @@
       <%#= render 'message'  %>
     </div>
 
+
+<div id = "challenge" class="challenge">
+  <div id= "challenge-body" class="challenge-body">
+    <div class="challenge-info"></div>
+    <div class="challenge-footer">
+      <div>Do you want to challenge?</div>
+      <div id="challenge-btn" class="challenge-btn">Yes, I call BS.</div>
+      <div id="accept-btn" class="challenge-btn">No, I buy it.</div>
+    </div>
+  </div>
+</div>
 
 
 

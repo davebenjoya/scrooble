@@ -28,7 +28,7 @@ import lettersJSON from './letters.json';
   }
 
   function wordsCommit() {
-    console.log('wordsCommit')
+  console.log('wordsCommit')
   totalAdded = 0;
   wordMultiplier = 1;
   scoreString = ``;
@@ -41,23 +41,25 @@ import lettersJSON from './letters.json';
       let posArray = []
       let word = ``;
       let horAdjacent = checkHorAdj(index);
-      if (horAdjacent) {
+      console.log('horAdjacent ', horAdjacent)
+      if (horAdjacent === true) {
 
         posArray = findHorizontalWord(index)
         console.log('posArray ' + posArray);
       } else if (checkVertAdj(index)) { // no horizontal with this letter, check vertical
         vertFlag = true;
         posArray = findVerticallWord(index)
+        console.log('posArray'  , posArray)
       }
       posArray.forEach( (pos, i) => {
         scoreTile(document.querySelectorAll(".letter")[pos])
         if (document.querySelectorAll(".letter")[pos].classList.contains("letter-provisional")) {
           provsArray.push(pos);
+        console.log('provsArray.length ' + provsArray.length);
+
         }
         word += document.querySelectorAll(".letter")[pos].innerHTML
       });
-        console.log('index ' + index);
-
       // addedScore *= wordMultiplier
       if (provsArray.length < 2 || index === provsArray[0] ) {
         if (word.length > 1) {
@@ -77,9 +79,14 @@ import lettersJSON from './letters.json';
           word += document.querySelectorAll(".letter")[pos].innerHTML
         });
 
+        console.log(' provsArray[0] ', provsArray[0]);
+        console.log(' index ', index);
+      if (provsArray.length < 2 || index === provsArray[0] ) {
+        console.log(' (wordArray.length ', wordArray.length);
         if (word.length > 1) {
           const wordObj2 = Object.create({word: word, score: addedScore, bonus:bonusString});
           wordArray.push(wordObj2);
+        }
         }
       }
 
@@ -105,7 +112,7 @@ import lettersJSON from './letters.json';
       return true;
     }
 
-        console.log('document.querySelectorAll(".letter")[posRight].innerHTML.trim() ', document.querySelectorAll(".letter")[posRight].innerHTML.trim());
+    console.log('document.querySelectorAll(".letter")[posRight].innerHTML.trim() ', document.querySelectorAll(".letter")[posRight].innerHTML.trim());
     if ( (document.querySelectorAll(".letter")[posLeft].innerHTML.trim() != "" && document.querySelectorAll(".letter")[posLeft].classList.contains("letter-provisional")=== false)
           || (document.querySelectorAll(".letter")[posRight].innerHTML.trim() != "" && document.querySelectorAll(".letter")[posRight].classList.contains("letter-provisional")=== false)) {
       return true
@@ -131,20 +138,23 @@ import lettersJSON from './letters.json';
 
   function buildAlert() {
     const name = document.querySelector('.nav-emp').innerText.split(":")[1].trim();
-    scoreString = `${name} scored `;
+    const ws = wordArray.length < 2 ? "" : "s"
+    scoreString = `${name} is submitting the word${ws} `;
     console.log("wordArray " , wordArray )
+    console.log("wordArray[0] " , wordArray[0] )
     wordArray.forEach( word => {
       totalAdded += word.score;
+      console.log("word " , word )
       console.log("totalAdded " , totalAdded )
       const s = word.score != 1 ? `s` : ``;
-      scoreString += `${word.score} point${s} for ${word.word}. ${word.bonus}`
+      scoreString += `${word.word} (${word.score} point${s}). ${word.bonus}`
     });
     if (wordArray.length > 1 ){
       const t = totalAdded != 1 ? `s` : ``;
       scoreString += `Total ${totalAdded} point${t}.`
     }
 
-    const ownScore  = scoreString.replace(`${name}`, `You`);
+    const ownScore  = scoreString.replace(`${name} is`, `You are`);
 
     alert(ownScore);
   }
@@ -180,7 +190,7 @@ import lettersJSON from './letters.json';
 const findHorizontalWord = (firstProvisional) => {
   let allPositions = [];
   for (let b = firstProvisional -1; b >= (firstProvisional - (firstProvisional % 15 )); b --) { // from first provisional letter to left edge
-    if (document.querySelectorAll('.letter')[b].innerHTML != " ") {  //a character to the left?
+    if (document.querySelectorAll('.letter')[b].innerText.trim() != "") {  //a character to the left?
       allPositions.unshift(b);
     } else {  // blank tile to the left
       break;
@@ -188,7 +198,7 @@ const findHorizontalWord = (firstProvisional) => {
   } ;
   // console.log('allPositions ' + allPositions);
   for (let c = firstProvisional; c < firstProvisional + (15 - (firstProvisional % 15 )); c ++ ) { // from first provisional letter to right edge
-    if (document.querySelectorAll('.letter')[c].innerHTML != " " && (c + 1) % 15 != 0) {  //a character to the right and not in last column
+    if (document.querySelectorAll('.letter')[c].innerText.trim() != "" && (c + 1) % 15 != 0) {  //a character to the right and not in last column
       allPositions.push(c);
     } else {  // blank tile to the right
       break;
@@ -203,7 +213,7 @@ const findVerticallWord = (firstProvisional) => {
   // console.log('firstProvisional ' + firstProvisional);
   let allPositions = [];
   for (let b = firstProvisional -15; b >= 0 ; b -= 15) { // from first provisional letter to top edge
-    if (document.querySelectorAll('.letter')[b].innerHTML != " ") {  //a character to the top?
+    if (document.querySelectorAll('.letter')[b].innerText.trim() != "") {  //a character to the top?
       allPositions.unshift(b);
     } else {  // blank tile to the top
       break;
@@ -211,12 +221,13 @@ const findVerticallWord = (firstProvisional) => {
   } ;
   // console.log('allPositions ' + allPositions);
   for (let c = firstProvisional; c < 225; c += 15 ) { // from first provisional letter to bottom edge
-    if (document.querySelectorAll('.letter')[c].innerHTML != " " && (c + 1) % 15 != 0) {  //a character to the bottom and not in last column
+    if (document.querySelectorAll('.letter')[c].innerText.trim() != "" && (c + 1) % 15 != 0) {  //a character to the bottom and not in last column
       allPositions.push(c);
     } else {  // blank tile to the bottom
       break;
     }
   };
+  console.log('allPositions', allPositions)
   return allPositions;
 
 }

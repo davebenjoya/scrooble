@@ -20,26 +20,24 @@ def formatted_updated_at
   updated_at.strftime("%M %D, %Y %H:%M")
 end
 
-  def new
+def new
 
-    @default_name = random_name()
+  @default_name = random_name()
 
-    if @default_name.split(' ').length > 6
-      new_name = '';
-      @default_name.split(' ').each_with_index do | word, index |
-        if index < 6
-          new_name.concat(word).concat(" ").strip
-        end
+  if @default_name.split(' ').length > 6
+    new_name = '';
+    @default_name.split(' ').each_with_index do | word, index |
+      if index < 6
+        new_name.concat(word).concat(" ").strip
       end
-      @default_name = new_name
     end
-
-    while Game.find_by(name: @default_name)
-       @default_name = random_name()
-    end
-
-
+    @default_name = new_name
   end
+
+  while Game.find_by(name: @default_name)
+     @default_name = random_name()
+  end
+end
 
   def create
 
@@ -96,24 +94,48 @@ end
   def edit
     @game = Game.find(params[:id])
     game_players = Player.where(game: @game)
+    @game_moves = []
+    @letters = []
     @player = game_players.find_by(user: current_user)
-    if (@game.completed == true)
       game_players.each do |p|
-        p.update({ completed: true })
-        # raise
+        pMoves = Move.where(player: p)
+        pMoves.each do |m|
+          @game_moves << m
+          ltrs = Letter.where(move: m)
+          ltrs.each do |ltr|
+            @letters.push(ltr)
+          end
+        end
+        if (@game.completed == true)
+          p.update({ completed: true })
+          redirect_to game_path(@game)
+        end
       end
-      redirect_to game_path(@game)
-    end
+
+        # raise
   end
 
   def update
    @game = Game.find(params[:id])
     players = Player.where(game: @game)
     @player = players.find_by(user: current_user)
-  added_score = params["game"]["my_score"].to_i - @player.player_score
+    added_score = params['game']['my_score'].to_i - @player.player_score
    # mess = "#{@player.user.username} added #{added_score} #{'point'.pluralize(added_score)}"
    mess = params["game"]["msg"]
    # raise
+   letter_string = ''
+   @move = Move.where(player: @player)[0]  ## hopefully this gets the most recent move
+   letters = Letter.where(move_id: @move.id)
+   letters.each_with_index do |ltr, index|
+      letter_string +=  ltr.character
+      letter_string += ltr.position.to_s
+      # if index < letters.length - 1
+       letter_string += ";"
+     # end
+   end
+   letter_string_trimmed  = letter_string[0, letter_string.length - 1] ## remove last semicolon
+   # raise
+
 
     if @game.update(game_params)
       @game.update({
@@ -127,12 +149,8 @@ end
     GameChannel.broadcast_to(
       @game,
       # flash[:game_update] = "next player: #{nextP}, last player: #{@game.current_player}"
-      render_to_string(partial: "message", locals: { msg: mess, grid: @game.letter_grid, player: @player.user.username, score: added_score })
+      render_to_string(partial: "message", locals: { msg: mess, letters: letter_string, player: @player.user.username, score: added_score })
     )
-
-
-
-
 
     if (@game.completed == true)
       players.each do |p|
@@ -143,7 +161,6 @@ end
     else
       if params['game']['player_completed'] == 'true'
         @player.update({ player_score: params['game']['my_score'], completed: true })
-
         falses = players.length
         players.each do |pl|
           falses -= 1 if pl.completed
@@ -156,14 +173,14 @@ end
         else
           redirect_to edit_game_path(@game) and return
         end
-      else
-
       end
      end
 
-        end
-         redirect_to edit_game_path(@game) and return
+    end
+   redirect_to edit_game_path(@game) and return
   end
+
+
 
   def finish
     raise
@@ -171,7 +188,19 @@ end
 
   def destroy
   end
+
+  def send_submitted
+    raise
+    game = Game.find params[:id]
+    respond_to do |format|
+      format.js
+    end
+  end
+
+
+
 end
+
 private
 
   def random_name
