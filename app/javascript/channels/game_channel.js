@@ -61,7 +61,7 @@ const initGameCable = () => {
 
 ////////////////////////////////////////////////////////
 
-async function acceptWords() {
+function acceptWords() {
 
   const gId = document.querySelector(".edit-page-identifier").dataset.gameid
   const pId = document.querySelector(".edit-page-identifier").dataset.playerid

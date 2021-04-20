@@ -778,25 +778,60 @@ function commitExchange() {
 
           });
 
-          Object.keys(placedLetters).forEach(key => {
-            let value = placedLetters[key];
-            // console.log(`${key}: ${value}`);
-            const letterData = {character:value, position:key, move_id:moveObjId};
 
 
-            fetch("/letters", {
-             method: 'POST',
-             headers: {
-                'X-CSRF-Token': csrfToken,
-                'Content-Type': 'application/json',
-               },
-               body: JSON.stringify(letterData)
-            })
-            .then(response => response.json())
-          .then(letterObj => {
-            console.log(`Hello, ${letterObj.position} : ${letterObj.character}`);
 
-          });
+        let promises = [];
+
+
+
+        Object.keys(placedLetters).forEach(key => {
+          let value = placedLetters[key];
+          // console.log(`${key}: ${value}`);
+          const letterData = {character:value, position:key, move_id:moveObjId};
+          promises.push(fetch("/letters" , {
+           method: 'POST',
+           headers: {
+              'X-CSRF-Token': csrfToken,
+              'Content-Type': 'application/json',
+             },
+             body: JSON.stringify(letterData)
+          }));
+
+        // for (let i = 1; i <= 300; i++) {
+        //   promises.push(fetch(`example.api/incomes/${i}`));
+        // }
+        Promise.all(promises)
+          .then(result => console.log(result))
+
+
+
+
+
+
+
+
+
+
+          // Object.keys(placedLetters).forEach(key => {
+          //   let value = placedLetters[key];
+          //   // console.log(`${key}: ${value}`);
+          //   const letterData = {character:value, position:key, move_id:moveObjId};
+
+
+          //   fetch("/letters", {
+          //    method: 'POST',
+          //    headers: {
+          //       'X-CSRF-Token': csrfToken,
+          //       'Content-Type': 'application/json',
+          //      },
+          //      body: JSON.stringify(letterData)
+          //   })
+          //   .then(response => response.json())
+          // .then(letterObj => {
+          //   console.log(`Hello, ${letterObj.position} : ${letterObj.character}`);
+
+          // });
 
 
           // const subData = {message: moveObj.summary}
