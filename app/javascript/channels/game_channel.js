@@ -63,6 +63,7 @@ const initGameCable = () => {
 
 async function acceptWords() {
 
+  const gId = document.querySelector(".edit-page-identifier").dataset.gameid
   const pId = document.querySelector(".edit-page-identifier").dataset.playerid
   const csrfToken = document.querySelector("[name='csrf-token']").content;
 
@@ -77,8 +78,14 @@ async function acceptWords() {
   })
   .then(response => response.json())
   .then(acceptObj => {
-    console.log('acceptObj  ' + acceptObj.challenging)
+    console.log('acceptObj  ' + acceptObj.challenging);
+
+
+
+
+
   });
+
   document.querySelector('#challenge').classList.remove('challenge-show');
 }
 

@@ -25,13 +25,20 @@ end
       @move,
       # flash[:game_update] = "next player: #{nextP}, last player: #{@game.current_player}"
       render_to_string(partial: "submission", locals: {player: @move.player.user.username, msg: @move.summary })
-
-
     )
-
     render json: @move
-
   end
+
+  def check_accept
+    @move = Move.find(params[:id])
+    @game = @move.player.game
+    @players = Player.where(game: @game)
+    challenge = @players.where(challenging: true)
+    if challenge.empty?
+      @move.update({provisional: false})
+    end
+  end
+
 
   def updated
     @move = Move.find(params[:id])

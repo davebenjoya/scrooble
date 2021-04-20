@@ -815,7 +815,6 @@ function commitExchange() {
 
           // });
 
-            // still in move fetch
         })
         populateRailsForm();
         gameForm.submit()

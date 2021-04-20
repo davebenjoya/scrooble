@@ -1,8 +1,5 @@
 Rails.application.routes.draw do
-  # get 'user_games/index'
-  # get 'user_games/show'
-  # get 'user_games/create'
-  # get 'user_games/update'
+
   devise_for :users, sign_out_via: [:get, :post]
 
   resources :games
@@ -13,6 +10,7 @@ Rails.application.routes.draw do
   post '/letters', to: 'letters#create'
   post '/moves', to: 'moves#create'
   get '/submission', to: 'moves#submit_broadcast'
+  get '/check_accept', to: 'moves#check_accept'
 
 
   root to: 'games#index'
