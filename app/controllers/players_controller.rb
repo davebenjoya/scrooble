@@ -13,6 +13,16 @@ class PlayersController < ApplicationController
      @player = Player.find(params[:id])
      if params["challenging"] == 'false'
       @player.update({challenging: false})
+      players = Player.where(game_id: @player.game_id)
+      challenge = players.length - 1 # every player (except current player) has a chance to challenge
+      players.each do |player|
+        if player != @player
+          challenge -= 1
+        end
+      end
+     end
+     if challenge == 0
+      # return true
      end
      # raise
     # @player = Player.find(params['move']['player_id'])

@@ -728,8 +728,8 @@ function commitExchange() {
         console.log("added ", added);
         // const msgFirstWord = dataArray[0].split(" ");
          // if (document.querySelector('.this-user').innerText != msgFirstWord) {
-          // let alertStr = `${document.querySelector('.this-user').innerText} has submitted the following words: ${dataArray[0]} Do you want to challenge this play?`;
-        let alertStr = `${document.querySelector('.this-user').innerText} has submitted the following words: word, word3, word97. Do you want to challenge this play?`;
+          let alertStr = `${added[1]} `;
+        // let alertStr = `${document.querySelector('.this-user').innerText} has submitted the following words: word, word3, word97. Do you want to challenge this play?`;
 
         // document.querySelector(".message-body").innerHTML = alertStr;
 
@@ -759,7 +759,8 @@ function commitExchange() {
 
         const uId = document.querySelector(".edit-page-identifier").dataset.userid
         const pId = document.querySelector(".edit-page-identifier").dataset.playerid
-        // console.log('addedScore  ' , addedScore);
+        const gId = document.querySelector(".edit-page-identifier").dataset.gameid
+        console.log('alertStr  ' , alertStr);
 
         const data = {move: {player_id: pId, letters: placedLetters, summary: alertStr, added_score: addedScore}};
         const csrfToken = document.querySelector("[name='csrf-token']").content;
@@ -798,12 +799,28 @@ function commitExchange() {
              body: JSON.stringify(letterData)
           }));
 
-        // for (let i = 1; i <= 300; i++) {
-        //   promises.push(fetch(`example.api/incomes/${i}`));
-        // }
-        Promise.all(promises)
-          .then(result => console.log(result))
+          });
 
+
+
+        Promise.all(promises)
+          .then(result => {
+            // console.log(typeof(result))
+            console.log('addedScore ',  addedScore);
+            // populateRailsForm();
+            // gameForm.submit();
+           //  const gameData = {id: gId, current_player: 0, my_score: 12, my_letters: "GREDTSV", remaining_letters: "AABBCDEFFGHIJKLMNOOOOPEE"}
+            fetch(`/moves/${moveObjId}` , {
+              method:'GET',
+              headers: {
+              'X-CSRF-Token': csrfToken,
+              'Content-Type': 'application/html',
+             }
+            })
+             // .then(response => response.json())
+          // .then(subObj => {
+          //   console.log(`Hello, ${subObj}`);
+          // });
 
 
 
@@ -851,8 +868,6 @@ function commitExchange() {
           // });
 
         })
-        populateRailsForm();
-        gameForm.submit()
 
         // document.querySelector('#update-placed').value =  placedLetters;
       } else {

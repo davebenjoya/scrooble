@@ -12,22 +12,22 @@ import lettersJSON from './letters.json';
   let scoreString = ``;
 
 
-  function firstWordCommit() {
-    console.log('firstWordCommit')
-    let word = ``;
-    document.querySelectorAll(".letter-provisional").forEach( ltr => {
-      scoreTile(ltr)
-      word += ltr.innerHTML
-    });
-    addedScore *= wordMultiplier * 2;
-    bonusString += `First play double word score.`;
-    const wordObj = Object.create({word: word, score: addedScore, bonus:bonusString});
-    wordArray.push(wordObj);
-    buildAlert();
-    return [totalAdded, scoreString];
-  }
+function firstWordCommit() {
+  console.log('firstWordCommit')
+  let word = ``;
+  document.querySelectorAll(".letter-provisional").forEach( ltr => {
+    scoreTile(ltr)
+    word += ltr.innerHTML
+  });
+  addedScore *= wordMultiplier * 2;
+  bonusString += `First play double word score.`;
+  const wordObj = Object.create({word: word, score: addedScore, bonus:bonusString});
+  wordArray.push(wordObj);
+  buildAlert();
+  return [totalAdded, scoreString];
+}
 
-  function wordsCommit() {
+function wordsCommit() {
   console.log('wordsCommit')
   totalAdded = 0;
   wordMultiplier = 1;
@@ -58,12 +58,14 @@ import lettersJSON from './letters.json';
         console.log('provsArray.length ' + provsArray.length);
 
         }
-        word += document.querySelectorAll(".letter")[pos].innerHTML
+        word += document.querySelectorAll(".letter")[pos].innerText.trim();
+        console.log('word'  , word)
       });
+      const trimmedWord = word.replaceAll(" ", "");
       // addedScore *= wordMultiplier
       if (provsArray.length < 2 || index === provsArray[0] ) {
-        if (word.length > 1) {
-          const wordObj = Object.create({word: word, score: addedScore, bonus:bonusString});
+        if (trimmedWord.length > 1) {
+          const wordObj = Object.create({word: trimmedWord, score: addedScore, bonus:bonusString});
           wordArray.push(wordObj);
 
         }

@@ -1,11 +1,11 @@
  <%#= turbo_frame_tag dom_id(game) %>
-    <%= form_with(model: @game, id: "update-game", action: edit_game_path(@game)) do |f| %>
+    <%= form_with(model: @game, id: "update-game", action: edit_game_path(@game), remote: true) do |f| %>
       <%=f.hidden_field :current_player, id:'update-current' %>
       <%=f.hidden_field :completed, value: false, id:'update-completed'  %>
       <%=f.hidden_field :player_completed, value: false, id:'update-player-completed'  %>
       <%=f.hidden_field :letter_grid, id:'update-grid' %>
       <%=f.hidden_field :jokers, id:'update-jokers' %>
-      <%=f.hidden_field :my_score, id:'update-score' %>
+      <%=f.hidden_field :added_score, id:'update-score' %>
       <%=f.hidden_field :msg, value: 'dsfdsdsfds', id:'update-msg' %>
       <%=f.hidden_field :my_letters, id:'update-letters' %>
       <%=f.hidden_field :remaining_letters, id:'update-remaining' %>

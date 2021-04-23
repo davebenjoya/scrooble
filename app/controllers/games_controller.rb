@@ -119,7 +119,7 @@ end
    @game = Game.find(params[:id])
     players = Player.where(game: @game)
     @player = players.find_by(user: current_user)
-    added_score = params['game']['my_score'].to_i - @player.player_score
+    added_score = params['game']['added_score'].to_i - @player.player_score
    # mess = "#{@player.user.username} added #{added_score} #{'point'.pluralize(added_score)}"
    mess = params["game"]["msg"]
    # raise
