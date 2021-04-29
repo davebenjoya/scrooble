@@ -2103,7 +2103,7 @@ pointer-events: none;
     justify-content: center;
     align-items: center;
     background-color: hsla(220, 30, 40, .5);
-  transition: all .7s ease-in-out;
+  transition: all .7s ease-in;
 }
 
 .challenge-show {
@@ -2111,7 +2111,7 @@ pointer-events: none;
     width:100%;
     height:100%;
     top:0;
-  transition: all .7s ease-in-out;
+  transition: all .7s ease-out;
 }
 .challenge-body {
     margin:   16px;

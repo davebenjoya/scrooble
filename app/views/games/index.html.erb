@@ -18,7 +18,7 @@
       <% players_quit_arr = [] %>
 
       <% players.each_with_index do | plr, ind | %>
-      <% players_quit_arr << ind if plr.completed %>
+        <% players_quit_arr << ind if plr.completed %>
         <% if plr.user == current_user %>
           <% my_game = true %>
           <% name_string.concat("You") %>
@@ -27,6 +27,7 @@
         <% end %>
         <% name_string.concat(", ") if ind < players.length - 1 %>
       <% end %>
+
 
       <% if my_game == true %>
 
@@ -66,7 +67,12 @@
                   <% end %>
 
                     <% av = players[i].user.avatar %>
-                      <% sc = players[i].player_score.to_s + " " + ("point".pluralize(players[i].player_score)) %>
+                      <% player_score = 0 %>
+                      <% player_moves = Move.where(player: players[i]) %>
+                      <% player_moves.each do |move| %>
+                        <% player_score +=  move.added_score  %>
+                      <% end %>
+                      <% sc = player_score.to_s + " " + ("point".pluralize(player_score)) %>
                     <div data-username="<%= players[i].user.username %>" data-score ="<%= sc %>"  >
                       <%  if av.attached?  %>
                       <%= image_tag av, class:'avatar avatar-index' %>
@@ -101,7 +107,14 @@
                   <div class="index-avatars">
                     <% name_string.split(",").each_with_index do | player_name, i | %>
                       <% av = players[i].user.avatar %>
-                      <% sc = players[i].player_score.to_s + " " + ("point".pluralize(players[i].player_score)) %>
+
+                      <% player_score = 0 %>
+                      <% player_moves = Move.where(player: players[i]) %>
+                      <% player_moves.each do |move| %>
+                        <% player_score +=  move.added_score  %>
+                      <% end %>
+                      <% sc = player_score.to_s + " " + ("point".pluralize(player_score)) %>
+
                       <% quit_class = players_quit_arr.include?(i) ?  "player-quit" : "" %>
 
 
