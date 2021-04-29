@@ -58,6 +58,8 @@ end
     @move.player.update({challenging: false})
     @players = Player.where(game: @game)
     challenge = @players.where(challenging: true)
+    @move.update({provisional: false})
+    # raise
     if challenge.empty?
       # raise
       @move.update({provisional: false})

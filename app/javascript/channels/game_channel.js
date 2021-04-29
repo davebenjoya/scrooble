@@ -1,7 +1,9 @@
-import { board } from "../components/board";
+import  { board }  from "../components/board";
 import consumer from "./consumer";
 import lettersJSON from '../components/letters.json';
+import { chooseLetters } from '../components/player_letters'
 // import 'new_game.js';
+import '../components/board'
 
 let id;
 let dataArray;
@@ -21,13 +23,16 @@ const initGameCable = () => {
         dataArray = data.split(":")
 
         if (dataArray[3].trim() != "acceptance") {    //  initial submission
+
+          moveId =  dataArray[4];
+
+          document.querySelector(".edit-page-identifier").setAttribute('data-moveid', `${moveId}`);
           const delayLength = (dataArray[0].length * 80) + 600;
           const msgFirstWord = dataArray[0].split(" ")[0]
           const playerName  = dataArray[1]
           const letter_string = dataArray[2].replaceAll("↵", "")
           const letter_array  = letter_string.split(";");  // has extra empty element
 
-          moveId =  dataArray[4]
           // console.log('msgFirstWord ' , msgFirstWord)
 
 
@@ -36,9 +41,10 @@ const initGameCable = () => {
           if (document.querySelector('.this-user').innerText.trim() != playerName.trim()) {
             updateBoard(letter_array);
             document.querySelector(".challenge-info").innerHTML = `${dataArray[0]}`;
+
             setTimeout( () => {
               document.querySelector('#challenge').classList.add('challenge-show');
-            }, 4000 );
+            }, ((letter_array.length * 1000) * .7) + .5 );
 
             // add listeners for dialog buttons
             document.querySelector('#challenge-btn').addEventListener('click', () => {
@@ -57,28 +63,28 @@ const initGameCable = () => {
               letter.style=`transition-delay: ${1 + (.5 * index)}s`;
             })
 
-
-
-
             setTimeout(function () {
-
-            // play acceptnce alert sound
+            // play acceptance alert sound
             document.querySelector('#btnAudio').src = '../../assets/nutty.mp3';
             document.querySelector('#btnAudio').play();
-            }, 4000);
-
+            }, 1600);
 
             setTimeout(function () {
+              document.querySelector('#confirmation-info').innerHTML = `${dataArray[1]} scored ${dataArray[2]} points.`;
+              document.querySelector('#confirmation').classList.add('challenge-show');
 
-            // play acceptnce alert sound
-              alert(`${dataArray[1]} scored ${dataArray[2]} points.`)
-            }, 4500);
+            document.querySelector('#confirmation-btn').addEventListener('click', () => {
+              document.querySelector('#confirmation').classList.remove('challenge-show');
+
+            })
+            }, 2000);
 
             updatePlayers(dataArray[1], dataArray[2]);
 
+            if (document.querySelector('.this-user').innerText.trim() === dataArray[1].trim()) {
+              chooseLetters();
+            }
         }
-
-
 
       }
 
@@ -116,30 +122,35 @@ function acceptWords() {
     },
     body: JSON.stringify(moveAcceptData)
     })
-
-
-
-    // updatePlayers(dataArray[2], dataArray[3]) // pass last player and last player's updated score
-
-
-
-
-
-
   });
 
   document.querySelector('#challenge').classList.remove('challenge-show');
+  // chooseLetters();
 }
 
   const updateBoard = (letter_array) => {
     letter_array.forEach( (letter, index) => {
       let char = letter.substring(0,1);
       let pos = parseInt(letter.substring(1));
+      let val;
       if (char[0] === "↵") {
        char = letter.substring(1,1);
        pos = parseInt(letter.substring(2));
       }
+
+
+      Array.from(lettersJSON.letters).forEach( l => {
+      if (l[char]) {
+       val = l[char].value;
+      }
+    });
+
+
+
+
       if (pos) {
+
+      document.querySelectorAll(".board-value")[pos].innerText = val;
       document.querySelectorAll(".letter")[pos].innerText = char
       document.querySelectorAll(".letter")[pos].classList.add("letter-provisional");
       document.querySelectorAll(".letter")[pos].style=`transition-delay: ${.7 * index}s`;
@@ -147,28 +158,6 @@ function acceptWords() {
       }
     })
 
-
-
-
-    // const oldTiles = document.querySelectorAll(".tile");
-    // const newGrid =  newString.trim().split(" ");
-    //   newGrid.forEach( (char, index) => {
-    //   if (char.trim() != "_") {
-    //     if (char != oldTiles[index].querySelector(".letter").innerHTML) {
-    //       oldTiles[index].querySelector(".letter").classList.add("letter-new");
-    //       oldTiles[index].querySelector(".letter").innerHTML = char;
-    //       setTimeout( function () {
-    //         oldTiles[index].querySelector(".letter").classList.add("letter-new-show");
-    //       }, index * .7)
-    //       // find letter value
-    //       Array.from(lettersJSON.letters).forEach( l => {
-    //         if (l[char.trim()]) {
-    //            oldTiles[index].querySelector(".board-value").innerHTML = l[char.trim()].value;
-    //         }
-    //       });
-    //     }
-    //   }
-    // })
   }
 
   const updatePlayers = (lastPlayer, addedScore) => {

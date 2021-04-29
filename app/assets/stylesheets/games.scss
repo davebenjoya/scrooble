@@ -29,9 +29,40 @@ input[type='submit']:hover{
   margin: 16px;
   padding: 8px;
   background-color: transparent !important;
-  color: honeydew;
+  color: $honeydew;
 }
 
+
+#pending-alert {
+  text-align: left;
+  position: fixed;
+  font-size: 13px;
+  top: 30%;
+  // bottom: 30%;
+  width: 80%;
+  background-color: $roman-silver;
+  padding: 8px 24px;
+
+  color: $alice-blue;
+ align: center;
+  // margin-top: 16px;
+
+  background: radial-gradient(farthest-corner at 0px 0px, $deep-space-sparkle 20%, $roman-silver 90%);
+
+  box-shadow: 0px 0px 4px inset $rich-black !important;
+
+  border: 1px solid $roman-silver !important;
+  border-right: 1px solid $roman-silver !important;
+  border-left: 2px solid $isabelline !important;
+  border-top: 1px solid $isabelline !important;
+  border-radius: 8px;
+}
+
+.pending-head {
+  font-size: 16px;
+  color: $sunray;
+  margin: 0;
+}
 
 .index-score {
   color: $space-cadet;
@@ -2070,6 +2101,7 @@ pointer-events: none;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     background-color: hsla(220, 30, 40, .5);
   transition: all .7s ease-in-out;
 }
@@ -2095,6 +2127,11 @@ pointer-events: none;
   border-right: 1px solid $roman-silver !important;
   border-left: 2px solid $isabelline !important;
   border-top: 1px solid $isabelline !important;
+}
+
+
+.challenge-body-narrow {
+    width: max-content;
 }
 
 .challenge-btn {

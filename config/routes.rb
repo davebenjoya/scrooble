@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   post '/moves', to: 'moves#create'
   get '/submission', to: 'moves#submit_broadcast'
   get '/check_accept', to: 'moves#check_accept'
-
+patch '/games/:id/edit', to: 'games#update'
 
   root to: 'games#index'
   # require "sidekiq/web"

@@ -5,26 +5,37 @@
   <%# end %>
 
  <div class='board board-hide col-12' id="board" data-animate-out="animate-fade" data-letter-grid="<%= @game.letter_grid %>" data-jokers="<%= @game.jokers %>" >
+
   <% for i in 0...225  %>
     <% char = "" %>
+    <% prov_class  = "" %>
+    <% if @letters.length > 0 %>
+    <% prov_class  = "" %>
 
-    <% @letters.each do |letter| %>
-      <% if (letter.position == i) %>
-        <%#= letter.character %>
-        <% char = letter.character %>
+      <% @letters.each do |letter| %>
+
+        <% provisional_move = Move.find_by(provisional: true) %>
+
+        <% if provisional_move.present? %>
+          <% prov_letters = Letter.where(move: provisional_move) %>
+          <% prov_letters.each do |ltr| %>
+            <% if ltr == letter %>
+              <%# prov_class  = " letter-provisional" %>
+            <% end %>
+          <% end %>
+        <% end %>
+
+        <% if (letter.position == i) %>
+          <% char = letter.character %>
+        <% end %>
+
       <% end %>
-        <%#= char.length %>
-     <% end %>
+      <% end %>
 
-    <div class='tile tile-hide'>
-      <div class="letter">
-        <%= char %>
+      <div class='tile tile-hide'>
+        <div class="letter <%= prov_class %>"><%= char %></div>
+        <div class="board-value"></div>
       </div>
-      <div class="board-value"></div>
-    </div>
-
 
   <% end %>
-
-
 </div>

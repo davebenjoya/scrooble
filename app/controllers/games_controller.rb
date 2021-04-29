@@ -97,20 +97,20 @@ end
     @game_moves = []
     @letters = []
     @player = game_players.find_by(user: current_user)
-      game_players.each do |p|
-        pMoves = Move.where(player: p)
-        pMoves.each do |m|
-          @game_moves << m
-          ltrs = Letter.where(move: m)
-          ltrs.each do |ltr|
-            @letters.push(ltr)
-          end
-        end
-        if (@game.completed == true)
-          p.update({ completed: true })
-          redirect_to game_path(@game)
+    game_players.each do |plr|
+      pMoves = Move.where(player: plr)
+      pMoves.each do |m|
+        @game_moves << m
+        ltrs = Letter.where(move: m)
+        ltrs.each do |ltr|
+          @letters.push(ltr)
         end
       end
+      if (@game.completed == true)
+        p.update({ completed: true })
+        redirect_to game_path(@game)
+      end
+    end
 
         # raise
   end
@@ -119,38 +119,18 @@ end
    @game = Game.find(params[:id])
     players = Player.where(game: @game)
     @player = players.find_by(user: current_user)
-    added_score = params['game']['added_score'].to_i - @player.player_score
-   # mess = "#{@player.user.username} added #{added_score} #{'point'.pluralize(added_score)}"
-   mess = params["game"]["msg"]
-   # raise
-   letter_string = ''
+    # raise
    @move = Move.where(player: @player)[0]  ## hopefully this gets the most recent move
-   letters = Letter.where(move_id: @move.id)
-   letters.each_with_index do |ltr, index|
-      letter_string +=  ltr.character
-      letter_string += ltr.position.to_s
-      # if index < letters.length - 1
-       letter_string += ";"
-     # end
-   end
-   letter_string_trimmed  = letter_string[0, letter_string.length - 1] ## remove last semicolon
-   # raise
 
 
-    if @game.update(game_params)
-      @game.update({
-        remaining_letters: params["game"]["remaining_letters"],
-        current_player: params["game"]["current_player"]
-      })
+      # @player.update({ player_score: params["game"]["my_score"] })
+      # @player.update({ player_letters: params["game"]["my_letters"].gsub(/\'/, "") })
 
-      @player.update({ player_score: params["game"]["my_score"] })
-      @player.update({ player_letters: params["game"]["my_letters"].gsub(/\'/, "") })
-
-    GameChannel.broadcast_to(
-      @game,
-      # flash[:game_update] = "next player: #{nextP}, last player: #{@game.current_player}"
-      render_to_string(partial: "message", locals: { msg: mess, letters: letter_string, player: @player.user.username, score: added_score })
-    )
+    # GameChannel.broadcast_to(
+    #   @game,
+    #   # flash[:game_update] = "next player: #{nextP}, last player: #{@game.current_player}"
+    #   render_to_string(partial: "message", locals: { msg: mess, letters: letter_string, player: @player.user.username, score: added_score })
+    # )
 
     if (@game.completed == true)
       players.each do |p|
@@ -173,6 +153,14 @@ end
         else
           redirect_to edit_game_path(@game) and return
         end
+      else
+           if @game.update(game_params)
+      @game.update({
+        remaining_letters: params["remaining_letters"],
+        current_player: params["current_player"]
+      })
+
+
       end
      end
 
@@ -222,6 +210,6 @@ private
 
 
   def game_params
-    params.require(:game).permit(:letter_grid, :updated_at, :current_player, :name, :completed, :jokers,
-                   :opponents => [], :all_player_letters => [], :remaining_letters => [])
+    params.require(:game).permit(:letter_grid, :game, :id, :updated_at, :current_player, :remaining_letters, :name, :completed, :jokers,
+                   :opponents => [], :all_player_letters => [])
   end

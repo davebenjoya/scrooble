@@ -99,7 +99,6 @@ function wordsCommit() {
 
     // console.log("wordArray " , wordArray[0].word )
     buildAlert();
-
     return [totalAdded, scoreString];
     // return [20, "Multiple word and letter bonuses"];
 
@@ -139,6 +138,7 @@ function wordsCommit() {
   }
 
   function buildAlert() {
+    bonusString = ``;
     const name = document.querySelector('.nav-emp').innerText.split(":")[1].trim();
     const ws = wordArray.length < 2 ? "" : "s"
     scoreString = `${name} is submitting the word${ws} `;

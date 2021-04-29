@@ -4,7 +4,7 @@ import { validateLetters } from './validation'
 // import 'new_game.js';
 // import Sortable from "sortablejs";
 import { Sortable, MultiDrag, Swap, OnSpill, AutoScroll } from "sortablejs";
-import   pLetters  from './player_letters'
+import   { chooseLetters, restoreLetters, setLetterValues, appendMyLetters, showMyLettersInit }  from './player_letters'
 
 import axios from 'axios'
 // import   calculateScore  from './scoring';
@@ -97,6 +97,13 @@ const board = () => {
   // return 'Are you sure you want to leave?';
     };
 
+    if (document.querySelector('#accept-notice-btn')) {
+      document.querySelector('#accept-notice-btn').addEventListener('click', () => {
+        acceptWords();
+      });
+
+    }
+
     // remainingLetters = document.querySelector("#dashboard").dataset.remaining;
     document.querySelector("#scores").addEventListener('click', function() {
       document.querySelector("#scores").classList.toggle("scores-show");
@@ -168,6 +175,42 @@ const board = () => {
 /////////////////////////      CREATE NEW GAME      //////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
+
+
+
+function acceptWords() {
+
+  const mId = document.querySelector(".edit-page-identifier").dataset.moveid
+  const gId = document.querySelector(".edit-page-identifier").dataset.gameid
+  const pId = document.querySelector(".edit-page-identifier").dataset.playerid
+  const csrfToken = document.querySelector("[name='csrf-token']").content;
+
+  const acceptData = {challenging: 'false', id:`${pId}`}
+  fetch(`/players/${pId}`, {
+    method: 'PATCH',
+    headers: {
+      'X-CSRF-Token': csrfToken,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(acceptData)
+  })
+  .then(response => response.json())
+  .then(acceptObj => {
+    console.log('acceptObj  ' + acceptObj.challenging);
+    const moveAcceptData = {id: `${mId}`}
+    fetch(`/moves/${mId}`, {
+      method: 'PATCH',
+      headers: {
+      'X-CSRF-Token': csrfToken,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(moveAcceptData)
+    })
+  });
+
+  document.querySelector('#pending-alert').remove();
+}
+
 
 
   function createNewGame () {
@@ -356,20 +399,6 @@ const board = () => {
 setupBoard();
 // setupBoardNew();
 
-function setLetterValues() {
-    const tiles = document.querySelectorAll('.tile')
-      tiles.forEach((tile, index) => {
-    let boardVal = ``;
-        const letter = tile.querySelector(".letter").innerText
-        Array.from(lettersJSON.letters).forEach( l => {
-          if (l[letter]) {
-             boardVal = l[letter].value;
-          }
-        });
-        tile.querySelector(".board-value").innerText = boardVal;
-      });
-}
-
 
 function setupBoard() {
   console.log(' set up')
@@ -395,7 +424,7 @@ function setupBoard() {
 
         }, 500);
       });
-    // console.log(document.querySelectorAll('.tile'));
+    console.log(document.querySelectorAll('.tile').length);
 
     document.querySelectorAll('.tile')[112].classList.add("center-tile");
     document.querySelectorAll('.tile').forEach((tile, index) => {
@@ -614,70 +643,13 @@ function endGame() {
       }
     }
 
-    if (document.querySelectorAll(".letter-disabled").length > 0 ) {
-   document.querySelector("#commit-btn").classList.remove("button-disabled")
-          document.querySelector("#cancel-btn").classList.remove("button-disabled")
+      if (document.querySelectorAll(".letter-disabled").length > 0 ) {
+        document.querySelector("#commit-btn").classList.remove("button-disabled")
+        document.querySelector("#cancel-btn").classList.remove("button-disabled")
     } else {
 
     }
-
   }
-
-  function chooseLetters() { // select my letters from available letters
-    if (remainingLetters.length > 0 ) {
-      let maxLettersLocal = maxLetters
-      if (remainingLetters.length < maxLettersLocal - myLetters.length) {
-        maxLettersLocal = myLetters.length + remainingLetters.length;
-      }
-      while (myLetters.length < maxLettersLocal ) {
-        const ind = Math.floor((Math.random() * remainingLetters.length));
-        console.log('ind', ind);
-        if (remainingLetters[ind] === ",") {
-          console.log("commmmaaa")
-          ind --;
-        }
-        const ran = remainingLetters[ind];
-        myLetters.push(ran);
-         // const ind = remainingLetters.indexOf(selectedLetter.querySelector('.my-letter').innerHTML);
-        const endString = remainingLetters.slice(ind + 2);
-        const beginString = remainingLetters.slice(0, ind);
-
-        remainingLetters = beginString + endString;
-      }
-    }  // end if remainingLetters.length > 0
-  }
-
-
-  function restoreLetters () {
-    if (!document.querySelector(".cancel-btn").classList.contains("button-disabled")) {
-      document.querySelector(".cancel-btn").classList.add("button-disabled");
-      if (exchange) {
-        myLettersDiv.querySelectorAll('.marked-for-exchange').forEach( ltr => {
-          ltr.classList.remove("marked-for-exchange");
-          // ltr.addEventListener('click', toggleLetter);
-        });
-
-      } else {  // not in exchange mode
-        document.querySelector(".commit-btn").classList.add("button-disabled");
-        document.querySelector(".exchange-btn").classList.remove("button-disabled");
-        document.querySelector('#exchange-btn').addEventListener('click', markLetters);
-        myLettersDiv.querySelectorAll('.letter-disabled').forEach( ltr => {
-          ltr.classList.remove("letter-disabled");
-          ltr.classList.remove("letter-selected");
-          ltr.addEventListener('click', toggleLetter);
-        });
-        document.querySelectorAll('.letter-provisional').forEach( ltr => {
-          ltr.classList.remove("letter-provisional");
-          ltr.parentNode.classList.remove("joker-replaced");
-          ltr.innerHTML = "";
-          ltr.parentNode.querySelector(".board-value").innerHTML = "";
-        });
-        buffer = [];
-          selectedLetter = null;
-      }
-    }
-  }
-
 
   /////////////////////////////////////////////////////////////////
 
@@ -691,7 +663,10 @@ function endGame() {
       commitExchange();
       submitNewWord()
     } else {  //  new word
-      commitPlace();
+       document.querySelector('#btnAudio').src = '../../assets/saz.mp3';
+        document.querySelector('#btnAudio').play();
+        setTimeout( () => {commitPlace()}, 400);
+      ;
     }
   }
 
@@ -723,30 +698,19 @@ function commitExchange() {
 
   async function commitPlace() {
       console.log('myLetters ' , myLetters );
+             // play submission alert sound
       const added = validateLetters();
       if (added) {
         console.log("added ", added);
         // const msgFirstWord = dataArray[0].split(" ");
          // if (document.querySelector('.this-user').innerText != msgFirstWord) {
-          let alertStr = `${added[1]} `;
-        // let alertStr = `${document.querySelector('.this-user').innerText} has submitted the following words: word, word3, word97. Do you want to challenge this play?`;
-
-        // document.querySelector(".message-body").innerHTML = alertStr;
+        let alertStr = `${added[1]} `;
 
         let placedLetters = {};
-
-
         // }
 
         addedScore = added[0];
         document.querySelector('#update-msg').value = added[1];
-        document.querySelectorAll(".my-letter").forEach( (letter, index)=> {
-          if (letter.parentNode.classList.contains("letter-disabled")) {
-            myLetters.splice(myLetters.indexOf(letter.innerHTML), 1);
-            // remainingLetters.push(letter.innerText);
-            letter.parentNode.remove();
-          }
-        });
 
 
         document.querySelectorAll(".letter").forEach( (letter, index)=> {
@@ -779,12 +743,7 @@ function commitExchange() {
 
           });
 
-
-
-
         let promises = [];
-
-
 
         Object.keys(placedLetters).forEach(key => {
           let value = placedLetters[key];
@@ -801,8 +760,6 @@ function commitExchange() {
 
           });
 
-
-
         Promise.all(promises)
           .then(result => {
             // console.log(typeof(result))
@@ -817,58 +774,7 @@ function commitExchange() {
               'Content-Type': 'application/html',
              }
             })
-             // .then(response => response.json())
-          // .then(subObj => {
-          //   console.log(`Hello, ${subObj}`);
-          // });
-
-
-
-
-
-
-
-
-
-          // Object.keys(placedLetters).forEach(key => {
-          //   let value = placedLetters[key];
-          //   // console.log(`${key}: ${value}`);
-          //   const letterData = {character:value, position:key, move_id:moveObjId};
-
-
-          //   fetch("/letters", {
-          //    method: 'POST',
-          //    headers: {
-          //       'X-CSRF-Token': csrfToken,
-          //       'Content-Type': 'application/json',
-          //      },
-          //      body: JSON.stringify(letterData)
-          //   })
-          //   .then(response => response.json())
-          // .then(letterObj => {
-          //   console.log(`Hello, ${letterObj.position} : ${letterObj.character}`);
-
-          // });
-
-
-          // const subData = {message: moveObj.summary}
-
-          //   fetch(`/submission`, {
-          //     method: 'GET',
-          //    headers: {
-          //       'X-CSRF-Token': csrfToken,
-          //       'Content-Type': 'application/json',
-          //      }
-
-          //   })
-          //   .then(response => response.json())
-          // .then(subObj => {
-          //   console.log(`Hello, ${subObj}`);
-
-          // });
-
         })
-
         // document.querySelector('#update-placed').value =  placedLetters;
       } else {
         restoreLetters();
@@ -946,23 +852,6 @@ function populateRailsForm() {
 }
 
 
-  function appendMyLetters(num) {
-
-    let val;
-    for (let d = 0; d < num; d++ ) {
-      const ltr = Object.values(myLetters)[d]
-      Array.from(lettersJSON.letters).forEach( l => {
-      if (l[ltr]) {
-       val = l[ltr].value;
-      }
-    });
-      const tileHtml = `<div class='my-tile'><div class="my-letter">${ltr}</div><div class="my-value">${val}</div></div>`
-      myLettersDiv.insertAdjacentHTML('beforeend', tileHtml);
-      myLettersDiv.lastChild.addEventListener('click', toggleLetter);
-      console.log('tileHtml ' + tileHtml);
-    }
-  }
-
   function showMyLettersInit() {
     myLetters.splice(maxLetters)
     let val;
@@ -1031,4 +920,4 @@ function populateRailsForm() {
 
 }
 
-export {board}
+export {board }
