@@ -19,7 +19,7 @@
             </div>
 
 
-   <% my_comp_games = 0 %>
+          <% my_comp_games = 0 %>
           <% my_total_score = 0 %>
           <% my_high_score = 0 %>
           <% duration_array = [] %>
@@ -28,8 +28,17 @@
           <% if cg.users.include? user %>
               <% duration_array << [cg.updated_at, cg.created_at] %>
               <% my_player =  Player.find_by(game: cg, user: user) %>
-              <% my_total_score += my_player.player_score  %>
-              <% my_high_score = my_player.player_score if my_player.player_score > my_high_score %>
+
+
+              <% player_score = 0 %>
+              <% player_moves = Move.where(player: my_player) %>
+              <% player_moves.each do |move| %>
+                <% player_score +=  move.added_score  %>
+              <% end %>
+
+              <% my_total_score += player_score  %>
+              <% my_high_score = player_score if player_score > my_high_score %>
+
               <% my_comp_games = my_comp_games + 1 %>
             <% end %>
           <% end %>
