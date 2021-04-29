@@ -5,9 +5,19 @@
     <i class="fas fa-arrow-circle-left arrow-btn"></i>
   </div> -->
   <% players  = Player.where(game_id: @game.id).order(:id) %>
-
+  <% straggler = '' %>
+  <% provisional_move = nil %>
   <% players.each_with_index do | player, index | %>
   <% player.completed = true if @game.completed == true %>
+    <% moves = Move.where(player_id: player.id) %>
+    <% player_score = 0 %>
+    <% moves.each do |move| %>
+      <% if move.provisional == false %>
+        <% player_score += move.added_score %>
+      <% else %>
+        <% provisional_move = move %>
+      <% end %>
+    <% end %>
     <% name_score_classes = "name-score" %>
     <% player_classes = "player" %>
     <% if player.user == current_user %>
@@ -20,7 +30,7 @@
       <%#= turbo_frame_tag "players" do %>
         <div id = "<%= player.id %>" class = "<%= name_score_classes %>">
             <div class="<%= player_classes %>"><%= player.user.username %></div>
-            <div class="score"><%= player.player_score %></div>
+            <div class="score"><%= player_score %></div>
         </div>
       <%# end %>
   <% end %>
@@ -30,3 +40,48 @@
 </div>
 
 </div>
+  <% if provisional_move != nil %>
+
+    <% stragglers = [] %>
+    <% show_challenge_buttons = false %>
+    <% players.each do |plr|  %>
+      <% if plr.challenging == true && plr.user != provisional_move.player.user %>
+      <% if plr.user == current_user %>
+        <% show_challenge_buttons = true %>
+        <% end %>
+      <% stragglers << plr %>
+      <% end %>
+    <% end %>
+    <% if stragglers.length > 0 %>
+    <div id="pending-alert">
+      <p class="pending-head">Move pending:</p>
+      <%= provisional_move.summary %>
+      <% case stragglers.length %>
+      <% when 0 %>
+      <p><strong>All players</strong>
+       have accepted or challenged this move.</p>
+      <% provisional_move = false %>
+      <% when 1  %>
+      <p><strong><%= stragglers[0].user.username %></strong>
+       hasn't accepted or challenged this move.</p>
+      <% when 2  %>
+      <p><strong><%= stragglers[0].user.username %></strong> and <strong><%= stragglers[1].user.username %></strong>
+       haven't accepted or challenged this move.</p>
+      <% when 3  %>
+      <p><strong><%= stragglers[0].user.username %>, <%= stragglers[1].user.username %>,</strong> and <strong><%= stragglers[2].user.username %></strong>
+     haven't accepted or challenged this move.</p>
+     <% end %>
+
+    <% if show_challenge_buttons == true %>
+      <div id = "challenge-notice" class="">
+        <div>Do you want to challenge?</div>
+        <div id="challenge-notice-btn" class="challenge-btn">Yes, I call BS.</div>
+        <div id="accept-notice-btn" class="challenge-btn">No, I buy it.</div>
+      </div>
+    <% end %>
+    </div>
+
+    <% end %>
+  <% end %>
+</div>
+

@@ -1,8 +1,5 @@
 
-<div class="edit-page-identifier" data-name ="<%= @game.name %>" data-playername= "<%= current_user.username %>"  >
-
-
-
+<div class="edit-page-identifier" data-name ="<%= @game.name %>" data-moveid= "0" data-gameid = "<%= @game.id %>" data-playername= "<%= current_user.username %>"  data-userid= "<%= current_user.id %>" data-playerid = "<%= @player.id %>"  >
 
   <!-- Button trigger modal -->
 <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
@@ -25,25 +22,13 @@
 </div>
 
 
-<div class="modal fade message" id="message-modal" tabindex="-1" role="dialog" aria-labelledby="messageModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content-message">
-      <div class="message-body">
-        ...
-      </div>
-    </div>
-  </div>
-</div>
-
 
 <%#= @game.remaining_letters %>
 <% if @player.completed %>
 
 <% else %>
-<div class="pr-0 dashboard dashboard-hide" data-current = <%= @game.current_player %> data-animate-out="animate-slide-left" id="dashboard" data-name ="<%= @game.name %>" data-id ="<%= @game.id %>" data-url ="games/<%= @game.id %>/edit" data-remaining =  "<%= @game.remaining_letters %>" data-jokers =  "<%= @game.jokers %>" data-completed =  "<%= @player.completed %>">
-
-
-    <div id="scores-buttons">
+<div id="dashboard" class="pr-0 dashboard dashboard-hide" data-current = "<%= @game.current_player %>" data-animate-out="animate-slide-left" id="dashboard" data-name ="<%= @game.name %>" data-id ="<%= @game.id %>" data-url ="games/<%= @game.id %>/edit" data-remaining = "<%= @game.remaining_letters %>" data-jokers =  "<%= @game.jokers %>" data-completed =  "<%= @player.completed %>">
+     <div id="scores-buttons">
 
     <!-- <div data-controller="online-list" data-online-list-sound="insistentHarp.mp3"> -->
       <%= audio_tag "m1", id: "btnAudio" %>
@@ -110,6 +95,28 @@
       <%#= render 'message'  %>
     </div>
 
+
+<div id = "challenge" class="challenge">
+  <div id= "challenge-body" class="challenge-body">
+    <div class="challenge-info"></div>
+    <div class="challenge-footer">
+      <div>Do you want to challenge?</div>
+      <div id="challenge-btn" class="challenge-btn">Yes, I call BS.</div>
+      <div id="accept-btn" class="challenge-btn">No, I buy it.</div>
+    </div>
+  </div>
+</div>
+
+
+
+<div id = "confirmation" class="challenge">
+  <div id= "confirmation-body" class="challenge-body challenge-body-narrow">
+    <div id="confirmation-info" class="challenge-info"></div>
+    <div class="challenge-footer">
+      <div id="confirmation-btn" class="challenge-btn">OK</div>
+    </div>
+  </div>
+</div>
 
 
 

@@ -9,7 +9,7 @@ const gameIndex = ()  => {
       console.log("transition end");
     }, 1000);
     crawlEndDelay = 5000;
-    document.querySelector("#navbar-game").innerHTML = `<span class="my-games-head">My Games</span>`;
+    document.querySelector("#navbar-game").innerHTML = ``;
   }
 
 

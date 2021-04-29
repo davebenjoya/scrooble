@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_05_135611) do
+ActiveRecord::Schema.define(version: 2021_04_18_140038) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,6 +55,25 @@ ActiveRecord::Schema.define(version: 2021_04_05_135611) do
     t.string "remaining_letters", default: ""
   end
 
+  create_table "letters", force: :cascade do |t|
+    t.string "character"
+    t.integer "position"
+    t.bigint "move_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["move_id"], name: "index_letters_on_move_id"
+  end
+
+  create_table "moves", force: :cascade do |t|
+    t.bigint "player_id", null: false
+    t.boolean "provisional", default: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "summary"
+    t.integer "added_score", default: 0
+    t.index ["player_id"], name: "index_moves_on_player_id"
+  end
+
   create_table "players", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "game_id", null: false
@@ -63,6 +82,8 @@ ActiveRecord::Schema.define(version: 2021_04_05_135611) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "completed", default: false
+    t.boolean "skip", default: false
+    t.boolean "challenging", default: true
     t.index ["game_id"], name: "index_players_on_game_id"
     t.index ["user_id"], name: "index_players_on_user_id"
   end
@@ -96,6 +117,8 @@ ActiveRecord::Schema.define(version: 2021_04_05_135611) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "letters", "moves"
+  add_foreign_key "moves", "players"
   add_foreign_key "players", "games"
   add_foreign_key "players", "users"
 end
