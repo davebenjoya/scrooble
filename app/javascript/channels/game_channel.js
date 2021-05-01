@@ -2,7 +2,7 @@ import  { board }  from "../components/board";
 import consumer from "./consumer";
 import lettersJSON from '../components/letters.json';
 import { chooseLetters } from '../components/player_letters'
-// import 'new_game.js';
+import { restoreListenersAtAccept } from '../components/player_letters'
 import '../components/board'
 
 let id;
@@ -82,7 +82,9 @@ const initGameCable = () => {
             updatePlayers(dataArray[1], dataArray[2]);
 
             if (document.querySelector('.this-user').innerText.trim() === dataArray[1].trim()) {
+              restoreListenersAtAccept();
               chooseLetters();
+
             }
         }
 
@@ -92,6 +94,12 @@ const initGameCable = () => {
   }
      // subscribe(id);
 //   }
+
+//
+
+
+
+
 
 ////////////////////////////////////////////////////////
 

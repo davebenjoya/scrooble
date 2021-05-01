@@ -28,6 +28,7 @@ function firstWordCommit() {
 }
 
 function wordsCommit() {
+  wordArray = [];
   console.log('wordsCommit')
   totalAdded = 0;
   wordMultiplier = 1;

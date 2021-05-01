@@ -46,11 +46,39 @@ end
     # raise
     # # authorize @game
     if @game.save
-       MyGamesChannel.broadcast_to(
-          @games,
-          # flash[:game_update] = "next player: #{nextP}, last player: #{@game.current_player}"
-          render_to_string(partial: "my_games", locals: {games: @games})
-        )
+       # @games = Game.all
+       # MyGamesChannel.broadcast_to(
+       #    @games,
+       #    # flash[:game_update] = "next player: #{nextP}, last player: #{@game.current_player}"
+       #    render_to_string(partial: "my_games", locals: {games: @games})
+       #  )
+
+    # respond_to do |format|
+
+    #   format.turbo_stream do
+
+    #     render turbo_stream: turbo_stream.append(:games, partial: 'my_games',
+    #       locals: { games: @games })
+    #   end
+
+
+    #   # format.turbo_stream { render turbo_stream: turbo_stream.append(@game) }
+    #   format.html         { }
+    # end
+
+
+
+    # respond_to do |format|
+    #   format.turbo_stream do
+    #     render turbo_stream: turbo_stream.append(:messages, partial: 'my_games',
+    #       locals: { games: @games })
+    #   end
+    #   format.html { render 'my_games', @games }
+    # end
+
+
+
+
       opponent_array = []
       # raise
       # first iterate to build list of all opponents' names

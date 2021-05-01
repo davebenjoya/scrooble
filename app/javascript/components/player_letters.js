@@ -32,7 +32,34 @@ if (document.querySelector(".edit-page-identifier")) {
   // let replacement;
 
 
+
+
+function restoreListenersAtAccept() {
+  // document.querySelectorAll('.letter-provisional').forEach(prov => {
+  //   prov.parentNode.addEventListener('click', placeLetter);
+  // })
+  document.querySelectorAll('.my-tile').forEach(tile => {
+    tile.addEventListener('click', toggleLetter);
+  })
+  // document.querySelector('#commit-btn').addEventListener('click', commitLetters);
+  // document.querySelector('#cancel-btn').addEventListener('click', restoreLetters);
+  // document.querySelector('#exchange-btn').addEventListener('click', markLetters);
+  // document.querySelector('#end-btn').addEventListener('click', endGame);
+
+  document.querySelector('#commit-btn').classList.add('button-disabled');
+  document.querySelector('#cancel-btn').classList.add('button-disabled');
+  // document.querySelector('#exchange-btn').addEventListener('click', markLetters);
+  // document.querySelector('#end-btn').addEventListener('click', endGame);
+}
+
+
+
+
   function chooseLetters() { // select my letters from available letters
+
+
+    document.addEventListener('keydown', pickLetter);
+
     if (document.querySelector("#dashboard")) {
       const remain = (document.querySelector("#dashboard").dataset.remaining.split(','));
       remainingLetters =  [];
@@ -89,7 +116,7 @@ if (document.querySelector(".edit-page-identifier")) {
     const remainingData = { id: gId, my_letters: myLetters, remaining_letters: remainingLetters.toString(), current_player: newPlayer}
     const url  = `/games/${gId}`;
     console.log('url ', url);
-    fetch(`/games/${gId}`, {
+    fetch(`/games/${gId}/`, {
       method: 'PATCH',
       headers: {
         'X-CSRF-Token': csrfToken,
@@ -154,6 +181,57 @@ function setLetterValues() {
   }
 
 
+
+const pickLetter = () => {   // using keyboard
+  const thisUser = document.querySelector(".this-user");
+  if (thisUser) {
+    if (thisUser.parentNode.classList.contains("player-selected")) {
+      if (submitEscape === false ) {  // replace joker and challenge dialogue not visible
+        switch (event.key) {
+          case "Enter":
+            commitLetters();
+            break;
+          case "Escape":
+            restoreLetters();
+            break;
+          default: null;
+          };
+        const tiles = Array.from(document.querySelectorAll(".my-tile"));
+        tiles.reverse().forEach( tile => {
+          if (tile.querySelector(".my-letter").innerHTML === event.key.toUpperCase()) {
+            if (exchange) {
+              tile.classList.toggle("marked-for-exchange");
+            } else {
+            if (tile != selectedLetter && !tile.classList.contains("letter-disabled")) {
+              if (selectedLetter) selectedLetter.classList.remove("letter-selected");
+                tile.classList.add("letter-selected");
+                selectedLetter =  tile;
+              } else {
+                tile.classList.remove("letter-selected");
+                selectedLetter =  null;
+              }
+            }
+
+            }
+        });
+
+    }
+
+    } else { // replace joker dialogue visible
+      if (event.key === "Enter") {
+        // commitLetters();
+      }
+    }
+  } else {
+      // alert ("It's not your turn!");
+      myLetters.forEach(ltr => {
+        if (ltr.toLowerCase() === event.key.toLowerCase()) {
+          const currentUserName = document.querySelectorAll(".name-score")[current].querySelector(".name").innerHTML;
+          alert (`It's ${currentUserName}'s turn. You can rearrange your tiles while you wait.`);
+        }
+      });
+  }
+}
 
 
 
@@ -253,4 +331,4 @@ function setLetterValues() {
   });
 
 
-export { chooseLetters, restoreLetters, setLetterValues, appendMyLetters, showMyLettersInit }
+export { chooseLetters, restoreLetters, setLetterValues, appendMyLetters, showMyLettersInit, restoreListenersAtAccept }
