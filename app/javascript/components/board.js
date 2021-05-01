@@ -480,7 +480,7 @@ const pickLetter = () => {   // using keyboard
   const thisUser = document.querySelector(".this-user");
   if (thisUser) {
     if (thisUser.parentNode.classList.contains("player-selected")) {
-      if (submitEscape === false ) {  // replace joker dialogue not visible
+      if (submitEscape === false ) {  // replace joker and challenge dialogue not visible
         switch (event.key) {
           case "Enter":
             commitLetters();
@@ -659,6 +659,11 @@ function endGame() {
   /////////////////////////////////////////////////////////////////
 
   function commitLetters () {
+    // remove myletter, provisional board, and button listeners
+    removeListenersAtCommit()
+
+
+    document.removeEventListener('keydown', pickLetter);
     if (exchange === true ) {  // exchange chosen letters
       commitExchange();
       submitNewWord()
@@ -669,6 +674,21 @@ function endGame() {
       ;
     }
   }
+
+
+function removeListenersAtCommit() {
+  document.querySelectorAll('.letter-provisional').forEach(prov => {
+    prov.parentNode.removeEventListener('click', placeLetter);
+  })
+  document.querySelectorAll('.my-tile').forEach(tile => {
+    tile.removeEventListener('click', toggleLetter);
+  })
+  document.querySelector('#commit-btn').removeEventListener('click', commitLetters);
+  document.querySelector('#cancel-btn').removeEventListener('click', restoreLetters);
+  document.querySelector('#exchange-btn').removeEventListener('click', markLetters);
+  document.querySelector('#end-btn').removeEventListener('click', endGame);
+}
+
 
 function commitExchange() {
      if (remainingLetters.length < maxLetters) {
