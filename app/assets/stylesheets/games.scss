@@ -28,8 +28,21 @@ input[type='submit']:hover{
 .create-page-identifier {
   margin: 16px;
   padding: 8px;
-  background-color: transparent !important;
+  // background-color: transparent !important;
   color: $honeydew;
+   background: radial-gradient(farthest-corner at 0px 0px, $deep-space-sparkle 20%, $roman-silver 90%);
+
+  box-shadow: 0px 0px 4px inset $rich-black !important;
+
+  border: 1px solid $roman-silver !important;
+  border-right: 1px solid $roman-silver !important;
+  border-left: 2px solid $isabelline !important;
+  border-top: 1px solid $isabelline !important;
+  border-radius: 8px;
+  // font-size: 12px;
+  // margin-top: 4px;
+  margin-bottom: 16px;
+  // width: 40% !important;
 }
 
 
@@ -40,7 +53,7 @@ input[type='submit']:hover{
   top: 30%;
   // bottom: 30%;
   width: 80%;
-  background-color: $roman-silver;
+  // background-color: $roman-silver;
   padding: 8px 24px;
 
   color: $alice-blue;
@@ -68,16 +81,16 @@ input[type='submit']:hover{
   color: $space-cadet;
 }
 
- #new-game-btn {
+ .new-game-btn {
    color: $space-cadet;
-  background: linear-gradient(0turn, $midnight-green, $russian-green 55%, $tea-green 72%, $russian-green 88%);
-  box-shadow: 1px 1px 3px inset $pine-tree;
+  // background: linear-gradient(0turn, $midnight-green, $russian-green 55%, $tea-green 72%, $russian-green 88%);
+  // box-shadow: 1px 1px 3px inset $pine-tree;
   line-height: 16px;
    border-radius: 4px;
    padding: 8px !important;
 }
 
- #new-game-btn:hover {
+ .new-game-btn:hover {
   color: $lime-green !important;
 }
 
@@ -179,7 +192,7 @@ input[type='submit']:hover{
 }
 
 .edit-user-identifier {
-   background: radial-gradient(farthest-corner at 0px 0px, $deep-space-sparkle 20%, $roman-silver 90%);
+  background: radial-gradient(farthest-corner at 0px 0px, $deep-space-sparkle 20%, $roman-silver 90%);
 
   box-shadow: 0px 0px 4px inset $rich-black !important;
 
@@ -711,11 +724,13 @@ width: 0px;
   font-size: 27px !important;
   max-height: 32px;
   font-weight: bolder;
-  color: $honeydew !important;
+  color: $indian-yellow !important;
   font-family: 'Grandstander', display;
   letter-spacing: 7px;
   margin-left:12px;
   padding-top: 12px;
+  text-shadow: 1px 1px $rich-black;
+
   animation: .8s ease-in 8s 1 both navbar-title-squeeze ;
 
 }
@@ -773,7 +788,7 @@ width: 0px;
 
 .center-tile {
   // background-color: hsl(118, 40, 80) !important;
-  background-color: $redwood !important;
+  background-color: $copper-penny !important;
   // border: 1px solid $space-cadet !important;
   background-image: url('../images/star.svg');
   background-repeat: no-repeat;
@@ -812,7 +827,7 @@ width: 0px;
 #your-games{
   background-color: transparent;
   // background-color: $prussian-blue;
-  margin-top: 0px;
+  margin-top: 8px;
 
 }
 
@@ -1895,12 +1910,13 @@ pointer-events: none;
 }
 
 .letter-provisional {
-  color: $tea-green;
+  color: $russian-green;
   text-shadow: 1px 1px 2px $rich-black;
-  transform: scale(1.2);
+  transform: scale(1.3);
   // color: hsl(195, 180, 45);
   transition: all .4s ease-in;
 // pointer-events: none;
+animation: bulge .6s ease-out forwards;
 }
 
 .letter-new {
@@ -1914,8 +1930,9 @@ pointer-events: none;
 
 @keyframes bulge {
 
-  0% {transform: scale(1.0)}
-  100% {transform: scale(1.4)}
+  0% {opacity: 0; transform: scale(1.0)}
+  50% {opacity: 1; transform: scale(1.4)}
+  100% {transform: scale(1.0)}
 
 }
 

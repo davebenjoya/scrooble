@@ -8,6 +8,7 @@ import '../components/board'
 
 
 if (document.querySelector(".edit-page-identifier")) {
+  const current = document.querySelector("#dashboard").dataset.current;
 
 }
 
@@ -16,28 +17,116 @@ if (document.querySelector(".edit-page-identifier")) {
 
   const numOfBgs = 6;
  let currentBg = 0;
-
   let myLetters = [];
   let maxLetters = 7;
   const maxPlayers = 4;
   let selectedLetter = null;
   let buffer = [];
 
-  let currentPlayer;
-  // let gameForm;
-  // let addedScore = 0;
-  // remainingLetters = [];
-  // let titleString = '';
-  // let submitEscape = false;
-  // let replacement;
+  let exchange = false;
 
+  let currentPlayer;
+
+
+  const clickSounds = ['m1', 'm2', 'm3', 'm4', 'm5', 'm6'];
+  let currentClickSound = 0
+
+
+
+ function placeLetter () {
+    if (exchange == false) {
+
+      if(event.target.querySelector('.letter').classList.contains("letter-provisional")) {  // already a letter on square
+        event.target.querySelector('.letter').classList.remove("letter-provisional");
+        let restoreFlag = false;  // if player has more than one of the same letter, only restore one
+        document.querySelectorAll(".letter-disabled").forEach (ltr => {
+          if (event.target.querySelector('.letter').innerHTML === ltr.querySelector('.my-letter').innerHTML ) {
+            if (restoreFlag === false) {
+              ltr.classList.remove("letter-disabled");
+              ltr.addEventListener('click', toggleLetter);
+              if (selectedLetter) selectedLetter.classList.remove("letter-selected")
+              selectedLetter = null;
+              restoreFlag = true;
+            }
+          }
+        })
+        event.target.querySelector('.letter').innerText = '';
+        event.target.querySelector('.board-value').innerHTML = "";
+        if (document.querySelectorAll(".letter-provisional").length < 1) {
+          document.querySelector(".commit-btn").classList.add('button-disabled');
+          document.querySelector(".cancel-btn").classList.add('button-disabled');
+          document.querySelector(".exchange-btn").classList.remove('button-disabled');
+
+        }
+      } else {
+         selectedLetter = document.querySelector('.letter-selected');
+         if (selectedLetter) {
+         event.target.querySelector('.letter').innerText = selectedLetter.querySelector(".my-letter").innerText;
+        event.target.querySelector('.board-value').innerHTML = selectedLetter.querySelector(".my-value").innerText;
+        selectedLetter.classList.remove('letter-selected');
+        selectedLetter.classList.add('letter-disabled');
+        selectedLetter = null;
+        event.target.querySelector('.letter').classList.add('letter-provisional');
+        document.querySelector('.commit-btn').classList.remove('button-disabled');
+        document.querySelector('.exchange-btn').classList.add('button-disabled');
+        document.querySelector('.cancel-btn').classList.remove('button-disabled');
+        document.querySelector('#btnAudio').src = `../../assets/${clickSounds[currentClickSound]}.mp3`;
+         // document.querySelector('#btnAudio').src = `../../assets/m1.mp3`;
+        document.querySelector('#btnAudio').play();
+        currentClickSound ++ ;
+        if (currentClickSound > clickSounds.length - 1) currentClickSound = 0;
+      }
+
+         }
+      } else {              // exchange === true
+        document.querySelector('#exchange-btn').removeEventListener('click', markLetters);
+        document.querySelector('#exchange-btn').classList.add('button-disabled');
+        if (selectedLetter) {
+          let txt = selectedLetter.querySelector('.my-letter').innerHTML
+          let val = selectedLetter.querySelector('.my-value').innerHTML;
+          if (txt === "*") {
+              const replacement = `Replace Joker with: <input id="replace-joker" maxlength = 1 type=text required>`
+              document.querySelector(".modal-body").innerHTML = replacement;
+              jokerTile = event.target;
+              submitEscape = true;
+              // jokers.push(jokerTile);
+              $('#exampleModalCenter').modal('show');
+          } else {
+            submitEscape = false;
+            event.target.querySelector('.letter').innerHTML = txt;
+            event.target.querySelector('.letter').classList.add('letter-provisional');
+            // event.target.style.backgroundImage = url('../images/tile01.jpg');
+            buffer.push(txt);
+            event.target.querySelector(".board-value").innerHTML = `${val}`;
+            document.querySelector('#btnAudio').src = '../../assets/' + clickSounds[currentClickSound] + ".mp3";
+            console.log(document.querySelector('#btnAudio').src);
+            document.querySelector('#btnAudio').play();
+            currentClickSound ++
+            if (currentClickSound > clickSounds.length -1) currentClickSound = 0
+            selectedLetter.classList.remove("letter-selected");
+            selectedLetter.classList.add("letter-disabled");
+            selectedLetter.removeEventListener('click', toggleLetter);
+            document.querySelector('.commit-btn').classList.remove("button-disabled");
+            document.querySelector('.cancel-btn').classList.remove("button-disabled");
+            selectedLetter = null;
+          }
+        }
+      }
+    }
+
+      if (document.querySelectorAll(".letter-disabled").length > 0 ) {
+        document.querySelector("#commit-btn").classList.remove("button-disabled")
+        document.querySelector("#cancel-btn").classList.remove("button-disabled")
+    } else {
+
+    }
 
 
 
 function restoreListenersAtAccept() {
-  // document.querySelectorAll('.letter-provisional').forEach(prov => {
-  //   prov.parentNode.addEventListener('click', placeLetter);
-  // })
+  document.querySelectorAll('.tile').forEach(t => {
+    t.addEventListener('click', placeLetter);
+  })
   document.querySelectorAll('.my-tile').forEach(tile => {
     tile.addEventListener('click', toggleLetter);
   })
@@ -135,7 +224,7 @@ function restoreListenersAtAccept() {
     if (!document.querySelector(".cancel-btn").classList.contains("button-disabled")) {
       document.querySelector(".cancel-btn").classList.add("button-disabled");
       if (exchange) {
-        myLettersDiv.querySelectorAll('.marked-for-exchange').forEach( ltr => {
+        document.querySelectorAll('.marked-for-exchange').forEach( ltr => {
           ltr.classList.remove("marked-for-exchange");
           // ltr.addEventListener('click', toggleLetter);
         });
@@ -144,7 +233,7 @@ function restoreListenersAtAccept() {
         document.querySelector(".commit-btn").classList.add("button-disabled");
         document.querySelector(".exchange-btn").classList.remove("button-disabled");
         document.querySelector('#exchange-btn').addEventListener('click', markLetters);
-        myLettersDiv.querySelectorAll('.letter-disabled').forEach( ltr => {
+        document.querySelectorAll('.letter-disabled').forEach( ltr => {
           ltr.classList.remove("letter-disabled");
           ltr.classList.remove("letter-selected");
           ltr.addEventListener('click', toggleLetter);
@@ -159,6 +248,7 @@ function restoreListenersAtAccept() {
           selectedLetter = null;
       }
     }
+    restoreListenersAtAccept();
   }
 
 
@@ -234,6 +324,32 @@ const pickLetter = () => {   // using keyboard
 }
 
 
+  function markLetters() {
+
+    exchange = true;
+    if (selectedLetter) {
+      selectedLetter.classList.remove('letter-selected')
+      selectedLetter = null;
+    }
+
+    document.querySelector('#exchange-btn').classList.add("exchange-btn-active");
+    document.querySelector('#commit-btn').classList.remove("button-disabled");
+    document.querySelector('#exchange-btn').removeEventListener('click', markLetters);
+    document.querySelector('#exchange-btn').addEventListener('click', unmarkLetters);
+    console.log("mark lettttttters");
+  }
+
+  function unmarkLetters() {
+    exchange = false;
+    document.querySelectorAll(".marked-for-exchange").forEach( marked => {
+      marked.classList.remove("marked-for-exchange");
+    })
+    document.querySelector('#exchange-btn').classList.remove("exchange-btn-active");
+    document.querySelector('#commit-btn').classList.add("button-disabled");
+    document.querySelector('#cancel-btn').classList.add("button-disabled");
+    document.querySelector('#exchange-btn').addEventListener('click', markLetters);
+    document.querySelector('#exchange-btn').removeEventListener('click', unmarkLetters);
+  }
 
   function appendMyLetters(num) {
 
@@ -293,7 +409,7 @@ const pickLetter = () => {   // using keyboard
   function toggleLetter() {
     const thisUser = document.querySelector(".this-user");
     if (thisUser.parentNode.classList.contains("player-selected")) {  // current user's turn
-      if (exchange == true) {
+      if (exchange === true) {
         event.currentTarget.classList.toggle('marked-for-exchange');
         const marked = document.querySelector(".marked-for-exchange");
         if (marked) {
@@ -304,6 +420,7 @@ const pickLetter = () => {   // using keyboard
           document.querySelector(".cancel-btn").classList.add("button-disabled")
         }
       } else {
+        console.log('exchange === false');
         if (selectedLetter) {
           selectedLetter.classList.remove('letter-selected')
           if (selectedLetter != event.target) {
@@ -331,4 +448,4 @@ const pickLetter = () => {   // using keyboard
   });
 
 
-export { chooseLetters, restoreLetters, setLetterValues, appendMyLetters, showMyLettersInit, restoreListenersAtAccept }
+export { toggleLetter, placeLetter, chooseLetters, restoreLetters, setLetterValues, appendMyLetters, showMyLettersInit, restoreListenersAtAccept, markLetters, unmarkLetters }

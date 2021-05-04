@@ -1,10 +1,7 @@
 import lettersJSON from './letters.json';
 import { validateLetters } from './validation'
-// import { calculateScore, findHorizontalWord, findVerticallWord } from './scoring';
-// import 'new_game.js';
-// import Sortable from "sortablejs";
 import { Sortable, MultiDrag, Swap, OnSpill, AutoScroll } from "sortablejs";
-import   { chooseLetters, restoreLetters, setLetterValues, appendMyLetters, showMyLettersInit }  from './player_letters'
+import   { toggleLetter, placeLetter, chooseLetters, restoreLetters, setLetterValues, appendMyLetters, showMyLettersInit, markLetters, unmarkLetters }  from './player_letters'
 
 import axios from 'axios'
 // import   calculateScore  from './scoring';
@@ -34,8 +31,6 @@ const board = () => {
   let players = [];
   let realWord = true;
 
-  const clickSounds = ['m1', 'm2', 'm3', 'm4', 'm5', 'm6'];
-  let currentClickSound = 0
 
 
   let boardHasLetters = false;
@@ -45,6 +40,7 @@ const board = () => {
   const maxPlayers = 4;
   let selectedLetter = null;
   let buffer = [];
+  let added;
 
   let currentPlayer;
   // let gameForm;
@@ -560,123 +556,37 @@ function endGame() {
     alert("Are you sure you want to quit the game? ")
   }
 
-
-  function markLetters(){
-    document.querySelector('#exchange-btn').classList.add("exchange-btn-active");
-    document.querySelector('#commit-btn').classList.remove("button-disabled");
-    exchange = true;
-    document.querySelector('#exchange-btn').removeEventListener('click', markLetters);
-    document.querySelector('#exchange-btn').addEventListener('click', unmarkLetters);
-    if (selectedLetter) {
-      selectedLetter.classList.remove('letter-selected')
-      selectedLetter = null;
-    }
-  }
-
-  function unmarkLetters() {
-    document.querySelectorAll(".marked-for-exchange").forEach( marked => {
-      marked.classList.remove("marked-for-exchange");
-    })
-    document.querySelector('#exchange-btn').classList.remove("exchange-btn-active");
-    document.querySelector('#commit-btn').classList.add("button-disabled");
-    document.querySelector('#cancel-btn').classList.add("button-disabled");
-    exchange = false;
-    document.querySelector('#exchange-btn').addEventListener('click', markLetters);
-    document.querySelector('#exchange-btn').removeEventListener('click', unmarkLetters);
-  }
-
-  function placeLetter () {
-
-
-
-    if (!exchange) {
-      if(event.target.querySelector('.letter').classList.contains("letter-provisional")) {
-        event.target.querySelector('.letter').classList.remove("letter-provisional")
-        let enableFlag = false;  // if player has more than one of the same letter, only enable one
-        document.querySelectorAll(".letter-disabled").forEach (ltr => {
-
-          if (event.target.querySelector('.letter').innerHTML === ltr.querySelector('.my-letter').innerHTML ) {
-            if (enableFlag === false) {
-              ltr.classList.remove("letter-disabled");
-              ltr.addEventListener('click', toggleLetter);
-              if (selectedLetter) selectedLetter.classList.remove("letter-selected")
-              selectedLetter = null;
-              enableFlag = true;
-            }
-          }
-        })
-        event.target.querySelector('.letter').innerHTML = "";
-        event.target.querySelector('.board-value').innerHTML = "";
-    } else {
-        document.querySelector('#exchange-btn').removeEventListener('click', markLetters);
-        document.querySelector('#exchange-btn').classList.add('button-disabled');
-        if (selectedLetter) {
-          let txt = selectedLetter.querySelector('.my-letter').innerHTML
-          let val = selectedLetter.querySelector('.my-value').innerHTML;
-          if (txt === "*") {
-              const replacement = `Replace Joker with: <input id="replace-joker" maxlength = 1 type=text required>`
-              document.querySelector(".modal-body").innerHTML = replacement;
-              jokerTile = event.target;
-              submitEscape = true;
-              // jokers.push(jokerTile);
-              $('#exampleModalCenter').modal('show');
-          } else {
-            submitEscape = false;
-            event.target.querySelector('.letter').innerHTML = txt;
-            event.target.querySelector('.letter').classList.add("letter-provisional");
-            // event.target.style.backgroundImage = url('../images/tile01.jpg');
-            buffer.push(txt);
-            event.target.querySelector(".board-value").innerHTML = `${val}`;
-            document.querySelector('#btnAudio').src = '../../assets/' + clickSounds[currentClickSound] + ".mp3";
-            console.log(document.querySelector('#btnAudio').src);
-            document.querySelector('#btnAudio').play();
-            currentClickSound ++
-            if (currentClickSound > clickSounds.length -1) currentClickSound = 0
-            selectedLetter.classList.remove("letter-selected");
-            selectedLetter.classList.add("letter-disabled");
-            selectedLetter.removeEventListener('click', toggleLetter);
-            document.querySelector('.commit-btn').classList.remove("button-disabled");
-            document.querySelector('.cancel-btn').classList.remove("button-disabled");
-            selectedLetter = null;
-          }
-        }
-      }
-    }
-
-      if (document.querySelectorAll(".letter-disabled").length > 0 ) {
-        document.querySelector("#commit-btn").classList.remove("button-disabled")
-        document.querySelector("#cancel-btn").classList.remove("button-disabled")
-    } else {
-
-    }
-  }
-
   /////////////////////////////////////////////////////////////////
-
   ///////////        COMMIT or REPLACE LETTERS    /////////////////
-
   /////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////
 
   function commitLetters () {
     // remove myletter, provisional board, and button listeners
-    removeListenersAtCommit()
 
-
-    document.removeEventListener('keydown', pickLetter);
     if (exchange === true ) {  // exchange chosen letters
+      removeListenersAtCommit()
       commitExchange();
       submitNewWord()
     } else {  //  new word
-       document.querySelector('#btnAudio').src = '../../assets/saz.mp3';
+      added = validateLetters();
+      console.log('added ' , added );
+      if (added != 0) {
+        removeListenersAtCommit()
+        document.querySelector('#btnAudio').src = '../../assets/saz.mp3';
         document.querySelector('#btnAudio').play();
-        setTimeout( () => {commitPlace()}, 400);
-      ;
+        setTimeout( () => {commitPlace()}, 700);
+           } else {
+        console.log(' restooooore')
+        restoreLetters();
+      }
     }
   }
 
 
 function removeListenersAtCommit() {
+
+    document.removeEventListener('keydown', pickLetter);
   document.querySelectorAll('.letter-provisional').forEach(prov => {
     prov.parentNode.removeEventListener('click', placeLetter);
   })
@@ -717,14 +627,10 @@ function commitExchange() {
   }
 
   async function commitPlace() {
-      console.log('myLetters ' , myLetters );
              // play submission alert sound
-      const added = validateLetters();
-      if (added) {
-        console.log("added ", added);
         // const msgFirstWord = dataArray[0].split(" ");
          // if (document.querySelector('.this-user').innerText != msgFirstWord) {
-        let alertStr = `${added[1]} `;
+        let alertStr = added[1];
 
         let placedLetters = {};
         // }
@@ -796,9 +702,7 @@ function commitExchange() {
             })
         })
         // document.querySelector('#update-placed').value =  placedLetters;
-      } else {
-        restoreLetters();
-      }
+
   }
 
 
@@ -898,41 +802,6 @@ function populateRailsForm() {
     myLettersDiv.style = `min-height: ${min}px;`
   }
 
-  function toggleLetter() {
-    const thisUser = document.querySelector(".this-user");
-    if (thisUser.parentNode.classList.contains("player-selected")) {  // current user's turn
-      if (exchange == true) {
-        event.currentTarget.classList.toggle('marked-for-exchange');
-        const marked = document.querySelector(".marked-for-exchange");
-        if (marked) {
-          // document.querySelector(".commit-btn").classList.remove("button-disabled")
-          document.querySelector(".cancel-btn").classList.remove("button-disabled")
-        } else {
-          // document.querySelector(".commit-btn").classList.add("button-disabled")
-          document.querySelector(".cancel-btn").classList.add("button-disabled")
-        }
-      } else {
-        if (selectedLetter) {
-          selectedLetter.classList.remove('letter-selected')
-          if (selectedLetter != event.target) {
-            event.target.classList.add('letter-selected');
-            selectedLetter = event.target
-          } else {
-            event.target.classList.remove('letter-selected')
-            selectedLetter = null;
-          }
-        } else {
-          event.target.classList.add('letter-selected');
-          selectedLetter = event.target
-        }
-
-      }
-
-    } else {
-      const currentUserName = document.querySelectorAll(".name-score")[current].querySelector(".player").innerHTML
-      alert (`It's ${currentUserName}'s turn. You can rearrange your tiles while you wait.`);
-    }
-  }
 
   document.querySelectorAll(".my-tile").forEach(tile => {
     tile.addEventListener('click', toggleLetter)

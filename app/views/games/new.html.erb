@@ -3,7 +3,7 @@
 <% default_name = @default_name %>
 
 
-<div class="p-2 new-page-identifier" data-default-name ="<%= default_name %>">
+<div class="p-2 new-page-identifier" data-default-name ="<%= default_name %>" data-userid = <%= current_user.id %>>
   <h3 class="pickem">Name your game, or we'll name it for you:</h3>
   <input type="text" id="game-name" placeholder="A game">
   <p class="pickem">Pick 1–3 Opponents:</p>

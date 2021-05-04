@@ -1,8 +1,12 @@
 <%#= turbo_frame_tag (game) do %>
 <%#= @game.letter_grid %>
 
-<%= turbo_frame_tag "board_frame" do %>
-  <div class='board board-hide' id="board" data-animate-out="animate-fade"  >
-  </div>
-<% end %>
+<div id="<%= dom_id game %>">
+  <%= game.content %>
+</div>
+
+
+
+<%#= turbo_frame_tag "board_frame" do %>
+<%# end %>
 <%# end %>
