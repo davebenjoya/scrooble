@@ -48,23 +48,20 @@ end
     if @game.save
        # @games = Game.all
        # MyGamesChannel.broadcast_to(
-       #    @games,
+
+       #    @game,
        #    # flash[:game_update] = "next player: #{nextP}, last player: #{@game.current_player}"
        #    render_to_string(partial: "my_games", locals: {games: @games})
        #  )
 
-    # respond_to do |format|
+    respond_to do |format|
 
-    #   format.turbo_stream do
+      # format.turbo_stream {render turbo_stream: turbo_stream.append(@game)}
 
-    #     render turbo_stream: turbo_stream.append(:games, partial: 'my_games',
-    #       locals: { games: @games })
-    #   end
-
-
-    #   # format.turbo_stream { render turbo_stream: turbo_stream.append(@game) }
-    #   format.html         { }
-    # end
+          format.turbo_stream do
+        render turbo_stream: turbo_stream.append(:messages, partial: 'my_games',
+          locals: { game: @game })
+      end
 
 
 
@@ -73,8 +70,8 @@ end
     #     render turbo_stream: turbo_stream.append(:messages, partial: 'my_games',
     #       locals: { games: @games })
     #   end
-    #   format.html { render 'my_games', @games }
-    # end
+      format.html {  }
+    end
 
 
 

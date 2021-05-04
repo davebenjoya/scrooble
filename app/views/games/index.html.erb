@@ -1,10 +1,10 @@
 <div class="bg index-page-identifier">
 
-<turbo-stream action="prepend" target="games">
+<turbo-stream action="prepend" target="my-games">
   <template>
-    <div id="card_1">
-      This div will be prepended to the element with the DOM ID "games".
-    </div>
+    <!-- <div id="my-game-1">
+      This div will be prepended to the element with the DOM ID "my_games".
+    </div> -->
   </template>
 </turbo-stream>
 
@@ -12,7 +12,8 @@
 
 <div id="your-games" class="px-4 pb-3 pt-1 your-games-hide" data-animate-out="animate-slide-right" data-id= "<%= current_user.id %>" data-username= "<%= current_user.username %>">
 <%#= current_user.username %>
-  <div id="cards" class="cards justify-content-between" >
+<%= turbo_stream_from @games %>
+  <div id="my-games" class="cards justify-content-between" >
     <%= link_to new_game_path do %>
       <div class="card m-2 p-3 d-flex justify-content-center align-items-center plus-sign">
         <i class="fas fa-plus-circle add-new-card"> </i>
@@ -127,7 +128,9 @@
                       <% player_score = 0 %>
                       <% player_moves = Move.where(player: players[i]) %>
                       <% player_moves.each do |move| %>
+                      <% if move.added_score %>
                         <% player_score +=  move.added_score  %>
+                        <% end %>
                       <% end %>
                       <% sc = player_score.to_s + " " + ("point".pluralize(player_score)) %>
 

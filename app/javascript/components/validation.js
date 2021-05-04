@@ -2,6 +2,7 @@ import './board'
 import { firstWordCommit, wordsCommit } from './scoring';
 
   const validateLetters = () =>{
+    let valid = true;
     let alertString = ``;
     let boardHasLetters = false;
     let addToScore = 0;
@@ -18,48 +19,57 @@ import { firstWordCommit, wordsCommit } from './scoring';
       }
     })
 
-     if (boardHasLetters === false && document.querySelector(".center-tile").querySelector(".letter").innerText.trim() === "") {
+    if (boardHasLetters === false && document.querySelector(".center-tile").querySelector(".letter").innerText.trim() === "") {
       alertString += `The center tile must be used in the first move of the game. `
-      }
+      valid = false;
+    }
 
     if (provisonals.length < 2 ) {
       if (boardHasLetters) {
         addToScore = secondTurnValidation();
       } else {
         alertString += `First play must contain at two letters. `;
-
+        valid = false;
       }
     } else {  // > 1 provisional tiles
-      if (boardHasLetters === false) addToScore = firstWordCommit();
       let row = sameRow(provisonals);
       let col = sameColumn(provisonals);
       if (row === false && col === false) {
         alertString += `All new tiles must be in a single row or column. `
+        valid = false;
       } else {
         if (row) {
           if (horizContig(provisonals) === false ) {
             alertString += `No blank tiles between letters. `;
+            valid = false;
           }
         } else { // column === true
           if (vertContig(provisonals) === false ) {
             alertString += `No blank tiles between letters. `;
+            valid = false;
           }
         } // end if (row)
       }  //  end if (row === false && col === false)
 
-      if (boardHasLetters) {
-        addToScore = secondTurnValidation();
+      //   end if (provisonals.length < 2)
+          console.log('valid  ', valid  )
+
+      if (valid === true) {
+        if (boardHasLetters === false) {
+          addToScore =  firstWordCommit();
+        } else {
+          addToScore = secondTurnValidation();
+        }
+      } else {
+        alert (alertString);
       }
-    }   //   end if (provisonals.length < 2)
+      return addToScore;
+          }
 
 
   // const addToScore = boardHasLetters ? secondTurnValidation() : firstTurnValidation();
   // console.log(' addToScore   ' , addToScore);
-    if (alertString != ``) {
-      alert (alertString);
-      return false;
-    }
-  return addToScore;
+
   // return true;
 
   function firstTurnValidation() {

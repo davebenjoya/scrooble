@@ -22,23 +22,100 @@ html, body {
   // background: linear-gradient(5deg, $raisin-black 20% , $dark-jungle-green 60%, $raisin-black 85% ) no-repeat;
  // overflow-x: hidden;
 
+  // background: radial-gradient(farthest-corner at -80px -80px, $dark-jungle-green 20%, $raisin-black 90% );
+ // background-color:$heliotrope-gray;
+
 }
 
 html {
-  background: linear-gradient(4deg, hsl(220, 30, 20) 5% , hsl(220, 30, 12) 15% ) no-repeat;
+  // background: linear-gradient(4deg, hsl(220, 30, 20) 5% , hsl(220, 30, 12) 15% ) no-repeat;
 
-  // background-color:hsl(220, 30, 25);
+  background-color:$gunmetal;
   height: 100%;
 
   min-height:600px;
 }
 
 body {
+  // background-color:transparent;
+  // background: linear-gradient(4deg, hsl(220, 30, 12) 40% , hsl(220, 30, 30) 60%, hsl(220, 30, 21) 90% ) no-repeat;
 
-  background: linear-gradient(4deg, hsl(220, 30, 12) 40% , hsl(220, 30, 30) 60%, hsl(220, 30, 21) 90% ) no-repeat;
-// background-color: hsl(220, 30, 12);
+  background: linear-gradient(4deg, $gunmetal 15% , $dark-slate-gray 40%, $dark-slate-gray 55%, $gunmetal 80% ) no-repeat;
+// background-color: $peach-puff;
   // display: flex;
   // min-height:600px;
+
+
+// $dark-jungle-green: #002229;
+// $pine-tree: #1F2405;
+// $midnight-green: #19444E;
+// $gunmetal: #002A32;
+// $russian-green: #629677;
+// $india-green: #358600;
+// $lincoln-green: #215200;
+// $kombu-green: #324834;
+// $tea-green: #CEFFAD;
+// $lime-green: #53CF26;
+// $honeydew: #D5EBDD;
+// $dark-slate-gray: #254146;
+
+// $cultured: #F7F3F3;
+// $champagne-pink: #E2D4D3;
+// $tuscany: #BF9F9C;
+// $black-coffee: #3A2E39;
+// $rich-black: #010400;
+// $raisin-black: #202631;
+// $smoky-black: #1B0F0D;
+// $xiketic: #1A0F18;
+
+// $honeydew: #D5EBDD;
+
+// $prussian-blue: #253D5B;
+// $blue-yonder: #546EB6;
+// $periwinkle-crayola: #B8C2E0;
+// $independence: #525B76;
+// $slate-grey: #67848E;
+// $space-cadet: #222E50;
+// $heliotrope-gray: #9A8C98;
+// $deep-space-sparkle: #4A5759;
+
+// $cream: #F3FFBD;
+// $orange-web: #f49f0a;
+// $sunray: #E2AF60;
+// $indian-yellow: #DC9E41;
+// $camel: #CA9965;
+// $sepia: #6D3D14;
+// $peach-puff: #F5D6BA;
+
+// $melon: #FBA39D;
+// $rufous: #AA1107;
+// $barn-red: #760C05;
+// $black-bean: #3B0602;
+// $redwood: #9D6158;
+// $copper-penny: #B2675E;
+// $silver-pink: #C9ADA7;
+// $champagne-pink: #E2D4D3;
+// $isabelline: #F2E9E4;
+
+
+// $red: #FD1015;
+// $blue: #167FFB;
+// $yellow: #FFC65A;
+// $orange: #E67E22;
+// $green: #1EDD88;
+// $gray: #0E0000;
+// $light-gray: #F4F4F4;
+
+
+
+
+
+
+
+
+
+
+
 
 
   // background-color:transparent;
