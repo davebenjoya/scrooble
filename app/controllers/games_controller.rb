@@ -58,10 +58,10 @@ end
 
       # format.turbo_stream {render turbo_stream: turbo_stream.append(@game)}
 
-          format.turbo_stream do
-        render turbo_stream: turbo_stream.append(:messages, partial: 'my_games',
-          locals: { game: @game })
-      end
+      # format.turbo_stream do
+      #   render turbo_stream: turbo_stream.append(:messages, partial: 'my_games',
+      #     locals: { game: @game })
+      # end
 
 
 
