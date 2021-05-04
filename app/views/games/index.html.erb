@@ -12,7 +12,7 @@
 
 <div id="your-games" class="px-4 pb-3 pt-1 your-games-hide" data-animate-out="animate-slide-right" data-id= "<%= current_user.id %>" data-username= "<%= current_user.username %>">
 <%#= current_user.username %>
-<%= turbo_stream_from @games %>
+<%#= turbo_stream_from @games %>
   <div id="my-games" class="cards justify-content-between" >
     <%= link_to new_game_path do %>
       <div class="card m-2 p-3 d-flex justify-content-center align-items-center plus-sign">
