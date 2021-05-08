@@ -1,6 +1,6 @@
 
 <div class="edit-page-identifier" data-name ="<%= @game.name %>" data-moveid= "0" data-gameid = "<%= @game.id %>" data-playername= "<%= current_user.username %>"  data-userid= "<%= current_user.id %>" data-playerid = "<%= @player.id %>"  >
-
+<%= @game.remaining_letters.length %>
   <!-- Button trigger modal -->
 <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
   Launch demo modal

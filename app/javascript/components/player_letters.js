@@ -173,7 +173,12 @@ function restoreListenersAtAccept() {
         myLetters.push(tile.querySelector(".my-letter").innerText)
       }
     })
-    console.log("remainingLetters array ?", remainingLetters)
+
+    const gId = document.querySelector(".edit-page-identifier").dataset.gameid
+    console.log('gId ', gId);
+
+    const pId = document.querySelector(".edit-page-identifier").dataset.playerid
+    const csrfToken = document.querySelector("[name='csrf-token']").content;
 
     if (remainingLetters.length > 0 ) {
       let maxLettersLocal = maxLetters
@@ -193,31 +198,13 @@ function restoreListenersAtAccept() {
         // console.log('remainingLetters string ?', remainingLetters.toString());
  // console.log("remainingLetters array ?", remainingLetters)
 
-    const oldPlayer = document.querySelector('#dashboard').dataset.current;
-    const numPlayers = document.querySelectorAll('name-score').length;
-    let newPlayer = oldPlayer + 1 ;
-    if (newPlayer > numPlayers -1) newPlayer = 0;
-
-    const gId = document.querySelector(".edit-page-identifier").dataset.gameid
-    const pId = document.querySelector(".edit-page-identifier").dataset.playerid
-    const csrfToken = document.querySelector("[name='csrf-token']").content;
-
-    const remainingData = { id: gId, my_letters: myLetters, remaining_letters: remainingLetters.toString(), current_player: newPlayer}
-    const url  = `/games/${gId}`;
-    console.log('url ', url);
-    fetch(`/games/${gId}/`, {
-      method: 'PATCH',
-      headers: {
-        'X-CSRF-Token': csrfToken,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(remainingData)
-    })
 
     console.log("myLetters ", myLetters)
     appendMyLetters(numNewLetters);
     }  // end if remainingLetters.length > 0
+
   }
+
 
 
   function restoreLetters () {
@@ -356,7 +343,7 @@ const pickLetter = () => {   // using keyboard
     let val;
     for (let d = 0; d < num; d++ ) {
       const ltr = Object.values(myLetters)[d];
-      console.log("ltr ", ltr);
+      // console.log("ltr ", ltr);
       Array.from(lettersJSON.letters).forEach( l => {
       if (l[ltr]) {
        val = l[ltr].value;
@@ -374,7 +361,7 @@ const pickLetter = () => {   // using keyboard
 
       myLettersDiv.insertAdjacentHTML('beforeend', tileHtml);
       myLettersDiv.lastChild.addEventListener('click', toggleLetter);
-      console.log('tileHtml ' + tileHtml);
+      // console.log('tileHtml ' + tileHtml);
     }
   }
 
@@ -438,6 +425,8 @@ const pickLetter = () => {   // using keyboard
       }
 
     } else {
+
+  const current = parseInt(document.querySelector("#dashboard").dataset.current);
       const currentUserName = document.querySelectorAll(".name-score")[current].querySelector(".player").innerHTML
       alert (`It's ${currentUserName}'s turn. You can rearrange your tiles while you wait.`);
     }

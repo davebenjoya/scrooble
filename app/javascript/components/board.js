@@ -627,6 +627,7 @@ function commitExchange() {
   }
 
   async function commitPlace() {
+    console.log('added  630  ' , added);
              // play submission alert sound
         // const msgFirstWord = dataArray[0].split(" ");
          // if (document.querySelector('.this-user').innerText != msgFirstWord) {

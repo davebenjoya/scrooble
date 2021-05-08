@@ -58,11 +58,22 @@ end
     @move.player.update({challenging: false})
     @players = Player.where(game: @game)
     challenge = @players.where(challenging: true)
-    @move.update({provisional: false})
+    @move.update({ provisional: false })
     # raise
     if challenge.empty?
       # raise
-      @move.update({provisional: false})
+      @move.update({ provisional: false })
+      new_remaining = @game.remaining_letters
+      Letter.where(move_id: @move.id).each do |ltr|
+        new_remaining.remove(ltr.character)
+        # raise
+      end
+
+      new_current = @game.current_player + 1
+      new_current = 0 if new_current > @players.length - 1
+
+      @game.update({ remaining_letters: new_remaining, current_player: new_current })
+
      GameChannel.broadcast_to(
       @game,
       # flash[:game_update] = "next player: #{nextP}, last player: #{@game.current_player}"

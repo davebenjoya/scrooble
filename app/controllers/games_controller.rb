@@ -133,7 +133,7 @@ end
       end
       if (@game.completed == true)
         p.update({ completed: true })
-        redirect_to game_path(@game)
+        # redirect_to game_path(@game)
       end
     end
 
@@ -145,7 +145,7 @@ end
     players = Player.where(game: @game)
     @player = players.find_by(user: current_user)
     # raise
-   @move = Move.where(player: @player)[0]  ## hopefully this gets the most recent move
+   # @move = Move.last ## hopefully this gets the most recent move
 
 
       # @player.update({ player_score: params["game"]["my_score"] })
@@ -164,21 +164,21 @@ end
       end
       redirect_to game_path(@game)
     else
-      if params['game']['player_completed'] == 'true'
-        @player.update({ player_score: params['game']['my_score'], completed: true })
-        falses = players.length
-        players.each do |pl|
-          falses -= 1 if pl.completed
-        end
-        if falses == 0
-          @game.update({ completed: true })
-          flash[:notice] = 'Game has ended'
-          redirect_to game_path(@game) and return
-          # raise
-        else
-          redirect_to edit_game_path(@game) and return
-        end
-      else
+      # if params['game']['player_completed'] == 'true'
+      #   @player.update({ player_score: params['game']['my_score'], completed: true })
+      #   falses = players.length
+      #   players.each do |pl|
+      #     falses -= 1 if pl.completed
+      #   end
+      #   if falses == 0
+      #     @game.update({ completed: true })
+      #     flash[:notice] = 'Game has ended'
+      #     redirect_to game_path(@game) and return
+      #     # raise
+      #   else
+      #     redirect_to edit_game_path(@game) and return
+      #   end
+      # else
            if @game.update(game_params)
       @game.update({
         remaining_letters: params["remaining_letters"],
@@ -186,11 +186,11 @@ end
       })
 
 
-      end
+      # end
      end
 
     end
-   redirect_to edit_game_path(@game) and return
+   redirect_to edit_game_path(@game)
   end
 
 
