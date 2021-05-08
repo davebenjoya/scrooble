@@ -27,6 +27,8 @@ import { firstWordCommit, wordsCommit } from './scoring';
     if (provisonals.length < 2 ) {
       if (boardHasLetters) {
         addToScore = secondTurnValidation();
+        console.log(' addToScore 30', addToScore);
+        return addToScore;
       } else {
         alertString += `First play must contain at two letters. `;
         valid = false;
@@ -59,6 +61,7 @@ import { firstWordCommit, wordsCommit } from './scoring';
           addToScore =  firstWordCommit();
         } else {
           addToScore = secondTurnValidation();
+          console.log('addToScore   63' , addToScore);
         }
       } else {
         alert (alertString);

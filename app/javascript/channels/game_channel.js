@@ -120,7 +120,7 @@ function acceptWords() {
   })
   .then(response => response.json())
   .then(acceptObj => {
-    console.log('acceptObj  ' + acceptObj.challenging);
+    console.log('moveId  ' + moveId);
     const moveAcceptData = {id: `${moveId}`}
     fetch(`/moves/${moveId}`, {
       method: 'PATCH',

@@ -13,6 +13,7 @@ import lettersJSON from './letters.json';
 
 
 function firstWordCommit() {
+  wordArray = [];
   console.log('firstWordCommit')
   let word = ``;
   document.querySelectorAll(".letter-provisional").forEach( ltr => {
@@ -64,7 +65,7 @@ function wordsCommit() {
       });
       const trimmedWord = word.replaceAll(" ", "");
       // addedScore *= wordMultiplier
-      if (provsArray.length < 2 || index === provsArray[0] ) {
+      if (index === provsArray[0] ) {
         if (trimmedWord.length > 1) {
           const wordObj = Object.create({word: trimmedWord, score: addedScore, bonus:bonusString});
           wordArray.push(wordObj);
@@ -95,13 +96,9 @@ function wordsCommit() {
 
       };
     });
-    // addedScore *= wordMultiplier * 2;
-    // bonusString += `First play double word score.`;
 
-    // console.log("wordArray " , wordArray[0].word )
     buildAlert();
     return [totalAdded, scoreString];
-    // return [20, "Multiple word and letter bonuses"];
 
   }
 
@@ -158,8 +155,10 @@ function wordsCommit() {
     }
 
     const ownScore  = scoreString.replace(`${name} is`, `You are`);
-
+    setTimeout(function() {
     alert(ownScore);
+
+  }, 1000)
   }
 
   function scoreTile(ltr) {
