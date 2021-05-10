@@ -22,7 +22,7 @@ if (document.querySelector(".edit-page-identifier")) {
   const maxPlayers = 4;
   let selectedLetter = null;
   let buffer = [];
-
+  let submitEscape = false;
   let exchange = false;
 
   let currentPlayer;

@@ -81,8 +81,8 @@ const initGameCable = () => {
 
             updatePlayers(dataArray[1], dataArray[2]);
 
+            restoreListenersAtAccept();
             if (document.querySelector('.this-user').innerText.trim() === dataArray[1].trim()) {
-              restoreListenersAtAccept();
               chooseLetters();
 
             }

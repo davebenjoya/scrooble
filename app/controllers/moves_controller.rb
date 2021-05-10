@@ -64,9 +64,9 @@ end
       # raise
       @move.update({ provisional: false })
       new_remaining = @game.remaining_letters
-      Letter.where(move_id: @move.id).each do |ltr|
-        new_remaining.remove(ltr.character)
-        # raise
+      move_letters = Letter.where(move_id: @move.id)
+      move_letters.each do |ltr|
+        new_remaining = new_remaining.sub(ltr.character, '')
       end
 
       new_current = @game.current_player + 1

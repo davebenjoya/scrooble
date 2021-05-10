@@ -572,7 +572,8 @@ function endGame() {
       added = validateLetters();
       console.log('added ' , added );
       if (added != 0) {
-        removeListenersAtCommit()
+
+        // removeListenersAtCommit()
         document.querySelector('#btnAudio').src = '../../assets/saz.mp3';
         document.querySelector('#btnAudio').play();
         setTimeout( () => {commitPlace()}, 700);
