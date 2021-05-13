@@ -46,7 +46,7 @@ end
     @move = Move.find(params[:id])
     @game = @move.player.game
     @players = Player.where(game: @game)
-    challenge = @players.where(challenging: true)
+    challenge = @players.where(challenging: 'pending')
     if challenge.empty?
       @move.update({provisional: false})
     end
@@ -55,24 +55,32 @@ end
   def update
     @move = Move.find(params[:id])
     @game = @move.player.game
-    @move.player.update({challenging: false})
+    @move.player.update({challenging: 'false'})
     @players = Player.where(game: @game)
-    challenge = @players.where(challenging: true)
-    @move.update({ provisional: false })
+    challenge = @players.where(challenging: 'pending')
+    # @move.update({ provisional: false })
     # raise
     if challenge.empty?
       # raise
       @move.update({ provisional: false })
+      new_array = @game.remaining_letters.split(',')
       new_remaining = @game.remaining_letters
       move_letters = Letter.where(move_id: @move.id)
       move_letters.each do |ltr|
-        new_remaining = new_remaining.sub(ltr.character, '')
-      end
+      delete_string = ltr.character + ','
+      # ind = new_remaining.index(ltr.character)
+      # if new_remaining.index(ltr.character) < new_remaining.length - 1  # not last character in string
+      #   delete_string = ltr.character + ','
+      # else  #  last character in string
+      #   delete_string = ltr.character
+      # end
+      new_remaining = new_remaining.sub(delete_string, '')
+    end
 
-      new_current = @game.current_player + 1
-      new_current = 0 if new_current > @players.length - 1
+    new_current = @game.current_player + 1
+    new_current = 0 if new_current > @players.length - 1
 
-      @game.update({ remaining_letters: new_remaining, current_player: new_current })
+    @game.update({ remaining_letters: new_remaining, current_player: new_current })
 
      GameChannel.broadcast_to(
       @game,

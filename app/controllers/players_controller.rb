@@ -1,18 +1,16 @@
 class PlayersController < ApplicationController
 
-
-
   def create
     @player = Player.new(player_params)
   end
 
 
   def update
-
-
-     @player = Player.find(params[:id])
-     if params["challenging"] == 'false'
-      @player.update({challenging: false})
+    # raise
+    @player = Player.find(params[:id])
+    @game = @player.game
+    if params["challenging"] == 'false'    # string not boolean (value can be'pending')
+      @player.update({challenging: 'false'})
       players = Player.where(game_id: @player.game_id)
       challenge = players.length - 1 # every player (except current player) has a chance to challenge
       players.each do |player|
@@ -20,7 +18,13 @@ class PlayersController < ApplicationController
           challenge -= 1
         end
       end
-     end
+    else                                  # challenge == 'true'
+      @player.update({challenging: 'true'})
+      GameChannel.broadcast_to(
+        @game,
+        render_to_string(partial: "challenge", locals: {msg: "someone challenged someone else"})
+      )
+    end
      if challenge == 0
       # return true
      end
@@ -30,27 +34,7 @@ class PlayersController < ApplicationController
     render json: @player
 
 
-   #   @player = Player.find(params[:id])
 
-   #   if params["completed"] == 'true'
-
-   #    raise
-
-   #   else
-   #   # Move.new({score: params[:addedScore], letters: params[:letters]})
-   # end
-   #  # raise
-   #  if @player.update(player_params)
-
-   #    redirect_to edit_game_path(@player.game.id)
-   #  else
-   #    redirect_to edit_game_path(@player.game.id), alert: "Game not updated!"
-
-   #  end
-
-   #  render json: @player
-
-   #   redirect_to edit_game_path(@game)
   end
 
 
