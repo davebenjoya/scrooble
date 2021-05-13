@@ -2153,12 +2153,11 @@ animation: bulge .6s ease-out forwards;
 }
 
 .challenge-btn {
-  width: 45%;
+  width: 100%;
   // margin-bottom: 4px;
   // left:8px;
 border: 1px solid $tea-green;
   // border: none;
-  border-radius: 16px;
   padding: 0px 4px;
   color: $space-cadet;
   text-align: center;
@@ -2179,7 +2178,7 @@ border: 1px solid $tea-green;
 
 .challenge-btn:hover {
 
-  color: $sunray !important;
+  color: $silver-pink !important;
 
   transition: all .5s;
   @media only screen and (max-width: 600px) {

@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :players
   resources :moves
   resources :letters
+  resources :words
 
   post '/letters', to: 'letters#create'
   post '/moves', to: 'moves#create'

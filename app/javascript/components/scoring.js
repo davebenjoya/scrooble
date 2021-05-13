@@ -30,7 +30,7 @@ function firstWordCommit() {
 
 function wordsCommit() {
   wordArray = [];
-  console.log('wordsCommit')
+  console.log('wordsCommit');
   totalAdded = 0;
   wordMultiplier = 1;
   scoreString = ``;
@@ -136,6 +136,8 @@ function wordsCommit() {
   }
 
   function buildAlert() {
+
+  totalAdded = 0;
     bonusString = ``;
     const name = document.querySelector('.nav-emp').innerText.split(":")[1].trim();
     const ws = wordArray.length < 2 ? "" : "s"
@@ -144,8 +146,18 @@ function wordsCommit() {
     console.log("wordArray[0] " , wordArray[0] )
     wordArray.forEach( word => {
       totalAdded += word.score;
-      console.log("word " , word )
-      console.log("totalAdded " , totalAdded )
+      console.log("word " , word.word )
+      console.log("totalAdded " , totalAdded );
+      const csrfToken = document.querySelector("[name='csrf-token']").content;
+      const wordData = ({word: word.word, score: word.score});
+       fetch("/words", {
+           method: 'POST',
+           headers: {
+              'X-CSRF-Token': csrfToken,
+              'Content-Type': 'application/json',
+           },
+           body: JSON.stringify(wordData)
+        })
       const s = word.score != 1 ? `s` : ``;
       scoreString += `${word.word} (${word.score} point${s}). ${word.bonus}`
     });
