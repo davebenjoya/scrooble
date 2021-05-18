@@ -89,27 +89,15 @@ end
       # render_to_string(partial: "submission", locals: {msg: ' ffdgdd g ddfghdfhrtgg  ' , player: 'mitzi', score: 12 })
     )
     end
-
-    # render json: @move
-    # if @move.update(move_params)
-    #   if move.provisional == false
-
-    #     new_score = @move.player.player_score + params['addedScore']
-    #     @move.player.update(player_score: new_score)
-    #   end
-
-    #   redirect_to edit_move_path(@move.id)
-    # else
-    #   redirect_to edit_move_path(@move.id), alert: "Move not updated!"
-
-    # end
-
-
-     # redirect_to edit_game_path(@game)
   end
 
 
-
+  def destroy
+    if Move.find(params[:id])
+      @move = Move.find(params[:id])
+      @move.destroy
+    end
+  end
 end
 
 

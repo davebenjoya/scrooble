@@ -2,6 +2,7 @@ import  { board }  from "../components/board";
 import consumer from "./consumer";
 import lettersJSON from '../components/letters.json';
 import { chooseLetters, restoreListenersAtAccept } from '../components/player_letters'
+import { searchDictionary } from '../components/dictionary'
 // import { restoreListenersAtAccept } from '../components/player_letters'
 import '../components/board'
 
@@ -21,18 +22,19 @@ const initGameCable = () => {
       received(data) {
 
       console.log('data ' , data);  // for submission 0 - message, 1 - player, 2- letters, 3 - score, 4 - move id
-                                    // for acceptance 0 - message, 1- player, 2- score, 3 - 'acceptance'//
-                                    // for challenge 0 - message, 2- 'challenge'
+                                    // for acceptance 0 - message, 1 - player, 2- score, 3 - 'acceptance'//
+                                    // for challenge 0 - message, 1, - words, 2 - move id, 3- 'challenge'
 
         dataArray = data.split(":")
          console.log('dataArray.length ' , dataArray.length);
          console.log('dataArray[0] ' , dataArray[0]);
-         console.log('dataArray[1] ' , dataArray[1]);
+         const wordArray =  dataArray[1].split(',');
 
          switch (dataArray[dataArray.length - 1].trim()) {
           case "challenge":
           console.log('challlllllenge');
 
+              document.querySelector('#confirmation-btn').style = "visibility: hidden";
 
             setTimeout(function () {
             // play challenge alert sound
@@ -42,16 +44,26 @@ const initGameCable = () => {
 
             setTimeout(function () {
               document.querySelector('#confirmation-info').innerHTML = `${dataArray[0]}`;
-              document.querySelector('#confirmation-btn').innerHTML = `What does the Dictionary say?`;
               document.querySelector('#confirmation').classList.add('challenge-show');
 
-            document.querySelector('#confirmation-btn').addEventListener('click', () => {
-              askDictionary();
-              // document.querySelector('#confirmation').classList.remove('challenge-show');
-              // document.querySelector('#confirmation-btn').innerHTML = `OK`;
+          }, 2000);
 
-            })
-            }, 2000);
+            setTimeout(function () {
+            // play challenge alert sound
+            document.querySelector('#btnAudio').src = '../../assets/stub.mp3';
+            document.querySelector('#btnAudio').play();
+
+              const moveId = dataArray[2]
+              const allWordsValid = searchDictionary(wordArray, moveId);
+              // console.log('searchDictionary(wordArray, moveId) ', searchDictionary(wordArray, moveId))
+              console.log('allWordsValid', allWordsValid)
+            }, 6600);
+
+            setTimeout(function () {
+              document.querySelector('#confirmation-btn').style = "visibility: visible";
+            }, 7300);
+
+          // end setTimeout
           break;
           case "acceptance":
           console.log('accccccept');
@@ -131,11 +143,6 @@ const initGameCable = () => {
 
 //
 
-
-function askDictionary() {
-
-
-}
 
 
 

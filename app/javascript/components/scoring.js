@@ -22,10 +22,10 @@ function firstWordCommit() {
   });
   addedScore *= wordMultiplier * 2;
   bonusString += `First play double word score.`;
-  const wordObj = Object.create({word: word, score: addedScore, bonus:bonusString});
+  const wordObj = Object.create({characters: word, score: addedScore, bonus:bonusString});
   wordArray.push(wordObj);
   buildAlert();
-  return [totalAdded, scoreString];
+  return [totalAdded, scoreString, wordArray];
 }
 
 function wordsCommit() {
@@ -67,7 +67,7 @@ function wordsCommit() {
       // addedScore *= wordMultiplier
       if (index === provsArray[0] ) {
         if (trimmedWord.length > 1) {
-          const wordObj = Object.create({word: trimmedWord, score: addedScore, bonus:bonusString});
+          const wordObj = Object.create({characters: trimmedWord, score: addedScore, bonus:bonusString});
           wordArray.push(wordObj);
 
         }
@@ -98,7 +98,7 @@ function wordsCommit() {
     });
 
     buildAlert();
-    return [totalAdded, scoreString];
+    return [totalAdded, scoreString, wordArray];
 
   }
 
@@ -146,18 +146,6 @@ function wordsCommit() {
     console.log("wordArray[0] " , wordArray[0] )
     wordArray.forEach( word => {
       totalAdded += word.score;
-      console.log("word " , word.word )
-      console.log("totalAdded " , totalAdded );
-      const csrfToken = document.querySelector("[name='csrf-token']").content;
-      const wordData = ({word: word.word, score: word.score});
-       fetch("/words", {
-           method: 'POST',
-           headers: {
-              'X-CSRF-Token': csrfToken,
-              'Content-Type': 'application/json',
-           },
-           body: JSON.stringify(wordData)
-        })
       const s = word.score != 1 ? `s` : ``;
       scoreString += `${word.word} (${word.score} point${s}). ${word.bonus}`
     });
