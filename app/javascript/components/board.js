@@ -174,38 +174,38 @@ const board = () => {
 
 
 
-function acceptWords() {
+// function acceptWords() {
 
-  const mId = document.querySelector(".edit-page-identifier").dataset.moveid
-  const gId = document.querySelector(".edit-page-identifier").dataset.gameid
-  const pId = document.querySelector(".edit-page-identifier").dataset.playerid
-  const csrfToken = document.querySelector("[name='csrf-token']").content;
+//   const mId = document.querySelector(".edit-page-identifier").dataset.moveid
+//   const gId = document.querySelector(".edit-page-identifier").dataset.gameid
+//   const pId = document.querySelector(".edit-page-identifier").dataset.playerid
+//   const csrfToken = document.querySelector("[name='csrf-token']").content;
 
-  const acceptData = {challenging: 'false', id:`${pId}`}
-  fetch(`/players/${pId}`, {
-    method: 'PATCH',
-    headers: {
-      'X-CSRF-Token': csrfToken,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(acceptData)
-  })
-  .then(response => response.json())
-  .then(acceptObj => {
-    console.log('acceptObj  ' + acceptObj.challenging);
-    const moveAcceptData = {id: `${mId}`}
-    fetch(`/moves/${mId}`, {
-      method: 'PATCH',
-      headers: {
-      'X-CSRF-Token': csrfToken,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(moveAcceptData)
-    })
-  });
+//   const acceptData = {challenging: 'false', id:`${pId}`}
+//   fetch(`/players/${pId}`, {
+//     method: 'PATCH',
+//     headers: {
+//       'X-CSRF-Token': csrfToken,
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify(acceptData)
+//   })
+//   .then(response => response.json())
+//   .then(acceptObj => {
+//     console.log('acceptObj  ' + acceptObj.challenging);
+//     const moveAcceptData = {id: `${mId}`}
+//     fetch(`/moves/${mId}`, {
+//       method: 'PATCH',
+//       headers: {
+//       'X-CSRF-Token': csrfToken,
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify(moveAcceptData)
+//     })
+//   });
 
-  document.querySelector('#pending-alert').remove();
-}
+//   document.querySelector('#pending-alert').remove();
+// }
 
 
 
@@ -636,7 +636,6 @@ function commitExchange() {
 
         let placedLetters = {};
         // }
-
         addedScore = added[0];
         document.querySelector('#update-msg').value = added[1];
 
@@ -668,7 +667,8 @@ function commitExchange() {
         .then(response => response.json())
         .then(moveObj => {
             moveObjId = moveObj.id;
-
+            console.log('moveObjId ',   moveObjId);
+            document.querySelector(".edit-page-identifier").setAttribute('data-moveid', moveObjId)
           });
 
         let promises = [];
@@ -690,11 +690,6 @@ function commitExchange() {
 
         Promise.all(promises)
           .then(result => {
-            // console.log(typeof(result))
-            console.log('addedScore ',  addedScore);
-            // populateRailsForm();
-            // gameForm.submit();
-           //  const gameData = {id: gId, current_player: 0, my_score: 12, my_letters: "GREDTSV", remaining_letters: "AABBCDEFFGHIJKLMNOOOOPEE"}
             fetch(`/moves/${moveObjId}` , {
               method:'GET',
               headers: {
@@ -704,6 +699,23 @@ function commitExchange() {
             })
         })
         // document.querySelector('#update-placed').value =  placedLetters;
+
+        added[2].forEach( wordObject  => {
+          const chars = wordObject['characters'];
+          const score = wordObject['score'];
+
+            const wordData = {characters: chars, score: score, move_id: moveObjId};
+            console.log("wordData ", wordData );
+            fetch(`/words/` , {
+              method:'POST',
+              headers: {
+              'X-CSRF-Token': csrfToken,
+              'Content-Type': 'application/json',
+             },
+             body: JSON.stringify(wordData)
+            })
+
+        })
 
   }
 
@@ -803,6 +815,7 @@ function populateRailsForm() {
     // console.log(min);
     myLettersDiv.style = `min-height: ${min}px;`
   }
+
 
 
   document.querySelectorAll(".my-tile").forEach(tile => {

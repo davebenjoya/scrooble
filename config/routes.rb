@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  get 'words/create'
   devise_for :users, sign_out_via: [:get, :post]
 
   resources :games
