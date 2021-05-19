@@ -12,25 +12,36 @@ class MovesController < ApplicationController
   def show
     @move = Move.find(params[:id])
     @game = @move.player.game
-
-
     letter_string = ''
     letters = Letter.where(move_id: @move.id)
+    words = Word.where(move_id: @move.id)
     letters.each do |ltr|
       letter_string +=  ltr.character
       letter_string += ltr.position.to_s
       letter_string += ";"
      end
 
+      players = Player.where(game: @game)
+      current = players[@game.current_player]
+      message = "#{@move.player.user.username} is submitting the #{'word'.pluralize(words.length)} "
+      words.each do |wrd|
+      message += "#{wrd.characters} — #{wrd.score} #{'point'.pluralize(wrd.score.to_i)}. "
+     end
      # raise
 
      GameChannel.broadcast_to(
       @game,
-      # flash[:game_update] = "next player: #{nextP}, last player: #{@game.current_player}"
-      render_to_string(partial: "submission", locals: {msg: @move.summary.strip, player: @move.player.user.username, newletters: letter_string, score: @move.added_score, moveid: @move.id})
-      # render_to_string(partial: "submission", locals: {msg: ' ffdgdd g ddfghdfhrtgg  ' , player: 'mitzi', score: 12 })
-    )
-     # redirect_to move_path(@move)
+      render_to_string(
+        partial: "submission",
+        locals: {
+          msg: message,
+          player: @move.player.user.username,
+          newletters: letter_string,
+          score: @move.added_score,
+          moveid: @move.id
+        }
+        )
+      )
   end
 
   def create

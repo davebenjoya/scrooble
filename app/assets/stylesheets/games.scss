@@ -13,7 +13,11 @@ hr {
   color: $indian-yellow;
 }
 
-
+#confirmation-body {
+  // top: 300px !important;
+  background: none !important;
+  border: none !important;
+}
 
 
 
@@ -1229,7 +1233,7 @@ input {
 }
 #new-game-btn:hover {
   background-color: $cream;
-  color: $lincoln-green;
+  color: $lime-green;
 }
 
 // input [type ="checkbox"] {
@@ -2125,7 +2129,7 @@ pointer-events: none;
     justify-content: center;
     align-items: center;
     opacity: 0;
-    background-color: hsla(220, 30, 40, .5);
+    background-color: hsla(220, 15, 30, .7);
   // transition: all .7s ease-in;
 }
 
@@ -2150,17 +2154,22 @@ pointer-events: none;
     border-radius: 8px;
     color: $tea-green;
     // background-color: $roman-silver;
-    background: radial-gradient(farthest-corner at 0px 0px, $deep-space-sparkle 20%, $roman-silver 90%);
+  //   background: radial-gradient(farthest-corner at 0px 0px, $deep-space-sparkle 20%, $roman-silver 90%);
 
-  box-shadow: 0px 0px 4px inset $rich-black !important;
+  // text-shadow: 1px 1px 2px $rich-black !important;
 position: fixed !important;
-  border: 1px solid $roman-silver !important;
-  border-right: 1px solid $roman-silver !important;
-  border-left: 2px solid $isabelline !important;
-  border-top: 1px solid $isabelline !important;
-  animation: showchallengebody .7s ease-out 1.5s 1 forwards;
+  // border: 1px solid $roman-silver !important;
+  // border-right: 1px solid $roman-silver !important;
+  // border-left: 2px solid $isabelline !important;
+  // border-top: 1px solid $isabelline !important;
+  // top: -300px !important;
 }
 
+.challenge-body-show {
+  animation: showchallengebody .7s ease-out 1.5s 1 forwards;
+  top: 200px !important;
+
+}
 
 
 @keyframes showchallengebody {
@@ -2174,18 +2183,19 @@ position: fixed !important;
 }
 
 .challenge-btn {
+  cursor: pointer;
   // width: 100%;
   // margin-bottom: 4px;
   // left:8px;
 border: 1px solid $tea-green;
   // border: none;
   padding: 0px 4px;
-  color: $space-cadet;
+  color: $tea-green;
   text-align: center;
-  background: linear-gradient(0turn, $midnight-green, $russian-green 55%, $tea-green 72%, $russian-green 88%);
-  box-shadow: 1px 1px 3px inset $pine-tree;
+  // background: linear-gradient(0turn, $midnight-green, $russian-green 55%, $tea-green 72%, $russian-green 88%);
+  // box-shadow: 1px 1px 3px inset $pine-tree;
   margin: 8px;
-
+  background-color: $heliotrope-gray;
    border-radius: 4px;
   opacity: 1;
   transition: all .5s;
@@ -2203,7 +2213,7 @@ border: 1px solid $tea-green;
 
 .challenge-btn:hover {
 
-  color: $silver-pink !important;
+  color: $lime-green !important;
 
   transition: all .5s;
   @media only screen and (max-width: 600px) {

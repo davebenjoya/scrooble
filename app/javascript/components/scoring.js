@@ -14,7 +14,6 @@ import lettersJSON from './letters.json';
 
 function firstWordCommit() {
   wordArray = [];
-  console.log('firstWordCommit')
   let word = ``;
   document.querySelectorAll(".letter-provisional").forEach( ltr => {
     scoreTile(ltr)
@@ -22,8 +21,9 @@ function firstWordCommit() {
   });
   addedScore *= wordMultiplier * 2;
   bonusString += `First play double word score.`;
-  const wordObj = Object.create({characters: word, score: addedScore, bonus:bonusString});
+  const wordObj = new Object({characters: word, score: addedScore, bonus:bonusString});
   wordArray.push(wordObj);
+  console.log('wordObj ' , wordObj )
   buildAlert();
   return [totalAdded, scoreString, wordArray];
 }
@@ -43,7 +43,6 @@ function wordsCommit() {
       let posArray = []
       let word = ``;
       let horAdjacent = checkHorAdj(index);
-      console.log('horAdjacent ', horAdjacent)
       if (horAdjacent === true) {
 
         posArray = findHorizontalWord(index)
@@ -61,7 +60,6 @@ function wordsCommit() {
 
         }
         word += document.querySelectorAll(".letter")[pos].innerText.trim();
-        console.log('word'  , word)
       });
       const trimmedWord = word.replaceAll(" ", "");
       // addedScore *= wordMultiplier
@@ -69,6 +67,7 @@ function wordsCommit() {
         if (trimmedWord.length > 1) {
           const wordObj = Object.create({characters: trimmedWord, score: addedScore, bonus:bonusString});
           wordArray.push(wordObj);
+        console.log('wordObj'  , wordArray[0].characters)
 
         }
       }
@@ -147,7 +146,7 @@ function wordsCommit() {
     wordArray.forEach( word => {
       totalAdded += word.score;
       const s = word.score != 1 ? `s` : ``;
-      scoreString += `${word.word} (${word.score} point${s}). ${word.bonus}`
+      scoreString += `${word.characters} (${word.score} point${s}). ${word.bonus}`
     });
     if (wordArray.length > 1 ){
       const t = totalAdded != 1 ? `s` : ``;

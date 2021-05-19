@@ -72,11 +72,11 @@ let promises = [];
       if (resp.match(/Word\s*[a-zA-Z]+\s*does not exist.\s*/)) {
         invalidString += resp
         document.querySelectorAll('.letter-provisional').forEach(ltr => {
-        ltr.classList.remove('letter-provisional');
-        ltr.innerHTML = '';
-        ltr.parentNode.querySelector('.board-value').innerHTML = '';
-         console.log( 'ltr' , ltr);
-      })
+          ltr.classList.remove('letter-provisional');
+          ltr.innerHTML = '';
+          ltr.parentNode.querySelector('.board-value').innerHTML = '';
+           console.log( 'ltr' , ltr);
+        })
       }
     })
       responseString = `Invalid move — <br/> ${invalidString}`
@@ -85,13 +85,13 @@ let promises = [];
       const csrfToken = document.querySelector("[name='csrf-token']").content;
       fetch(`/moves/${moveId}`, {
         method: 'DELETE',
-    headers: {
-      'X-CSRF-Token': csrfToken,
-      'Content-Type': 'application/json'
-    },
+        headers: {
+          'X-CSRF-Token': csrfToken,
+          'Content-Type': 'application/json'
+        },
       })
     }
-      document.querySelector("#confirmation-info").innerHTML =  responseString;
+      document.querySelector("#confirmation-info").innerHTML =  `Dictionary says: ${responseString}`;
       document.querySelector('#confirmation-btn').innerHTML = `OK`;
       document.querySelector('#confirmation-btn').addEventListener('click', () => {
       document.querySelector('#confirmation').classList.remove('challenge-show');

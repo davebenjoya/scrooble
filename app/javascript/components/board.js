@@ -703,6 +703,7 @@ function commitExchange() {
         added[2].forEach( wordObject  => {
           const chars = wordObject['characters'];
           const score = wordObject['score'];
+
             const wordData = {characters: chars, score: score, move_id: moveObjId};
             console.log("wordData ", wordData );
             fetch(`/words/` , {
