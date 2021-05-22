@@ -1,7 +1,7 @@
 import lettersJSON from './letters.json';
 import { validateLetters } from './validation'
 import { Sortable, MultiDrag, Swap, OnSpill, AutoScroll } from "sortablejs";
-import   { toggleLetter, placeLetter, chooseLetters, restoreLetters, setLetterValues, appendMyLetters, showMyLettersInit, markLetters, unmarkLetters }  from './player_letters'
+import   { checkExchange, toggleLetter, placeLetter, chooseLetters, restoreLetters, setLetterValues, appendMyLetters, showMyLettersInit, markLetters, unmarkLetters }  from './player_letters'
 
 import axios from 'axios'
 // import   calculateScore  from './scoring';
@@ -167,51 +167,10 @@ const board = () => {
   }
 
 //////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////
 /////////////////////////      CREATE NEW GAME      //////////////////////////
 //////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////
-
-
-
-// function acceptWords() {
-
-//   const mId = document.querySelector(".edit-page-identifier").dataset.moveid
-//   const gId = document.querySelector(".edit-page-identifier").dataset.gameid
-//   const pId = document.querySelector(".edit-page-identifier").dataset.playerid
-//   const csrfToken = document.querySelector("[name='csrf-token']").content;
-
-//   const acceptData = {challenging: 'false', id:`${pId}`}
-//   fetch(`/players/${pId}`, {
-//     method: 'PATCH',
-//     headers: {
-//       'X-CSRF-Token': csrfToken,
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify(acceptData)
-//   })
-//   .then(response => response.json())
-//   .then(acceptObj => {
-//     console.log('acceptObj  ' + acceptObj.challenging);
-//     const moveAcceptData = {id: `${mId}`}
-//     fetch(`/moves/${mId}`, {
-//       method: 'PATCH',
-//       headers: {
-//       'X-CSRF-Token': csrfToken,
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify(moveAcceptData)
-//     })
-//   });
-
-//   document.querySelector('#pending-alert').remove();
-// }
-
-
 
   function createNewGame () {
-
-
     let opponentArray = []
     let newPlayers  = []
     const firstPlayer = createPlayerString (document.querySelector("#players").dataset.username);
@@ -219,8 +178,6 @@ const board = () => {
     document.querySelectorAll(".opponent").forEach( oppo => {
      if (oppo.querySelector("input").checked) {
       const newPlayer = createPlayerString (oppo.querySelector(".opponent-name").innerText);
-      // console.log('newPlayer: ' + newPlayer)
-
       newPlayers.push(newPlayer);
       opponentArray.push(oppo.querySelector(".opponent-name").innerHTML)
      }
@@ -287,7 +244,8 @@ const board = () => {
         if (index < remainingLetters.length -1 ) remainingString += ","
       })
     document.querySelector('#new-remaining').value = remainingString;
-    // console.log("remainingLetters ", remainingLetters);
+    console.log("remainingLetters ", remainingLetters);
+    console.log("remainingString ", remainingString);
         newGameForm.submit();
 
 
@@ -563,18 +521,18 @@ function endGame() {
 
   function commitLetters () {
     // remove myletter, provisional board, and button listeners
-
+    exchange = checkExchange();
     if (exchange === true ) {  // exchange chosen letters
       removeListenersAtCommit()
       commitExchange();
-      submitNewWord()
+      // submitNewWord()
     } else {  //  new word
       added = validateLetters();
       console.log('added ' , added );
       if (added != 0) {
 
         // removeListenersAtCommit()
-        document.querySelector('#btnAudio').src = '../../assets/saz.mp3';
+        document.querySelector('#btnAudio').src = '../../assets/click1.mp3';
         document.querySelector('#btnAudio').play();
         setTimeout( () => {commitPlace()}, 700);
            } else {
@@ -613,19 +571,59 @@ function commitExchange() {
           letter.parentNode.remove();
         }
       });
-      // console.log(maxLetters);
-      // console.log(myLetters.length);
+      const numPlayers = document.querySelectorAll('.name-score').length
+      const oldPlayer = document.querySelector(".dashboard").dataset.current
+      let cPlayer = oldPlayer + 1
+      if ( cPlayer > numPlayers - 1 ) cPlayer = 0;
+      const pId = document.querySelector(".edit-page-identifier").dataset.playerid
+      const gId = document.querySelector(".edit-page-identifier").dataset.gameid
+      const csrfToken = document.querySelector("[name='csrf-token']").content;
+
+      let remainingString = ``;
+      remainingLetters.forEach((letter, index) => {
+        remainingString += letter
+        if (index < remainingLetters.length - 1) remainingString += `,`
+      })
+      const gameData = ({remaining_letters: remainingString, current_player: parseInt(cPlayer)})
+      console.log('gameData  ', gameData);
+
+      fetch(`/games/${gId}`, {
+        method: 'PATCH',
+        headers: {
+          'X-CSRF-Token': csrfToken,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(gameData)
+      })
+
+
+    const numToReplace = maxLetters - myLetters.length
+    chooseLetters();
+    appendMyLetters(numToReplace);
+
+
+        let myLetterString = ``;
+      myLetters.forEach((letter, index) => {
+        myLetterString += letter
+      })
+
+
+       const playerData = ({player_letters: myLetterString})
+      console.log('playerData  ', playerData);
+
+
+      fetch(`/players/${pId}`, {
+        method: 'PATCH',
+        headers: {
+          'X-CSRF-Token': csrfToken,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(playerData)
+      })
 
     };
   }
 
-  function submitNewWord() {
-    const numToReplace = maxLetters - myLetters.length
-    chooseLetters();
-    appendMyLetters(numToReplace);  // maybe this happens later or not at all?
-    populateRailsForm();
-    gameForm.submit()
-  }
 
   async function commitPlace() {
     console.log('added  630  ' , added);

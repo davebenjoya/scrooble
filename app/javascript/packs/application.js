@@ -53,7 +53,7 @@ document.addEventListener("turbo:load", function() {
   // pLetters();
   show_game();
   initGameCable();
-  initIndexCable();
+  // initIndexCable();
   // new_game();
 });
 
