@@ -14,9 +14,8 @@ if (document.querySelector(".edit-page-identifier")) {
 
  const myLettersDiv = document.getElementById("my-letters");
   let remainingLetters = [];
-
   const numOfBgs = 6;
- let currentBg = 0;
+  let currentBg = 0;
   let myLetters = [];
   let maxLetters = 7;
   const maxPlayers = 4;
@@ -24,14 +23,9 @@ if (document.querySelector(".edit-page-identifier")) {
   let buffer = [];
   let submitEscape = false;
   let exchange = false;
-
   let currentPlayer;
-
-
   const clickSounds = ['m1', 'm2', 'm3', 'm4', 'm5', 'm6'];
   let currentClickSound = 0
-
-
 
  function placeLetter () {
     if (exchange == false) {
@@ -123,6 +117,10 @@ if (document.querySelector(".edit-page-identifier")) {
 
 
 
+function checkExchange () {
+  return exchange;
+}
+
 function restoreListenersAtAccept() {
   document.querySelectorAll('.tile').forEach(t => {
     t.addEventListener('click', placeLetter);
@@ -201,6 +199,24 @@ function restoreListenersAtAccept() {
 
     console.log("myLetters ", myLetters)
     appendMyLetters(numNewLetters);
+
+    let myLetterString = ``
+    myLetters.forEach(ltr => {
+      myLetterString += ltr;
+    });
+    const playerData = ({player_letters: myLetterString})
+
+  fetch(`/players/${pId}`, {
+    method: 'PATCH',
+    headers: {
+      'X-CSRF-Token': csrfToken,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(playerData)
+  })
+
+
+
     }  // end if remainingLetters.length > 0
 
   }
@@ -253,6 +269,7 @@ function setLetterValues() {
           }
         });
         tile.querySelector(".board-value").innerText = boardVal;
+        tile.querySelector(".board-value").style = 'letter-spacing: .7px !important'
       }
     });
   }
@@ -339,29 +356,28 @@ const pickLetter = () => {   // using keyboard
   }
 
   function appendMyLetters(num) {
-
+    console.log('myLetters   ', myLetters);
+    console.log('num   ', num);
     let val;
-    for (let d = 0; d < num; d++ ) {
-      const ltr = Object.values(myLetters)[d];
+    for (let d = (maxLetters - num); d < maxLetters; d++ ) {
+      const ltr = myLetters[d];
       // console.log("ltr ", ltr);
       Array.from(lettersJSON.letters).forEach( l => {
-      if (l[ltr]) {
-       val = l[ltr].value;
-      }
-    });
-
- const myLettersDiv = document.getElementById("my-letters");
-  let bgClass = ``;
-    const leading  = currentBg < 10 ? "0" : "";
-    bgClass = `tile` + leading + (currentBg + 1).toString();
-    currentBg ++ ;
-    if (currentBg > numOfBgs - 1 ) currentBg = 0;
-
-    const tileHtml = `<div class='my-tile ${bgClass}'><div class="my-letter">${ltr}</div><div class="my-value">${val}</div></div>`
-
+        if (l[ltr]) {
+         val = l[ltr].value;
+        }
+      });
+      const myLettersDiv = document.getElementById("my-letters");
+      console.log ("myLettersDiv.querySelectorAll('.my-tile').length" , myLettersDiv.querySelectorAll('.my-tile').length)
+      let bgClass = ``;
+      const leading  = currentBg < 10 ? "0" : "";
+      bgClass = `tile` + leading + (currentBg + 1).toString();
+      currentBg ++ ;
+      if (currentBg > numOfBgs - 1 ) currentBg = 0;
+      const tileHtml = `<div class='my-tile ${bgClass}'><div class="my-letter">${ltr}</div><div class="my-value">${val}</div></div>`
       myLettersDiv.insertAdjacentHTML('beforeend', tileHtml);
       myLettersDiv.lastChild.addEventListener('click', toggleLetter);
-      // console.log('tileHtml ' + tileHtml);
+        // console.log('tileHtml ' + tileHtml);
     }
   }
 
@@ -437,4 +453,4 @@ const pickLetter = () => {   // using keyboard
   });
 
 
-export { toggleLetter, placeLetter, chooseLetters, restoreLetters, setLetterValues, appendMyLetters, showMyLettersInit, restoreListenersAtAccept, markLetters, unmarkLetters }
+export { checkExchange, toggleLetter, placeLetter, chooseLetters, restoreLetters, setLetterValues, appendMyLetters, showMyLettersInit, restoreListenersAtAccept, markLetters, unmarkLetters }

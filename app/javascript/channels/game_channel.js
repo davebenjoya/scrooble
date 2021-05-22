@@ -22,8 +22,9 @@ const initGameCable = () => {
       received(data) {
 
       console.log('data ' , data);  // for submission 0 - message, 1 - player, 2- letters, 3 - score, 4 - move id
-                                    // for acceptance 0 - message, 1 - player, 2- score, 3 - 'acceptance'//
-                                    // for challenge 0 - message, 1, - words, 2 - move id, 3- 'challenge'
+                                   // for acceptance 0 - message, 1 - player, 2- score, 3 - 'acceptance'//
+                                    // for challenge 0 - message, 1 - words, 2 - move id, 3- 'challenge'
+                                  // for exchange 0 - message, 1 - player, 2 - 'exchange'
 
         dataArray = data.split(":")
          console.log('dataArray.length ' , dataArray.length);
@@ -74,7 +75,7 @@ const initGameCable = () => {
 
             setTimeout(function () {
             // play acceptance alert sound
-            document.querySelector('#btnAudio').src = '../../assets/nutty.mp3';
+            document.querySelector('#btnAudio').src = '../../assets/nutty2.mp3';
             document.querySelector('#btnAudio').play();
             }, 1600);
 
@@ -93,12 +94,39 @@ const initGameCable = () => {
             restoreListenersAtAccept();
             if (document.querySelector('.this-user').innerText.trim() === dataArray[1].trim()) {
               chooseLetters();
+            }
 
+          break;
+          case "exchange":
+            console.log('exchaaaaaaaaange');
+
+
+            setTimeout(function () {
+            // play acceptance alert sound
+            document.querySelector('#btnAudio').src = '../../assets/nutty.mp3';
+            document.querySelector('#btnAudio').play();
+            }, 1600);
+
+            setTimeout(function () {
+              document.querySelector('#confirmation-info').innerHTML = `${dataArray[0]}`;
+              document.querySelector('#confirmation').classList.add('challenge-show');
+
+            document.querySelector('#confirmation-btn').addEventListener('click', () => {
+              document.querySelector('#confirmation').classList.remove('challenge-show');
+
+            })
+            }, 2000);
+
+            updatePlayers(dataArray[1], 0);
+
+            restoreListenersAtAccept();
+            if (document.querySelector('.this-user').innerText.trim() === dataArray[1].trim()) {
+              // chooseLetters();
             }
 
           break;
           default :
-          console.log('submisssssßsion');
+            console.log('submisssssßsion');
 
           moveId =  dataArray[4];
 
@@ -130,7 +158,7 @@ const initGameCable = () => {
             document.querySelector('#accept-btn').addEventListener('click', acceptWords)
 
             // play submission alert sound
-            document.querySelector('#btnAudio').src = '../../assets/dreamy.mp3';
+            document.querySelector('#btnAudio').src = '../../assets/nutty1.mp3';
             document.querySelector('#btnAudio').play();
           }
          }
@@ -244,7 +272,6 @@ function acceptWords() {
     let player = "Morty"
     let newIndex;
     console.log("players.length ", players.length);
-    console.log("players.length ", players.length);
     players.forEach( (plr, index)=> {
       if (plr.innerText.trim() === lastPlayer.trim()) {
         const oldScore = plr.parentNode.querySelector(".score").innerHTML
@@ -263,6 +290,11 @@ function acceptWords() {
     document.querySelector(".player-selected").classList.remove("player-selected");
     document.querySelectorAll(".player")[newIndex].parentNode.classList.add("player-selected");
     document.querySelector("#scores").setAttribute('data-current', newIndex);
+
+
+    if (document.querySelector(".this-user").parentNode.classList.contains("player-selected")) {
+        document.querySelector('#exchange-btn').classList.remove('button-disabled');
+    }
   }
 
 

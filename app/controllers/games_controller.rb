@@ -43,9 +43,9 @@ end
 
     @game = Game.new(game_params)
     @game.update({remaining_letters: params['game']['remaining_letters']})
-    # raise
     # # authorize @game
     if @game.save
+    # raise
        # @games = Game.all
        # MyGamesChannel.broadcast_to(
 
@@ -162,7 +162,7 @@ end
         p.update({ completed: true })
         # raise
       end
-      redirect_to game_path(@game)
+      # redirect_to game_path(@game)
     else
       # if params['game']['player_completed'] == 'true'
       #   @player.update({ player_score: params['game']['my_score'], completed: true })
@@ -181,8 +181,8 @@ end
       # else
            if @game.update(game_params)
       @game.update({
-        remaining_letters: params["remaining_letters"],
-        current_player: params["current_player"]
+        remaining_letters: game_params["remaining_letters"],
+        current_player: game_params["current_player"]
       })
 
 
@@ -190,7 +190,7 @@ end
      end
 
     end
-   redirect_to edit_game_path(@game)
+   # redirect_to edit_game_path(@game)
   end
 
 
