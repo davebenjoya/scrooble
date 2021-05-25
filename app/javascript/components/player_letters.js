@@ -28,7 +28,8 @@ if (document.querySelector(".edit-page-identifier")) {
   let currentClickSound = 0
 
  function placeLetter () {
-    if (exchange == false) {
+  console.log('exchange ', exchange);
+    if (exchange === false) {
 
       if(event.target.querySelector('.letter').classList.contains("letter-provisional")) {  // already a letter on square
         event.target.querySelector('.letter').classList.remove("letter-provisional");
@@ -53,69 +54,66 @@ if (document.querySelector(".edit-page-identifier")) {
 
         }
       } else {
-         selectedLetter = document.querySelector('.letter-selected');
-         if (selectedLetter) {
-         event.target.querySelector('.letter').innerText = selectedLetter.querySelector(".my-letter").innerText;
-        event.target.querySelector('.board-value').innerHTML = selectedLetter.querySelector(".my-value").innerText;
-        selectedLetter.classList.remove('letter-selected');
-        selectedLetter.classList.add('letter-disabled');
-        selectedLetter = null;
-        event.target.querySelector('.letter').classList.add('letter-provisional');
-        document.querySelector('.commit-btn').classList.remove('button-disabled');
-        document.querySelector('.exchange-btn').classList.add('button-disabled');
-        document.querySelector('.cancel-btn').classList.remove('button-disabled');
-        document.querySelector('#btnAudio').src = `../../assets/${clickSounds[currentClickSound]}.mp3`;
-         // document.querySelector('#btnAudio').src = `../../assets/m1.mp3`;
-        document.querySelector('#btnAudio').play();
-        currentClickSound ++ ;
-        if (currentClickSound > clickSounds.length - 1) currentClickSound = 0;
-      }
+        selectedLetter = document.querySelector('.letter-selected');
+        if (selectedLetter) {
+           event.target.querySelector('.letter').innerText = selectedLetter.querySelector(".my-letter").innerText;
+          event.target.querySelector('.board-value').innerHTML = selectedLetter.querySelector(".my-value").innerText;
+          selectedLetter.classList.remove('letter-selected');
+          selectedLetter.classList.add('letter-disabled');
+          selectedLetter = null;
+          event.target.querySelector('.letter').classList.add('letter-provisional');
+          document.querySelector('.commit-btn').classList.remove('button-disabled');
+          document.querySelector('.exchange-btn').classList.add('button-disabled');
+          document.querySelector('.cancel-btn').classList.remove('button-disabled');
+          document.querySelector('#btnAudio').src = `../../assets/${clickSounds[currentClickSound]}.mp3`;
+           // document.querySelector('#btnAudio').src = `../../assets/m1.mp3`;
+          document.querySelector('#btnAudio').play();
+          currentClickSound ++ ;
+          if (currentClickSound > clickSounds.length - 1) currentClickSound = 0;
+        }
 
          }
       } else {              // exchange === true
-        document.querySelector('#exchange-btn').removeEventListener('click', markLetters);
-        document.querySelector('#exchange-btn').classList.add('button-disabled');
-        if (selectedLetter) {
-          let txt = selectedLetter.querySelector('.my-letter').innerHTML
-          let val = selectedLetter.querySelector('.my-value').innerHTML;
-          if (txt === "*") {
-              const replacement = `Replace Joker with: <input id="replace-joker" maxlength = 1 type=text required>`
-              document.querySelector(".modal-body").innerHTML = replacement;
-              jokerTile = event.target;
-              submitEscape = true;
-              // jokers.push(jokerTile);
-              $('#exampleModalCenter').modal('show');
-          } else {
-            submitEscape = false;
-            event.target.querySelector('.letter').innerHTML = txt;
-            event.target.querySelector('.letter').classList.add('letter-provisional');
-            // event.target.style.backgroundImage = url('../images/tile01.jpg');
-            buffer.push(txt);
-            event.target.querySelector(".board-value").innerHTML = `${val}`;
-            document.querySelector('#btnAudio').src = '../../assets/' + clickSounds[currentClickSound] + ".mp3";
-            console.log(document.querySelector('#btnAudio').src);
-            document.querySelector('#btnAudio').play();
-            currentClickSound ++
-            if (currentClickSound > clickSounds.length -1) currentClickSound = 0
-            selectedLetter.classList.remove("letter-selected");
-            selectedLetter.classList.add("letter-disabled");
-            selectedLetter.removeEventListener('click', toggleLetter);
-            document.querySelector('.commit-btn').classList.remove("button-disabled");
-            document.querySelector('.cancel-btn').classList.remove("button-disabled");
-            selectedLetter = null;
-          }
+        // document.querySelector('#exchange-btn').removeEventListener('click', markLetters);
+        // document.querySelector('#exchange-btn').classList.add('button-disabled');
+        // if (selectedLetter) {
+        //   let txt = selectedLetter.querySelector('.my-letter').innerHTML
+        //   let val = selectedLetter.querySelector('.my-value').innerHTML;
+        //   if (txt === "*") {
+        //       const replacement = `Replace Joker with: <input id="replace-joker" maxlength = 1 type=text required>`
+        //       document.querySelector(".modal-body").innerHTML = replacement;
+        //       jokerTile = event.target;
+        //       submitEscape = true;
+        //       // jokers.push(jokerTile);
+        //       $('#exampleModalCenter').modal('show');
+        //   } else {
+        //     submitEscape = false;
+        //     event.target.querySelector('.letter').innerHTML = txt;
+        //     event.target.querySelector('.letter').classList.add('letter-provisional');
+        //     // event.target.style.backgroundImage = url('../images/tile01.jpg');
+        //     buffer.push(txt);
+        //     event.target.querySelector(".board-value").innerHTML = `${val}`;
+        //     document.querySelector('#btnAudio').src = '../../assets/' + clickSounds[currentClickSound] + ".mp3";
+        //     console.log(document.querySelector('#btnAudio').src);
+        //     document.querySelector('#btnAudio').play();
+        //     currentClickSound ++
+        //     if (currentClickSound > clickSounds.length -1) currentClickSound = 0
+        //     selectedLetter.classList.remove("letter-selected");
+        //     selectedLetter.classList.add("letter-disabled");
+        //     selectedLetter.removeEventListener('click', toggleLetter);
+        //     document.querySelector('.commit-btn').classList.remove("button-disabled");
+        //     document.querySelector('.cancel-btn').classList.remove("button-disabled");
+        //     selectedLetter = null;
+        //   }
+
+        // if (document.querySelectorAll(".letter-disabled").length > 0 ) {
+        //   document.querySelector("#commit-btn").classList.remove("button-disabled")
+        //   document.querySelector("#cancel-btn").classList.remove("button-disabled")
+        // }
         }
+
+
       }
-    }
-
-      if (document.querySelectorAll(".letter-disabled").length > 0 ) {
-        document.querySelector("#commit-btn").classList.remove("button-disabled")
-        document.querySelector("#cancel-btn").classList.remove("button-disabled")
-    } else {
-
-    }
-
-
 
 function checkExchange () {
   return exchange;
@@ -356,8 +354,6 @@ const pickLetter = () => {   // using keyboard
   }
 
   function appendMyLetters(num) {
-    console.log('myLetters   ', myLetters);
-    console.log('num   ', num);
     let val;
     for (let d = (maxLetters - num); d < maxLetters; d++ ) {
       const ltr = myLetters[d];
@@ -367,8 +363,8 @@ const pickLetter = () => {   // using keyboard
          val = l[ltr].value;
         }
       });
+
       const myLettersDiv = document.getElementById("my-letters");
-      console.log ("myLettersDiv.querySelectorAll('.my-tile').length" , myLettersDiv.querySelectorAll('.my-tile').length)
       let bgClass = ``;
       const leading  = currentBg < 10 ? "0" : "";
       bgClass = `tile` + leading + (currentBg + 1).toString();
@@ -378,7 +374,9 @@ const pickLetter = () => {   // using keyboard
       myLettersDiv.insertAdjacentHTML('beforeend', tileHtml);
       myLettersDiv.lastChild.addEventListener('click', toggleLetter);
         // console.log('tileHtml ' + tileHtml);
+    console.log('myLetters   ', myLetters);
     }
+   return myLetters;
   }
 
   function showMyLettersInit() {
@@ -414,6 +412,16 @@ const pickLetter = () => {   // using keyboard
     if (thisUser.parentNode.classList.contains("player-selected")) {  // current user's turn
       if (exchange === true) {
         event.currentTarget.classList.toggle('marked-for-exchange');
+
+
+              if (event.currentTarget.classList.contains("marked-for-exchange")) {
+                document.querySelector('#btnAudio').src = `../../assets/voices1.mp3`;
+              } else {
+                document.querySelector('#btnAudio').src = `../../assets/voices2.mp3`;
+              }
+              document.querySelector('#btnAudio').play();
+
+
         const marked = document.querySelector(".marked-for-exchange");
         if (marked) {
           // document.querySelector(".commit-btn").classList.remove("button-disabled")

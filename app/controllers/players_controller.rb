@@ -7,7 +7,7 @@ class PlayersController < ApplicationController
 
   def update
      puts "?*?*?*?*?*?* PARAMS [CHALLENGING]     *?*?*?*?*?*?*?*?*?*?*?*"
-    puts params["challenging"]
+    puts player_params["challenging"]
     @player = Player.find(params[:id])
     players = Player.where(game_id: @player.game_id)
     @game = @player.game
@@ -22,7 +22,7 @@ class PlayersController < ApplicationController
           challenge -= 1
         end
       end
-    elsif params["challenging"] == true                                     # challenge == 'true'
+    elsif params["challenging"] == 'true'                                     # challenge == 'true'
       game_moves = []
       @player.update({challenging: 'true'})
       players.each do |player|
@@ -48,20 +48,31 @@ class PlayersController < ApplicationController
             words: words_string})
         )
       end
-      else
+      elsif params['challenging'] == 'pending'
+
         @player.update({player_letters: params['player_letters']})
+
+        num = params['num']
+
+        puts "/////////////////   params['nummmmmmmm']     /////////////////"
+        puts params['num']
+
          GameChannel.broadcast_to(
         @game,
         render_to_string(partial: 'exchange',
           locals: {
             player: challenging_player,
-            numLetters: '3'
+            numLetters: num
           })
         )
       end
      if challenge == 0
       # return true
      end
+
+      players.each do |player|
+        player.update!({challenging: 'pending'})
+      end
      # raise
     # @player = Player.find(params['move']['player_id'])
     @player.save!

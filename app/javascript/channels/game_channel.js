@@ -181,7 +181,7 @@ function challengeWords() {
 
   const pId = document.querySelector(".edit-page-identifier").dataset.playerid
   const csrfToken = document.querySelector("[name='csrf-token']").content;
-  const challengeData = ({challenging: true})
+  const challengeData = ({challenging: 'true'})
 
   fetch(`/players/${pId}`, {
     method: 'PATCH',

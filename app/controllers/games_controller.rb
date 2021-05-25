@@ -179,15 +179,20 @@ end
       #     redirect_to edit_game_path(@game) and return
       #   end
       # else
-           if @game.update(game_params)
+           # if @game.update(game_params)
       @game.update({
         remaining_letters: game_params["remaining_letters"],
         current_player: game_params["current_player"]
       })
 
 
+      players.each do |player|
+        player.update({challenging: 'pending'})
+      end
+
+
       # end
-     end
+     # end
 
     end
    # redirect_to edit_game_path(@game)

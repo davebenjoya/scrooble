@@ -92,7 +92,9 @@ end
     new_current = 0 if new_current > @players.length - 1
 
     @game.update({ remaining_letters: new_remaining, current_player: new_current })
-
+        @players.each do |player|
+        player.update({challenging: 'pending'})
+      end
      GameChannel.broadcast_to(
       @game,
       # flash[:game_update] = "next player: #{nextP}, last player: #{@game.current_player}"
