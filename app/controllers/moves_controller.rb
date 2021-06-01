@@ -15,6 +15,8 @@ class MovesController < ApplicationController
     letter_string = ''
     letters = Letter.where(move_id: @move.id)
     words = Word.where(move_id: @move.id)
+    puts "-------------------------------______________________"
+    puts words[0]
     letters.each do |ltr|
       letter_string +=  ltr.character
       letter_string += ltr.position.to_s
@@ -92,7 +94,9 @@ end
     new_current = 0 if new_current > @players.length - 1
 
     @game.update({ remaining_letters: new_remaining, current_player: new_current })
-
+        @players.each do |player|
+        player.update({challenging: 'pending'})
+      end
      GameChannel.broadcast_to(
       @game,
       # flash[:game_update] = "next player: #{nextP}, last player: #{@game.current_player}"

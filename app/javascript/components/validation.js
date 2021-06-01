@@ -1,5 +1,5 @@
 import './board'
-import { firstWordCommit, wordsCommit } from './scoring';
+import { firstWordScore, wordsScore } from './scoring';
 
   const validateLetters = () =>{
     let valid = true;
@@ -58,7 +58,7 @@ import { firstWordCommit, wordsCommit } from './scoring';
 
       if (valid === true) {
         if (boardHasLetters === false) {
-          addToScore =  firstWordCommit();
+          addToScore =  firstWordScore();
         } else {
           addToScore = secondTurnValidation();
           console.log('addToScore   63' , addToScore);
@@ -79,7 +79,7 @@ import { firstWordCommit, wordsCommit } from './scoring';
     if (document.querySelector(".center-tile").querySelector(".letter").innerHTML.trim() === "") {
       alertString += `The center tile must be used in the first move of the game. `
     }
-    const added = firstWordCommit();
+    const added = firstWordScore();
     console.log(' added   ' , added);
     return added;
   }
@@ -97,7 +97,7 @@ import { firstWordCommit, wordsCommit } from './scoring';
         }
       })
     })
-    const added = wordsCommit();
+    const added = wordsScore();
     console.log(' added   ' , added);
     return added;
   }

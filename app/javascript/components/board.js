@@ -575,7 +575,6 @@ function commitExchange() {
       const oldPlayer = document.querySelector(".dashboard").dataset.current
       let cPlayer = oldPlayer + 1
       if ( cPlayer > numPlayers - 1 ) cPlayer = 0;
-      const pId = document.querySelector(".edit-page-identifier").dataset.playerid
       const gId = document.querySelector(".edit-page-identifier").dataset.gameid
       const csrfToken = document.querySelector("[name='csrf-token']").content;
 
@@ -595,35 +594,43 @@ function commitExchange() {
         },
         body: JSON.stringify(gameData)
       })
+      .then (response => updatePlayerOnExchange(csrfToken));
 
 
-    const numToReplace = maxLetters - myLetters.length
-    chooseLetters();
-    appendMyLetters(numToReplace);
-
-
-        let myLetterString = ``;
-      myLetters.forEach((letter, index) => {
-        myLetterString += letter
-      })
-
-
-       const playerData = ({player_letters: myLetterString})
-      console.log('playerData  ', playerData);
-
-
-      fetch(`/players/${pId}`, {
-        method: 'PATCH',
-        headers: {
-          'X-CSRF-Token': csrfToken,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(playerData)
-      })
+    document.querySelector("#exchange-btn").classList.remove("exchange-btn-active");
+    document.querySelector("#exchange-btn").classList.add("button-disabled");
 
     };
   }
 
+
+  function updatePlayerOnExchange(csrfToken) {
+      const pId = document.querySelector(".edit-page-identifier").dataset.playerid
+
+    const numToReplace = maxLetters - myLetters.length
+    chooseLetters();
+    myLetters = appendMyLetters(numToReplace);
+
+    // console.log('myLetters  ', myLetters);
+
+    let myLetterString = ``;
+    myLetters.forEach((letter, index) => {
+      myLetterString += letter
+    })
+    const playerData = ({player_letters: myLetterString, challenging: 'pending', num: numToReplace})
+    // console.log('myLetters  ', myLetters);
+
+
+    fetch(`/players/${pId}`, {
+      method: 'PATCH',
+      headers: {
+        'X-CSRF-Token': csrfToken,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(playerData)
+    })
+
+  }
 
   async function commitPlace() {
     console.log('added  630  ' , added);
