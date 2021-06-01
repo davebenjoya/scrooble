@@ -4,35 +4,37 @@ import lettersJSON from './letters.json';
   const provisionals = document.querySelectorAll(".letter-provisional");
 
 
-  let addedScore = 0;
   let wordMultiplier = 1;
   let bonusString = ``;
   let wordArray = [];
   let totalAdded = 0;
   let scoreString = ``;
+  let wordScore = 0
 
 
-function firstWordCommit() {
+function firstWordScore() {
+  totalAdded = 0;
   wordArray = [];
   let word = ``;
   document.querySelectorAll(".letter-provisional").forEach( ltr => {
     scoreTile(ltr)
     word += ltr.innerHTML
   });
-  addedScore *= wordMultiplier * 2;
+  wordScore *= wordMultiplier * 2;
   bonusString += `First play double word score.`;
-  const wordObj = new Object({characters: word, score: addedScore, bonus:bonusString});
+  const wordObj = new Object({characters: word, score: wordScore, bonus:bonusString});
   wordArray.push(wordObj);
   console.log('wordObj ' , wordObj )
   buildAlert();
   return [totalAdded, scoreString, wordArray];
 }
 
-function wordsCommit() {
+function wordsScore() {
   wordArray = [];
-  console.log('wordsCommit');
-  totalAdded = 0;
   wordMultiplier = 1;
+  console.log('wordsScore');
+  wordScore = 0
+  totalAdded = 0;
   scoreString = ``;
   bonusString = ``;
 
@@ -52,29 +54,30 @@ function wordsCommit() {
         posArray = findVerticallWord(index)
         console.log('posArray'  , posArray)
       }
-      posArray.forEach( (pos, i) => {
+      posArray.forEach( (pos) => {
         scoreTile(document.querySelectorAll(".letter")[pos])
         if (document.querySelectorAll(".letter")[pos].classList.contains("letter-provisional")) {
           provsArray.push(pos);
-        console.log('provsArray.length ' + provsArray.length);
+
 
         }
-        word += document.querySelectorAll(".letter")[pos].innerText.trim();
+        word += document.querySelectorAll(".letter")[pos].innerText;
       });
       const trimmedWord = word.replaceAll(" ", "");
-      // addedScore *= wordMultiplier
+        console.log('trimmedWord ' + trimmedWord);
+      // wordScore *= wordMultiplier
       if (index === provsArray[0] ) {
         if (trimmedWord.length > 1) {
-          const wordObj = Object.create({characters: trimmedWord, score: addedScore, bonus:bonusString});
+          const wordObj = Object.create({characters: trimmedWord, score: wordScore, bonus:bonusString});
           wordArray.push(wordObj);
-        console.log('wordObj'  , wordArray[0].characters)
+          console.log('wordScore '  , wordScore)
 
         }
       }
       if (vertFlag === false) {
 
         word = ``;
-        addedScore = 0;
+        wordScore = 0;
         bonusString = ``
         posArray = findVerticallWord(index);
         posArray.forEach( (pos, i) => {
@@ -82,12 +85,12 @@ function wordsCommit() {
           word += document.querySelectorAll(".letter")[pos].innerHTML
         });
 
-        console.log(' provsArray[0] ', provsArray[0]);
+        console.log(' wordScore ', wordScore);
         console.log(' index ', index);
       if (provsArray.length < 2 || index === provsArray[0] ) {
         console.log(' (wordArray.length ', wordArray.length);
         if (word.length > 1) {
-          const wordObj2 = Object.create({word: word, score: addedScore, bonus:bonusString});
+          const wordObj2 = Object.create({word: word, score: wordScore, bonus:bonusString});
           wordArray.push(wordObj2);
         }
         }
@@ -162,7 +165,9 @@ function wordsCommit() {
 
   function scoreTile(ltr) {
 
+    console.log(ltr)
     let val =  parseInt(ltr.parentNode.querySelector(".board-value").innerHTML)
+    console.log(val)
 
     if (ltr.closest(".tile").classList.contains("double-letter") && ltr.classList.contains("letter-provisional")) {
       val *= 2;
@@ -182,7 +187,8 @@ function wordsCommit() {
       wordMultiplier *= 3;
     }
 
-    addedScore += val;
+    wordScore += val;
+    console.log(wordScore)
 
   }
 
@@ -202,7 +208,6 @@ const findHorizontalWord = (firstProvisional) => {
     if (document.querySelectorAll('.letter')[c].innerText.trim() != "" && (c + 1) % 15 != 0) {  //a character to the right and not in last column
       allPositions.push(c);
     } else {  // blank tile to the right
-      break;
     }
   };
   return allPositions;
@@ -225,7 +230,6 @@ const findVerticallWord = (firstProvisional) => {
     if (document.querySelectorAll('.letter')[c].innerText.trim() != "" && (c + 1) % 15 != 0) {  //a character to the bottom and not in last column
       allPositions.push(c);
     } else {  // blank tile to the bottom
-      break;
     }
   };
   console.log('allPositions', allPositions)
@@ -236,4 +240,4 @@ const findVerticallWord = (firstProvisional) => {
 
  // }
 
- export { firstWordCommit, wordsCommit }
+ export { firstWordScore, wordsScore }

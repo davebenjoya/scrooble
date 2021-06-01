@@ -15,6 +15,8 @@ class MovesController < ApplicationController
     letter_string = ''
     letters = Letter.where(move_id: @move.id)
     words = Word.where(move_id: @move.id)
+    puts "-------------------------------______________________"
+    puts words[0]
     letters.each do |ltr|
       letter_string +=  ltr.character
       letter_string += ltr.position.to_s

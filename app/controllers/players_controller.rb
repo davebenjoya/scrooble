@@ -30,16 +30,16 @@ class PlayersController < ApplicationController
         game_moves << game_move
       end
 
+      puts "?*?*?*?*?*?*? game_moves.length     *?*?*?*?*?*?*?*?*?*?*?*"
       puts game_moves.length
-      puts "?*?*?*?*?*?*? M O V E  W O R D S    [0]     *?*?*?*?*?*?*?*?*?*?*?*"
-      last_move = game_moves.last
- puts "________//////////////////_____________///////////////___________///////////______"
+      last_move = game_moves[0]
+      puts "________/////        last_move   ////////___________///////////______"
       puts last_move
       move_words = Word.where(move: last_move)
-      words_string = "shoe, dsorsek, call"
+      words_string = ""
       move_words.each_with_index do |wd, index|
-        # words_string += wd.characters
-        # words_string += "," if index != move_words.length - 1
+        words_string += wd.characters
+        words_string += "," if index != move_words.length - 1
       GameChannel.broadcast_to(
         @game,
         render_to_string(partial: "challenge",
@@ -70,9 +70,9 @@ class PlayersController < ApplicationController
       # return true
      end
 
-      players.each do |player|
-        player.update!({challenging: 'pending'})
-      end
+      # players.each do |player|
+      #   player.update!({challenging: 'pending'})
+      # end
      # raise
     # @player = Player.find(params['move']['player_id'])
     @player.save!

@@ -14,6 +14,7 @@ let moveId;
 
 
 const initGameCable = () => {
+let playerName;
   const messagesContainer = document.getElementById('messages');
   if (messagesContainer) {
     const id = messagesContainer.dataset.gameId;
@@ -49,13 +50,14 @@ const initGameCable = () => {
 
           }, 2000);
 
+            const allWordsValid = searchDictionary(wordArray, moveId, playerName);
+console.log('allWordsValid', allWordsValid);
             setTimeout(function () {
             // play challenge alert sound
             document.querySelector('#btnAudio').src = '../../assets/stub.mp3';
             document.querySelector('#btnAudio').play();
 
               const moveId = dataArray[2]
-              const allWordsValid = searchDictionary(wordArray, moveId);
               // console.log('searchDictionary(wordArray, moveId) ', searchDictionary(wordArray, moveId))
               console.log('allWordsValid', allWordsValid)
             }, 6600);
@@ -133,7 +135,7 @@ const initGameCable = () => {
           document.querySelector(".edit-page-identifier").setAttribute('data-moveid', `${moveId}`);
           const delayLength = (dataArray[0].length * 80) + 600;
           const msgFirstWord = dataArray[0].split(" ")[0]
-          const playerName  = dataArray[1]
+          playerName  = dataArray[1]
           const letter_string = dataArray[2].replaceAll("↵", "")
           const letter_array  = letter_string.split(";");  // has extra empty element
 
@@ -178,7 +180,6 @@ const initGameCable = () => {
 
 
 function challengeWords() {
-
   const pId = document.querySelector(".edit-page-identifier").dataset.playerid
   const csrfToken = document.querySelector("[name='csrf-token']").content;
   const challengeData = ({challenging: 'true'})
@@ -191,7 +192,10 @@ function challengeWords() {
     },
     body: JSON.stringify(challengeData)
   })
-
+  .then(response => {
+    response.json()
+  })
+  .then(json => console.log(json))
 
   document.querySelector('#challenge').classList.remove('challenge-show');
 

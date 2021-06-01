@@ -6,7 +6,7 @@ const gameIndex = ()  => {
   if (indexPage) {
     setTimeout( () => {
       document.querySelector(".crawl-start").classList.add("crawl-show");
-      console.log("transition end");
+      // console.log("transition end");
     }, 1000);
     crawlEndDelay = 5000;
     document.querySelector("#navbar-game").innerHTML = ``;
@@ -15,7 +15,7 @@ const gameIndex = ()  => {
 
   setTimeout( () => {
     document.querySelector(".crawl-start").classList.add("crawl-end");
-    console.log("transition end");
+    // console.log("transition end");
   }, crawlEndDelay);
 
  const yourGames = document.querySelector("#your-games");
