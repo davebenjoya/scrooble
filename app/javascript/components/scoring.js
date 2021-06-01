@@ -58,8 +58,6 @@ function wordsScore() {
         scoreTile(document.querySelectorAll(".letter")[pos])
         if (document.querySelectorAll(".letter")[pos].classList.contains("letter-provisional")) {
           provsArray.push(pos);
-
-
         }
         word += document.querySelectorAll(".letter")[pos].innerText;
       });
@@ -71,11 +69,9 @@ function wordsScore() {
           const wordObj = Object.create({characters: trimmedWord, score: wordScore, bonus:bonusString});
           wordArray.push(wordObj);
           console.log('wordScore '  , wordScore)
-
         }
       }
       if (vertFlag === false) {
-
         word = ``;
         wordScore = 0;
         bonusString = ``
