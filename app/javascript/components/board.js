@@ -1,5 +1,6 @@
 import lettersJSON from './letters.json';
 import { validateLetters } from './validation'
+import { submitLetters } from './submit_letters'
 import { Sortable, MultiDrag, Swap, OnSpill, AutoScroll } from "sortablejs";
 import   { checkExchange, toggleLetter, placeLetter, chooseLetters, restoreLetters, setLetterValues, appendMyLetters, showMyLettersInit, markLetters, unmarkLetters }  from './player_letters'
 
@@ -80,6 +81,26 @@ const board = () => {
       }
     })
   }
+
+const createPage = document.querySelector('.create-page-identifier')
+if (createPage) {
+    console.log('copied');
+    document.querySelector('#new-game-btn').addEventListener('click', () => {
+    copyTextToClipboard(document.querySelector('#gamelink').innerHTML)
+  })
+}
+
+    function copyTextToClipboard(text) {
+        if (!navigator.clipboard) {
+            fallbackCopyTextToClipboard(text);
+            return;
+        }
+        navigator.clipboard.writeText(text).then(function() {
+            console.log('Async: Copying to clipboard was successful!');
+        }, function(err) {
+            console.error('Async: Could not copy text: ', err);
+        });
+    }
 
 
 
@@ -244,8 +265,8 @@ const board = () => {
         if (index < remainingLetters.length -1 ) remainingString += ","
       })
     document.querySelector('#new-remaining').value = remainingString;
-    console.log("remainingLetters ", remainingLetters);
-    console.log("remainingString ", remainingString);
+    // console.log("remainingLetters ", remainingLetters);
+    // console.log("remainingString ", remainingString);
         newGameForm.submit();
 
 
@@ -253,7 +274,6 @@ const board = () => {
   }
 
   function createPlayerString (name) {
-    console.log("name  " + name);
 
     let ltrStr = '';
     myLetters = []
@@ -276,14 +296,10 @@ const board = () => {
       newLetters += tile.querySelector(".my-letter").innerHTML;
     })
 
-    // const newPlayers = players.replace(oldLetters, newLetters);
-    // console.log("oldLetters " + oldLetters);
-    // console.log("newLetters " + newLetters);
     document.querySelectorAll(".player").forEach(player => {
       if (player.classList.contains("this-user")) {
         console.log("player " + player.parentNode.id)
     // fetchReorder (player.parentNode.id, newLetters);
-
       }
       })
   }
@@ -355,7 +371,7 @@ setupBoard();
 
 
 function setupBoard() {
-  console.log(' set up')
+  // console.log(' set up')
 
     let boardHtml = ``
     setLetterValues()
@@ -378,7 +394,7 @@ function setupBoard() {
 
         }, 500);
       });
-    console.log(document.querySelectorAll('.tile').length);
+    // console.log(document.querySelectorAll('.tile').length);
 
     document.querySelectorAll('.tile')[112].classList.add("center-tile");
     document.querySelectorAll('.tile').forEach((tile, index) => {
@@ -421,7 +437,6 @@ function setupBoard() {
         const jArray = jays.split(',');
         jArray.forEach(jkr => {
           const jokerPos = parseInt(jkr)
-          console.log('document.querySelectorAll(".tile") ' + document.querySelectorAll(".tile").length)
           if (jokerPos) {
             document.querySelectorAll(".tile")[jokerPos].classList.add("joker-replaced");
             document.querySelectorAll(".tile")[jokerPos].querySelector(".board-value").innerHTML="0"
@@ -527,18 +542,22 @@ function endGame() {
       commitExchange();
       // submitNewWord()
     } else {  //  new word
-      added = validateLetters();
-      console.log('added ' , added );
-      if (added != 0) {
-
-        // removeListenersAtCommit()
-        document.querySelector('#btnAudio').src = '../../assets/click1.mp3';
-        document.querySelector('#btnAudio').play();
-        setTimeout( () => {commitPlace()}, 700);
-           } else {
-        console.log(' restooooore')
+      const valid = submitLetters()
+      // added = validateLetters();
+      console.log('valid ' , valid );
+      if (valid === false) {
         restoreLetters();
       }
+
+      // if (added != 0) {
+      //   // removeListenersAtCommit()
+      //   document.querySelector('#btnAudio').src = '../../assets/click1.mp3';
+      //   document.querySelector('#btnAudio').play();
+      //   setTimeout( () => {commitPlace()}, 700);
+      // } else {
+      //   console.log(' restooooore')
+      //   restoreLetters();
+      // }
     }
   }
 

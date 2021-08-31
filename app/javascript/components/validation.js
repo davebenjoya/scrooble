@@ -80,7 +80,7 @@ import { firstWordScore, wordsScore } from './scoring';
       alertString += `The center tile must be used in the first move of the game. `
     }
     const added = firstWordScore();
-    console.log(' added   ' , added);
+    // console.log(' added   ' , added);
     return added;
   }
 
@@ -98,7 +98,7 @@ import { firstWordScore, wordsScore } from './scoring';
       })
     })
     const added = wordsScore();
-    console.log(' added   ' , added);
+    // console.log(' added   ' , added);
     return added;
   }
 
