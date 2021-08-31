@@ -32,7 +32,7 @@ function firstWordScore() {
 function wordsScore() {
   wordArray = [];
   wordMultiplier = 1;
-  console.log('wordsScore');
+  // console.log('wordsScore');
   wordScore = 0
   totalAdded = 0;
   scoreString = ``;
@@ -49,7 +49,8 @@ function wordsScore() {
 
         posArray = findHorizontalWord(index)
         console.log('posArray ' + posArray);
-      } else if (checkVertAdj(index)) { // no horizontal with this letter, check vertical
+      } else if (
+        checkVertAdj(index)) { // no horizontal word with this letter, check vertical
         vertFlag = true;
         posArray = findVerticallWord(index)
         console.log('posArray'  , posArray)
@@ -62,7 +63,8 @@ function wordsScore() {
         word += document.querySelectorAll(".letter")[pos].innerText;
       });
       const trimmedWord = word.replaceAll(" ", "");
-        console.log('trimmedWord ' + trimmedWord);
+        console.log('index ' + index);
+        console.log('provsArray[0] ' + provsArray[0]);
       // wordScore *= wordMultiplier
       if (index === provsArray[0] ) {
         if (trimmedWord.length > 1) {
@@ -140,8 +142,8 @@ function wordsScore() {
     const name = document.querySelector('.nav-emp').innerText.split(":")[1].trim();
     const ws = wordArray.length < 2 ? "" : "s"
     scoreString = `${name} is submitting the word${ws} `;
-    console.log("wordArray " , wordArray )
-    console.log("wordArray[0] " , wordArray[0] )
+    // console.log("wordArray " , wordArray )
+    // console.log("wordArray[0] " , wordArray[0] )
     wordArray.forEach( word => {
       totalAdded += word.score;
       const s = word.score != 1 ? `s` : ``;
@@ -184,7 +186,7 @@ function wordsScore() {
     }
 
     wordScore += val;
-    console.log(wordScore)
+    // console.log(wordScore)
 
   }
 
@@ -218,7 +220,7 @@ const findVerticallWord = (firstProvisional) => {
     if (document.querySelectorAll('.letter')[b].innerText.trim() != "") {  //a character to the top?
       allPositions.unshift(b);
     } else {  // blank tile to the top
-      break;
+      // break;
     }
   } ;
   // console.log('allPositions ' + allPositions);

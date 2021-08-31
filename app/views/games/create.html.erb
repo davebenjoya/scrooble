@@ -7,9 +7,10 @@
       <p><span><%= index + 1 %>. </span> <%= User.find(idString.to_i).username %></p>
     <% end %>
   </div>
-    <% fragment = "s have" %>
-    <% fragment = " has" if @ran_array.length < 3 %>
-    <p>Your opponent<%= fragment %> been invited to this game.</p>
+    <% plural = ""%>
+    <% plural = "s" if @ran_array.length > 2 %>
+    <p>Here is a link to invite your opponent<%= plural %> to the game</p>
+    <div id="new-game-btn" class="new-game-btn">Copy game link to clipboard</div>
     <%= link_to edit_game_path(@game) do %>
       <div class='new-game-btn'>Go to <%= @game.name %></div>
     <% end %>
@@ -19,3 +20,6 @@
 
   </div>
 </div>
+
+       <p id="gamelink">http://scroobleapp.herokuapp.com/<%= edit_game_path(@game) %></p>
+
