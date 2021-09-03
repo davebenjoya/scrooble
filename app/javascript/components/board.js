@@ -542,20 +542,20 @@ function endGame() {
       commitExchange();
       // submitNewWord()
     } else {  //  new word
-      const valid = submitLetters()
-      // added = validateLetters();
-      console.log('valid ' , valid );
-      if (valid === false) {
+      added = submitLetters()
+      if (added === false) {
         restoreLetters();
+      } else {
+        console.log(added)
+        // removeListenersAtCommit()
+        document.querySelector('#btnAudio').src = '../../assets/click1.mp3';
+        document.querySelector('#btnAudio').play();
+        setTimeout( () => {commitPlace()}, 700);
+
       }
 
       // if (added != 0) {
-      //   // removeListenersAtCommit()
-      //   document.querySelector('#btnAudio').src = '../../assets/click1.mp3';
-      //   document.querySelector('#btnAudio').play();
-      //   setTimeout( () => {commitPlace()}, 700);
       // } else {
-      //   console.log(' restooooore')
       //   restoreLetters();
       // }
     }
@@ -652,7 +652,7 @@ function commitExchange() {
   }
 
   async function commitPlace() {
-    console.log('added  630  ' , added);
+    console.log('added  ' , added);
              // play submission alert sound
         // const msgFirstWord = dataArray[0].split(" ");
          // if (document.querySelector('.this-user').innerText != msgFirstWord) {

@@ -1,9 +1,9 @@
+import { score } from './score'
 
 const submitLetters = () => {
   const tiles = document.querySelectorAll('.tile')
   let provisionals = []  // array of objects
   const firstMove = checkFirst()  // true if first move of the game
-  console.log('firstMove ', firstMove)
 
   let orientation = "none"
   let valid = true
@@ -15,7 +15,11 @@ const submitLetters = () => {
     manyProvisionals()
   }
 
-  return valid
+  if (valid === true) {
+    return score (tiles, provisionals, orientation, firstMove)
+  }
+
+  return valid  // valid === false
 
 
   ///////////////////////////////////////////////////////////////////
@@ -45,40 +49,37 @@ const submitLetters = () => {
   }
 
   function manyProvisionals() {
-      if (firstMove === true ) {
-        if (checkCenter() === true) {
-          console.log('center tile used')
+    let row = sameRow();
+    let col = sameColumn();
+    if (row === false && col === false) {
+      alert(`All new tiles must be in a single row or column.`)
+      valid = false;
+    } else {
+      let contig = true
+      const firstPos = provisionals[0].position;
+      const lastPos = provisionals[provisionals.length-1].position;
+      row === true ? orientation = 'hor': orientation = 'ver'
+      orientation === 'hor' ? contig = horContig(firstPos, lastPos) : contig = verContig(firstPos, lastPos)
+      if (contig === true) {
+        console.log('all letters contiguous ')
+        if (firstMove === true ) {
+          if (checkCenter() === true) {
+            console.log('center tile used')
+          } else {
+            alert('First move must use center tile.')
+            valid = false
+          }
         } else {
-          alert('First move must use center tile.')
-          valid = false
+          if (checkAdjacent() === false) {  // not first move
+            alert('New Letters must be adjacent to existing letters.')
+            valid = false
+          }
         }
       } else {
-        if (checkAdjacent() === false) {
-          alert('New Letters must be adjacent to existing letters.')
-          valid = false
-        } else {
-          let row = sameRow();
-          let col = sameColumn();
-          if (row === false && col === false) {
-            alert(`All new tiles must be in a single row or column.`)
-            valid = false;
-          } else {
-            let contig = true
-            const firstPos = provisionals[0].position;
-            const lastPos = provisionals[provisionals.length-1].position;
-            row === true ? orientation = 'hor': orientation = 'ver'
-            orientation === 'hor' ? contig = horContig(firstPos, lastPos) : contig = verContig(firstPos, lastPos)
-            if (contig === true) {
-              console.log('all letters contiguous ')
-
-            } else {
-              alert('Not all letters are contiguous.')
-              valid = false
-            }
-          }
-          console.log('valid  ' , valid)
-        }
+        alert('Not all letters are contiguous.')
+        valid = false
       }
+    }
   }
 
   function checkFirst()    {
