@@ -1383,7 +1383,7 @@ turbo_frame_tag {
 
 #board {
   display: grid;
-  height: 480px;
+  height: 480px !important;
 
   width: 98%;
   max-width: 860px;
@@ -1411,7 +1411,7 @@ turbo_frame_tag {
   }
 
   @media screen and (max-width: 600px)  {
-    max-height:480px !important;
+    // max-height:480px !important;
     // margin:0;
     // overflow:scroll;
     scroll: none;
@@ -1701,6 +1701,7 @@ clip-path: border-box;
 .tile {
   height: 95%;
   width: 95%;
+  min-height: 36px important;
   // margin: 2px 2px;
   // padding: 8px;
   display: flex;
