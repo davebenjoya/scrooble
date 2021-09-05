@@ -6,8 +6,8 @@
 
  <div class='board board-hide' id="board" data-animate-out="animate-fade" data-letter-grid="<%= @game.letter_grid %>" data-jokers="<%= @game.jokers %>" >
 
-    <% provisional_move = Move.find_by(provisional: true) %>
-    <% prov_letters = Letter.where(move: provisional_move) %>
+  <% provisional_move = Move.find_by(provisional: true) %>
+  <% prov_letters = Letter.where(move: provisional_move) %>
 
   <% for i in 0...225  %>
     <% char = "" %>
@@ -15,8 +15,6 @@
     <% if @letters.length > 0 %>
     <% prov_class  = "" %>
       <% @letters.each do |letter| %>
-
-
         <% if provisional_move.present? %>
           <% prov_letters.each do |ltr| %>
             <% if ltr == letter %>
@@ -24,11 +22,9 @@
             <% end %>
           <% end %>
         <% end %>
-
         <% if (letter.position == i) %>
           <% char = letter.character %>
         <% end %>
-
       <% end %>
       <% end %>
 
@@ -36,6 +32,5 @@
         <div class="letter <%= prov_class %>"><%= char %></div>
         <div class="board-value"></div>
       </div>
-
   <% end %>
 </div>
