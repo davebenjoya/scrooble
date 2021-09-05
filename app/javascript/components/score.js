@@ -52,8 +52,10 @@ const score = (tiles, provisionals, orientation, first) => {
       scoreTile(tiles[pos].querySelector('.letter'))
       word += tiles[pos].querySelector('.letter').innerHTML
     }
-    const wordObj = new Object({characters: word, score: wordScore, bonus:bonusString});
-    wordArray.push(wordObj)
+    if (word.length > 1) {
+      const wordObj = new Object({characters: word, score: wordScore, bonus:bonusString});
+      wordArray.push(wordObj)
+    }
   }
 
 
@@ -97,6 +99,7 @@ const score = (tiles, provisionals, orientation, first) => {
      // then find how far to top and bottom word extends
     let topNonProv = true
     let topIndex = 15 // how many tiles to the top of the first provisional
+    if (tiles[(parseInt(firstProv.position) - topIndex)] != undefined) {
     while (topNonProv === true) {
       if (tiles[(parseInt(firstProv.position) - topIndex)].querySelector('.letter').innerHTML != '') {
          allPositions.unshift(parseInt(firstProv.position) - topIndex)
@@ -104,6 +107,8 @@ const score = (tiles, provisionals, orientation, first) => {
       } else {
         topNonProv = false
       }
+
+    }
     }
 
     let bottomNonProv = true
@@ -159,6 +164,7 @@ const score = (tiles, provisionals, orientation, first) => {
      // find how far to top and bottom word extends
     let topNonProv = true
     let topIndex = 15 // how many tiles to the top of the provisional
+    if (tiles[(parseInt(prov.position) - topIndex)] != undefined) {
     while (topNonProv === true) {
       if (tiles[(parseInt(prov.position) - topIndex)].querySelector('.letter').innerHTML != '') {
          allPositions.unshift(parseInt(prov.position) - topIndex)
@@ -168,16 +174,25 @@ const score = (tiles, provisionals, orientation, first) => {
       }
     }
 
+
+
+    }
+
     let bottomNonProv = true
     let bottomIndex = 15 // how many tiles to the bottom of the provisional
-    while (bottomNonProv === true) {
-      if (tiles[(parseInt(prov.position) + bottomIndex)].querySelector('.letter').innerHTML != '') {
-         allPositions.push(parseInt(prov.position) + bottomIndex)
-         bottomIndex += 15
-      } else {
-        bottomNonProv = false
+
+    if (tiles[(parseInt(prov.position) + bottomIndex)] != undefined) {
+      while (bottomNonProv === true) {
+        if (tiles[(parseInt(prov.position) + bottomIndex)].querySelector('.letter').innerHTML != '') {
+           allPositions.push(parseInt(prov.position) + bottomIndex)
+           bottomIndex += 15
+        } else {
+          bottomNonProv = false
+        }
       }
+
     }
+
     if (allPositions.length > 1) {
       scoreWord()
     }
