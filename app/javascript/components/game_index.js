@@ -3,6 +3,7 @@ import { Turbo, cable } from "@hotwired/turbo-rails"
 const gameIndex = ()  => {
   const indexPage = document.querySelector(".index-page-identifier")
   let crawlEndDelay = 1000;
+  let storedGames = document.querySelectorAll(".card").length
   if (indexPage) {
     setTimeout( () => {
       document.querySelector(".crawl-start").classList.add("crawl-show");
@@ -13,37 +14,35 @@ const gameIndex = ()  => {
   }
 
 
+
   setTimeout( () => {
     document.querySelector(".crawl-start").classList.add("crawl-end");
     // console.log("transition end");
   }, crawlEndDelay);
 
-  $(document).ready(function(){
-    setInterval(function(){
-      $("#my-games").load(window.location.href + " #my-games" );
-    }, 30000);
-  });
+
 
  const yourGames = document.querySelector("#your-games");
   let agoTemp = ``;
   if (yourGames) {
     // setupPageAnimations();
 
+    window.onload = function(){
+      if (storedGames != document.querySelectorAll(".card").length) {
+        console.log('neees updaytingggggggg');
+        // document.querySelector('#btnAudio').src = '../../assets/stub.mp3';
+        // document.querySelector('#btnAudio').play();
+      }
+      setInterval(function(){
+        $("#my-games").load(window.location.href + " #my-games" );
+        storedGames = document.querySelectorAll(".card").length
 
-    const numOfBgs = 6;
-    let currentBg = 0;
-   let bgClass = ``;
+      }, 15000);
+      // refreshIndexTiles()
 
+    };
 
-
-    let tileClass = ``;
-    document.querySelectorAll(".tile-index").forEach ( t => {
-    const leading  = currentBg < 10 ? "0" : "";
-    tileClass = `tile` + leading + (currentBg + 1).toString();
-      t.classList.add(`${tileClass}`)
-      currentBg ++ ;
-      if (currentBg > numOfBgs - 1) currentBg = 0;
-    })
+    // refreshIndexTiles()
 
     document.querySelectorAll(".avatar-index").forEach( av => {
       av.addEventListener('mouseover', () => {
@@ -63,6 +62,23 @@ const gameIndex = ()  => {
     setTimeout(function () {
       document.querySelector("#your-games").classList.add('your-games-show');
     }, 100)
+  }
+
+
+  function refreshIndexTiles() {
+
+  const numOfBgs = 6;
+  let currentBg = 0;
+  let bgClass = ``;
+  let tileClass = ``;
+
+  document.querySelectorAll(".tile-index").forEach ( t => {
+    const leading  = currentBg < 10 ? "0" : "";
+      tileClass = `tile` + leading + (currentBg + 1).toString();
+      t.classList.add(`${tileClass}`)
+      currentBg ++ ;
+      if (currentBg > numOfBgs - 1) currentBg = 0;
+    })
   }
 
 
