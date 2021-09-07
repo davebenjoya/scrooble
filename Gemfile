@@ -3,6 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 gem 'dotiw'
 
+gem "hublot", "~> 0.0.6"
 # gem 'ruby', '~>3.0.0'
 gem 'faker'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'

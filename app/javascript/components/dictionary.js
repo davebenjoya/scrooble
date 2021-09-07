@@ -9,7 +9,7 @@ let promises = [];
   let valid = true;
 
 async function searchDictionary (wordArray, moveId, playerName)  {
-   let returnArray = [];
+  let returnArray = [];
   let count = 0;
   wordString = ``;
   wordArray.forEach((word, index) => {
@@ -19,6 +19,7 @@ async function searchDictionary (wordArray, moveId, playerName)  {
     .then(response => response.json())
     .then(json => {
       if (json.statusCode === 404) {
+      console.log('404 ')
         appendString(false, `Word ${word} does not exist. ::`);
         return false
       } else {
@@ -34,17 +35,18 @@ async function searchDictionary (wordArray, moveId, playerName)  {
     if (wordvalid === false) {
       valid = false;
       console.log('set valid == false')
+        returnResults(valid, string)
       return false
     }
 
     wordString += string;
       if (count === wordArray.length) {
         returnResults(valid, wordString)
-      // returnResults()
       }
   }
 
   function returnResults (valid, string) {
+    console.log(string)
     const responseArray = string.split("::")
     let responseString = ``;
     let invalidString = ``;
@@ -54,7 +56,6 @@ async function searchDictionary (wordArray, moveId, playerName)  {
       responseString += `Valid move — ${string} Challenger misses a turn.`
       document.querySelectorAll('.letter-provisional').forEach(ltr => {
         ltr.classList.remove('letter-provisional');
-         // console.log( 'ltr' , ltr);
       })
       // return true
     } else {   //  valid === false
@@ -81,10 +82,13 @@ async function searchDictionary (wordArray, moveId, playerName)  {
       })
 
     }
-      document.querySelector("#confirmation-info").innerHTML =  `<strong>Dictionary says:</strong> ${responseString}`;
-      document.querySelector('#confirmation-btn').innerHTML = `OK`;
+      console.log('responseString ', responseString)
+      // document.querySelector("confirmation-info").innerHTML =  `<strong>Dictionary says:</strong> ${responseString}`;
+
+      document.querySelector(".challenge-info").innerHTML =  'eoweewn ewoweue eu8';
+      // document.querySelector('#confirmation-btn').innerHTML = `OK`;
       document.querySelector('#confirmation-btn').addEventListener('click', () => {
-      document.querySelector('#confirmation').classList.remove('challenge-show');
+      // document.querySelector('#confirmation').classList.remove('challenge-show');
       // return false
     })
 

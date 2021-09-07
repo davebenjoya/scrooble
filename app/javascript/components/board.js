@@ -546,7 +546,7 @@ function endGame() {
       if (added === false) {
         restoreLetters();
       } else {
-        console.log(added)
+        // console.log(added)
         // removeListenersAtCommit()
         document.querySelector('#btnAudio').src = '../../assets/click1.mp3';
         document.querySelector('#btnAudio').play();
@@ -670,7 +670,7 @@ function commitExchange() {
           }
           });
 
-        console.log('placedLetters  ' , placedLetters);
+        console.log('added[1]  ' , added[1]);
 
         const uId = document.querySelector(".edit-page-identifier").dataset.userid
         const pId = document.querySelector(".edit-page-identifier").dataset.playerid

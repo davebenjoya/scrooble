@@ -1,6 +1,8 @@
 class WordsController < ApplicationController
   def create
     @word = Word.new(word_params)
+    puts '--------------------------------------##########################'
+    puts @word.characters
     @word.save!
   end
 
