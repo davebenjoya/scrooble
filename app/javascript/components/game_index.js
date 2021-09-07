@@ -18,10 +18,17 @@ const gameIndex = ()  => {
     // console.log("transition end");
   }, crawlEndDelay);
 
+  $(document).ready(function(){
+    setInterval(function(){
+      $("#my-games").load(window.location.href + " #my-games" );
+    }, 30000);
+  });
+
  const yourGames = document.querySelector("#your-games");
   let agoTemp = ``;
   if (yourGames) {
     // setupPageAnimations();
+
 
     const numOfBgs = 6;
     let currentBg = 0;

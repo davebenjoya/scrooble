@@ -22,10 +22,7 @@ let playerName;
     consumer.subscriptions.create({ channel: "GameChannel", id: id }, {
       received(data) {
 
-      console.log('data ' , data);  // for submission 0 - message, 1 - player, 2- letters, 3 - score, 4 - move id
-                                   // for acceptance 0 - message, 1 - player, 2- score, 3 - 'acceptance'//
-                                    // for challenge 0 - message, 1 - words, 2 - move id, 3- 'challenge'
-                                  // for exchange 0 - message, 1 - player, 2 - 'exchange'
+      console.log('data ' , data);
 
         dataArray = data.split(":")
          console.log('dataArray.length ' , dataArray.length);
@@ -50,21 +47,20 @@ let playerName;
 
           }, 2000);
 
-            const allWordsValid = searchDictionary(wordArray, moveId, playerName);
-console.log('allWordsValid', allWordsValid);
+            if (document.querySelector('.logged-in-as').innerHTML.split('as ')[1].trim() === document.querySelector(".nav-emp").innerText.split(':')[1].trim()) {
+              searchDictionary(wordArray, moveId, playerName);
+            }
+
             setTimeout(function () {
             // play challenge alert sound
-            document.querySelector('#btnAudio').src = '../../assets/stub.mp3';
-            document.querySelector('#btnAudio').play();
-
+              document.querySelector('#btnAudio').src = '../../assets/stub.mp3';
+              document.querySelector('#btnAudio').play();
               const moveId = dataArray[2]
-              // console.log('searchDictionary(wordArray, moveId) ', searchDictionary(wordArray, moveId))
-              console.log('allWordsValid', allWordsValid)
             }, 6600);
 
-            setTimeout(function () {
-              document.querySelector('#confirmation-btn').style = "visibility: visible";
-            }, 7300);
+            // setTimeout(function () {
+            //   document.querySelector('#confirmation-btn').style = "visibility: visible";
+            // }, 7300);
 
           // end setTimeout
           break;

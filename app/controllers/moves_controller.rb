@@ -108,7 +108,7 @@ end
 
 
   def destroy
-    if Move.find(params[:id])
+    if Move.find(params[:id]).exists? == true
       @move = Move.find(params[:id])
       @move.destroy
     end

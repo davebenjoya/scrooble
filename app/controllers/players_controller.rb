@@ -7,10 +7,10 @@ class PlayersController < ApplicationController
 
   def update
      puts "?*?*?*?*?*?* PARAMS [CHALLENGING]     *?*?*?*?*?*?*?*?*?*?*?*"
-    puts player_params["challenging"]
     @player = Player.find(params[:id])
     players = Player.where(game_id: @player.game_id)
     @game = @player.game
+    puts @player.user.username
     challenging_player = @player.user.username
     challenged_player = players[@game.current_player].user.username
     if params["challenging"] == 'false'    # string not boolean (value can be 'pending')

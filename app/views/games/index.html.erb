@@ -36,24 +36,6 @@
 
 
       <% if my_game == true %>
-
-              <% ago = time_ago_in_words(game.updated_at)
-              .sub("and", "")
-              .sub(" years", "y")
-              .sub(" year", "y")
-              .sub(" months", "M")
-              .sub(" month", "M")
-              .sub(" weeks", "w")
-              .sub(" week", "w")
-              .sub(" days", "d")
-              .sub(" day", "d")
-              .sub(" hours", "h")
-              .sub(" hour", "h")
-              .sub(" minutes", "m")
-              .sub(" minute", "m")
-              .sub(" seconds", "s")
-              .sub("a ", "1")
-              .gsub(",", "") %>
         <% if game.completed %>
           <%= link_to game_path(game) do %>
             <div class="card m-2 stored-game stored-game-completed" data-names="<%= name_string %>" >
@@ -90,7 +72,7 @@
               </span>
               </div>
             </div>
-            <div class="status status-completed"><%= status %> <%=ago %> ago</div>
+            <div class="status status-completed"><%= status %> <%=game.updated_at.pretty %></div>
 
             </div>
           <% end %>
@@ -143,7 +125,7 @@
                   <span class="tiles-remaining"><%= remaining_tiles %></span>
               </div>
 
-              <div class="status"><%= status %> <%= ago %> ago</div>
+              <div class="status"><%= status %> <%=game.updated_at.pretty %></div>
               </div>
            </div>
           <% end %>
