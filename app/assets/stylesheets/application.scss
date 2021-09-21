@@ -15,10 +15,95 @@
  */
 @import 'config/colors';
 @import "games";
-// @import "card";
+@import "user";
 @import 'bootstrap/scss/bootstrap';
 
+:root {
+  --bg-color: #9A8C98; // $heliotrope-gray
+  --type-color:  #F3FFBD; // $cream
+  --logo-color: #629677; // $india-green
+  --bvm-color: #525B76; // $independence
+  --panel-color: #E4E9F1; // $alice-blue:
+  --background: linear-gradient(5deg, $raisin-black 20% , $dark-jungle-green 60%, $raisin-black 85%) no-repeat;
+  // --background: linear-gradient(5deg, rgba(180, 10, 50, .3) 20% , rgba(80, 10, 30, .6 60%, rgba(180, 10, 50, .3 85% ) no-repeat;
+  --btn-bg: #525B76;
+  --btn-type: #E2D4D3;
+  --btn-border: #E4E9F1;
+  --btn-type-hilite: #E4E9F1;
+  --btn-bg-hilite:#FBA39D;
+  --theme-select-width: 60px;
+}
+
+#select-theme {
+  width: auto;
+  background-color: white;
+  opacity: .15;
+  border: none;
+  padding-left: 8px;
+  padding-right: 8px;
+  color: var(--type-color);
+  text-align: left;
+  position: fixed;
+  left: -102px;
+  top: 69px;
+  z-index: 500;
+  transition: all .5s;
+}
+
+#select-theme:hover {
+  width: auto;
+  opacity: 1;
+  border: none !important;
+  color: var(--type-color);
+  left: -8px;
+  transition: all .5s;
+}
+
+
+button {
+  color: var(--btn-type);
+  background-color: var(--btn-bg);
+  // background-color: transparent;
+  // box-shadow: 1px 1px 3px inset var(--btn-border);
+  box-shadow: none;
+  border: 1px solid var(--btn-border);
+}
+
+
+button:hover {
+  color: var(--btn-type-hilite) !important;
+  background-color: var(--btn-bg-hilite);
+  // background-color: transparent;
+  // box-shadow: 1px 1px 3px inset var(--btn-border);
+  box-shadow: none;
+}
+
+input[type=submit] {
+  color: var(--btn-type);
+  background-color: var(--btn-bg) !important;
+  border: 1px solid var(--btn-border);
+  // box-shadow: 1px 1px 1px inset ;
+
+}
+
+
+input[type=submit]:hover {
+  color: var(--btn-type-hilite);
+  background-color: var(--btn-bg-hilite);
+  // background-color: transparent;
+  // box-shadow: 1px 1px 3px inset var(--btn-border);
+  box-shadow: none;
+}
+.crawl-start a {
+  color: var(--bvm-color) !important;
+}
+
+.container {
+  background-color: var(--panel-color);
+}
+
 html, body {
+  // background: var(--background);
   // background: linear-gradient(5deg, $raisin-black 20% , $dark-jungle-green 60%, $raisin-black 85% ) no-repeat;
  // overflow-x: hidden;
 
@@ -30,7 +115,7 @@ html, body {
 html {
   // background: linear-gradient(4deg, hsl(220, 30, 20) 5% , hsl(220, 30, 12) 15% ) no-repeat;
 
-  background-color:$gunmetal;
+  // background-color: var(--bg-color-2);
   height: 100%;
 
   min-height:600px;
@@ -40,11 +125,11 @@ body {
   // background-color:transparent;
   // background: linear-gradient(4deg, hsl(220, 30, 12) 40% , hsl(220, 30, 30) 60%, hsl(220, 30, 21) 90% ) no-repeat;
 
-  background: linear-gradient(4deg, $gunmetal 15% , $dark-slate-gray 40%, $dark-slate-gray 55%, $gunmetal 80% ) no-repeat;
-// background-color: $peach-puff;
+  // background: linear-gradient(4deg, var(--bg-color-1) 15% , var(--bg-color-2) 30%, var(--bg-color-2) 65%, var(--bg-color-1) 90% ) no-repeat;
+ background-color: var(--bg-color);
+  color: var(--type-color);
   // display: flex;
   // min-height:600px;
-
 
 // $dark-jungle-green: #002229;
 // $pine-tree: #1F2405;
@@ -97,7 +182,6 @@ body {
 // $champagne-pink: #E2D4D3;
 // $isabelline: #F2E9E4;
 
-
 // $red: #FD1015;
 // $blue: #167FFB;
 // $yellow: #FFC65A;
@@ -105,18 +189,6 @@ body {
 // $green: #1EDD88;
 // $gray: #0E0000;
 // $light-gray: #F4F4F4;
-
-
-
-
-
-
-
-
-
-
-
-
 
   // background-color:transparent;
   // background-color:hsl(220, 30, 12);

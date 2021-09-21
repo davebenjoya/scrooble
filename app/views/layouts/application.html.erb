@@ -14,7 +14,7 @@
     <%= stylesheet_pack_tag 'application', 'data-turbo-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbo-track': 'reload' %>
   </head>
-
+  <%  %>
   <body>
     <div class = 'crawl-start' >Support democracy in the US
       <%= link_to "BVM", "https://blackvotersmatterfund.org/", target: :_blank %>
@@ -26,7 +26,12 @@
     <%# end %>
       <%#= render partial: 'logo' %>
     <%#= render 'flashes' %>
-
+       <% if user_signed_in? %>
+      <div class = "p-0 m-0">
+        <%= select_tag "theme", options_for_select([ "Desert", "Underwater", 'Spy', 'Candy' ], current_user.current_theme.capitalize()), id:'select-theme' %>
+      </div>
+      <% end %>
     <%= yield %>
+
   </body>
 </html>

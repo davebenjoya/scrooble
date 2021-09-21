@@ -56,20 +56,6 @@ end
 
     respond_to do |format|
 
-      # format.turbo_stream {render turbo_stream: turbo_stream.append(@game)}
-
-      # format.turbo_stream do
-      #   render turbo_stream: turbo_stream.append(:messages, partial: 'my_games',
-      #     locals: { game: @game })
-      # end
-
-
-
-    # respond_to do |format|
-    #   format.turbo_stream do
-    #     render turbo_stream: turbo_stream.append(:messages, partial: 'my_games',
-    #       locals: { games: @games })
-    #   end
       format.html {  }
     end
 
@@ -77,14 +63,12 @@ end
 
 
       opponent_array = []
-      # raise
       # first iterate to build list of all opponents' names
       params["game"]['opponents'].split(',').each do |opponentId|
         user = User.where(id: opponentId.to_i)
         opponent_array << user[0].username
       end
 
-      # raise
 
       # randomize order of players
       un_ran_array = params["game"]['opponents'].split(",") # make array from opponent ids
@@ -97,7 +81,6 @@ end
         @ran_array << myId unless @ran_array.include?(myId)
       end
 
-      # then build each player object and send email to opponents
       @ran_array.each_with_index do |opponentId, index|
         user = User.where(id: opponentId.to_i)
         letters = params["game"]['all_player_letters'].split(',')[index]

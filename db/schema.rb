@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_14_092357) do
+ActiveRecord::Schema.define(version: 2021_09_17_101321) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,8 +82,8 @@ ActiveRecord::Schema.define(version: 2021_05_14_092357) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "completed", default: false
-    t.boolean "skip", default: false
     t.string "challenging", default: "pending"
+    t.integer "skip", default: 0, null: false
     t.index ["game_id"], name: "index_players_on_game_id"
     t.index ["user_id"], name: "index_players_on_user_id"
   end
@@ -109,8 +109,8 @@ ActiveRecord::Schema.define(version: 2021_05_14_092357) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "name"
     t.string "username"
-    t.string "string"
     t.boolean "admin", default: false, null: false
+    t.string "current_theme", default: "underwater"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

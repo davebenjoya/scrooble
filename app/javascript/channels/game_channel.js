@@ -10,9 +10,6 @@ let id;
 let dataArray;
 let moveId;
 
-
-
-
 const initGameCable = () => {
 let playerName;
   const messagesContainer = document.getElementById('messages');
@@ -25,44 +22,35 @@ let playerName;
       console.log('data ' , data);
 
         dataArray = data.split(":")
-         console.log('dataArray.length ' , dataArray.length);
-         console.log('dataArray[0] ' , dataArray[0]);
-         const wordArray =  dataArray[1].split(',');
-
+         // console.log('dataArray.length ' , dataArray.length);
+         // console.log('dataArray[0] ' , dataArray[1]);
+         const wordArray =  dataArray[2].split(',');
          switch (dataArray[dataArray.length - 1].trim()) {
+
+          case "real_words":
+            alert('dataArray', dataArray);
+          break;
           case "challenge":
           console.log('challlllllenge');
 
-              document.querySelector('#confirmation-btn').style = "visibility: hidden";
+              document.querySelector('#challenge-btn').style = "visibility: hidden";
 
             setTimeout(function () {
             // play challenge alert sound
             document.querySelector('#btnAudio').src = '../../assets/insistentHarp.mp3';
             document.querySelector('#btnAudio').play();
-            }, 1600);
+            }, 600);
 
-            setTimeout(function () {
-              document.querySelector('#confirmation-info').innerHTML = `${dataArray[0]}`;
-              document.querySelector('#confirmation').classList.add('challenge-show');
+          //   setTimeout(function () {
+          //     document.querySelector('#challenge-info').innerHTML = `${dataArray[0]} is challenging ${dataArray[1]}.`;
+          //     document.querySelector('#challenge').classList.add('challenge-show');
 
-          }, 2000);
+          // }, 2000);
 
             if (document.querySelector('.logged-in-as').innerHTML.split('as ')[1].trim() === document.querySelector(".nav-emp").innerText.split(':')[1].trim()) {
               searchDictionary(wordArray, moveId, playerName);
             }
 
-            setTimeout(function () {
-            // play challenge alert sound
-              document.querySelector('#btnAudio').src = '../../assets/stub.mp3';
-              document.querySelector('#btnAudio').play();
-              const moveId = dataArray[2]
-            }, 6600);
-
-            // setTimeout(function () {
-            //   document.querySelector('#confirmation-btn').style = "visibility: visible";
-            // }, 7300);
-
-          // end setTimeout
           break;
           case "acceptance":
           console.log('accccccept');
@@ -76,16 +64,10 @@ let playerName;
             document.querySelector('#btnAudio').src = '../../assets/nutty2.mp3';
             document.querySelector('#btnAudio').play();
             }, 1600);
+            console.log('dataArray[1]' , dataArray[1])
+            console.log('dataArray[2]' , dataArray[2])
 
-            setTimeout(function () {
-              document.querySelector('#confirmation-info').innerHTML = `${dataArray[1]} scored ${dataArray[2]} points.`;
-              document.querySelector('#confirmation').classList.add('challenge-show');
-
-            document.querySelector('#confirmation-btn').addEventListener('click', () => {
-              document.querySelector('#confirmation').classList.remove('challenge-show');
-
-            })
-            }, 2000);
+            showAccept()
 
             updatePlayers(dataArray[1], dataArray[2]);
 
@@ -106,13 +88,13 @@ let playerName;
             }, 1600);
 
             setTimeout(function () {
-              document.querySelector('#confirmation-info').innerHTML = `${dataArray[0]}`;
-              document.querySelector('#confirmation').classList.add('challenge-show');
-
-            document.querySelector('#confirmation-btn').addEventListener('click', () => {
-              document.querySelector('#confirmation').classList.remove('challenge-show');
-
-            })
+              document.querySelector('.challenge-info').innerHTML = `${dataArray[0]}`;
+              document.querySelector('#challenge').classList.add('challenge-show');
+              document.querySelector('#challenge-btn').style.display = 'none';
+              document.querySelector('#accept-btn').innerHTML = 'OK';
+              document.querySelector('#accept-btn').addEventListener('click', () => {
+                document.querySelector('#challenge').classList.remove('challenge-show');
+              })
             }, 2000);
 
             updatePlayers(dataArray[1], 0);
@@ -124,7 +106,7 @@ let playerName;
 
           break;
           default :
-            console.log('submisssssßsion');
+          console.log('submisssssßsion');
 
           moveId =  dataArray[4];
 
@@ -146,6 +128,10 @@ let playerName;
 
             setTimeout( () => {
               document.querySelector('#challenge').classList.add('challenge-show');
+
+  document.querySelector('#challenge-btn').style.display = 'block';
+  document.querySelector('#challenge-btn').innerHTML = 'Challenge';
+  document.querySelector('#accept-btn').innerHTML = 'Accept';
             }, ((letter_array.length * 1000) * .7) + .5 );
 
             // add listeners for dialog buttons
@@ -173,6 +159,24 @@ let playerName;
 
 
 ////////////////////////////////////////////////////////
+
+
+
+function showAccept() {
+  document.querySelector('#challenge-btn').style.display = 'none';
+  document.querySelector('#accept-btn').innerHTML = 'OK';
+  setTimeout(function () {
+    document.querySelector('.challenge-info').innerHTML = `${dataArray[1]} scored ${dataArray[2]} points.`;
+    document.querySelector('#challenge').classList.add('challenge-show');
+    document.querySelector('#accept-btn').addEventListener('click', hideAccept)
+  }, 2000);
+}
+
+function hideAccept() {
+  document.querySelector('#challenge').classList.remove('challenge-show');
+  document.querySelector('#accept-btn').removeEventListener('click', showAccept);
+  // document.querySelector('#accept-btn').removeEventListener('click' hideAccept);
+}
 
 
 function challengeWords() {
@@ -232,6 +236,7 @@ function acceptWords() {
   });
 
   document.querySelector('#challenge').classList.remove('challenge-show');
+   document.querySelector('#accept-btn').removeEventListener('click', acceptWords)
   // chooseLetters();
 }
 

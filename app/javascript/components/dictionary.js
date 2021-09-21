@@ -1,3 +1,5 @@
+import { initGameCable } from '../channels/game_channel'
+
 
 /// url contains "@@@" which will be replaced with search term
 const url = "https://api.wordnik.com/v4/word.json/@@@/definitions?limit=3&includeRelated=false&sourceDictionaries=all&useCanonical=false&includeTags=false&api_key=bws5w0ajrmgaqjxopiobxgwa1sr5cg78y8gzhgeqhrrp10le9";
@@ -20,12 +22,12 @@ async function searchDictionary (wordArray, moveId, playerName)  {
     .then(json => {
       if (json.statusCode === 404) {
       console.log('404 ')
-        appendString(false, `Word ${word} does not exist. ::`);
+        appendString(false, `Word ${word.characters} does not exist. ::`);
         return false
       } else {
         appendString(true, `${json[0].word}: ${json[0].text} ::`);
+        promises.push(promise)
       }
-      promises.push(promise)
     });
   });
 
@@ -34,15 +36,14 @@ async function searchDictionary (wordArray, moveId, playerName)  {
     count ++;
     if (wordvalid === false) {
       valid = false;
-      console.log('set valid == false')
-        returnResults(valid, string)
+      returnResults(valid, string)
       return false
     }
 
     wordString += string;
-      if (count === wordArray.length) {
-        returnResults(valid, wordString)
-      }
+    if (count === wordArray.length) {
+      returnResults(valid, wordString)
+    }
   }
 
   function returnResults (valid, string) {
@@ -71,7 +72,7 @@ async function searchDictionary (wordArray, moveId, playerName)  {
         }
       })
       responseString = `Invalid move — <br/> ${invalidString} ${playerName} misses a turn.`
-
+      // alert(responseString)
       const csrfToken = document.querySelector("[name='csrf-token']").content;
       fetch(`/moves/${moveId}`, {
         method: 'DELETE',
@@ -82,15 +83,16 @@ async function searchDictionary (wordArray, moveId, playerName)  {
       })
 
     }
-      console.log('responseString ', responseString)
-      // document.querySelector("confirmation-info").innerHTML =  `<strong>Dictionary says:</strong> ${responseString}`;
+     alert(responseString)
+     realWords()
+      // document.querySelector(".challenge-info").insertAdjacentHTML ('beforeend', `<strong>Dictionary says:</strong> ${responseString}`) ;
 
-      document.querySelector(".challenge-info").innerHTML =  'eoweewn ewoweue eu8';
-      // document.querySelector('#confirmation-btn').innerHTML = `OK`;
-      document.querySelector('#confirmation-btn').addEventListener('click', () => {
-      // document.querySelector('#confirmation').classList.remove('challenge-show');
-      // return false
-    })
+      // document.querySelector(".challenge-info").innerText =  'eoweewn ewoweue eu8';
+    //   document.querySelector('#confirmation-btn').innerHTML = `OK`;
+    //   document.querySelector('#confirmation-btn').addEventListener('click', () => {
+    //   // document.querySelector('#confirmation').classList.remove('challenge-show');
+    //   // return false
+    // })
 
   }
       // if (count === wordArray.length) return [valid, wordString];
@@ -100,6 +102,43 @@ async function searchDictionary (wordArray, moveId, playerName)  {
     return valid;
   })
     // console.log( returnArray[0]);
+
+
+function realWords() {
+
+  const gId = document.querySelector(".edit-page-identifier").dataset.gameid
+  const pId = document.querySelector(".edit-page-identifier").dataset.playerid
+  const csrfToken = document.querySelector("[name='csrf-token']").content;
+
+  const acceptData = {challenging: 'realwords', id:`${pId}`}
+  fetch(`/players/${pId}`, {
+    method: 'PATCH',
+    headers: {
+      'X-CSRF-Token': csrfToken,
+      'Content-Type': 'application/html',
+    },
+    body: JSON.stringify(acceptData)
+  })
+  .then(response => response.json())
+  .then(acceptObj => {
+    console.log('moveId  ' + moveId);
+    const moveAcceptData = {id: `${moveId}`}
+    fetch(`/moves/${moveId}`, {
+      method: 'PATCH',
+      headers: {
+      'X-CSRF-Token': csrfToken,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(moveAcceptData)
+    })
+  });
+  document.querySelector('#challenge').remove()
+  // document.querySelector('#challenge').classList.remove('challenge-show');
+  // document.querySelector('#challenge').classList.add('challenge-hide');
+  // chooseLetters();
+}
+
+
 }
 
 export { searchDictionary }

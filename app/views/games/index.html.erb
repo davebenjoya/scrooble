@@ -72,7 +72,7 @@
               </span>
               </div>
             </div>
-            <div class="status status-completed"><%= status %> <%=game.updated_at.pretty %></div>
+            <div class="status status-completed"><%= status %> <%=game.updated_at.pretty.gsub(/\sat\s*/, "") %></div>
 
             </div>
           <% end %>
@@ -125,7 +125,7 @@
                   <span class="tiles-remaining"><%= remaining_tiles %></span>
               </div>
 
-              <div class="status"><%= status %> <%=game.updated_at.pretty %></div>
+              <div class="status"><%= status %> <%=game.updated_at.pretty.gsub(/\sat\s*/, " ") %></div>
               </div>
            </div>
           <% end %>

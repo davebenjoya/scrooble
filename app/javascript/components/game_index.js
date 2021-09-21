@@ -1,6 +1,8 @@
 import { Turbo, cable } from "@hotwired/turbo-rails"
 
 const gameIndex = ()  => {
+  document.querySelector(":root").style.setProperty("bg-color", "#546EB6"); // $blue-yonder
+
   const indexPage = document.querySelector(".index-page-identifier")
   let crawlEndDelay = 1000;
   let storedGames = document.querySelectorAll(".card").length
@@ -21,27 +23,32 @@ const gameIndex = ()  => {
   }, crawlEndDelay);
 
 
-
+let refresh;
  const yourGames = document.querySelector("#your-games");
   let agoTemp = ``;
   if (yourGames) {
     // setupPageAnimations();
 
     window.onload = function(){
-      if (storedGames != document.querySelectorAll(".card").length) {
-        console.log('neees updaytingggggggg');
-        // document.querySelector('#btnAudio').src = '../../assets/stub.mp3';
-        // document.querySelector('#btnAudio').play();
-      }
-      setInterval(function(){
-        $("#my-games").load(window.location.href + " #my-games" );
-        storedGames = document.querySelectorAll(".card").length
+      // if (storedGames != document.querySelectorAll(".card").length) {
+      //   console.log('neees updaytingggggggg');
+      //   // document.querySelector('#btnAudio').src = '../../assets/stub.mp3';
+      //   // document.querySelector('#btnAudio').play();
+      //   storedGames = document.querySelectorAll(".card").length
+      // }
+      refresh = setInterval(function(){
+          console.log('setInterval ')
+          // $("#my-games").innerHTML = ``;
+          $("#your-games").load(window.location.href + " #my-games" );
 
-      }, 15000);
+        }, 15000);
+      }
       // refreshIndexTiles()
 
-    };
 
+    window.addEventListener('unload', () => {
+      clearInterval(refresh)
+    })
     // refreshIndexTiles()
 
     document.querySelectorAll(".avatar-index").forEach( av => {
