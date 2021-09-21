@@ -1,0 +1,38 @@
+Searching 302 files for "itttttttttts"
+
+0 matches
+
+Searching 302 files for "type="file""
+
+/Users/davidbenjoya/code/davebenjoya/scrooble/app/assets/stylesheets/games.scss:
+ 1114  
+ 1115  
+ 1116: [type="file"] {
+ 1117    border: 0;
+ 1118    clip: rect(0, 0, 0, 0);
+ ....
+ 1125  }
+ 1126  
+ 1127: [type="file"] + label {
+ 1128  
+ 1129   color: $space-cadet;
+ ....
+ 1140  }
+ 1141  
+ 1142: [type="file"]:focus + label,
+ 1143: [type="file"] + label:hover {
+ 1144    /* File upload hover state button styles */
+ 1145  }
+ 1146  
+ 1147: [type="file"]:focus + label {
+ 1148    /* File upload focus state button styles */
+ 1149  }
+
+/Users/davidbenjoya/code/davebenjoya/scrooble/app/views/devise/registrations/edit.html.erb:
+   22          </div>
+   23          <div class="choose">
+   24:         <!--   <input type="file" name="file">
+   25      <input type="submit" value="Upload File" name="submit"> -->
+   26            <p><%= f.file_field :avatar, direct_upload: true, id:'file'  %>
+
+6 matches across 2 files

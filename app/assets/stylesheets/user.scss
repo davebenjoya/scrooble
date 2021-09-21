@@ -1,0 +1,69 @@
+// Place all the styles related to the user controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+
+
+@import 'config/colors';
+
+.edit-user-identifier {
+  // background: radial-gradient(farthest-corner at 0px 0px, $deep-space-sparkle 20%, $roman-silver 90%);
+
+  background-color: var(--panel-color);
+  box-shadow: 0px 0px 4px inset $rich-black !important;
+
+  border: 1px solid $roman-silver !important;
+  border-right: 1px solid $roman-silver !important;
+  border-left: 2px solid $isabelline !important;
+  border-top: 1px solid $isabelline !important;
+  border-radius: 8px;
+  font-size: 12px;
+  // margin-top: 4px;
+  margin-bottom: 32px;
+  width: 50% !important;
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  flex-gap: 0;
+
+  @media only screen and (max-width: 800px) {
+    width: 60% !important;
+  }
+  @media only screen and (max-width: 530px) {
+    width: 80% !important;
+  }
+}
+
+.edit-user-head {
+  color: var(--type-color) !important;
+  margin-top: 8px;
+  font-size: 18px;
+}
+
+
+.edit-user-identifier label {
+  line-height: 8px;
+  margin-top: 16px;
+  margin-bottom: 0px;
+}
+
+#delete-account-div {
+  width: 100%;
+  display:flex;
+  align-items: center;
+  text-align: center;
+  margin:0 !important;
+  padding:0 !important;
+  margin-bottom:4px !important;
+}
+
+#delete-acct-btn {
+
+  width: 100%;
+  margin:0 !important;
+  margin-left: 4px !important;
+  padding-left:4px !important;
+  padding-right:4px !important;
+}
+
+

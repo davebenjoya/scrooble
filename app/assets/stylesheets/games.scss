@@ -6,14 +6,25 @@
 @import 'config/colors';
 
  :root {
+  --color-primary: #2dd36f;
   --bulge-delay: .2s;
+  --type-color: #F3FFBD; //$cream
 }
 
 hr {
   color: $indian-yellow;
 }
 
-#confirmation-body {
+.select {
+  // margin-bottom: 12px;
+  text-align: right;
+}
+
+select {
+  border-radius: 4px;
+}
+
+#challenge-body {
   // top: 300px !important;
   background: none !important;
   border: none !important;
@@ -26,13 +37,6 @@ hr {
 .login-identifier {
   padding: 32px;
   height: 800px !important;
-}
-input[type='submit']{
-  height: 32px !important;
-}
-
-input[type='submit']:hover{
-  color:$indian-yellow !important;
 }
 
 .create-page-identifier {
@@ -116,7 +120,7 @@ input[type='submit']:hover{
 }
 
 .crawl-start {
-  color: $honeydew;
+  color: var(--type-color) !important;
   font-size: 12px;
   padding: 0px;
   padding-left: 16px;
@@ -129,6 +133,11 @@ input[type='submit']:hover{
   text-align: left;
   // background-color: $rich-black;
 }
+
+.crawl-start a {
+  color: var(--bvm-color) !important;
+}
+
 .crawl-show{
   left: 0px;
   transition: .5s all ease-in 1s;
@@ -192,7 +201,7 @@ input[type='submit']:hover{
 }
 
 .user-paren {
-  color: $honeydew;
+  color: var(--type-color);
   font-weight: lighter;
   font-size: 11px;
   line-height: 8px !important;
@@ -201,60 +210,9 @@ input[type='submit']:hover{
   letter-spacing: 1.05px;
 }
 
-.edit-user-identifier {
-  background: radial-gradient(farthest-corner at 0px 0px, $deep-space-sparkle 20%, $roman-silver 90%);
-
-  box-shadow: 0px 0px 4px inset $rich-black !important;
-
-  border: 1px solid $roman-silver !important;
-  border-right: 1px solid $roman-silver !important;
-  border-left: 2px solid $isabelline !important;
-  border-top: 1px solid $isabelline !important;
-  border-radius: 8px;
-  font-size: 12px;
-  // margin-top: 4px;
-  margin-bottom: 16px;
-  width: 40% !important;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  flex-gap: 0;
-}
-
-.edit-user-head {
-  color: $space-cadet !important;
-  margin-top: 8px;
-  font-size: 18px;
-}
-
-
-.edit-user-identifier label {
-  line-height: 8px;
-  margin-top: 16px;
-  margin-bottom: 0px;
-}
-
-#delete-account-div {
-  width: 100%;
-  display:flex;
-  align-items: center;
-  text-align: center;
-  margin:0 !important;
-  padding:0 !important;
-  margin-bottom:4px !important;
-}
-
-#delete-acct-btn {
-
-  width: 100%;
-  margin:0 !important;
-  margin-left: 4px !important;
-  padding-left:4px !important;
-  padding-right:4px !important;
-}
 
 .logged-in-as {
-  color: $honeydew;
+  color: var(--type-color);
   margin: 0;
   padding: 0;
   font-size: 12px;
@@ -263,12 +221,14 @@ input[type='submit']:hover{
 }
 
 .dropdown-menu {
-  background-color: $russian-green !important;
+  color: var(--btn-type);
+  background-color: var(--btn-bg) !important;
   margin: 0 !important;
   padding: 0 !important;
   padding-top: 4px !important;
   border-radius: 8px;
-  border: 1px solid $tea-green !important;
+  border: 1px solid var(--btn-border) !important;
+  // opacity: .3;
 box-shadow: 2px 1px 3px $xiketic;
 width: 60px !important;
 right:0;
@@ -285,8 +245,8 @@ right:0;
 }
 
 .dropdown-item:hover {
-  background-color: $space-cadet !important;
-  color: $honeydew !important;
+  background-color: var(--bg-color) !important;
+  color: var(--btn-bg-hilite) !important;
   font-size: 13px;
   text-shadow: none !important;
 }
@@ -627,6 +587,11 @@ width: 0px;
   opacity: .6 !important;
   // box-shadow: 0 0 8px inset $gunmetal;
 }
+.card {
+  color: var(--type-color) !important;
+  background-color: var(--panel-color) !important;
+
+}
 
 .stored-game {
   padding: 8px;
@@ -634,19 +599,20 @@ width: 0px;
   // color: hsl(20, 20, 40);
   display: flex;
   justify-content: space-between;
-  color: $redwood;
+  color: var(--type-color);
+  background-color: var(--panel-color);
   font-size: 16px;
   font-family: 'Lato', sans-serif;
   font-weight: bolder;
   // background-color: $midnight-green !important;
-  background: radial-gradient(farthest-corner at 0px 0px, $kombu-green 20%, $russian-green 90%);
+  // background: radial-gradient(farthest-corner at 0px 0px, $kombu-green 20%, $russian-green 90%);
 
-  box-shadow: 0px 0px 4px inset $rich-black !important;
+  box-shadow: 0px 0px 2px inset $rich-black !important;
 
-  border-bottom: 1px solid $india-green !important;
-  border-right: 1px solid $india-green !important;
-  border-left: 2px solid $lime-green !important;
-  border-top: 1px solid $lime-green !important;
+  border: 1px solid $roman-silver !important;
+  border-right: 1px solid $roman-silver !important;
+  border-left: 2px solid $isabelline !important;
+  border-top: 1px solid $isabelline !important;
 }
 
 .stored-game-completed {
@@ -734,10 +700,10 @@ width: 0px;
   font-size: 27px !important;
   max-height: 32px;
   font-weight: bolder;
-  color: $indian-yellow !important;
+  color: var(--logo-color) !important;
   font-family: 'Grandstander', display;
   letter-spacing: 7px;
-  margin-left:12px;
+  margin-left:16px;
   padding-top: 12px;
   text-shadow: 1px 1px $rich-black;
 
@@ -766,7 +732,7 @@ width: 0px;
   font-family: 'Lato', sans-serif;
   font-weight: bolder;
   letter-spacing: 0.4px;
-  color: $honeydew;
+  color: var(--game-name-color);
   margin: 0;
   padding: 0;
   @media only screen and (max-width: 600px) {
@@ -776,7 +742,7 @@ width: 0px;
 }
 
 #navbar-game:hover {
-  color: $tea-green;
+  color: var(--btn-type-hilite);
 }
 
 
@@ -947,13 +913,13 @@ a {
   // display: flex;
   // flex-direction: column;
   // justify-content: flex-start;
-  color: $honeydew;
+  color: var(--type-color);
   line-height:18px;
-  text-shadow: 1px 1px 1px $gunmetal;
+  // text-shadow: 1px 1px 1px $gunmetal;
 }
 
 .status {
-  color: $honeydew;
+  color: var(--type-color);
   font-size: 12px;
   // bottom: 8px;
   width: 100%;
@@ -1127,13 +1093,13 @@ a {
 
 [type="submit"] {
    color: $space-cadet;
-  background: linear-gradient(0turn, $midnight-green, $russian-green 55%, $tea-green 72%, $russian-green 88%) !important;
+  // background: linear-gradient(0turn, $midnight-green, $russian-green 55%, $tea-green 72%, $russian-green 88%) !important;
   box-shadow: 1px 1px 3px inset $pine-tree !important;
 
    border-radius: 4px !important;
    // padding: 8px !important;
    font-weight: bold;
-border: 1px solid $prussian-blue !important;
+// border: 1px solid $prussian-blue !important;
 
   height: 24px;
   margin:0 !important;
@@ -1182,7 +1148,6 @@ label {
   // opacity: 1;
 }
 
-[type="file"]:focus + label,
 [type="file"] + label:hover {
   /* File upload hover state button styles */
 }
@@ -1297,6 +1262,7 @@ a:link, #navbar a:visited, #cnavbar a:hover, #navbar a:active,  {
 .index-avatar {
   // width: 50%;
 }
+
 
 .players {
   display: flex;
@@ -1661,6 +1627,9 @@ clip-path: border-box;
   // transition-timing-function: cubic-bezier(1.000, 0.005, 0.830, 0.265); /* custom */
 }
 
+.navbar-scores {
+  // background-color: var(--panel-color);
+}
 
 .name-score {
   margin-top:0;
@@ -1674,6 +1643,7 @@ clip-path: border-box;
   background-color: transparent;
   width: 100%;
   min-width: 150px;
+  color: var(--logo-color);
 }
 
 .name {
@@ -1973,7 +1943,7 @@ pointer-events: none;
     text-align: center;
   width: 100%;
   margin:0;
-  margin-left: 32px;
+  margin-left: 28px;
   padding:0;
   // display:inline;
   }
@@ -1993,24 +1963,12 @@ pointer-events: none;
 
 .end-btn {
   width: 32%;
-  // margin-bottom: 4px;
   left:16px;
   right:8px;
-  height:26px;
-  // border-radius: 4px;
   padding: 0px 4px;
   margin-top: 4px;
-  // box-shadow: -1px -1px 2px inset $space-cadet;
-  color: $prussian-blue;
- background: linear-gradient(0turn, $midnight-green, $russian-green 55%, $tea-green 72%, $russian-green 88%);
-  box-shadow: 1px 1px 3px inset $pine-tree;
-  border-radius: 4px;
-  border: 1px solid $prussian-blue;
-  // border: none;
-  // background-color: linear-gradient ($indian-yellow, $sunray);
-  opacity: 1;
+  border-radius: 4px; opacity: 1;
   transition: all .5s;
-  // color: white;
 
 
   @media only screen and (min-width: 984px) {
@@ -2023,23 +1981,24 @@ pointer-events: none;
 
 }
 
-.end-btn:hover {
-  color: $indian-yellow;
+.commit-btn:hover, .exchange-btn:hover, .cancel-btn:hover,  .end-btn:hover {
+  color: var(--type-color);
+  // box-shadow: 1px 1px 3px inset var(--panel-color);
    // box-shadow: 1px 1px 3px inset $pine-tree;
-
+   // border-color:transparent;
  // background: linear-gradient(0turn, $midnight-green, $russian-green 45%, $tea-green 72%, $russian-green 88%);
 
 }
 
 .exchange-btn {
   width: 30%;
-  color: $space-cadet;
-  background: linear-gradient(0turn, $midnight-green, $russian-green 55%, $tea-green 72%, $russian-green 88%);
-  box-shadow: 1px 1px 3px inset $pine-tree;
+  // color: $space-cadet;
+  // background: linear-gradient(0turn, $midnight-green, $russian-green 55%, $tea-green 72%, $russian-green 88%);
+  // box-shadow: 1px 1px 3px inset $pine-tree;
    border-radius: 4px;
   // margin-bottom: 4px;
   // border: 1px solid $space-cadet;
-  border: none;
+  // border: none;
   left:8px;
   padding: 0px 4px;
   opacity: 1;
@@ -2062,11 +2021,12 @@ pointer-events: none;
   left:8px;
   // background-color: $honeydew;
   opacity: 1;
-  color: $indian-yellow;
+  color: $lime-green;
   // border: 1px solid hsl(10, 88, 74) !important;
 
   transition: all .5s;
 }
+
 
 .commit-btn {
   width: 100%;
@@ -2075,9 +2035,10 @@ pointer-events: none;
   border: none;
   border-radius: 16px;
   padding: 0px 4px;
-  color: $space-cadet;
-  background: linear-gradient(0turn, $midnight-green, $russian-green 55%, $tea-green 72%, $russian-green 88%);
-  box-shadow: 1px 1px 3px inset $pine-tree;
+  // color: $space-cadet;
+  // background: var(--background);
+  // background-color: var(--btn-bg);
+  box-shadow: 1px 1px 3px inset var(--btn-border);
 
    border-radius: 4px;
   opacity: 1;
@@ -2093,12 +2054,12 @@ pointer-events: none;
   width: 32%;
   // margin-bottom: 4px;
   left:8px;
-  box-shadow: -1px -1px 2px inset $space-cadet;
-  color: $space-cadet;
-  background: linear-gradient(0turn, $midnight-green, $russian-green 55%, $tea-green 72%, $russian-green 88%);
-  box-shadow: 1px 1px 3px inset $pine-tree;
+  // box-shadow: -1px -1px 2px inset $space-cadet;
+  // color: $space-cadet;
+  // background: linear-gradient(0turn, $midnight-green, $russian-green 55%, $tea-green 72%, $russian-green 88%);
+
   border-radius: 4px;
-  color: $space-cadet;
+  // color: $space-cadet;
   padding: 0px 4px;
   opacity: 1;
   border: none;
@@ -2301,7 +2262,7 @@ font-size: 32px;
 #controls {
   display: flex;
   justify-content: space-around;
-  margin: 8px 4px;
+  margin: 0px 0px;
   text-align: right;
 
     width:100%;

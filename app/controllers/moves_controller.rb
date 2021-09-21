@@ -66,13 +66,16 @@ end
   end
 
   def update
+    puts '-----------------------------------------------------'
+    puts '--------------- UPDATE PARAMETERS -------------------'
+    puts '-----------------------------------------------------'
+    # puts params
     @move = Move.find(params[:id])
     @game = @move.player.game
     @move.player.update({challenging: 'false'})
     @players = Player.where(game: @game)
     challenge = @players.where(challenging: 'pending')
     # @move.update({ provisional: false })
-    # raise
     if challenge.empty?
       # raise
       @move.update({ provisional: false })
@@ -120,6 +123,6 @@ private
 
 
   def move_params
-    params.require(:move).permit(:player_id, :id, :move, :letters, :summary, :added_score, :my_score, :added_score)
+    params.require(:move).permit(:player_id, :id, :move, :letters, :summary, :added_score, :my_score, :added_score, :operation)
   end
 

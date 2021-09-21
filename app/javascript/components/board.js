@@ -550,7 +550,7 @@ function endGame() {
         // removeListenersAtCommit()
         document.querySelector('#btnAudio').src = '../../assets/click1.mp3';
         document.querySelector('#btnAudio').play();
-        setTimeout( () => {commitPlace()}, 700);
+        commitPlace();
 
       }
 
@@ -615,7 +615,7 @@ function commitExchange() {
       })
       .then (response => updatePlayerOnExchange(csrfToken));
 
-
+      exchange = false
     document.querySelector("#exchange-btn").classList.remove("exchange-btn-active");
     document.querySelector("#exchange-btn").classList.add("button-disabled");
 

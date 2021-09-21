@@ -92,6 +92,7 @@ const score = (tiles, provisionals, orientation, first) => {
   }
 
   function primaryVer () {
+    // console.log('firstProv ', firstProv)
     // start with all letters from first to last provisional
     for (let k = firstProv.position; k <= lastProv.position; k+= 15) {
       allPositions.push(k)
@@ -100,15 +101,14 @@ const score = (tiles, provisionals, orientation, first) => {
     let topNonProv = true
     let topIndex = 15 // how many tiles to the top of the first provisional
     if (tiles[(parseInt(firstProv.position) - topIndex)] != undefined) {
-    while (topNonProv === true) {
-      if (tiles[(parseInt(firstProv.position) - topIndex)].querySelector('.letter').innerHTML != '') {
-         allPositions.unshift(parseInt(firstProv.position) - topIndex)
-         topIndex += 15
-      } else {
-        topNonProv = false
+      while (topNonProv === true) {
+        if (tiles[(parseInt(firstProv.position) - topIndex)].querySelector('.letter').innerHTML != '') {
+           allPositions.unshift(parseInt(firstProv.position) - topIndex)
+           topIndex += 15
+        } else {
+          topNonProv = false
+        }
       }
-
-    }
     }
 
     let bottomNonProv = true
