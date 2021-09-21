@@ -581,8 +581,8 @@ width: 0px;
 
 .marked-for-exchange {
   background-color: hsl(10, 40, 80) !important;
-  border: 2px solid $russian-green !important;
-  transition: .1s all ease-out;
+  border: 2px solid var(--logo-color) !important;
+  transition: .2s all ease-out;
   transform: scale(.88);
   opacity: .6 !important;
   // box-shadow: 0 0 8px inset $gunmetal;
@@ -1092,9 +1092,9 @@ a {
 }
 
 [type="submit"] {
-   color: $space-cadet;
-  // background: linear-gradient(0turn, $midnight-green, $russian-green 55%, $tea-green 72%, $russian-green 88%) !important;
-  box-shadow: 1px 1px 3px inset $pine-tree !important;
+  //  color: $space-cadet;
+  // // background: linear-gradient(0turn, $midnight-green, $russian-green 55%, $tea-green 72%, $russian-green 88%) !important;
+  // box-shadow: 1px 1px 3px inset $pine-tree !important;
 
    border-radius: 4px !important;
    // padding: 8px !important;
@@ -1134,22 +1134,23 @@ label {
 }
 
 [type="file"] + label {
-
- color: $space-cadet;
-  background: linear-gradient(0turn, $midnight-green, $russian-green 55%, $tea-green 72%, $russian-green 88%) !important;
-  box-shadow: 1px 1px 3px inset $pine-tree !important;
+  background-color: var(--btn-bg);
+ color: var(--btn-type);
+ font-size: 18px !important;
+  // background: linear-gradient(0turn, $midnight-green, $russian-green 55%, $tea-green 72%, $russian-green 88%) !important;
+  // box-shadow: 1px 1px 3px inset $pine-tree !important;
 
    border-radius: 4px !important;
    margin-top: 8px !important;
    padding: 8px !important;
-   font-weight: bold;
+   // font-weight: bold;
 
   font-size: 10px !important;
   // opacity: 1;
 }
 
 [type="file"] + label:hover {
-  /* File upload hover state button styles */
+  color: var(--btn-type-hilite);
 }
 
 [type="file"]:focus + label {

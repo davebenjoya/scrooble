@@ -71,7 +71,7 @@ button {
 
 
 button:hover {
-  color: var(--btn-type-hilite);
+  color: var(--btn-type-hilite) !important;
   background-color: var(--btn-bg-hilite);
   // background-color: transparent;
   // box-shadow: 1px 1px 3px inset var(--btn-border);
