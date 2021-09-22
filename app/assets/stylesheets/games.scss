@@ -607,12 +607,12 @@ width: 0px;
   // background-color: $midnight-green !important;
   // background: radial-gradient(farthest-corner at 0px 0px, $kombu-green 20%, $russian-green 90%);
 
-  box-shadow: 0px 0px 2px inset $rich-black !important;
-
-  border: 1px solid $roman-silver !important;
-  border-right: 1px solid $roman-silver !important;
-  border-left: 2px solid $isabelline !important;
-  border-top: 1px solid $isabelline !important;
+  box-shadow: 0px 0px 6px inset $rich-black !important;
+border:none !important;
+  // border-left: 1px solid hsla(180, 15, 95, .4) !important;
+  // border-top: 1px solid hsla(180, 15, 80, .4) !important;
+  // border-right: 2px solid hsla(180, 15, 40, .6) !important;
+  // border-bottom: 2px solid hsla(180, 15, 20, .6) !important;
 }
 
 .stored-game-completed {
@@ -913,7 +913,7 @@ a {
   // display: flex;
   // flex-direction: column;
   // justify-content: flex-start;
-  color: var(--type-color);
+  color: var(--btn-type-hilite);
   line-height:18px;
   // text-shadow: 1px 1px 1px $gunmetal;
 }
@@ -1245,7 +1245,7 @@ a:link, #navbar a:visited, #cnavbar a:hover, #navbar a:active,  {
   justify-content: center;
 }
 .index-players-text {
-  color: $honeydew;
+  color: var(--type-color);
   font-weight: lighter !important;
   padding-right: 4px;
 }
@@ -1951,6 +1951,7 @@ pointer-events: none;
 
 
   @media only screen and (min-width: 984px) {
+  margin-top: 16px;
     width: 80% !important;
   }
 

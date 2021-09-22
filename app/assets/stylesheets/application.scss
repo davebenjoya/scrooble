@@ -48,11 +48,15 @@
   top: 69px;
   z-index: 500;
   transition: all .5s;
+
+  @media only screen and (max-width: 600px) {
+  top: 102px;
+
+  }
 }
 
 #select-theme:hover {
-  width: auto;
-  opacity: 1;
+  opacity: .9;
   border: none !important;
   color: var(--type-color);
   left: -8px;
@@ -67,6 +71,10 @@ button {
   // box-shadow: 1px 1px 3px inset var(--btn-border);
   box-shadow: none;
   border: 1px solid var(--btn-border);
+   @media only screen and (min-width: 984px) {
+  margin-top: 16px;
+    margin-top: 4px !important;
+  }
 }
 
 
