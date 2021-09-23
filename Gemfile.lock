@@ -290,7 +290,7 @@ DEPENDENCIES
   letter_opener
   listen (~> 3.2)
   pg (>= 0.18, < 2.0)
-  puma (~> 4.1)
+  puma
   rails (~> 6.1, >= 6.1.1)
   redis (~> 4.0)
   sass-rails (>= 6)
