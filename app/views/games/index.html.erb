@@ -125,7 +125,16 @@
                   <span class="tiles-remaining"><%= remaining_tiles %></span>
               </div>
 
-              <div class="status"><%= status %> <%=game.updated_at.pretty.gsub(/\sat\s*/, " ") %></div>
+              <div class="status"><%=game.updated_at.pretty.gsub(/\sat\s*/, " ")
+              .gsub('Monday', 'Mon')
+              .gsub('Tuesday', 'Tue')
+              .gsub('Wednesday', 'Wed')
+              .gsub('Thursday', 'Thu')
+              .gsub('Friday', 'Fri')
+              .gsub('Saturday', 'Sat')
+              .gsub('Sunday', 'Sun')
+               %>
+              </div>
               </div>
            </div>
           <% end %>

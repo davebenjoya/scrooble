@@ -9,10 +9,27 @@
   --color-primary: #2dd36f;
   --bulge-delay: .2s;
   --type-color: #F3FFBD; //$cream
+  --y-offset: 26px;
 }
 
 hr {
   color: $indian-yellow;
+}
+
+.fa-plus-circle {
+  color: var(--panel-color);
+}
+
+.plus-sign {
+  background-color: var(--bg-color) !important;
+}
+
+.fa-caret-right {
+  transform: translate(-80px, var(--y-offset)) !important;
+  position: fixed;
+  color: var(--logo-color);
+  z-index: 500;
+
 }
 
 .select {
@@ -501,8 +518,9 @@ turbo-frame {
   transition: opacity 0.7s ease-out;
   margin-top: 16px;
 
-  background: radial-gradient(farthest-corner at 0px 0px, $deep-space-sparkle 20%, $roman-silver 90%);
-
+  // background: radial-gradient(farthest-corner at 0px 0px, $deep-space-sparkle 20%, $roman-silver 90%);
+  background-color: var(--panel-color);
+  color: var(--type-color) !important;
   box-shadow: 0px 0px 4px inset $rich-black !important;
 
   border: 1px solid $roman-silver !important;
@@ -617,8 +635,8 @@ border:none !important;
 
 .stored-game-completed {
   padding: 0 !important;
-    background: radial-gradient(farthest-corner at 0px 0px, $deep-space-sparkle 20%, $roman-silver 90%);
-
+    // background: radial-gradient(farthest-corner at 0px 0px, $deep-space-sparkle 20%, $roman-silver 90%);
+    background-color: var(--bg-color);
   box-shadow: 0px 0px 4px inset $rich-black !important;
 
   border: 1px solid $roman-silver !important;
@@ -886,20 +904,19 @@ a {
 }
 
 .plus-sign {
-  color: $gunmetal;
-  text-shadow: 1px 1px 2px $rich-black !important;
+  text-shadow: 1px 1px 2px var(--bg-color) !important;
   // box-shadow: 1px 2px 2px inset hsl(20, 15, 50) !important;
-  // background-color: $heliotrope-gray !important;
-    background: radial-gradient(farthest-corner at 0px 0px, $deep-space-sparkle 20%, $roman-silver 90%);
+  background-color: var(--panel-color) !important;
+    // background: radial-gradient(farthest-corner at 0px 0px, $deep-space-sparkle 20%, $roman-silver 90%);
 
 
 
   box-shadow: 0px 0px 4px inset $rich-black !important;
 
-  border: 1px solid $roman-silver !important;
-  border-right: 1px solid $roman-silver !important;
-  border-left: 2px solid $isabelline !important;
-  border-top: 1px solid $isabelline !important;
+  // border: 1px solid $roman-silver !important;
+  // border-right: 1px solid $roman-silver !important;
+  // border-left: 2px solid $isabelline !important;
+  // border-top: 1px solid $isabelline !important;
 }
 
 .nav-item p {
@@ -913,7 +930,7 @@ a {
   // display: flex;
   // flex-direction: column;
   // justify-content: flex-start;
-  color: var(--btn-type-hilite);
+  color: var(--btn-type);
   line-height:18px;
   // text-shadow: 1px 1px 1px $gunmetal;
 }
@@ -956,25 +973,26 @@ a {
 .this-user {
   font-weight: bolder;
   // font-size: larger;
-  color: $space-cadet;
+  // color: $space-cadet;
 }
 
 .pickem {
-  font-size: 18px;
+  font-size: 16px;
   margin-top: 8px;
-  font-weight: bold;
-  color:  $space-cadet;
+  // font-weight: bold;
+  color: var(--type-color);
   margin-bottom: 3px;
 }
+
 
 .opponent {
   display: flex;
   justify-content: space-between;
   margin-left: 12px;
   margin-right: 12px;
+  // color: var(--btn-type) !important;
 }
 .opponent:first-child {
-
   margin-top: 4px;
 }
 
@@ -983,7 +1001,14 @@ a {
   align-items: flex-end;
   font-size: 14px;
   font-weight: bolder;
-  color: $space-cadet;
+  color: var(--btn-type) !important;
+  transition: all .5s;
+}
+
+
+.opponent-name-selected {
+  color: var(--btn-type-hilite) !important;
+  transition: all .5s;
 }
 
 .toggle-stats {
@@ -1195,13 +1220,14 @@ input {
   // border: 1px solid hsl(50, 87, 46);
   margin: 8px;
   padding: 0 8px;
-  background-color: $honeydew;
-  color: $space-cadet;
+  background-color: var(--panel-color);
+  color: var(--btn-type);
   width: 50%;
 }
 #new-game-btn:hover {
-  background-color: $cream;
-  color: $lime-green;
+  // background-color: $cream;
+  // color: $lime-green;
+  color: var(--btn-type-hilite);
 }
 
 // input [type ="checkbox"] {
@@ -1214,21 +1240,30 @@ input[type='checkbox']{
   border-radius:4px;
   margin-right: 6px;
   margin-bottom: 3px;
-  // -webkit-appearance: none;
-  // -moz-appearance: none;
-  // -o-appearance: none;
-  // appearance:none;
-  // outline: 2px solid lightblue;
-  // box-shadow: none;
+  // border-radius: 50% !important;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  appearance:none;
+  // outline: 1px solid var(--btn-border-hilite);
+  background-color: var(--btn-type);
+  box-shadow: none;
   font-size: 2em;
+  box-shadow: 1px 1px 3px black;
+  transform: translate(0, 0);
+  transition: all .4s ease-in;
 }
 
 input[type="checkbox"]:checked { /* change "blue" browser chrome to yellow */
-  filter: hue-rotate(260deg) brightness(.95);
+  // filter: hue-rotate(260deg) brightness(.95);
+  background-color: var(--btn-type-hilite);
   -webkit-appearance: visible;
   -moz-appearance: visible;
   -o-appearance: visible;
   appearance:visible;
+  box-shadow: -1px -1px 1px var(--btn-type);
+  transform: translate(1px, 1px);
+  transition: all .4s ease-out;
 }
 
 a:link, #navbar a:visited, #cnavbar a:hover, #navbar a:active,  {
@@ -1536,7 +1571,7 @@ margin-left: 8px;
 }
 
 .scores {
-  background-color: $russian-green;
+  background-color: var(--panel-color);
   border-radius: 4px;
   padding: 8px;
   padding-top: 20px;
@@ -1546,7 +1581,7 @@ margin-left: 8px;
   top: -120px;
   transition: .6s all ease-in-out;
 clip-path: border-box;
-border: 1px solid $tea-green;
+border: 1px solid var(--btn-bg-hilite);
 box-shadow: 2px 1px 3px $midnight-green;
   z-index: 100;
 
@@ -1656,11 +1691,11 @@ clip-path: border-box;
 }
 
 .player-selected {
-  background-color: $tea-green;
+  background-color: var(--btn-bg);
   font-weight: bold;
-  color:  $lincoln-green  !important;
+  color:  var(--type-color)  !important;
   border-radius: 4px;
-  box-shadow: 0px 0px 4px inset $gunmetal;
+  // box-shadow: 0px 0px 4px inset $gunmetal;
   transition: all .3s ease-in;
 }
 

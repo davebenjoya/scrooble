@@ -16,10 +16,10 @@ const submitLetters = () => {
   }
 
   if (valid === true) {
-    return score (tiles, provisionals, orientation, firstMove)
+    return score(tiles, provisionals, orientation, firstMove)
   }
 
-  return valid  // valid === false
+  return valid
 
 
   ///////////////////////////////////////////////////////////////////

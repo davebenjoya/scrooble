@@ -13,7 +13,7 @@ const score = (tiles, provisionals, orientation, first) => {
   const lastProv = provisionals[provisionals.length -1]
   let allPositions = []
 
-  // console.log('scoo ooo oooooore', provisionals, orientation, first)
+  // console.log('scoo ooo oooooore', tiles, provisionals, orientation, first)
 
 
   scorePrimaryWord(provisionals, orientation)
@@ -204,7 +204,8 @@ const score = (tiles, provisionals, orientation, first) => {
 
     totalAdded = 0;
       bonusString = ``;
-      const name = document.querySelector('.nav-emp').innerText.split(":")[1].trim();
+      let name = document.querySelector('.nav-emp').innerText.split(":")[1].trim();
+      if (name === "You") name = document.querySelector("#dashboard").dataset.username;
       const ws = wordArray.length < 2 ? "" : "s"
       scoreString = `${name} is submitting the word${ws} `;
       // console.log("wordArray " , wordArray )

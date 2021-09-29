@@ -275,10 +275,13 @@ function acceptWords() {
   const updatePlayers = (lastPlayer, addedScore) => {
     const players =  document.querySelectorAll(".player")
     let player = "Morty"
-    let newIndex;
+    let newIndex = 0;
     console.log("players.length ", players.length);
     players.forEach( (plr, index)=> {
-      if (plr.innerText.trim() === lastPlayer.trim()) {
+      if (plr.innerHTML.trim() === "You") {
+        player = document.querySelector("#dashboard").dataset.username
+      }
+      if (plr.innerHTML.trim() === lastPlayer.trim()) {
         const oldScore = plr.parentNode.querySelector(".score").innerHTML
         const newScore = (parseInt(oldScore) + parseInt(addedScore)).toString();
         plr.parentNode.querySelector(".score").innerHTML = newScore;
@@ -287,6 +290,7 @@ function acceptWords() {
           newIndex = 0;
         }
         console.log("newIndex ", newIndex);
+
         player = document.querySelectorAll(".player")[newIndex].innerHTML;
       }
     })

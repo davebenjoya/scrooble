@@ -46,9 +46,7 @@ let refresh;
       // refreshIndexTiles()
 
 
-    window.addEventListener('unload', () => {
-      clearInterval(refresh)
-    })
+
     // refreshIndexTiles()
 
     document.querySelectorAll(".avatar-index").forEach( av => {
@@ -64,7 +62,9 @@ let refresh;
       });
     })
 
-
+  window.addEventListener('unload', () => {
+      clearInterval(refresh)
+    })
 
     setTimeout(function () {
       document.querySelector("#your-games").classList.add('your-games-show');
