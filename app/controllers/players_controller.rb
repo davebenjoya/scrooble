@@ -5,22 +5,27 @@ class PlayersController < ApplicationController
   end
 
   def update
-    if params["completed"] == true
-puts "?*?*?*?*?*?* PARAMS [completed] #{params["completed"]}    *?*?*?*?*?*?*?*?*?*?*?*"
-
-      player.update!({ completed: true })
-
-    end
-
-
      puts "?*?*?*?*?*?* PARAMS [CHALLENGING]     *?*?*?*?*?*?*?*?*?*?*?*"
     @player = Player.find(params[:id])
     players = Player.where(game_id: @player.game_id)
     @game = @player.game
-    puts @player.user.username
     challenging_player = @player.user.username
     challenged_player = players[@game.current_player].user.username
 
+
+    if params["completed"] == "true"
+
+    quit_players = players.length - 1
+    players.each do | plr |
+      quit_players -= 1 if plr.completed == true
+    end
+
+      @player.update!({ completed: true })
+
+      if quit_players == 0
+        @game.update({completed: true})
+      end
+    end
 
     # switch statement
 
