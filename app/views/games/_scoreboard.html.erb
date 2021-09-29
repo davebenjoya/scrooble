@@ -7,6 +7,7 @@
   <% players  = Player.where(game_id: @game.id).order(:id) %>
   <% straggler = '' %>
   <% provisional_move = nil %>
+  <i class="fas fa-caret-right"></i>
   <% players.each_with_index do | player, index | %>
   <% player.completed = true if @game.completed == true %>
     <% moves = Move.where(player_id: player.id) %>
@@ -27,10 +28,15 @@
       <% name_score_classes.concat(" player-selected") %>
     <% end %>
 
+    <% if  player.user == current_user %>
+            <% display_name = "You" %>
+    <% else %>
+            <% display_name = "#{player.user.username}" %>
+    <% end %>
       <%#= turbo_frame_tag "players" do %>
         <div id = "<%= player.id %>" class = "<%= name_score_classes %>">
-            <div class="<%= player_classes %>"><%= player.user.username %></div>
-            <div class="score"><%= player_score %></div>
+        <div class="<%= player_classes %>"></i> <%= display_name %></div>
+      <div class="score"><%= player_score %></div>
         </div>
       <%# end %>
   <% end %>

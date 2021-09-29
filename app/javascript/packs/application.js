@@ -27,7 +27,7 @@ import { board } from '../components/board'
 import { show_game } from '../components/show_game'
 import { gameIndex } from '../components/game_index'
 import { editUser } from '../components/edit_user'
-import { new_game } from '../components/new_game'
+import { newGame } from '../components/new_game'
 import { initGameCable } from '../channels/game_channel';
 import { initIndexCable } from '../channels/my_games_channel';
 
@@ -51,6 +51,7 @@ document.addEventListener("turbo:load", function() {
   show_game();
   initGameCable();
   editUser();
+  newGame();
 
 // document.querySelector(":root").style.setProperty("--bg-color", "#9D6158") // $redwood
 changeColorsInit ()

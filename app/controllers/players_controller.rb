@@ -5,6 +5,14 @@ class PlayersController < ApplicationController
   end
 
   def update
+    if params["completed"] == true
+puts "?*?*?*?*?*?* PARAMS [completed] #{params["completed"]}    *?*?*?*?*?*?*?*?*?*?*?*"
+
+      player.update!({ completed: true })
+
+    end
+
+
      puts "?*?*?*?*?*?* PARAMS [CHALLENGING]     *?*?*?*?*?*?*?*?*?*?*?*"
     @player = Player.find(params[:id])
     players = Player.where(game_id: @player.game_id)
@@ -43,6 +51,7 @@ class PlayersController < ApplicationController
           challenge -= 1
         end
       end
+        # raise
     when 'true'        # challenge == 'true'
       game_moves = []
       @player.update({challenging: 'true'})

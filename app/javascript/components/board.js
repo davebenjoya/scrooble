@@ -1,5 +1,4 @@
 import lettersJSON from './letters.json';
-import { validateLetters } from './validation'
 import { submitLetters } from './submit_letters'
 import { Sortable, MultiDrag, Swap, OnSpill, AutoScroll } from "sortablejs";
 import   { checkExchange, toggleLetter, placeLetter, chooseLetters, restoreLetters, setLetterValues, appendMyLetters, showMyLettersInit, markLetters, unmarkLetters }  from './player_letters'
@@ -520,10 +519,30 @@ const pickLetter = () => {   // using keyboard
 function endGame() {
   if (window.confirm("Do you really want to quit the game?")) {
      document.querySelector('#update-player-completed').value = true;
-    populateRailsForm();
-    gameForm.submit();
+
+      const csrfToken = document.querySelector("[name='csrf-token']").content;
+      const pId = document.querySelector(".edit-page-identifier").dataset.playerid
+      const playerData = ({completed: 'true'})
+    // console.log('myLetters  ', myLetters);
+
+
+    fetch(`/players/${pId}`, {
+      method: 'PATCH',
+      headers: {
+        'X-CSRF-Token': csrfToken,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(playerData)
+    })
+    // populateRailsForm();
+    // gameForm.submit();
+
   }
 }
+
+
+
+
 
   function endGameConfirm() {
     alert("Are you sure you want to quit the game? ")
@@ -537,7 +556,14 @@ function endGame() {
   function commitLetters () {
     // remove myletter, provisional board, and button listeners
     exchange = checkExchange();
-    if (exchange === true ) {  // exchange chosen letters
+      const numPlayers = document.querySelectorAll('.name-score').length
+
+     const oldPlayer = document.querySelector(".dashboard").dataset.current
+      let cPlayer = oldPlayer + 1
+      if ( cPlayer > numPlayers - 1 ) cPlayer = 0;
+      const yOff = cPlayer * 26;
+      document.querySelector(".fa-caret-right").style.transform = `translateY(0px)`
+      if (exchange === true ) {  // exchange chosen letters
       removeListenersAtCommit()
       commitExchange();
       // submitNewWord()
@@ -551,7 +577,6 @@ function endGame() {
         document.querySelector('#btnAudio').src = '../../assets/click1.mp3';
         document.querySelector('#btnAudio').play();
         commitPlace();
-
       }
 
       // if (added != 0) {
@@ -559,6 +584,8 @@ function endGame() {
       //   restoreLetters();
       // }
     }
+
+
   }
 
 
@@ -604,7 +631,6 @@ function commitExchange() {
       })
       const gameData = ({remaining_letters: remainingString, current_player: parseInt(cPlayer)})
       console.log('gameData  ', gameData);
-
       fetch(`/games/${gId}`, {
         method: 'PATCH',
         headers: {

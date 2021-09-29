@@ -5,6 +5,14 @@ const newGame = () => {
  const form  = document.querySelector("form");
   if (newDiv) {
     document.querySelector("#new-game-btn").addEventListener('click', createNewGame)
+    document.querySelectorAll(`input[type="checkbox"]`).forEach(check => {
+      check.addEventListener('click', toggleSelectPlayer)
+    })
+  }
+
+  function toggleSelectPlayer() {
+    event.currentTarget.closest(".opponent-name").classList.toggle("opponent-name-selected");
+
   }
 
 
