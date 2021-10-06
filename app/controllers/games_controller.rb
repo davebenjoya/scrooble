@@ -104,10 +104,11 @@ end
     game_players = Player.where(game: @game)
     @game_moves = []
     @letters = []
+    @pending = false
     @player = game_players.find_by(user: current_user)
     game_players.each do |plr|
-      pMoves = Move.where(player: plr)
-      pMoves.each do |m|
+      p_moves = Move.where(player: plr)
+      p_moves.each do |m|
         @game_moves << m
         ltrs = Letter.where(move: m)
         ltrs.each do |ltr|
@@ -115,12 +116,51 @@ end
         end
       end
       if (@game.completed == true)
-        p.update({ completed: true })
+        plr.update({ completed: true })
         # redirect_to game_path(@game)
       end
     end
 
+
+    if @game_moves.length > 0
+    sorted = @game_moves.sort()
+      @move =  sorted[sorted.length - 1]
+      if @move.provisional == true
+        @pending = true
+
+
+          letter_string = ''
+    letters = Letter.where(move_id: @move.id)
+    words = Word.where(move_id: @move.id)
+    puts "-------------------------------______________________"
+    # puts @game_moves[@game_moves.length - 1].updated_at
+    # puts sorted[sorted.length - 1].updated_at
+    # puts @move.summary
+    # puts sorted[@game_moves.length - 1].updated_at
+    letters.each do |ltr|
+      letter_string +=  ltr.character
+      letter_string += ltr.position.to_s
+      letter_string += ";"
+     end
+
+     GameChannel.broadcast_to(
+      @game,
+      render_to_string(
+        partial: "./moves/submission",
+        locals: {
+          msg: @move.summary,
+          player: @move.player.user.username,
+          newletters: letter_string,
+          score: @move.added_score,
+          moveid: @move.id
+        }
+        )
+      )
+
+      end
         # raise
+
+    end
   end
 
   def update
@@ -130,6 +170,9 @@ end
     # raise
    # @move = Move.last ## hopefully this gets the most recent move
 
+    moves = Move.where(:player.game == @game)
+    puts 'lkdjsf odsfjds fdjsodsjfosd ____________________________________________________'
+    puts moves
 
       # @player.update({ player_score: params["game"]["my_score"] })
       # @player.update({ player_letters: params["game"]["my_letters"].gsub(/\'/, "") })

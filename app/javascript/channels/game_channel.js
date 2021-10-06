@@ -7,33 +7,52 @@ import { searchDictionary } from '../components/dictionary'
 import '../components/board'
 
 let id;
-let dataArray;
+let dataArray = [];
 let moveId;
+let gId;
+let pId;
+let csrfToken;
 
 const initGameCable = () => {
 let playerName;
   const messagesContainer = document.getElementById('messages');
   if (messagesContainer) {
     const id = messagesContainer.dataset.gameId;
-
     consumer.subscriptions.create({ channel: "GameChannel", id: id }, {
       received(data) {
+        gId = document.querySelector(".edit-page-identifier").dataset.gameid
+        pId = document.querySelector(".edit-page-identifier").dataset.playerid
+        csrfToken = document.querySelector("[name='csrf-token']").content;
+        dataArray = data.split(":");
+        console.log('data' , data);
 
-      console.log('data ' , data);
-
-        dataArray = data.split(":")
          // console.log('dataArray.length ' , dataArray.length);
          // console.log('dataArray[0] ' , dataArray[1]);
-         const wordArray =  dataArray[2].split(',');
          switch (dataArray[dataArray.length - 1].trim()) {
 
           case "real_words":
-            alert('dataArray', dataArray);
+            // alert('dataArray', dataArray);
+          break;
+          case "end_game":
+            alert(`${dataArray[0]}`);
+            fetch(`/games/${gId}`, {
+            method: 'GET',
+            headers: {
+              'X-CSRF-Token': csrfToken,
+              'Content-Type': 'application/html',
+            }
+          })
+          .then(response => {
+            response.json()
+          })
+          .then(json => console.log(json));
+            // $("#edit-page-identifier").load(window.location.href );
           break;
           case "challenge":
+         const wordArray =  dataArray[2].split(',');
           console.log('challlllllenge');
 
-              document.querySelector('#challenge-btn').style = "visibility: hidden";
+            document.querySelector('#challenge-btn').style = "visibility: hidden";
 
             setTimeout(function () {
             // play challenge alert sound
@@ -64,8 +83,8 @@ let playerName;
             document.querySelector('#btnAudio').src = '../../assets/nutty2.mp3';
             document.querySelector('#btnAudio').play();
             }, 1600);
-            console.log('dataArray[1]' , dataArray[1])
-            console.log('dataArray[2]' , dataArray[2])
+            // console.log('dataArray[1]' , dataArray[1])
+            // console.log('dataArray[2]' , dataArray[2])
 
             showAccept()
 
@@ -112,7 +131,7 @@ let playerName;
 
           document.querySelector(".edit-page-identifier").setAttribute('data-moveid', `${moveId}`);
           const delayLength = (dataArray[0].length * 80) + 600;
-          const msgFirstWord = dataArray[0].split(" ")[0]
+          // const msgFirstWord = dataArray[0].split(" ")[0]
           playerName  = dataArray[1]
           const letter_string = dataArray[2].replaceAll("↵", "")
           const letter_array  = letter_string.split(";");  // has extra empty element
@@ -120,7 +139,7 @@ let playerName;
           // console.log('msgFirstWord ' , msgFirstWord)
 
 
-          console.log('letter_array   ' , letter_array);
+          console.log('dataArray[0]   ' , dataArray[0]);
           // document.querySelector('#messages').classList.add("messages-show");
           if (document.querySelector('.this-user').innerText.trim() != playerName.trim()) {
             updateBoard(letter_array);
@@ -128,10 +147,9 @@ let playerName;
 
             setTimeout( () => {
               document.querySelector('#challenge').classList.add('challenge-show');
-
-  document.querySelector('#challenge-btn').style.display = 'block';
-  document.querySelector('#challenge-btn').innerHTML = 'Challenge';
-  document.querySelector('#accept-btn').innerHTML = 'Accept';
+              document.querySelector('#challenge-btn').style.display = 'block';
+              document.querySelector('#challenge-btn').innerHTML = 'Challenge';
+              document.querySelector('#accept-btn').innerHTML = 'Accept';
             }, ((letter_array.length * 1000) * .7) + .5 );
 
             // add listeners for dialog buttons
@@ -166,6 +184,8 @@ function showAccept() {
   document.querySelector('#challenge-btn').style.display = 'none';
   document.querySelector('#accept-btn').innerHTML = 'OK';
   setTimeout(function () {
+    // const name = dataArray[1];
+    console.log(dataArray)
     document.querySelector('.challenge-info').innerHTML = `${dataArray[1]} scored ${dataArray[2]} points.`;
     document.querySelector('#challenge').classList.add('challenge-show');
     document.querySelector('#accept-btn').addEventListener('click', hideAccept)
@@ -180,8 +200,6 @@ function hideAccept() {
 
 
 function challengeWords() {
-  const pId = document.querySelector(".edit-page-identifier").dataset.playerid
-  const csrfToken = document.querySelector("[name='csrf-token']").content;
   const challengeData = ({challenging: 'true'})
 
   fetch(`/players/${pId}`, {
@@ -207,11 +225,6 @@ function challengeWords() {
 ////////////////////////////////////////////////////////
 
 function acceptWords() {
-
-  const gId = document.querySelector(".edit-page-identifier").dataset.gameid
-  const pId = document.querySelector(".edit-page-identifier").dataset.playerid
-  const csrfToken = document.querySelector("[name='csrf-token']").content;
-
   const acceptData = {challenging: 'false', id:`${pId}`}
   fetch(`/players/${pId}`, {
     method: 'PATCH',
@@ -278,9 +291,6 @@ function acceptWords() {
     let newIndex = 0;
     console.log("players.length ", players.length);
     players.forEach( (plr, index)=> {
-      if (plr.innerHTML.trim() === "You") {
-        player = document.querySelector("#dashboard").dataset.username
-      }
       if (plr.innerHTML.trim() === lastPlayer.trim()) {
         const oldScore = plr.parentNode.querySelector(".score").innerHTML
         const newScore = (parseInt(oldScore) + parseInt(addedScore)).toString();
@@ -291,6 +301,11 @@ function acceptWords() {
         }
         console.log("newIndex ", newIndex);
 
+        const yOff = newIndex * 26;
+        document.querySelector(":root").setAttribute("bug-y-offset", `${yOff}px`);
+
+
+
         player = document.querySelectorAll(".player")[newIndex].innerHTML;
       }
     })
@@ -299,7 +314,8 @@ function acceptWords() {
     document.querySelector(".player-selected").classList.remove("player-selected");
     document.querySelectorAll(".player")[newIndex].parentNode.classList.add("player-selected");
     document.querySelector("#scores").setAttribute('data-current', newIndex);
-
+    // console.log(document.querySelector(":root").getAttribute("--bug-y-offset"));
+    // document.querySelector(":root").setAttribute("bug-y-offset", `${(newIndex * 26) + 3 }px`);
 
     if (document.querySelector(".this-user").parentNode.classList.contains("player-selected")) {
         document.querySelector('#exchange-btn').classList.remove('button-disabled');

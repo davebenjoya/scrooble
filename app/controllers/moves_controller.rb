@@ -16,7 +16,6 @@ class MovesController < ApplicationController
     letters = Letter.where(move_id: @move.id)
     words = Word.where(move_id: @move.id)
     puts "-------------------------------______________________"
-    puts words[0]
     letters.each do |ltr|
       letter_string +=  ltr.character
       letter_string += ltr.position.to_s
@@ -25,18 +24,14 @@ class MovesController < ApplicationController
 
       players = Player.where(game: @game)
       current = players[@game.current_player]
-      message = "#{@move.player.user.username} is submitting the #{'word'.pluralize(words.length)} "
-      words.each do |wrd|
-      message += "#{wrd.characters} — #{wrd.score} #{'point'.pluralize(wrd.score.to_i)}. "
-     end
-     # raise
+
 
      GameChannel.broadcast_to(
       @game,
       render_to_string(
         partial: "submission",
         locals: {
-          msg: message,
+          msg: @move.summary,
           player: @move.player.user.username,
           newletters: letter_string,
           score: @move.added_score,
@@ -50,6 +45,7 @@ class MovesController < ApplicationController
     @move = Move.new(move_params)
     @move.player = Player.find(params['move']['player_id'])
     @move.added_score = params['move']['added_score']
+    @move.summary = params['move']['summary']
     @move.save!
     render json: @move
 end
@@ -78,7 +74,7 @@ end
     # @move.update({ provisional: false })
     if challenge.empty?
       # raise
-      @move.update({ provisional: false })
+      # @move.update({ provisional: false })
       new_array = @game.remaining_letters.split(',')
       new_remaining = @game.remaining_letters
       move_letters = Letter.where(move_id: @move.id)

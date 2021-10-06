@@ -2,6 +2,7 @@ import lettersJSON from './letters.json';
 import { submitLetters } from './submit_letters'
 import { Sortable, MultiDrag, Swap, OnSpill, AutoScroll } from "sortablejs";
 import   { checkExchange, toggleLetter, placeLetter, chooseLetters, restoreLetters, setLetterValues, appendMyLetters, showMyLettersInit, markLetters, unmarkLetters }  from './player_letters'
+import { initGameCable } from '../channels/game_channel'
 
 import axios from 'axios'
 // import   calculateScore  from './scoring';
@@ -107,6 +108,22 @@ if (createPage) {
 //////////////////////////////////////////////////////////////////////////////
 
   if (editGame) {
+    if (editGame.dataset.pending === 'true') {
+      const pendingString = `${document.querySelector(".edit-page-identifier").dataset.submitter} has submitted a word.`
+      console.log ("Pendinggggggg!", document.querySelector(".edit-page-identifier"))
+    }
+
+    const numPlayers = document.querySelectorAll('.name-score').length
+
+    const oldPlayer = document.querySelector(".dashboard").dataset.current
+      // let cPlayer = oldPlayer + 1
+      // if ( cPlayer > numPlayers - 1 ) cPlayer = 0;
+    const yOff = oldPlayer * 26;
+    console.log ('yOff ', yOff);
+    document.querySelector(":root").setAttribute("bug-y-offset", `${yOff}px`);
+
+
+
 
 // save order of player's letters on leaving page
     window.onbeforeunload = function(){
@@ -184,6 +201,9 @@ if (createPage) {
       document.querySelector("#scores").classList.toggle("scores-show");
       document.querySelector(".score-arrow").classList.toggle("score-arrow-rotate");
       })
+
+
+
   }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -562,7 +582,7 @@ function endGame() {
       let cPlayer = oldPlayer + 1
       if ( cPlayer > numPlayers - 1 ) cPlayer = 0;
       const yOff = cPlayer * 26;
-      document.querySelector(".fa-caret-right").style.transform = `translateY(0px)`
+      document.querySelector(":root").setAttribute("bug-y-offset", `${yOff}px`);
       if (exchange === true ) {  // exchange chosen letters
       removeListenersAtCommit()
       commitExchange();

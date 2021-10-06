@@ -205,7 +205,6 @@ const score = (tiles, provisionals, orientation, first) => {
     totalAdded = 0;
       bonusString = ``;
       let name = document.querySelector('.nav-emp').innerText.split(":")[1].trim();
-      if (name === "You") name = document.querySelector("#dashboard").dataset.username;
       const ws = wordArray.length < 2 ? "" : "s"
       scoreString = `${name} is submitting the word${ws} `;
       // console.log("wordArray " , wordArray )
