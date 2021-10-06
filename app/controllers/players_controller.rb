@@ -23,7 +23,14 @@ class PlayersController < ApplicationController
       @player.update!({ completed: true })
 
       if quit_players == 0
+        # redirect_to game_path(@game)
         @game.update({completed: true})
+        GameChannel.broadcast_to(
+          @game,
+          # flash[:game_update] = "next player: #{nextP}, last player: #{@game.current_player}"
+          render_to_string(partial: "end", locals: {msg: "All players have quit the game. Game #{@game.name} has ended."})
+          # render_to_string(partial: "submission", locals: {msg: ' ffdgdd g ddfghdfhrtgg  ' , player: 'mitzi', score: 12 })
+        )
       end
     end
 

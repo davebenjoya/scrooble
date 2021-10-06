@@ -27,18 +27,10 @@
     <% if  @game.current_player == index %>
       <% name_score_classes.concat(" player-selected") %>
     <% end %>
-
-    <% if  player.user == current_user %>
-            <% display_name = "You" %>
-    <% else %>
-            <% display_name = "#{player.user.username}" %>
-    <% end %>
-      <%#= turbo_frame_tag "players" do %>
         <div id = "<%= player.id %>" class = "<%= name_score_classes %>">
-        <div class="<%= player_classes %>"></i> <%= display_name %></div>
+        <div class="<%= player_classes %>"></i> <%= player.user.username %></div>
       <div class="score"><%= player_score %></div>
         </div>
-      <%# end %>
   <% end %>
 
   </div>

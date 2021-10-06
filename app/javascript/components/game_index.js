@@ -5,8 +5,9 @@ const gameIndex = ()  => {
 
   const indexPage = document.querySelector(".index-page-identifier")
   let crawlEndDelay = 1000;
-  let storedGames = document.querySelectorAll(".card").length
+  let storedGames
   if (indexPage) {
+    storedGames = document.querySelector("#my-games").querySelectorAll(".card").length
     setTimeout( () => {
       document.querySelector(".crawl-start").classList.add("crawl-show");
       // console.log("transition end");
@@ -22,30 +23,38 @@ const gameIndex = ()  => {
     // console.log("transition end");
   }, crawlEndDelay);
 
-
-let refresh;
  const yourGames = document.querySelector("#your-games");
   let agoTemp = ``;
   if (yourGames) {
     // setupPageAnimations();
+    $("#compare-dom").load(window.location.href + " #my-games" );
+document.querySelector("#compare-dom").style.display = 'none'
+  const refresh = setInterval(function(){
+    // $("#my-games").innerHTML = ``;
+    // storedGames ++;
+    $("#compare-dom").load(window.location.href + " #my-games" );
+    // $("#your-games").load(window.location.href + " #my-games" );
+    const yourGames = document.querySelector("#your-games");
+  let agoTemp = ``;
+  if (yourGames) {
+    setTimeout(checkCardLength, 300)
+}
 
-    window.onload = function(){
-      // if (storedGames != document.querySelectorAll(".card").length) {
-      //   console.log('neees updaytingggggggg');
-      //   // document.querySelector('#btnAudio').src = '../../assets/stub.mp3';
-      //   // document.querySelector('#btnAudio').play();
-      //   storedGames = document.querySelectorAll(".card").length
-      // }
-      refresh = setInterval(function(){
-          console.log('setInterval ')
-          // $("#my-games").innerHTML = ``;
-          $("#your-games").load(window.location.href + " #my-games" );
-
-        }, 15000);
-      }
+  }, 15000);
       // refreshIndexTiles()
 
+    function checkCardLength() {
+      if (document.querySelector('#compare-dom').querySelectorAll(".card").length > 0 && document.querySelector('#compare-dom').querySelectorAll(".card").length != storedGames)  {
+        document.querySelector('#btnAudio').src = '../../assets/m3.mp3';
+        document.querySelector('#btnAudio').play();
+        $("#my-games").load(window.location.href + " #compare-dom" )
+        storedGames  = document.querySelector('#compare-dom').querySelectorAll(".card").length
+      }
+    }
 
+    // document.querySelector('#compare-dom').addEventListener('load', () => {
+    //   console.log("loaded " )
+    // })
 
     // refreshIndexTiles()
 
@@ -61,6 +70,11 @@ let refresh;
         av.closest(".card").querySelector(".status").innerHTML = agoTemp;
       });
     })
+
+    window.onbeforeunload = function(){
+  // return 'Are you sure you want to leave?';
+      clearInterval(refresh)
+    };
 
   window.addEventListener('unload', () => {
       clearInterval(refresh)
