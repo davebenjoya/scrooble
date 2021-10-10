@@ -120,46 +120,52 @@ end
         # redirect_to game_path(@game)
       end
     end
-
-
-    if @game_moves.length > 0
+  @player_name = current_user.username
+  @submit_game_id = @game.id
+  if @game_moves.length > 0
     sorted = @game_moves.sort()
-      @move =  sorted[sorted.length - 1]
-      if @move.provisional == true
-        @pending = true
+    @move =  sorted[sorted.length - 1]
+    @player_name = @move.player.user.username
+    if @move.provisional == true
+      @pending = true
+      letter_string = ''
+      letters = Letter.where(move_id: @move.id)
+      words = Word.where(move_id: @move.id)
 
+      letters.each do |ltr|
+        letter_string += ltr.character
+        letter_string += ltr.position.to_s
+        letter_string += ';'
+      end
 
-          letter_string = ''
-    letters = Letter.where(move_id: @move.id)
-    words = Word.where(move_id: @move.id)
-    puts "-------------------------------______________________"
-    # puts @game_moves[@game_moves.length - 1].updated_at
-    # puts sorted[sorted.length - 1].updated_at
-    # puts @move.summary
-    # puts sorted[@game_moves.length - 1].updated_at
-    letters.each do |ltr|
-      letter_string +=  ltr.character
-      letter_string += ltr.position.to_s
-      letter_string += ";"
-     end
+      @submit_game_id = @move.player.game.id
 
-     GameChannel.broadcast_to(
-      @game,
-      render_to_string(
-        partial: "./moves/submission",
-        locals: {
-          msg: @move.summary,
-          player: @move.player.user.username,
-          newletters: letter_string,
-          score: @move.added_score,
-          moveid: @move.id
-        }
-        )
-      )
+      # GameChannel.broadcast_to(
+      #   @game,
+      #   render_to_string(
+      #     partial: "./moves/pending",
+      #     locals: {
+      #       msg: "Move Pending. #{@move.summary}",
+      #       player: @player_name,
+      #       newletters: letter_string,
+      #       score: @move.added_score,
+      #       moveid: @move.id,
+      #       submitgameid:@submit_game_id
+      #     }))
+
+      # render_to_string(
+      #     partial: "./moves/pending",
+      #     locals: {
+      #       msg: "Move Pending. #{@move.summary}",
+      #       player: @player_name,
+      #       newletters: letter_string,
+      #       score: @move.added_score,
+      #       moveid: @move.id,
+      #       submitgameid:@submit_game_id
+      #     })
+
 
       end
-        # raise
-
     end
   end
 

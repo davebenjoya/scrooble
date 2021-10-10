@@ -45,8 +45,8 @@ document.querySelector("#compare-dom").style.display = 'none'
 
     function checkCardLength() {
       if (document.querySelector('#compare-dom').querySelectorAll(".card").length > 0 && document.querySelector('#compare-dom').querySelectorAll(".card").length != storedGames)  {
-        document.querySelector('#btnAudio').src = '../../assets/m3.mp3';
-        document.querySelector('#btnAudio').play();
+        // document.querySelector('#btnAudio').src = '../../assets/m3.mp3';
+        // document.querySelector('#btnAudio').play();
         $("#my-games").load(window.location.href + " #compare-dom" )
         storedGames  = document.querySelector('#compare-dom').querySelectorAll(".card").length
       }

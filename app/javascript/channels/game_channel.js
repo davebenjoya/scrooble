@@ -20,14 +20,18 @@ let playerName;
     const id = messagesContainer.dataset.gameId;
     consumer.subscriptions.create({ channel: "GameChannel", id: id }, {
       received(data) {
+        if (document.querySelector(".edit-page-identifier").dataset.gameid) {
         gId = document.querySelector(".edit-page-identifier").dataset.gameid
         pId = document.querySelector(".edit-page-identifier").dataset.playerid
         csrfToken = document.querySelector("[name='csrf-token']").content;
+        }
         dataArray = data.split(":");
+        // console.log(gId === (dataArray[dataArray.length - 1].trim()))
         console.log('data' , data);
 
-         // console.log('dataArray.length ' , dataArray.length);
-         // console.log('dataArray[0] ' , dataArray[1]);
+         if (dataArray[dataArray.length - 2].toString().trim() === document.querySelector(".edit-page-identifier").dataset.gameid.toString().trim()) {
+
+         console.log('same game ' ,);
          switch (dataArray[dataArray.length - 1].trim()) {
 
           case "real_words":
@@ -124,6 +128,26 @@ let playerName;
             }
 
           break;
+          case 'pending':
+            for (const charPos of dataArray[3].split(';')) {
+              const char = (charPos.slice(0, 1));
+              const pos = (charPos.slice(1));
+              console.log(char);
+              console.log(pos);
+              if (char.length > 0) {
+                // document.querySelectorAll('.letter')[parseInt(pos)].classList.add('letter-provisional')
+              }
+            }
+
+            document.querySelector(".challenge-info").innerHTML = dataArray[0];
+            document.querySelector('#challenge').classList.add('challenge-show');
+              document.querySelector('#challenge-btn').style.display = 'block';
+              document.querySelector('#challenge-btn').innerHTML = 'Challenge';
+              document.querySelector('#accept-btn').innerHTML = 'Accept';
+
+          console.log('dataArrrrrrrrrrrrray[0]', dataArray[0]);
+
+            break;
           default :
           console.log('submisssssßsion');
 
@@ -139,7 +163,7 @@ let playerName;
           // console.log('msgFirstWord ' , msgFirstWord)
 
 
-          console.log('dataArray[0]   ' , dataArray[0]);
+          console.log('dataArray[0]   ' , dataArray[1]);
           // document.querySelector('#messages').classList.add("messages-show");
           if (document.querySelector('.this-user').innerText.trim() != playerName.trim()) {
             updateBoard(letter_array);
@@ -154,9 +178,9 @@ let playerName;
 
             // add listeners for dialog buttons
             document.querySelector('#challenge-btn').addEventListener('click', () => {
-              console.log('click challenge');
               challengeWords()
             })
+              console.log('pId');
             document.querySelector('#accept-btn').addEventListener('click', acceptWords)
 
             // play submission alert sound
@@ -164,15 +188,11 @@ let playerName;
             document.querySelector('#btnAudio').play();
           }
          }
+         }
         }
 
       });
   }
-     // subscribe(id);
-//   }
-
-//
-
 
 
 
@@ -249,7 +269,7 @@ function acceptWords() {
   });
 
   document.querySelector('#challenge').classList.remove('challenge-show');
-   document.querySelector('#accept-btn').removeEventListener('click', acceptWords)
+  document.querySelector('#accept-btn').removeEventListener('click', acceptWords)
   // chooseLetters();
 }
 

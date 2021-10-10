@@ -87,7 +87,8 @@ class PlayersController < ApplicationController
             locals: {
               challenged: challenged_player,
               challenging: challenging_player,
-              words: words_string})
+              words: words_string,
+              gameid: @game.id})
           )
       end
     when 'pending'
