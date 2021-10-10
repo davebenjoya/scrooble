@@ -35,7 +35,8 @@ class MovesController < ApplicationController
           player: @move.player.user.username,
           newletters: letter_string,
           score: @move.added_score,
-          moveid: @move.id
+          moveid: @move.id,
+          gameid: @game.id
         }
         )
       )
@@ -99,7 +100,7 @@ end
      GameChannel.broadcast_to(
       @game,
       # flash[:game_update] = "next player: #{nextP}, last player: #{@game.current_player}"
-      render_to_string(partial: "acceptance", locals: {msg: "word was accepted", player: @move.player.user.username, score: @move.added_score})
+      render_to_string(partial: "acceptance", locals: {msg: "word was accepted", player: @move.player.user.username, score: @move.added_score, gameid:@game.id})
       # render_to_string(partial: "submission", locals: {msg: ' ffdgdd g ddfghdfhrtgg  ' , player: 'mitzi', score: 12 })
     )
     end

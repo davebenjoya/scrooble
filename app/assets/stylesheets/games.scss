@@ -14,7 +14,6 @@
   --bug-y-offset: 3px;
 }
 
-
 hr {
   color: var(--btn-type-hilite);
 }
@@ -622,7 +621,7 @@ width: 0px;
   // color: hsl(20, 20, 40);
   display: flex;
   justify-content: space-between;
-  color: var(--type-color);
+  color: var(--btn-type);
   background-color: var(--panel-color);
   font-size: 16px;
   font-family: 'Lato', sans-serif;
@@ -655,7 +654,7 @@ border:none !important;
 }
 
 .name-completed {
-  color: var(--bg-color) !important;
+  color: var(--type-color) !important;
   padding-left: 8px;
   padding-top: 8px;
 
@@ -669,7 +668,7 @@ border:none !important;
 }
 
 .status-completed {
-  color: var(--btn-type) !important;
+  color: var(--type-color) !important;
   // background-color: $deep-space-sparkle !important;
   padding: 8px !important;
   margin-right: 8px;
@@ -940,13 +939,13 @@ a {
   // display: flex;
   // flex-direction: column;
   // justify-content: flex-start;
-  color: var(--logo-color);
+  color: var(--btn-type);
   line-height:18px;
   // text-shadow: 1px 1px 1px $gunmetal;
 }
 
 .status {
-  color: var(--type-color);
+  color: var(--btn-type);
   font-size: 12px;
   // bottom: 8px;
   width: 100%;
@@ -1292,12 +1291,12 @@ a:link, #navbar a:visited, #cnavbar a:hover, #navbar a:active,  {
   justify-content: center;
 }
 .index-players-text {
-  color: var(--type-color);
+  color: var(--btn-type);
   font-weight: lighter !important;
   padding-right: 4px;
 }
 .index-players-text-completed {
-  color: var(--btn-type);
+  color: var(--type-color);
   font-weight: regular;
   padding-right: 4px;
 }

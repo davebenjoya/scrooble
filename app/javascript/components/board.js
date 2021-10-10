@@ -3,8 +3,8 @@ import { submitLetters } from './submit_letters'
 import { Sortable, MultiDrag, Swap, OnSpill, AutoScroll } from "sortablejs";
 import   { checkExchange, toggleLetter, placeLetter, chooseLetters, restoreLetters, setLetterValues, appendMyLetters, showMyLettersInit, markLetters, unmarkLetters }  from './player_letters'
 import { initGameCable } from '../channels/game_channel'
+import { acceptWords, challengeWords } from './dialogs'
 
-import axios from 'axios'
 // import   calculateScore  from './scoring';
 
 const board = () => {
@@ -84,7 +84,6 @@ const board = () => {
 
 const createPage = document.querySelector('.create-page-identifier')
 if (createPage) {
-    console.log('copied');
     document.querySelector('#new-game-btn').addEventListener('click', () => {
     copyTextToClipboard(document.querySelector('#gamelink').innerHTML)
   })
@@ -108,10 +107,39 @@ if (createPage) {
 //////////////////////////////////////////////////////////////////////////////
 
   if (editGame) {
-    if (editGame.dataset.pending === 'true') {
-      const pendingString = `${document.querySelector(".edit-page-identifier").dataset.submitter} has submitted a word.`
-      console.log ("Pendinggggggg!", document.querySelector(".edit-page-identifier"))
-    }
+    if (editGame.dataset.pending === 'true' ) {
+    let pendingString = document.querySelector(".edit-page-identifier").dataset.summary
+      if (editGame.dataset.playername != editGame.dataset.submitter ) {
+        document.querySelector(".challenge-info").innerHTML = pendingString;
+        document.querySelector('#challenge').classList.add('challenge-show');
+        document.querySelector('#challenge-btn').style.display = 'block';
+        document.querySelector('#challenge-btn').innerHTML = 'Challenge';
+        document.querySelector('#accept-btn').innerHTML = 'Accept';
+           // add listeners for dialog buttons
+        document.querySelector('#challenge-btn').addEventListener('click', () => {
+          challengeWords()
+        })
+        document.querySelector('#accept-btn').addEventListener('click', acceptWords)
+      } else {
+        document.querySelector(".challenge-info").innerHTML = pendingString.replace(`${editGame.dataset.playername} is`, `You are`);
+        document.querySelector('#challenge').classList.add('challenge-show');
+        document.querySelector('#challenge-btn').style.display = 'none';
+        document.querySelector('#accept-btn').innerHTML = 'OK';
+           // add listener for ok button
+        document.querySelector('#accept-btn').addEventListener('click', hideDialog)
+      }
+
+
+      console.log('pndng', document.querySelector(".edit-page-identifier").dataset.submitter )
+      // const pendingString = `${document.querySelector(".edit-page-identifier").dataset.submitter} has submitted a word.`
+
+    // play submission alert sound
+    // document.querySelector('#btnAudio').src = '../../assets/nutty1.mp3';
+    // document.querySelector('#btnAudio').play();
+
+
+
+     }
 
     const numPlayers = document.querySelectorAll('.name-score').length
 
@@ -153,16 +181,16 @@ if (createPage) {
       }
     });
     // console.log("remainingLetters  ", remainingLetters);
-    playersArray = document.querySelectorAll(".name-score");
-    const letters = document.querySelector("#my-letters").dataset.playerLetters;
-    // console.log('letters ' + letters);
-    for (const letter of letters) {
-      myLetters.push(letter)
-    }
+      playersArray = document.querySelectorAll(".name-score");
+      const letters = document.querySelector("#my-letters").dataset.playerLetters;
+      // console.log('letters ' + letters);
+      for (const letter of letters) {
+        myLetters.push(letter)
+      }
 
-    const updateUrl = document.querySelector("#dashboard").dataset.url;
-    // console.log('playersArray ' + typeof playersArray)
-    const sortable = Sortable.create(myLettersDiv, {
+      const updateUrl = document.querySelector("#dashboard").dataset.url;
+      // console.log('playersArray ' + typeof playersArray)
+      const sortable = Sortable.create(myLettersDiv, {
       animation: 600,
       // easing: "cubic-bezier(1, 0, 0, 1)",
       ghostClass: "sortable-ghost", // Class name for the drop placeholder
@@ -203,6 +231,14 @@ if (createPage) {
       })
 
 
+
+  }
+
+
+  function hideDialog() {
+
+  document.querySelector('#challenge').classList.remove('challenge-show');
+   document.querySelector('#accept-btn').removeEventListener('click', hideDialog)
 
   }
 
