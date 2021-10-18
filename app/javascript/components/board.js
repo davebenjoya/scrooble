@@ -685,6 +685,7 @@ function commitExchange() {
         remainingString += letter
         if (index < remainingLetters.length - 1) remainingString += `,`
       })
+      gId = document.querySelector(".edit-page-identifier").dataset.gameid
       const gameData = ({remaining_letters: remainingString, current_player: parseInt(cPlayer)})
       console.log('gameData  ', gameData);
       fetch(`/games/${gId}`, {

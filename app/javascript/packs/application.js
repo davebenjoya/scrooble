@@ -73,7 +73,7 @@ function capitalizeFirstLetter(string) {
         const jsonTheme = Object.values(themesJSON)[k];
         const rootStyle  = document.querySelector(":root").style
         Array(Object.values(themesJSON)[k]).forEach( prop => {
-          console.log('f ' , Object.values(themesJSON)[k]);
+          // console.log('f ' , Object.values(themesJSON)[k]);
          // document.querySelector('body').style.backgroundColor = Object.values(themesJSON)[k]["bg-color"]
         });
 

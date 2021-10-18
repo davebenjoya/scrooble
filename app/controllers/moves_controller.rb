@@ -75,7 +75,7 @@ end
     # @move.update({ provisional: false })
     if challenge.empty?
       # raise
-      # @move.update({ provisional: false })
+      @move.update({ provisional: false })
       new_array = @game.remaining_letters.split(',')
       new_remaining = @game.remaining_letters
       move_letters = Letter.where(move_id: @move.id)

@@ -7,7 +7,6 @@
   <% players  = Player.where(game_id: @game.id).order(:id) %>
   <% straggler = '' %>
   <% provisional_move = nil %>
-  <i class="fas fa-caret-right"></i>
   <% players.each_with_index do | player, index | %>
   <% player.completed = true if @game.completed == true %>
     <% moves = Move.where(player_id: player.id) %>
