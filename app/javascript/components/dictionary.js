@@ -21,8 +21,8 @@ async function searchDictionary (wordArray, moveId, playerName)  {
     .then(response => response.json())
     .then(json => {
       if (json.statusCode === 404) {
-      console.log('404 ')
-        appendString(false, `Word ${word.characters} does not exist. ::`);
+        console.log('404 ', word)
+        appendString(false, `Word ${word} does not exist. ::`);
         return false
       } else {
         appendString(true, `${json[0].word}: ${json[0].text} ::`);
@@ -71,7 +71,7 @@ async function searchDictionary (wordArray, moveId, playerName)  {
           })
         }
       })
-      responseString = `Invalid move — <br/> ${invalidString} ${playerName} misses a turn.`
+      responseString = `Invalid move — ${invalidString} ${playerName} misses a turn.`
       // alert(responseString)
       const csrfToken = document.querySelector("[name='csrf-token']").content;
       fetch(`/moves/${moveId}`, {
@@ -83,8 +83,37 @@ async function searchDictionary (wordArray, moveId, playerName)  {
       })
 
     }
-     alert(responseString)
+
+
+      const  gId = document.querySelector(".edit-page-identifier").dataset.gameid
+      const numPlayers = document.querySelectorAll('.name-score').length
+      const oldPlayer = document.querySelector(".dashboard").dataset.current
+      let cPlayer = oldPlayer + 1
+      if ( cPlayer > numPlayers - 1 ) cPlayer = 0;
+
+
+    const gameData = ({current_player: parseInt(cPlayer)})
+  fetch(`/games/${gId}`, {
+        method: 'PATCH',
+        headers: {
+          'X-CSRF-Token': csrfToken,
+          'Content-Type': 'application/json'
+        },
+    body: JSON.stringify(gameData)
+      })
+
+
+
+
+
+     console.log(responseString)
+     if (responseString.split(' ')[0] === 'Valid') {
      realWords()
+
+     }
+
+
+
       // document.querySelector(".challenge-info").insertAdjacentHTML ('beforeend', `<strong>Dictionary says:</strong> ${responseString}`) ;
 
       // document.querySelector(".challenge-info").innerText =  'eoweewn ewoweue eu8';

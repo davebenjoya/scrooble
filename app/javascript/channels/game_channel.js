@@ -90,7 +90,7 @@ let playerName;
             // console.log('dataArray[1]' , dataArray[1])
             // console.log('dataArray[2]' , dataArray[2])
 
-            showAccept()
+            showAccept();
 
             updatePlayers(dataArray[1], dataArray[2]);
 
@@ -201,7 +201,10 @@ let playerName;
 
 
 function showAccept() {
+  if (document.querySelector('#challenge-btn')) {
   document.querySelector('#challenge-btn').style.display = 'none';
+
+  }
   document.querySelector('#accept-btn').innerHTML = 'OK';
   setTimeout(function () {
     // const name = dataArray[1];
@@ -257,7 +260,7 @@ function acceptWords() {
   .then(response => response.json())
   .then(acceptObj => {
     console.log('moveId  ' + moveId);
-    const moveAcceptData = {id: `${moveId}`}
+    const moveAcceptData = {id: `${moveId}`, provisional: false}
     fetch(`/moves/${moveId}`, {
       method: 'PATCH',
       headers: {
@@ -309,6 +312,7 @@ function acceptWords() {
     const players =  document.querySelectorAll(".player")
     let player = "Morty"
     let newIndex = 0;
+    let oldIndex = 0;
     console.log("players.length ", players.length);
     players.forEach( (plr, index)=> {
       if (plr.innerHTML.trim() === lastPlayer.trim()) {
@@ -319,24 +323,19 @@ function acceptWords() {
         if (newIndex > players.length -1) {
           newIndex = 0;
         }
-        console.log("newIndex ", newIndex);
-
         const yOff = newIndex * 26;
-        document.querySelector(":root").setAttribute("bug-y-offset", `${yOff}px`);
-
-
-
+        oldIndex = index;
         player = document.querySelectorAll(".player")[newIndex].innerHTML;
       }
     })
 
     document.querySelector("#navbar-game").querySelector(".nav-emp:last-child").innerHTML = `Up now: ${player}`;
+    // document.querySelector(".player-selected").closest('.player').classList.remove('player-selected-name');
     document.querySelector(".player-selected").classList.remove("player-selected");
-    document.querySelectorAll(".player")[newIndex].parentNode.classList.add("player-selected");
-    document.querySelector("#scores").setAttribute('data-current', newIndex);
-    // console.log(document.querySelector(":root").getAttribute("--bug-y-offset"));
-    // document.querySelector(":root").setAttribute("bug-y-offset", `${(newIndex * 26) + 3 }px`);
 
+    document.querySelectorAll(".player")[newIndex].parentNode.classList.add("player-selected");
+    // document.querySelectorAll(".player")[0].parentNode.classList.add('player-selected-name');
+    document.querySelector("#scores").setAttribute('data-current', newIndex);
     if (document.querySelector(".this-user").parentNode.classList.contains("player-selected")) {
         document.querySelector('#exchange-btn').classList.remove('button-disabled');
     }

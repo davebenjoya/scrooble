@@ -11,7 +11,6 @@
   --type-color: #F3FFBD; //$cream
   --card-height: 100px;
   --select-hilite: radial-gradient(circle at center, rgba(255, 255, 255, 1) 15%, $lime-green 45%);
-  --bug-y-offset: 3px;
 }
 
 hr {
@@ -29,11 +28,16 @@ hr {
 
 .fa-caret-right {
   transform: translate(-80px, var(--bug-y-offset));
-  position: fixed;
+  position: absolute;
   color: var(--logo-color);
   z-index: 500;
 
   // animation: pulse .5s ease-in-out .6 infinite both;
+
+}
+
+.caret-select {
+  transform: translate(-80px, var(--bug-y-offset)) !important;
 
 }
 
@@ -320,7 +324,7 @@ turbo-frame {
   justify-content: space-between;
   // margin-left: 16px;
   // padding-right: 16px;
-  color: var(--btn-type-hilite);
+  color: var(--btn-type);
   // padding:0;
 }
 
@@ -380,6 +384,16 @@ turbo-frame {
   }
   40% {
     transform: translateX(-6px);
+    color: $honeydew;
+  }
+}
+
+@keyframes gleam {
+  20%, 60% {
+    transform: translateX(0px)  scale(1);
+  }
+  40% {
+    transform: translateX(2px) scale(1.3);
     color: $honeydew;
   }
 }
@@ -609,7 +623,6 @@ width: 0px;
   // box-shadow: 0 0 8px inset $gunmetal;
 }
 .card {
-  color: var(--type-color) !important;
   background-color: var(--panel-color) !important;
 
 }
@@ -621,7 +634,7 @@ width: 0px;
   // color: hsl(20, 20, 40);
   display: flex;
   justify-content: space-between;
-  color: var(--btn-type);
+  color: var(--btn-type) !important;
   background-color: var(--panel-color);
   font-size: 16px;
   font-family: 'Lato', sans-serif;
@@ -654,7 +667,7 @@ border:none !important;
 }
 
 .name-completed {
-  color: var(--type-color) !important;
+  color: var(--btn-type) !important;
   padding-left: 8px;
   padding-top: 8px;
 
@@ -1291,12 +1304,12 @@ a:link, #navbar a:visited, #cnavbar a:hover, #navbar a:active,  {
   justify-content: center;
 }
 .index-players-text {
-  color: var(--btn-type);
+  color: var(--type-color) !important;
   font-weight: lighter !important;
   padding-right: 4px;
 }
 .index-players-text-completed {
-  color: var(--type-color);
+  color: var(--btn-type);
   font-weight: regular;
   padding-right: 4px;
 }
@@ -1690,7 +1703,7 @@ clip-path: border-box;
   background-color: transparent;
   width: 100%;
   min-width: 150px;
-  color: var(--logo-color);
+  color: var(--btn-type);
 }
 
 .name {
@@ -1702,12 +1715,19 @@ clip-path: border-box;
 }
 
 .player-selected {
-  background-color: var(--btn-bg);
-  font-weight: bold;
-  color:  var(--type-color)  !important;
+  // background-color: var(--btn-bg);
+  font-style: italic;
+  color:  var(--btn-type-hilite)  !important;
   border-radius: 4px;
   // box-shadow: 0px 0px 4px inset $gunmetal;
   transition: all .3s ease-in;
+}
+
+.player-selected-name {
+  background-color: red;
+  font-size: 48px !important;
+  animation: gleam 1.4s ease-in-out 1.8s infinite;
+  animation-delay:  1.8s;
 }
 
 .player-quit {
@@ -1964,6 +1984,7 @@ pointer-events: none;
   100% {color:$russian-green; transform: scale(1.1) translateY(0px)}
 
 }
+
 
 #scores-buttons {
   margin: 0;
