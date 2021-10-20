@@ -2,11 +2,13 @@
 <% if @move %>
   <% sum = @move.summary %>
   <% m_id = @move.id %>
+  <% pos_array = @move.position_array %>
 <% else %>
   <% sum = "Nothing happened yet." %>
   <% m_id = "0" %>
+  <% pos_array = "" %>
 <% end %>
-<div class="edit-page-identifier" id="edit-page-identifier" data-name ="<%= @game.name %>" data-moveid= "<%= m_id %>" data-gameid = "<%= @game.id %>" data-playername= "<%= current_user.username %>"  data-userid= "<%= current_user.id %>" data-playerid = "<%= @player.id %>" data-pending = "<%= @pending %>" data-submitter = "<%= @player_name %>" data-submit-game = <%= @submit_game_id %> data-summary = "<%= sum %>" data-provisionals = <%= @move.position_array %> >
+<div class="edit-page-identifier" id="edit-page-identifier" data-name ="<%= @game.name %>" data-moveid= "<%= m_id %>" data-gameid = "<%= @game.id %>" data-playername= "<%= current_user.username %>"  data-userid= "<%= current_user.id %>" data-playerid = "<%= @player.id %>" data-pending = "<%= @pending %>" data-submitter = "<%= @player_name %>" data-submit-game = <%= @submit_game_id %> data-summary = "<%= sum %>" data-provisionals = <%= pos_array %> >
   <!-- Button trigger modal -->
 <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
   Launch demo modal
