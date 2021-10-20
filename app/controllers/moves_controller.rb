@@ -108,7 +108,7 @@ end
 
 
   def destroy
-    if Move.find(params[:id]).exists? == true
+    if Move.find(params[:id])
       @move = Move.find(params[:id])
       @move.destroy
     end
@@ -120,6 +120,6 @@ private
 
 
   def move_params
-    params.require(:move).permit(:player_id, :id, :move, :letters, :summary, :added_score, :my_score, :added_score, :operation)
+    params.require(:move).permit(:player_id, :id, :move, :letters, :summary, :added_score, :my_score, :added_score, :operation, position_array: [])
   end
 
