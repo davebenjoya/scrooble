@@ -104,7 +104,7 @@ if (createPage) {
 
 
 //////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////
+///////////////////////////  pending move on load? ///////////////////////////
 
   if (editGame) {
     if (editGame.dataset.pending === 'true' ) {
@@ -130,8 +130,13 @@ if (createPage) {
       }
 
 
-      console.log('pndng', document.querySelector(".edit-page-identifier").dataset.submitter )
+      const pendingArray =  document.querySelector(".edit-page-identifier").dataset.provisionals.replace(/\[/, '').replace(/\]/, '').split(',')
       // const pendingString = `${document.querySelector(".edit-page-identifier").dataset.submitter} has submitted a word.`
+
+      for (const tile of pendingArray) {
+          console.log(' tile  ', tile)
+          document.querySelectorAll(".letter")[parseInt(tile)].classList.add('letter-provisional')
+      }
 
     // play submission alert sound
     // document.querySelector('#btnAudio').src = '../../assets/nutty1.mp3';
@@ -746,21 +751,20 @@ function commitExchange() {
         addedScore = added[0];
         document.querySelector('#update-msg').value = added[1];
 
-
+        let posArray = []
         document.querySelectorAll(".letter").forEach( (letter, index)=> {
           if (letter.classList.contains("letter-provisional")) {
             placedLetters[`${index}`] = letter.innerText;
+            posArray.push(index)
           }
           });
 
-        console.log('added[1]  ' , added[1]);
 
         const uId = document.querySelector(".edit-page-identifier").dataset.userid
         const pId = document.querySelector(".edit-page-identifier").dataset.playerid
         const gId = document.querySelector(".edit-page-identifier").dataset.gameid
-        console.log('alertStr  ' , alertStr);
 
-        const data = {move: {player_id: pId, letters: placedLetters, summary: alertStr, added_score: addedScore}};
+        const data = {move: {player_id: pId, letters: placedLetters, summary: alertStr, added_score: addedScore, position_array: posArray}};
         const csrfToken = document.querySelector("[name='csrf-token']").content;
         let moveObjId;
         await fetch("/moves", {

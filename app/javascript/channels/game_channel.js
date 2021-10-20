@@ -35,7 +35,7 @@ let playerName;
          switch (dataArray[dataArray.length - 1].trim()) {
 
           case "real_words":
-            // alert('dataArray', dataArray);
+            alert('dataArray', dataArray);
           break;
           case "end_game":
             alert(`${dataArray[0]}`);

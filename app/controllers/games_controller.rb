@@ -130,7 +130,7 @@ end
       @pending = true
       letter_string = ''
       letters = Letter.where(move_id: @move.id)
-      words = Word.where(move_id: @move.id)
+      @words = Word.where(move_id: @move.id)
 
       letters.each do |ltr|
         letter_string += ltr.character
@@ -174,11 +174,9 @@ end
     players = Player.where(game: @game)
     @player = players.find_by(user: current_user)
     # raise
-   # @move = Move.last ## hopefully this gets the most recent move
+    # @move = Move.last ## hopefully this gets the most recent move
 
     moves = Move.where(:player.game == @game)
-    puts 'lkdjsf odsfjds fdjsodsjfosd ____________________________________________________'
-    puts moves
 
       # @player.update({ player_score: params["game"]["my_score"] })
       # @player.update({ player_letters: params["game"]["my_letters"].gsub(/\'/, "") })

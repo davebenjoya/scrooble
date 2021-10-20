@@ -2,16 +2,17 @@
 <% if @move %>
   <% sum = @move.summary %>
   <% m_id = @move.id %>
+  <% words = @words %>
 <% else %>
   <% sum = "Nothing happened yet." %>
   <% m_id = "0" %>
+  <% words = "" %>
 <% end %>
-<div class="edit-page-identifier" id="edit-page-identifier" data-name ="<%= @game.name %>" data-moveid= "<%= m_id %>" data-gameid = "<%= @game.id %>" data-playername= "<%= current_user.username %>"  data-userid= "<%= current_user.id %>" data-playerid = "<%= @player.id %>" data-pending = "<%= @pending %>" data-submitter = "<%= @player_name %>" data-submit-game = <%= @submit_game_id %> data-summary = "<%= sum %>" >
+<div class="edit-page-identifier" id="edit-page-identifier" data-name ="<%= @game.name %>" data-moveid= "<%= m_id %>" data-gameid = "<%= @game.id %>" data-playername= "<%= current_user.username %>"  data-userid= "<%= current_user.id %>" data-playerid = "<%= @player.id %>" data-pending = "<%= @pending %>" data-submitter = "<%= @player_name %>" data-submit-game = <%= @submit_game_id %> data-summary = "<%= sum %>" data-provisionals = "<%= @move.position_array %>" >
   <!-- Button trigger modal -->
 <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
   Launch demo modal
 </button> -->
-
 <!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">

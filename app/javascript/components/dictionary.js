@@ -5,6 +5,10 @@ import { initGameCable } from '../channels/game_channel'
 const url = "https://api.wordnik.com/v4/word.json/@@@/definitions?limit=3&includeRelated=false&sourceDictionaries=all&useCanonical=false&includeTags=false&api_key=bws5w0ajrmgaqjxopiobxgwa1sr5cg78y8gzhgeqhrrp10le9";
 // let valid = true;
 // let returnStr = ``;
+
+
+  const csrfToken = document.querySelector("[name='csrf-token']").content;
+
 let promises = [];
   let wordString = ``;
   // let returnArray = []
@@ -84,7 +88,7 @@ async function searchDictionary (wordArray, moveId, playerName)  {
 
     }
 
-
+      const csrfToken = document.querySelector("[name='csrf-token']").content;
       const  gId = document.querySelector(".edit-page-identifier").dataset.gameid
       const numPlayers = document.querySelectorAll('.name-score').length
       const oldPlayer = document.querySelector(".dashboard").dataset.current
@@ -93,14 +97,14 @@ async function searchDictionary (wordArray, moveId, playerName)  {
 
 
     const gameData = ({current_player: parseInt(cPlayer)})
-  fetch(`/games/${gId}`, {
-        method: 'PATCH',
-        headers: {
-          'X-CSRF-Token': csrfToken,
-          'Content-Type': 'application/json'
-        },
-    body: JSON.stringify(gameData)
-      })
+  // fetch(`/games/${gId}`, {
+  //       method: 'PATCH',
+  //       headers: {
+  //         'X-CSRF-Token': csrfToken,
+  //         'Content-Type': 'application/json'
+  //       },
+  //   body: JSON.stringify(gameData)
+  //     })
 
 
 
@@ -109,19 +113,11 @@ async function searchDictionary (wordArray, moveId, playerName)  {
      console.log(responseString)
      if (responseString.split(' ')[0] === 'Valid') {
      realWords()
-
+     } else {
+      fakeWords()
      }
 
 
-
-      // document.querySelector(".challenge-info").insertAdjacentHTML ('beforeend', `<strong>Dictionary says:</strong> ${responseString}`) ;
-
-      // document.querySelector(".challenge-info").innerText =  'eoweewn ewoweue eu8';
-    //   document.querySelector('#confirmation-btn').innerHTML = `OK`;
-    //   document.querySelector('#confirmation-btn').addEventListener('click', () => {
-    //   // document.querySelector('#confirmation').classList.remove('challenge-show');
-    //   // return false
-    // })
 
   }
       // if (count === wordArray.length) return [valid, wordString];
@@ -135,11 +131,45 @@ async function searchDictionary (wordArray, moveId, playerName)  {
 
 function realWords() {
 
-  const gId = document.querySelector(".edit-page-identifier").dataset.gameid
-  const pId = document.querySelector(".edit-page-identifier").dataset.playerid
-  const csrfToken = document.querySelector("[name='csrf-token']").content;
-
+  const gId = document.querySelector(".edit-page-identifier").dataset.gameid;
+  const pId = document.querySelector(".edit-page-identifier").dataset.playerid;
+  const moveId = document.querySelector(".edit-page-identifier").dataset.moveid
   const acceptData = {challenging: 'realwords', id:`${pId}`}
+  fetch(`/players/${pId}`, {
+    method: 'PATCH',
+    headers: {
+      'X-CSRF-Token': csrfToken,
+      'Content-Type': 'application/html',
+    },
+    body: JSON.stringify(acceptData)
+  })
+  .then(response => response.json())
+  .then(acceptObj => {
+    console.log('moveId  ' + moveId);
+    const moveAcceptData = {id: `${moveId}`, provisional: false}
+    fetch(`/moves/${moveId}`, {
+      method: 'PATCH',
+      headers: {
+      'X-CSRF-Token': csrfToken,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(moveAcceptData)
+    })
+  });
+  // document.querySelector('#challenge').remove()
+  document.querySelector('#challenge').classList.remove('challenge-show');
+  // document.querySelector('#challenge').classList.add('challenge-hide');
+  // chooseLetters();
+}
+
+function fakeWords() {
+      alert("Fake Words!")
+
+
+  const gId = document.querySelector(".edit-page-identifier").dataset.gameid;
+  const pId = document.querySelector(".edit-page-identifier").dataset.playerid;
+  const moveId = document.querySelector(".edit-page-identifier").dataset.moveid
+  const acceptData = {challenging: 'pending', id:`${pId}`}
   fetch(`/players/${pId}`, {
     method: 'PATCH',
     headers: {
@@ -153,7 +183,7 @@ function realWords() {
     console.log('moveId  ' + moveId);
     const moveAcceptData = {id: `${moveId}`}
     fetch(`/moves/${moveId}`, {
-      method: 'PATCH',
+      method: 'DELETE',
       headers: {
       'X-CSRF-Token': csrfToken,
       'Content-Type': 'application/json',
@@ -161,10 +191,16 @@ function realWords() {
     body: JSON.stringify(moveAcceptData)
     })
   });
-  document.querySelector('#challenge').remove()
-  // document.querySelector('#challenge').classList.remove('challenge-show');
-  // document.querySelector('#challenge').classList.add('challenge-hide');
-  // chooseLetters();
+
+
+      // document.querySelector(".challenge-info").insertAdjacentHTML ('beforeend', `<strong>Dictionary says:</strong> ${responseString}`) ;
+
+      // document.querySelector(".challenge-info").innerText =  'eoweewn ewoweue eu8';
+    //   document.querySelector('#confirmation-btn').innerHTML = `OK`;
+    //   document.querySelector('#confirmation-btn').addEventListener('click', () => {
+    //   // document.querySelector('#confirmation').classList.remove('challenge-show');
+    //   // return false
+    // })
 }
 
 

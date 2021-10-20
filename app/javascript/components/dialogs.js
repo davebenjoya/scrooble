@@ -31,7 +31,8 @@ function hideAccept() {
 
 function challengeWords() {
   const challengeData = ({challenging: 'true'})
-
+  pId = document.querySelector(".edit-page-identifier").dataset.playerid;
+  console.log(pId);
   fetch(`/players/${pId}`, {
     method: 'PATCH',
     headers: {

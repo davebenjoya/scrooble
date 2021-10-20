@@ -37,10 +37,24 @@ class PlayersController < ApplicationController
     # switch statement
 
     case params['challenging']
+    when 'fakewords'
+      puts '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'
+      puts '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'
+      puts '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'
+      puts 'fake worddds'
+      puts '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'
+      puts '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'
+
     when 'realwords'
-      if @player.challenging == true
+      if @player.challenging == 'true'
         @player.skip += 1
       end
+      puts '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'
+      puts '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'
+      puts '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'
+      puts 'real worddds'
+      puts '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'
+      puts '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'
        GameChannel.broadcast_to(
           @game,
           render_to_string(partial: "real_words",
@@ -71,8 +85,8 @@ class PlayersController < ApplicationController
         game_move = Move.where(player: player).last
         game_moves << game_move
       end
-      puts "?*?*?*?*?*?*? game_moves.length     *?*?*?*?*?*?*?*?*?*?*?*"
-      puts game_moves.length
+      puts "?*?*?*?*?*?*? game_moves     *?*?*?*?*?*?*?*?*?*?*?*"
+      puts game_moves
       last_move = game_moves[0]
       puts "________/////        last_move   ////////___________///////////______"
       puts last_move
