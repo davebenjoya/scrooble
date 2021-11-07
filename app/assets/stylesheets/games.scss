@@ -606,10 +606,15 @@ body {
 }
 
 .board-value {
+  transform: translateX(-1px);
   font-weight: bold;
   baseline-shift: sub;
-  padding-top: 8px;
+  padding-top: 7px;
   padding-right: 2px;
+
+  margin-left: 0px !important;
+  padding-left: 0px !important;
+
   letter-spacing: -1.2px !important;
   position: relative;
   bottom:-8px;
@@ -1771,6 +1776,8 @@ clip-path: border-box;
   // height:100%;
   box-shadow: 2px 2px 3px inset hsla(240, 15, 15, 0.3);
   opacity: 1;
+  padding-top: 1px;
+  padding-left: 1px;
   transition: opacity 600ms ease-in;
   @media screen and (max-width: 600px)  {
     // height:30px;
@@ -1948,6 +1955,8 @@ clip-path: border-box;
   font-family: 'Grandstander', display;
   font-size: 28px;
 
+  margin-right: 0px !important;
+  padding-right: 0px !important;
   color: $space-cadet;
   width: 22px;
   text-align: center;
