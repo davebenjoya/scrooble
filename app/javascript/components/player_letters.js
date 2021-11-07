@@ -23,19 +23,56 @@ if (document.querySelector(".edit-page-identifier")) {
   let buffer = [];
   let submitEscape = false;
   let exchange = false;
+
+  let jokers = [];
+  let jokerTile  = null;
   let currentPlayer;
   const clickSounds = ['m1', 'm2', 'm3', 'm4', 'm5', 'm6'];
   let currentClickSound = 0
+
+  const dash = document.querySelector("#dashboard");
+
+  function checkJoker() {
+    return jokerTile != null
+
+  }
+
+
+  function validateJoker () {
+      const val = document.querySelector("#replacement-input").value;
+      if (!val.match(/[a-zA-Z]/)) {
+        alert ("Enter a letter to replace Joker");
+        document.querySelector("#replacement-input").value = ''
+      } else {
+        document.querySelector("#replacement-input").value = document.querySelector("#replacement-input").value.toUpperCase();
+        oninput="this.value = this.value.toUpperCase()"
+        document.querySelector("#challenge-btn").focus();
+      }
+
+  }
+
+
+
 
  function placeLetter () {
   console.log('exchange ', exchange);
     if (exchange === false) {
 
-      if(event.target.querySelector('.letter').classList.contains("letter-provisional")) {  // already a letter on square
+      if(event.target.querySelector('.letter').classList.contains("letter-provisional")) {
+      // already a letter on square
         event.target.querySelector('.letter').classList.remove("letter-provisional");
         let restoreFlag = false;  // if player has more than one of the same letter, only restore one
+        let searchLetter = ''
+
+        if (event.target.querySelector('.board-value').innerHTML === '0') {
+          event.target.classList.remove('tile-joker')
+           searchLetter = '*'
+        } else {
+          searchLetter = event.target.querySelector('.letter').innerHTML
+        }
+
         document.querySelectorAll(".letter-disabled").forEach (ltr => {
-          if (event.target.querySelector('.letter').innerHTML === ltr.querySelector('.my-letter').innerHTML ) {
+          if (searchLetter === ltr.querySelector('.my-letter').innerHTML ) {
             if (restoreFlag === false) {
               ltr.classList.remove("letter-disabled");
               ltr.addEventListener('click', toggleLetter);
@@ -45,6 +82,7 @@ if (document.querySelector(".edit-page-identifier")) {
             }
           }
         })
+
         event.target.querySelector('.letter').innerText = '';
         event.target.querySelector('.board-value').innerHTML = "";
         if (document.querySelectorAll(".letter-provisional").length < 1) {
@@ -56,20 +94,54 @@ if (document.querySelector(".edit-page-identifier")) {
       } else {
         selectedLetter = document.querySelector('.letter-selected');
         if (selectedLetter) {
-           event.target.querySelector('.letter').innerText = selectedLetter.querySelector(".my-letter").innerText;
-          event.target.querySelector('.board-value').innerHTML = selectedLetter.querySelector(".my-value").innerText;
-          selectedLetter.classList.remove('letter-selected');
-          selectedLetter.classList.add('letter-disabled');
-          selectedLetter = null;
-          event.target.querySelector('.letter').classList.add('letter-provisional');
-          document.querySelector('.commit-btn').classList.remove('button-disabled');
-          document.querySelector('.exchange-btn').classList.add('button-disabled');
-          document.querySelector('.cancel-btn').classList.remove('button-disabled');
-          document.querySelector('#btnAudio').src = `../../assets/${clickSounds[currentClickSound]}.mp3`;
-           // document.querySelector('#btnAudio').src = `../../assets/m1.mp3`;
-          document.querySelector('#btnAudio').play();
-          currentClickSound ++ ;
-          if (currentClickSound > clickSounds.length - 1) currentClickSound = 0;
+          let txt = selectedLetter.querySelector('.my-letter').innerHTML
+          let val = selectedLetter.querySelector('.my-value').innerHTML;
+          // replace joker
+          if (txt === "*") {
+              jokerTile = event.target;
+              submitEscape = true;
+              jokers.push(jokerTile);
+
+              const cBtn = document.querySelector('#challenge-btn').cloneNode(true);
+              const aBtn = document.querySelector('#accept-btn').cloneNode(true);
+              document.querySelector('#challenge-btn').parentNode.replaceChild(cBtn, document.querySelector('#challenge-btn'));
+              document.querySelector('#accept-btn').parentNode.replaceChild(aBtn, document.querySelector('#accept-btn'));
+
+              document.querySelector("#replacement-input").value = '';
+
+        document.querySelector('#replacement-input').style.visibility = 'visible';
+              document.querySelector("#replacement-input").addEventListener('input', validateJoker)
+              document.querySelector("#challenge-btn").addEventListener('click', placeJoker)
+              // document.querySelector('#challenge-btn').style.display = 'block';
+              document.querySelector("#accept-btn").addEventListener('click', hideDialog)
+
+              document.querySelector('#challenge-btn').style = "visibility: visible";
+              document.querySelector('#accept-btn').style = "visibility: visible";
+              document.querySelector('.challenge-info').innerHTML = 'Change Joker to:';
+              document.querySelector('#challenge-btn').innerHTML = 'Replace';
+              document.querySelector('#accept-btn').innerHTML = 'Cancel';
+              setTimeout(() => {
+                document.querySelector('#challenge').classList.add('challenge-show');
+
+
+              }, 500)
+          //      replacement = document.querySelector("#replace-joker").value.toUpperCase();
+          // jokerTile.querySelector('.letter').innerHTML = replacement;
+          // jokerTile.querySelector(".board-value").innerHTML = "0";
+          // jokerTile.querySelector('.letter').classList.add("letter-provisional");
+          // jokerTile.classList.add("joker-replaced");
+          // buffer.push(replacement);
+          // selectedLetter.classList.remove("letter-selected");
+          // selectedLetter.classList.add("letter-disabled");
+          // selectedLetter.removeEventListener('click', toggleLetter);
+          // document.querySelector('.commit-btn').classList.remove("button-disabled");
+          // document.querySelector('.cancel-btn').classList.remove("button-disabled");
+          // document.querySelector('.exchange-btn').classList.add("button-disabled");
+          // selectedLetter = null;
+          // submitEscape = false;
+          } else {
+            populateTile()
+          }
         }
 
          }
@@ -115,6 +187,66 @@ if (document.querySelector(".edit-page-identifier")) {
 
       }
 
+
+  function hideDialog() {
+
+  document.querySelector('#challenge').classList.remove('challenge-show');
+   document.querySelector('#accept-btn').removeEventListener('click', hideDialog)
+
+  }
+
+
+function populateTile() {
+
+  event.target.querySelector('.letter').innerText = selectedLetter.querySelector(".my-letter").innerText;
+  event.target.querySelector('.board-value').innerHTML = selectedLetter.querySelector(".my-value").innerText;
+  selectedLetter.classList.remove('letter-selected');
+  selectedLetter.classList.add('letter-disabled');
+  selectedLetter = null;
+  event.target.querySelector('.letter').classList.add('letter-provisional');
+  document.querySelector('.commit-btn').classList.remove('button-disabled');
+  document.querySelector('.exchange-btn').classList.add('button-disabled');
+  document.querySelector('.cancel-btn').classList.remove('button-disabled');
+  document.querySelector('#btnAudio').src = `../../assets/${clickSounds[currentClickSound]}.mp3`;
+   // document.querySelector('#btnAudio').src = `../../assets/m1.mp3`;
+  document.querySelector('#btnAudio').play();
+  currentClickSound ++ ;
+  if (currentClickSound > clickSounds.length - 1) currentClickSound = 0;
+}
+
+function disableJoker() {
+  selectedLetter.classList.remove('letter-selected');
+  selectedLetter.classList.add('letter-disabled');
+  selectedLetter = null;
+  // event.target.querySelector('.letter').classList.add('letter-provisional');
+
+        document.querySelector('#replacement-input').style.visibility = 'collapse';
+
+  document.querySelector('.commit-btn').classList.remove('button-disabled');
+  document.querySelector('.exchange-btn').classList.add('button-disabled');
+  document.querySelector('.cancel-btn').classList.remove('button-disabled');
+  document.querySelector('#btnAudio').src = `../../assets/${clickSounds[currentClickSound]}.mp3`;
+   // document.querySelector('#btnAudio').src = `../../assets/m1.mp3`;
+  document.querySelector('#btnAudio').play();
+  currentClickSound ++ ;
+  if (currentClickSound > clickSounds.length - 1) currentClickSound = 0;
+
+
+}
+
+function placeJoker() {
+  if (document.querySelector("#replacement-input").value === '' ) {
+    alert ("Pick a letter to replace the joker.")
+  } else {
+    jokerTile.querySelector('.letter').innerHTML = document.querySelector("#replacement-input").value
+    jokerTile.querySelector('.letter').classList.add('letter-provisional')
+    jokerTile.querySelector('.board-value').innerHTML = '0';
+    jokerTile.classList.add('tile-joker');
+    disableJoker();
+    hideDialog();
+  }
+}
+
 function checkExchange () {
   return exchange;
 }
@@ -143,7 +275,7 @@ function restoreListenersAtAccept() {
   function chooseLetters() { // select my letters from available letters
 
 
-    document.addEventListener('keydown', pickLetter);
+    // document.addEventListener('keydown', pickLetter);
 
     if (document.querySelector("#dashboard")) {
       const remain = (document.querySelector("#dashboard").dataset.remaining.split(','));
@@ -267,7 +399,7 @@ function setLetterValues() {
           }
         });
         tile.querySelector(".board-value").innerText = boardVal;
-        tile.querySelector(".board-value").style = 'letter-spacing: .7px !important'
+        // tile.querySelector(".board-value").style = 'letter-spacing: .7px !important'
       }
     });
   }
@@ -379,34 +511,6 @@ const pickLetter = () => {   // using keyboard
    return myLetters;
   }
 
-  function showMyLettersInit() {
-    myLetters.splice(maxLetters)
-    let val;
-    myLetters.forEach((ltr, index) => {
-
-    Array.from(lettersJSON.letters).forEach( l => {
-      if (l[ltr]) {
-       val = l[ltr].value;
-      }
-    });
-    // use multiple bg images in tiles
-    let bgClass = ``;
-    const leading  = currentBg < 10 ? "0" : "";
-    bgClass = `tile` + leading + (currentBg + 1).toString();
-    currentBg ++ ;
-    if (currentBg > numOfBgs - 1 ) currentBg = 0;
-
-    const tileHtml = `<div class='my-tile ${bgClass}'><div class="my-letter">${ltr}</div><div class="my-value">${val}</div></div>`
-      // setTimeout(addLetterDelayed, 800 + (360 * index), tileHtml)
-    myLettersDiv.insertAdjacentHTML('beforeend', tileHtml);
-    });
-
- const myLettersDiv = document.getElementById("my-letters");
-    const min = myLettersDiv.getBoundingClientRect().height
-    // console.log(min);
-    myLettersDiv.style = `min-height: ${min}px;`
-  }
-
   function toggleLetter() {
     const thisUser = document.querySelector(".this-user");
     if (thisUser.parentNode.classList.contains("player-selected")) {  // current user's turn
@@ -461,4 +565,4 @@ const pickLetter = () => {   // using keyboard
   });
 
 
-export { checkExchange, toggleLetter, placeLetter, chooseLetters, restoreLetters, setLetterValues, appendMyLetters, showMyLettersInit, restoreListenersAtAccept, markLetters, unmarkLetters }
+export { checkExchange, toggleLetter, placeLetter, chooseLetters, restoreLetters, setLetterValues, appendMyLetters, restoreListenersAtAccept, markLetters, unmarkLetters, checkJoker }

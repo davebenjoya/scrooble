@@ -17,6 +17,24 @@ hr {
   color: var(--btn-type-hilite);
 }
 
+
+#replacement-input {
+  width: 30px;
+  display:inline;
+  margin-left: 8px;
+  margin-bottom: 8px;
+}
+
+.info-replacement {
+  display: flex;
+}
+
+.tile-joker {
+  --j: var(--btn-bg-hilite);
+  border: 2px solid var(--j) !important;
+  // border-color: var(--j);
+}
+
 .fa-plus-circle {
   color: var(--panel-color);
 }
@@ -588,9 +606,11 @@ body {
 }
 
 .board-value {
-  font-size: 14px;
   font-weight: bold;
   baseline-shift: sub;
+  padding-top: 8px;
+  padding-right: 2px;
+  letter-spacing: -1.2px !important;
   position: relative;
   bottom:-8px;
   opacity: .8;
@@ -764,7 +784,6 @@ border:none !important;
   // display: flex;
   // flex-direction: row;
   // margin-top: 6px;
-  letter-spacing: 3.4px;
   font-size: 16px;
   font-family: 'Lato', sans-serif;
   font-weight: bolder;
@@ -1925,7 +1944,7 @@ clip-path: border-box;
 }
 
 .letter {
-  padding-top: 4px;
+  // padding-top: 4px;
   font-family: 'Grandstander', display;
   font-size: 28px;
 

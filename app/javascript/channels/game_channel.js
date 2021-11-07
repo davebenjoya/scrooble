@@ -27,167 +27,167 @@ let playerName;
         }
         dataArray = data.split(":");
         // console.log(gId === (dataArray[dataArray.length - 1].trim()))
-        console.log('data' , data);
+        console.log('dataArray[dataArray.length - 2].trim()' , dataArray);
 
          if (dataArray[dataArray.length - 2].toString().trim() === document.querySelector(".edit-page-identifier").dataset.gameid.toString().trim()) {
 
-         console.log('same game ' ,);
-         switch (dataArray[dataArray.length - 1].trim()) {
+           console.log('same game ' ,);
+           switch (dataArray[dataArray.length - 1].trim()) {
 
-          case "real_words":
-            alert('dataArray', dataArray);
-          break;
-          case "end_game":
-            alert(`${dataArray[0]}`);
-            fetch(`/games/${gId}`, {
-            method: 'GET',
-            headers: {
-              'X-CSRF-Token': csrfToken,
-              'Content-Type': 'application/html',
-            }
-          })
-          .then(response => {
-            response.json()
-          })
-          .then(json => console.log(json));
-            // $("#edit-page-identifier").load(window.location.href );
-          break;
-          case "challenge":
-         const wordArray =  dataArray[2].split(',');
-          console.log('challlllllenge');
-
-            document.querySelector('#challenge-btn').style = "visibility: hidden";
-
-            setTimeout(function () {
-            // play challenge alert sound
-            document.querySelector('#btnAudio').src = '../../assets/insistentHarp.mp3';
-            document.querySelector('#btnAudio').play();
-            }, 600);
-
-          //   setTimeout(function () {
-          //     document.querySelector('#challenge-info').innerHTML = `${dataArray[0]} is challenging ${dataArray[1]}.`;
-          //     document.querySelector('#challenge').classList.add('challenge-show');
-
-          // }, 2000);
-
-            if (document.querySelector('.logged-in-as').innerHTML.split('as ')[1].trim() === document.querySelector(".nav-emp").innerText.split(':')[1].trim()) {
-              searchDictionary(wordArray, moveId, playerName);
-            }
-
-          break;
-          case "acceptance":
-          console.log('accccccept');
-             document.querySelectorAll(".letter-provisional").forEach( (letter, index) => {
-              letter.classList.remove("letter-provisional");
-              letter.style=`transition-delay: ${1 + (.5 * index)}s`;
-            })
-
-            setTimeout(function () {
-            // play acceptance alert sound
-            document.querySelector('#btnAudio').src = '../../assets/nutty2.mp3';
-            document.querySelector('#btnAudio').play();
-            }, 1600);
-            // console.log('dataArray[1]' , dataArray[1])
-            // console.log('dataArray[2]' , dataArray[2])
-
-            showAccept();
-
-            updatePlayers(dataArray[1], dataArray[2]);
-
-            restoreListenersAtAccept();
-            if (document.querySelector('.this-user').innerText.trim() === dataArray[1].trim()) {
-              chooseLetters();
-            }
-
-          break;
-          case "exchange":
-            console.log('exchaaaaaaaaange');
-
-
-            setTimeout(function () {
-            // play acceptance alert sound
-            document.querySelector('#btnAudio').src = '../../assets/nutty.mp3';
-            document.querySelector('#btnAudio').play();
-            }, 1600);
-
-            setTimeout(function () {
-              document.querySelector('.challenge-info').innerHTML = `${dataArray[0]}`;
-              document.querySelector('#challenge').classList.add('challenge-show');
-              document.querySelector('#challenge-btn').style.display = 'none';
-              document.querySelector('#accept-btn').innerHTML = 'OK';
-              document.querySelector('#accept-btn').addEventListener('click', () => {
-                document.querySelector('#challenge').classList.remove('challenge-show');
-              })
-            }, 2000);
-
-            updatePlayers(dataArray[1], 0);
-
-            restoreListenersAtAccept();
-            if (document.querySelector('.this-user').innerText.trim() === dataArray[1].trim()) {
-              // chooseLetters();
-            }
-
-          break;
-          case 'pending':
-            for (const charPos of dataArray[3].split(';')) {
-              const char = (charPos.slice(0, 1));
-              const pos = (charPos.slice(1));
-              console.log(char);
-              console.log(pos);
-              if (char.length > 0) {
-                // document.querySelectorAll('.letter')[parseInt(pos)].classList.add('letter-provisional')
+            case "real_words":
+              alert('dataArray', dataArray);
+            break;
+            case "end_game":
+              alert(`${dataArray[0]}`);
+              fetch(`/games/${gId}`, {
+              method: 'GET',
+              headers: {
+                'X-CSRF-Token': csrfToken,
+                'Content-Type': 'application/html',
               }
-            }
+            })
+            .then(response => {
+              response.json()
+            })
+            .then(json => console.log(json));
+              // $("#edit-page-identifier").load(window.location.href );
+            break;
+            case "challenge":
+           const wordArray =  dataArray[2].split(',');
+            console.log('challlllllenge');
 
-            document.querySelector(".challenge-info").innerHTML = dataArray[0];
-            document.querySelector('#challenge').classList.add('challenge-show');
-              document.querySelector('#challenge-btn').style.display = 'block';
-              document.querySelector('#challenge-btn').innerHTML = 'Challenge';
-              document.querySelector('#accept-btn').innerHTML = 'Accept';
+              document.querySelector('#challenge-btn').style = "visibility: hidden";
 
-          console.log('dataArrrrrrrrrrrrray[0]', dataArray[0]);
+              setTimeout(function () {
+              // play challenge alert sound
+              document.querySelector('#btnAudio').src = '../../assets/insistentHarp.mp3';
+              document.querySelector('#btnAudio').play();
+              }, 600);
+
+            //   setTimeout(function () {
+            //     document.querySelector('#challenge-info').innerHTML = `${dataArray[0]} is challenging ${dataArray[1]}.`;
+            //     document.querySelector('#challenge').classList.add('challenge-show');
+
+            // }, 2000);
+
+              if (document.querySelector('.logged-in-as').innerHTML.split('as ')[1].trim() === document.querySelector(".nav-emp").innerText.split(':')[1].trim()) {
+                searchDictionary(wordArray, moveId, playerName);
+              }
 
             break;
-          default :
-          console.log('submisssssßsion');
+            case "acceptance":
+            console.log('accccccept');
+               document.querySelectorAll(".letter-provisional").forEach( (letter, index) => {
+                letter.classList.remove("letter-provisional");
+                letter.style=`transition-delay: ${1 + (.5 * index)}s`;
+              })
 
-          moveId =  dataArray[4];
+              setTimeout(function () {
+              // play acceptance alert sound
+              document.querySelector('#btnAudio').src = '../../assets/nutty2.mp3';
+              document.querySelector('#btnAudio').play();
+              }, 1600);
+              // console.log('dataArray[1]' , dataArray[1])
+              // console.log('dataArray[2]' , dataArray[2])
 
-          document.querySelector(".edit-page-identifier").setAttribute('data-moveid', `${moveId}`);
-          const delayLength = (dataArray[0].length * 80) + 600;
-          // const msgFirstWord = dataArray[0].split(" ")[0]
-          playerName  = dataArray[1]
-          const letter_string = dataArray[2].replaceAll("↵", "")
-          const letter_array  = letter_string.split(";");  // has extra empty element
+              showAccept();
 
-          // console.log('msgFirstWord ' , msgFirstWord)
+              updatePlayers(dataArray[1], dataArray[2]);
+
+              restoreListenersAtAccept();
+              if (document.querySelector('.this-user').innerText.trim() === dataArray[1].trim()) {
+                chooseLetters();
+              }
+
+            break;
+            case "exchange":
+              console.log('exchaaaaaaaaange');
 
 
-          console.log('dataArray[0]   ' , dataArray[1]);
-          // document.querySelector('#messages').classList.add("messages-show");
-          if (document.querySelector('.this-user').innerText.trim() != playerName.trim()) {
-            updateBoard(letter_array);
-            document.querySelector(".challenge-info").innerHTML = `${dataArray[0]}`;
+              setTimeout(function () {
+              // play acceptance alert sound
+              document.querySelector('#btnAudio').src = '../../assets/nutty.mp3';
+              document.querySelector('#btnAudio').play();
+              }, 1600);
 
-            setTimeout( () => {
+              setTimeout(function () {
+                document.querySelector('.challenge-info').innerHTML = `${dataArray[0]}`;
+                document.querySelector('#challenge').classList.add('challenge-show');
+                document.querySelector('#challenge-btn').style.display = 'none';
+                document.querySelector('#accept-btn').innerHTML = 'OK';
+                document.querySelector('#accept-btn').addEventListener('click', () => {
+                  document.querySelector('#challenge').classList.remove('challenge-show');
+                })
+              }, 2000);
+
+              updatePlayers(dataArray[1], 0);
+
+              restoreListenersAtAccept();
+              if (document.querySelector('.this-user').innerText.trim() === dataArray[1].trim()) {
+                // chooseLetters();
+              }
+
+            break;
+            case 'pending':
+              for (const charPos of dataArray[3].split(';')) {
+                const char = (charPos.slice(0, 1));
+                const pos = (charPos.slice(1));
+                console.log(char);
+                console.log(pos);
+                if (char.length > 0) {
+                  // document.querySelectorAll('.letter')[parseInt(pos)].classList.add('letter-provisional')
+                }
+              }
+
+              document.querySelector(".challenge-info").innerHTML = dataArray[0];
               document.querySelector('#challenge').classList.add('challenge-show');
-              document.querySelector('#challenge-btn').style.display = 'block';
-              document.querySelector('#challenge-btn').innerHTML = 'Challenge';
-              document.querySelector('#accept-btn').innerHTML = 'Accept';
-            }, ((letter_array.length * 1000) * .7) + .5 );
+                document.querySelector('#challenge-btn').style.display = 'block';
+                document.querySelector('#challenge-btn').innerHTML = 'Challenge';
+                document.querySelector('#accept-btn').innerHTML = 'Accept';
 
-            // add listeners for dialog buttons
-            document.querySelector('#challenge-btn').addEventListener('click', () => {
-              challengeWords()
-            })
-              console.log('pId');
-            document.querySelector('#accept-btn').addEventListener('click', acceptWords)
+            console.log('dataArrrrrrrrrrrrray[0]', dataArray[0]);
 
-            // play submission alert sound
-            document.querySelector('#btnAudio').src = '../../assets/nutty1.mp3';
-            document.querySelector('#btnAudio').play();
-          }
-         }
+              break;
+            default :
+            console.log('submisssssßsion');
+
+            moveId =  dataArray[4];
+
+            document.querySelector(".edit-page-identifier").setAttribute('data-moveid', `${moveId}`);
+            const delayLength = (dataArray[0].length * 80) + 600;
+            // const msgFirstWord = dataArray[0].split(" ")[0]
+            playerName  = dataArray[1]
+            const letter_string = dataArray[2].replaceAll("↵", "")
+            const letter_array  = letter_string.split(";");  // has extra empty element
+
+            // console.log('msgFirstWord ' , msgFirstWord)
+
+
+            console.log('dataArray[0]   ' , dataArray[1]);
+            // document.querySelector('#messages').classList.add("messages-show");
+            if (document.querySelector('.this-user').innerText.trim() != playerName.trim()) {
+              updateBoard(letter_array);
+              document.querySelector(".challenge-info").innerHTML = `${dataArray[0]}`;
+
+              setTimeout( () => {
+                document.querySelector('#challenge').classList.add('challenge-show');
+                document.querySelector('#challenge-btn').style.display = 'block';
+                document.querySelector('#challenge-btn').innerHTML = 'Challenge';
+                document.querySelector('#accept-btn').innerHTML = 'Accept';
+              }, ((letter_array.length * 1000) * .7) + .5 );
+
+              // add listeners for dialog buttons
+              document.querySelector('#challenge-btn').addEventListener('click', () => {
+                challengeWords()
+              })
+                console.log('pId');
+              document.querySelector('#accept-btn').addEventListener('click', acceptWords)
+
+              // play submission alert sound
+              document.querySelector('#btnAudio').src = '../../assets/nutty1.mp3';
+              document.querySelector('#btnAudio').play();
+            }
+           }
          }
         }
 
@@ -276,32 +276,50 @@ function acceptWords() {
   // chooseLetters();
 }
 
+  const checkJokerPos = (jokerArray) => {
+    for (const jokerPos of jokerArray){
+
+      console.log(jokerPos)
+    }
+
+    return false
+  }
+
   const updateBoard = (letter_array) => {
+      console.log ('letter_array ', letter_array);
     letter_array.forEach( (letter, index) => {
       let char = letter.substring(0,1);
-      let pos = parseInt(letter.substring(1));
-      let val;
+      let pos
+      let jokerPresent = false
+      if (letter.substring(letter.length -1) === 'J') {
+        pos = parseInt(letter.substring(1 ,letter.length -1));
+        jokerPresent = true
+      } else {
+        pos = parseInt(letter.substring(1));
+      }
       if (char[0] === "↵") {
        char = letter.substring(1,1);
        pos = parseInt(letter.substring(2));
       }
 
-
+      let val;
+      console.log ('jokerPresent ', jokerPresent);
       Array.from(lettersJSON.letters).forEach( l => {
-      if (l[char]) {
-       val = l[char].value;
-      }
-    });
-
-
-
+        if (l[char]) {
+          if (jokerPresent === true) {
+            val = '0'
+          } else {
+            val = l[char].value;
+          }
+        }
+      });
 
       if (pos) {
-
-      document.querySelectorAll(".board-value")[pos].innerText = val;
-      document.querySelectorAll(".letter")[pos].innerText = char
-      document.querySelectorAll(".letter")[pos].classList.add("letter-provisional");
-      document.querySelectorAll(".letter")[pos].style=`transition-delay: ${.7 * index}s`;
+        if (jokerPresent === true) document.querySelectorAll(".tile")[pos].classList.add('tile-joker')
+        document.querySelectorAll(".board-value")[pos].innerText = val;
+        document.querySelectorAll(".letter")[pos].innerText = char
+        document.querySelectorAll(".letter")[pos].classList.add("letter-provisional");
+        document.querySelectorAll(".letter")[pos].style=`transition-delay: ${.7 * index}s`;
 
       }
     })

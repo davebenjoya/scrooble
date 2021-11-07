@@ -124,6 +124,17 @@ end
   @submit_game_id = @game.id
   if @game_moves.length > 0
     sorted = @game_moves.sort()
+    @joker_array = []
+    @joker_string = ''
+    sorted.each_with_index do |move, index|
+      if move.joker_array.length > 0
+        move.joker_array.each do |joker_position|
+        @joker_array << joker_position
+        @joker_string += joker_position.to_s
+        @joker_string += ', ' # if index < move.joker_array.length - 1
+      end
+      end
+    end
     @move =  sorted[sorted.length - 1]
     @player_name = @move.player.user.username
     if @move.provisional == true
@@ -176,7 +187,7 @@ end
     # raise
     # @move = Move.last ## hopefully this gets the most recent move
 
-    moves = Move.where(:player.game == @game)
+    # moves = Move.where(:player.game == @game)
 
       # @player.update({ player_score: params["game"]["my_score"] })
       # @player.update({ player_letters: params["game"]["my_letters"].gsub(/\'/, "") })

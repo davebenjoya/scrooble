@@ -28,8 +28,7 @@ import { show_game } from '../components/show_game'
 import { gameIndex } from '../components/game_index'
 import { editUser } from '../components/edit_user'
 import { newGame } from '../components/new_game'
-import { initGameCable } from '../channels/game_channel';
-import { initIndexCable } from '../channels/my_games_channel';
+import { initGameCable } from '../channels/game_channel'
 
 
 const themeColors = ["bg-color", "type-color", "logo-color", "bvm-color", "panel-color", "btn-bg", "btn-type", "btn-border", "btn-type-hilite", "btn-bg-hilite", "game-name-color", "game-name-color"]
@@ -54,10 +53,13 @@ document.addEventListener("turbo:load", function() {
   newGame();
 
 // document.querySelector(":root").style.setProperty("--bg-color", "#9D6158") // $redwood
-changeColorsInit ()
-    document.querySelector('#select-theme').value = capitalizeFirstLetter(document.querySelector('#navbar-left').dataset.theme);
-    document.querySelector('#select-theme').addEventListener('change', changeColors);
-  // new_game();
+  changeColorsInit ()
+  if (document.querySelector('#navbar-left')) {
+      document.querySelector('#select-theme').value = capitalizeFirstLetter(document.querySelector('#navbar-left').dataset.theme);
+      document.querySelector('#select-theme').addEventListener('change', changeColors);
+    // new_game();
+
+  }
 });
 
 

@@ -115,7 +115,8 @@ class PlayersController < ApplicationController
         render_to_string(partial: 'exchange',
           locals: {
             player: challenging_player,
-            numLetters: num
+            numLetters: num,
+            gameid: @game.id
           })
         )
     end

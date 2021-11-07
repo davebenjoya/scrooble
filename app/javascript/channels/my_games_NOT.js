@@ -10,7 +10,7 @@ const initIndexCable = () => {
     id = gamesContainer.dataset.id
     console.log('init index cable ', id)
   }
-     subscribe(id);
+     // subscribe(id);
 //   }
 
 ////////////////////////////////////////////////////////
