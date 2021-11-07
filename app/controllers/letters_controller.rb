@@ -13,6 +13,6 @@ private
 
 
   def letter_params
-    params.require(:letter).permit(:move_id, :character, :position)
+    params.require(:letter).permit(:move_id, :character, :position, :joker)
   end
 

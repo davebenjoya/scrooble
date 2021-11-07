@@ -1,7 +1,7 @@
 import lettersJSON from './letters.json';
 import { submitLetters } from './submit_letters'
 import { Sortable, MultiDrag, Swap, OnSpill, AutoScroll } from "sortablejs";
-import   { checkExchange, toggleLetter, placeLetter, chooseLetters, restoreLetters, setLetterValues, appendMyLetters, showMyLettersInit, markLetters, unmarkLetters }  from './player_letters'
+import   { checkExchange, toggleLetter, placeLetter, chooseLetters, restoreLetters, setLetterValues, appendMyLetters, markLetters, unmarkLetters, checkJoker }  from './player_letters'
 import { initGameCable } from '../channels/game_channel'
 import { acceptWords, challengeWords } from './dialogs'
 
@@ -107,6 +107,11 @@ if (createPage) {
 ///////////////////////////  pending move on load? ///////////////////////////
 
   if (editGame) {
+
+        document.querySelector('#replacement-input').style.visibility = 'collapse';
+
+          console.log(' document.querySelector(".edit-page-identifier").dataset.summary  ', document.querySelector(".edit-page-identifier").dataset.summary)
+
     if (editGame.dataset.pending === 'true' ) {
     let pendingString = document.querySelector(".edit-page-identifier").dataset.summary
       if (editGame.dataset.playername != editGame.dataset.submitter ) {
@@ -134,8 +139,7 @@ if (createPage) {
       // const pendingString = `${document.querySelector(".edit-page-identifier").dataset.submitter} has submitted a word.`
 
       for (const tile of pendingArray) {
-          console.log(' tile  ', tile)
-          document.querySelectorAll(".letter")[parseInt(tile)].classList.add('letter-provisional')
+          if (tile) document.querySelectorAll(".letter")[parseInt(tile)].classList.add('letter-provisional')
       }
 
     // play submission alert sound
@@ -384,47 +388,9 @@ if (createPage) {
   }
 
   if (boardDiv) {
-    $("#exampleModalCenter").on('shown.bs.modal', function(){
-      // console.log('submitEscape   ' + submitEscape)
-      if (submitEscape === true) {
-        document.querySelector("#replace-joker").focus();
-        document.querySelector("#replace-joker").addEventListener('input', validateJoker)
-       } else {
-        $("#close-modal-btn").focus();
-       }
-      });
-
-    $("#exampleModalCenter").on('hidden.bs.modal', function(){
-        if (submitEscape === true) {
-          replacement = document.querySelector("#replace-joker").value.toUpperCase();
-          jokerTile.querySelector('.letter').innerHTML = replacement;
-          jokerTile.querySelector(".board-value").innerHTML = "0";
-          jokerTile.querySelector('.letter').classList.add("letter-provisional");
-          jokerTile.classList.add("joker-replaced");
-          buffer.push(replacement);
-          selectedLetter.classList.remove("letter-selected");
-          selectedLetter.classList.add("letter-disabled");
-          selectedLetter.removeEventListener('click', toggleLetter);
-          document.querySelector('.commit-btn').classList.remove("button-disabled");
-          document.querySelector('.cancel-btn').classList.remove("button-disabled");
-          document.querySelector('.exchange-btn').classList.add("button-disabled");
-          selectedLetter = null;
-          submitEscape = false;
-        } else {
-          gameForm.submit();
-        }
-      });
 
 
-  function validateJoker () {
-      const val = document.querySelector("#replace-joker").value;
-      if (!val.match(/[a-zA-Z]/)) {
-        alert ("Enter a letter to replace Joker");
-      } else {
-        document.querySelector("#close-modal-btn").focus();
-      }
 
-  }
 
 setupBoard();
 // setupBoardNew();
@@ -492,13 +458,15 @@ function setupBoard() {
   }
 
     let jays = "";
-      jays = document.querySelector("#board").dataset.jokers
+      jays = document.querySelector(".dashboard").dataset.jokers
+        console.log("jays", jays)
       if (jays.length > 0) {
         const jArray = jays.split(',');
+        console.log("jArray", jArray)
         jArray.forEach(jkr => {
           const jokerPos = parseInt(jkr)
           if (jokerPos) {
-            document.querySelectorAll(".tile")[jokerPos].classList.add("joker-replaced");
+            document.querySelectorAll(".tile")[jokerPos].classList.add("tile-joker");
             document.querySelectorAll(".tile")[jokerPos].querySelector(".board-value").innerHTML="0"
           }
         })
@@ -556,7 +524,7 @@ const pickLetter = () => {   // using keyboard
   }
 }
   if (dash) {
-    document.addEventListener('keydown', pickLetter);
+    // document.addEventListener('keydown', pickLetter);
     // console.log(myLetters);
     if (myLetters.length < 1 ) {  // myLetters has not been populated from DB
       chooseLetters();
@@ -690,7 +658,7 @@ function commitExchange() {
         remainingString += letter
         if (index < remainingLetters.length - 1) remainingString += `,`
       })
-      gId = document.querySelector(".edit-page-identifier").dataset.gameid
+      console.log('gId ', gId)
       const gameData = ({remaining_letters: remainingString, current_player: parseInt(cPlayer)})
       console.log('gameData  ', gameData);
       fetch(`/games/${gId}`, {
@@ -707,7 +675,7 @@ function commitExchange() {
     document.querySelector("#exchange-btn").classList.remove("exchange-btn-active");
     document.querySelector("#exchange-btn").classList.add("button-disabled");
 
-    };
+    }
   }
 
 
@@ -752,10 +720,14 @@ function commitExchange() {
         document.querySelector('#update-msg').value = added[1];
 
         let posArray = []
+        let jokerArray = []
         document.querySelectorAll(".letter").forEach( (letter, index)=> {
           if (letter.classList.contains("letter-provisional")) {
             placedLetters[`${index}`] = letter.innerText;
             posArray.push(index)
+            if (letter.parentNode.querySelector('.board-value').innerHTML === '0') {
+            jokerArray.push(index)
+            }
           }
           });
 
@@ -764,7 +736,7 @@ function commitExchange() {
         const pId = document.querySelector(".edit-page-identifier").dataset.playerid
         const gId = document.querySelector(".edit-page-identifier").dataset.gameid
 
-        const data = {move: {player_id: pId, letters: placedLetters, summary: alertStr, added_score: addedScore, position_array: posArray}};
+        const data = {move: {player_id: pId, letters: placedLetters, summary: alertStr, added_score: addedScore, position_array: posArray, joker_array: jokerArray}};
         const csrfToken = document.querySelector("[name='csrf-token']").content;
         let moveObjId;
         await fetch("/moves", {
@@ -787,7 +759,11 @@ function commitExchange() {
         Object.keys(placedLetters).forEach(key => {
           let value = placedLetters[key];
           // console.log(`${key}: ${value}`);
-          const letterData = {character:value, position:key, move_id:moveObjId};
+          let joker = false
+          if (document.querySelectorAll('.tile')[parseInt(key)].classList.contains('tile-joker')) {
+            joker = true
+          }
+          const letterData = {character:value, position:key, joker:joker, move_id:moveObjId};
           promises.push(fetch("/letters" , {
            method: 'POST',
            headers: {
@@ -881,7 +857,7 @@ function populateRailsForm() {
       // console.log( " newGrid " + newGrid)
       // document.querySelector('#update-grid').value = newGrid;
       document.querySelector('#update-current').value = current;
-      document.querySelector('#update-jokers').value = jokers;
+      // document.querySelector('#update-jokers').value = jokers;
       let remainingArray = Object.values(remainingLetters);
       let remainingString = ""
       remainingArray.forEach( (letter, index ) => {

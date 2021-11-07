@@ -19,6 +19,7 @@ class MovesController < ApplicationController
     letters.each do |ltr|
       letter_string +=  ltr.character
       letter_string += ltr.position.to_s
+      letter_string += 'J' if ltr.joker == true
       letter_string += ";"
      end
 
@@ -47,6 +48,7 @@ class MovesController < ApplicationController
     @move.player = Player.find(params['move']['player_id'])
     @move.added_score = params['move']['added_score']
     @move.summary = params['move']['summary']
+    @move.joker_array = params['move']['joker_array']
     @move.save!
     render json: @move
 end
@@ -120,6 +122,6 @@ private
 
 
   def move_params
-    params.require(:move).permit(:player_id, :id, :move, :letters, :summary, :added_score, :my_score, :added_score, :operation, position_array: [])
+    params.require(:move).permit(:player_id, :id, :move, :letters, :summary, :added_score, :my_score, :added_score, :operation,joker_array: [], position_array: [])
   end
 

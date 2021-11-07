@@ -5,10 +5,8 @@
   <%# end %>
 
  <div class='board board-hide' id="board" data-animate-out="animate-fade" data-letter-grid="<%= @game.letter_grid %>" data-jokers="<%= @game.jokers %>" >
-
   <% provisional_move = Move.find_by(provisional: true) %>
   <% prov_letters = Letter.where(move: provisional_move) %>
-
   <% for i in 0...225  %>
     <% char = "" %>
     <% prov_class  = "" %>
@@ -30,7 +28,7 @@
 
       <div class='tile tile-hide'>
         <div class="letter <%= prov_class %>"><%= char %></div>
-        <div class="board-value"></div>
+        <div class="board-value tighten-numbers" style = {letter-spacing: -1.5px!important;}></div>
       </div>
   <% end %>
 </div>
