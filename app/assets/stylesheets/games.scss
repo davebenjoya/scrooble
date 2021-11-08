@@ -164,7 +164,7 @@ select {
 }
 
 .crawl-start {
-  color: var(--type-color) !important;
+  color: var(--btn-bg-hilite) !important;
   font-size: 12px;
   padding: 0px;
   padding-left: 16px;
@@ -266,7 +266,7 @@ select {
 
 .dropdown-menu {
   color: var(--btn-type);
-  background-color: var(--btn-bg) !important;
+  background-color: var(--panel-color) !important;
   margin: 0 !important;
   padding: 0 !important;
   padding-top: 4px !important;
@@ -609,7 +609,7 @@ body {
   transform: translateX(-1px);
   font-weight: bold;
   baseline-shift: sub;
-  padding-top: 7px;
+  padding-top: 1px;
   padding-right: 2px;
 
   margin-left: 0px !important;
@@ -622,12 +622,17 @@ body {
   color: $space-cadet;
    @media screen and (max-width: 600px)  {
     // height:30px;
-  font-size: 10px;
+  font-size: 7px !important;
 
   }
   @media screen and (max-width: 432px)  {
+  padding-top: 7px;
     height:30px;
-  font-size: 8px;
+  // font-size: 8px;
+
+  }
+  @media screen and (min-width: 600px)  {
+  padding-top: 0px;
 
   }
 }
@@ -951,7 +956,7 @@ a {
   // box-shadow: 1px 2px 2px inset hsl(20, 15, 50) !important;
   background-color: var(--panel-color) !important;
 
-  border: 1px solid var(--btn-type-hilite) !important;
+  border: 1px solid var(--logo-color) !important;
   border-radius: 4px;
     // background: radial-gradient(farthest-corner at 0px 0px, $deep-space-sparkle 20%, $roman-silver 90%);
 
@@ -1165,7 +1170,9 @@ a {
   //  color: $space-cadet;
   // // background: linear-gradient(0turn, $midnight-green, $russian-green 55%, $tea-green 72%, $russian-green 88%) !important;
   // box-shadow: 1px 1px 3px inset $pine-tree !important;
+  background-color: transparent !important;
 
+  border: none !important;
    border-radius: 4px !important;
    // padding: 8px !important;
    font-weight: bold;
