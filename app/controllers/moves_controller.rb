@@ -112,6 +112,18 @@ end
   def destroy
     if Move.find(params[:id])
       @move = Move.find(params[:id])
+      @game = @move.player.game
+      @players = Player.where(game: @game)
+      new_current = @game.current_player + 1
+      new_current = 0 if new_current > @players.length - 1
+      @game.update({ current_player: new_current })
+        @players.each do |player|
+        player.update({challenging: 'pending'})
+      end
+        GameChannel.broadcast_to(
+          @game,
+          render_to_string(partial: "fake_words", locals: {msg: "#{params[:msg]}", gameid: @game.id})
+        )
       @move.destroy
     end
   end

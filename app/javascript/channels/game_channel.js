@@ -1,7 +1,7 @@
 import  { board }  from "../components/board";
 import consumer from "./consumer";
 import lettersJSON from '../components/letters.json';
-import { chooseLetters, restoreListenersAtAccept } from '../components/player_letters'
+import { chooseLetters, restoreListenersAtAccept, restoreLetters } from '../components/player_letters'
 import { searchDictionary } from '../components/dictionary'
 // import { restoreListenersAtAccept } from '../components/player_letters'
 import '../components/board'
@@ -27,16 +27,34 @@ let playerName;
         }
         dataArray = data.split(":");
         // console.log(gId === (dataArray[dataArray.length - 1].trim()))
-        console.log('dataArray[dataArray.length - 2].trim()' , dataArray);
 
          if (dataArray[dataArray.length - 2].toString().trim() === document.querySelector(".edit-page-identifier").dataset.gameid.toString().trim()) {
 
-           console.log('same game ' ,);
-           switch (dataArray[dataArray.length - 1].trim()) {
+           console.log('dataArray[dataArray.length - 1].toString().trim() ' , dataArray[dataArray.length - 1].toString().trim());
+           switch (dataArray[dataArray.length - 1].toString().trim()) {
 
             case "real_words":
               alert('dataArray', dataArray);
-            break;
+              break;
+            case "fake_words":
+       console.log('dataArray' , dataArray);
+          document.querySelectorAll('.letter-provisional').forEach((ltr, index) => {
+                ltr.classList.remove('letter-provisional')
+                ltr.style=`transition-delay: ${1 + (.5 * index)}s`;
+                ltr.innerHTML = ''
+                ltr.parentNode.querySelector('.board-value').innerHTML = ''
+              })
+              document.querySelector('.challenge-info').innerHTML = dataArray[0]
+              document.querySelector('#challenge-btn').style = "visibility: hidden";
+              document.querySelector('#accept-btn').innerHTML = "OK";
+              document.querySelector('#accept-btn').style = "visibility: visible";
+              document.querySelector('#accept-btn').removeEventListener('click', acceptWords);
+              document.querySelector('#accept-btn').addEventListener('click', hideFake);
+
+              const lastPlayer = document.querySelector('.nav-emp').innerHTML.split(':')[1].trim()
+
+              updatePlayers(lastPlayer, 0);
+              break;
             case "end_game":
               alert(`${dataArray[0]}`);
               fetch(`/games/${gId}`, {
@@ -54,25 +72,27 @@ let playerName;
             break;
             case "challenge":
            const wordArray =  dataArray[2].split(',');
-            console.log('challlllllenge');
+            console.log('playerName ', playerName);
 
               document.querySelector('#challenge-btn').style = "visibility: hidden";
+              document.querySelector('#accept-btn').style = "visibility: hidden";
+                // document.querySelector('.challenge-btn').style.display = 'none';
 
               setTimeout(function () {
               // play challenge alert sound
               document.querySelector('#btnAudio').src = '../../assets/insistentHarp.mp3';
               document.querySelector('#btnAudio').play();
+                document.querySelector('.challenge-info').innerHTML = `${dataArray[0]} is challenging ${dataArray[1]}. Checking the dictionary...`;
+                document.querySelector('#challenge').classList.add('challenge-show');
               }, 600);
 
-            //   setTimeout(function () {
-            //     document.querySelector('#challenge-info').innerHTML = `${dataArray[0]} is challenging ${dataArray[1]}.`;
-            //     document.querySelector('#challenge').classList.add('challenge-show');
+              setTimeout(function () {
+                if (document.querySelector('.logged-in-as').innerHTML.split('as ')[1].trim() === document.querySelector(".nav-emp").innerText.split(':')[1].trim()) {
+                  searchDictionary(wordArray, moveId, playerName);
+                }
 
-            // }, 2000);
+            }, 2000);
 
-              if (document.querySelector('.logged-in-as').innerHTML.split('as ')[1].trim() === document.querySelector(".nav-emp").innerText.split(':')[1].trim()) {
-                searchDictionary(wordArray, moveId, playerName);
-              }
 
             break;
             case "acceptance":
@@ -171,7 +191,7 @@ let playerName;
 
               setTimeout( () => {
                 document.querySelector('#challenge').classList.add('challenge-show');
-                document.querySelector('#challenge-btn').style.display = 'block';
+                document.querySelector('#challenge-btn').style.visibility = 'visible';
                 document.querySelector('#challenge-btn').innerHTML = 'Challenge';
                 document.querySelector('#accept-btn').innerHTML = 'Accept';
               }, ((letter_array.length * 1000) * .7) + .5 );
@@ -218,6 +238,12 @@ function showAccept() {
 function hideAccept() {
   document.querySelector('#challenge').classList.remove('challenge-show');
   document.querySelector('#accept-btn').removeEventListener('click', showAccept);
+  // document.querySelector('#accept-btn').removeEventListener('click' hideAccept);
+}
+
+function hideFake() {
+  document.querySelector('#challenge').classList.remove('challenge-show');
+  document.querySelector('#accept-btn').removeEventListener('click', hideFake);
   // document.querySelector('#accept-btn').removeEventListener('click' hideAccept);
 }
 
@@ -325,6 +351,11 @@ function acceptWords() {
     })
 
   }
+
+
+
+
+
 
   const updatePlayers = (lastPlayer, addedScore) => {
     const players =  document.querySelectorAll(".player")
