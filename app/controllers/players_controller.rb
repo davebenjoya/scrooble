@@ -5,7 +5,6 @@ class PlayersController < ApplicationController
   end
 
   def update
-     puts "?*?*?*?*?*?* PARAMS [CHALLENGING]     *?*?*?*?*?*?*?*?*?*?*?*"
     @player = Player.find(params[:id])
     players = Player.where(game_id: @player.game_id)
     @game = @player.game

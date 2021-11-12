@@ -78,13 +78,13 @@ async function searchDictionary (wordArray, moveId, playerName)  {
       responseString = `Invalid move — ${invalidString} ${playerName} misses a turn.`
       // alert(responseString)
       const csrfToken = document.querySelector("[name='csrf-token']").content;
-      fetch(`/moves/${moveId}`, {
-        method: 'DELETE',
-        headers: {
-          'X-CSRF-Token': csrfToken,
-          'Content-Type': 'application/json'
-        },
-      })
+      // fetch(`/moves/${moveId}`, {
+      //   method: 'DELETE',
+      //   headers: {
+      //     'X-CSRF-Token': csrfToken,
+      //     'Content-Type': 'application/json'
+      //   },
+      // })
 
     }
 
@@ -112,9 +112,9 @@ async function searchDictionary (wordArray, moveId, playerName)  {
 
      console.log(responseString)
      if (responseString.split(' ')[0] === 'Valid') {
-     realWords()
+     realWords(responseString)
      } else {
-      fakeWords()
+      fakeWords(responseString)
      }
 
 
@@ -129,7 +129,7 @@ async function searchDictionary (wordArray, moveId, playerName)  {
     // console.log( returnArray[0]);
 
 
-function realWords() {
+function realWords(responseString) {
 
   const gId = document.querySelector(".edit-page-identifier").dataset.gameid;
   const pId = document.querySelector(".edit-page-identifier").dataset.playerid;
@@ -156,41 +156,51 @@ function realWords() {
     body: JSON.stringify(moveAcceptData)
     })
   });
-  // document.querySelector('#challenge').remove()
   document.querySelector('#challenge').classList.remove('challenge-show');
-  // document.querySelector('#challenge').classList.add('challenge-hide');
-  // chooseLetters();
 }
 
-function fakeWords() {
-      alert("Fake Words!")
-
-
+function fakeWords(responseString) {
   const gId = document.querySelector(".edit-page-identifier").dataset.gameid;
   const pId = document.querySelector(".edit-page-identifier").dataset.playerid;
   const moveId = document.querySelector(".edit-page-identifier").dataset.moveid
-  const acceptData = {challenging: 'pending', id:`${pId}`}
-  fetch(`/players/${pId}`, {
-    method: 'PATCH',
-    headers: {
-      'X-CSRF-Token': csrfToken,
-      'Content-Type': 'application/html',
-    },
-    body: JSON.stringify(acceptData)
+
+  document.querySelectorAll('.letter-disabled').forEach(ltr => {
+    ltr.classList.remove('letter-disabled')
   })
-  .then(response => response.json())
-  .then(acceptObj => {
-    console.log('moveId  ' + moveId);
-    const moveAcceptData = {id: `${moveId}`}
+
+    const moveDeleteData = {id: `${moveId}`, msg: responseString}
     fetch(`/moves/${moveId}`, {
       method: 'DELETE',
       headers: {
       'X-CSRF-Token': csrfToken,
       'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(moveAcceptData)
+      },
+    body: JSON.stringify(moveDeleteData)
     })
-  });
+
+
+  // const acceptData = {challenging: 'pending', id:`${pId}`}
+  // fetch(`/players/${pId}`, {
+  //   method: 'PATCH',
+  //   headers: {
+  //     'X-CSRF-Token': csrfToken,
+  //     'Content-Type': 'application/html',
+  //   },
+  //   body: JSON.stringify(acceptData)
+  // })
+  // .then(response => response.json())
+  // .then(acceptObj => {
+    // console.log('moveId  ' + moveId);
+    // const moveAcceptData = {id: `${moveId}`, msg: responseString}
+    // fetch(`/moves/${moveId}`, {
+    //   method: 'DELETE',
+    //   headers: {
+    //   'X-CSRF-Token': csrfToken,
+    //   'Content-Type': 'application/json',
+    // },
+    // body: JSON.stringify(moveAcceptData)
+    // })
+  // });
 
 
       // document.querySelector(".challenge-info").insertAdjacentHTML ('beforeend', `<strong>Dictionary says:</strong> ${responseString}`) ;

@@ -804,11 +804,13 @@ border:none !important;
   @media only screen and (max-width: 600px) {
   font-size: 14px;
   font-weight: regular;
+  transition: .3s all;
   }
 }
 
 #navbar-game:hover {
   color: var(--btn-type-hilite);
+  transition: .3s all;
 }
 
 
@@ -1634,7 +1636,7 @@ margin-left: 8px;
   right: 25% !important;
   position: absolute;
   top: -120px;
-  transition: .6s all ease-in-out;
+  // transition: .6s all ease-in-out;
 clip-path: border-box;
 border: 1px solid var(--btn-bg-hilite);
 box-shadow: 2px 1px 3px $midnight-green;
@@ -1682,7 +1684,7 @@ clip-path: border-box;
 }
 
 .scores:hover {
-  transition: .4s all ease-out;
+  // transition: .3s all;
   background-color: hsla(220, 10, 70, .8);
 }
 
@@ -1690,8 +1692,8 @@ clip-path: border-box;
 .arrow-btn {
   // top:0px;
   // left:0px;
-  color: $honeydew;
-  transition: .35s all .55s ease-out;
+  // color: $honeydew;
+  // transition: .35s all .55s ease-out;
   // transition-timing-function: cubic-bezier(1.000, 0.005, 0.830, 0.265); /* custom */
 }
 
