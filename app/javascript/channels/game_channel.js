@@ -99,7 +99,7 @@ let playerName;
             console.log('accccccept');
                document.querySelectorAll(".letter-provisional").forEach( (letter, index) => {
                 letter.classList.remove("letter-provisional");
-                letter.style=`transition-delay: ${1 + (.5 * index)}s`;
+                letter.style = `transition-delay: ${1 + (.5 * index)}s`;
               })
 
               setTimeout(function () {
@@ -226,6 +226,7 @@ function showAccept() {
 
   }
   document.querySelector('#accept-btn').innerHTML = 'OK';
+  document.querySelector('#accept-btn').style.display = 'block';
   setTimeout(function () {
     // const name = dataArray[1];
     console.log(dataArray)

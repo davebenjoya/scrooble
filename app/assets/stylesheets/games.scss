@@ -70,7 +70,7 @@ select {
 
 #challenge-body {
   // top: 300px !important;
-  background: none !important;
+  background: var(--panel-color) !important;
   border: none !important;
 }
 
@@ -2199,7 +2199,11 @@ pointer-events: none;
     justify-content: center;
     align-items: center;
     opacity: 0;
-    background-color: hsla(220, 15, 30, .7);
+     // background-color: rgba(var(--panel-color).red, var(--panel-color).green, var(--panel-color).blue, 0.4);
+    // background-color: var(--panel-color);
+    // background-color: rgba(var(--panel-color), 0.8);
+    background-color: rgba(255, 255, 255, 0.35);
+    // background-color: hsla(220, 15, 30, .7);
   // transition: all .7s ease-in;
 }
 
@@ -2222,8 +2226,8 @@ pointer-events: none;
     margin:   16px;
     padding:   16px;
     border-radius: 8px;
-    color: $tea-green;
-    // background-color: $roman-silver;
+    color: var(--type-color);
+    background-color: rgba(220, 220, 220, .8) !important;
   //   background: radial-gradient(farthest-corner at 0px 0px, $deep-space-sparkle 20%, $roman-silver 90%);
 
   // text-shadow: 1px 1px 2px $rich-black !important;
@@ -2257,15 +2261,15 @@ position: fixed !important;
   // width: 100%;
   // margin-bottom: 4px;
   // left:8px;
-border: 1px solid $tea-green;
+border: 1px solid var(--btn-border);
   // border: none;
   padding: 0px 4px;
-  color: $tea-green;
+  color: var(--btn-type);
   text-align: center;
   // background: linear-gradient(0turn, $midnight-green, $russian-green 55%, $tea-green 72%, $russian-green 88%);
   // box-shadow: 1px 1px 3px inset $pine-tree;
   margin: 8px;
-  background-color: $heliotrope-gray;
+  background-color: var(--btn-bg);
    border-radius: 4px;
   opacity: 1;
   transition: all .5s;
@@ -2283,7 +2287,9 @@ border: 1px solid $tea-green;
 
 .challenge-btn:hover {
 
-  color: $lime-green !important;
+  color: var(--btn-type-hilite) !important;
+  background-color: var(--btn-bg-hilite) !important;
+  border-color: var(--btn-type-hilite) !important;
 
   transition: all .5s;
   @media only screen and (max-width: 600px) {
