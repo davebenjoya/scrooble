@@ -25,7 +25,7 @@ function showAccept() {
 function hideAccept() {
   document.querySelector('#challenge').classList.remove('challenge-show');
   document.querySelector('#accept-btn').removeEventListener('click', showAccept);
-  // document.querySelector('#accept-btn').removeEventListener('click' hideAccept);
+  document.querySelector('#accept-btn').removeEventListener('click', hideAccept);
 }
 
 
@@ -41,10 +41,6 @@ function challengeWords() {
     },
     body: JSON.stringify(challengeData)
   })
-  .then(response => {
-    response.json()
-  })
-  .then(json => console.log(json))
 
   document.querySelector('#challenge').classList.remove('challenge-show');
 

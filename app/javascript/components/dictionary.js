@@ -51,13 +51,14 @@ async function searchDictionary (wordArray, moveId, playerName)  {
   }
 
   function returnResults (valid, string) {
-    console.log(string)
+    const  word = string.split(':')[0]
+    const  description = string.split(':')[1]
     const responseArray = string.split("::")
     let responseString = ``;
     let invalidString = ``;
 
 
-    if (valid === true ) {
+    if (valid === true && description.includes('abbreviation') === false) {
       responseString += `Valid move — ${string} Challenger misses a turn.`
       document.querySelectorAll('.letter-provisional').forEach(ltr => {
         ltr.classList.remove('letter-provisional');
@@ -111,12 +112,11 @@ async function searchDictionary (wordArray, moveId, playerName)  {
 
 
      console.log(responseString)
-     if (responseString.split(' ')[0] === 'Valid') {
+     if (responseString.split(' ')[0] === 'Valid' && responseString.includes('abbreviation') === false) {
      realWords(responseString)
      } else {
       fakeWords(responseString)
      }
-
 
 
   }
@@ -130,7 +130,6 @@ async function searchDictionary (wordArray, moveId, playerName)  {
 
 
 function realWords(responseString) {
-
   const gId = document.querySelector(".edit-page-identifier").dataset.gameid;
   const pId = document.querySelector(".edit-page-identifier").dataset.playerid;
   const moveId = document.querySelector(".edit-page-identifier").dataset.moveid
