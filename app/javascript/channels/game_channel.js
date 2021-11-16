@@ -192,6 +192,7 @@ let playerName;
               setTimeout( () => {
                 document.querySelector('#challenge').classList.add('challenge-show');
                 document.querySelector('#challenge-btn').style.visibility = 'visible';
+                document.querySelector('#challenge-btn').style.display = 'block';
                 document.querySelector('#challenge-btn').innerHTML = 'Challenge';
                 document.querySelector('#accept-btn').innerHTML = 'Accept';
               }, ((letter_array.length * 1000) * .7) + .5 );

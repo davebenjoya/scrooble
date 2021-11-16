@@ -71,8 +71,29 @@ select {
 #challenge-body {
   // top: 300px !important;
   background: var(--panel-color) !important;
+
+    // background-color: #{'rgba(var(--color_rgb), 0.5)'};
+  // background-color: transparent !important;
   border: none !important;
 }
+
+
+.container {
+    position: relative;
+}
+
+// .challenge-body::before {
+//     content: "";
+//     width: 100%;
+//     height: 100%;
+//     position: absolute;
+//     transform: translate(0px, -10px);
+//     border-radius: 4px;
+//     background-color: var(--panel-color);
+//     opacity: 0.8;
+//     z-index: -100;
+// }
+
 
 #gamelink{
   visibility: collapse;
@@ -2204,13 +2225,15 @@ pointer-events: none;
     // background-color: rgba(var(--panel-color), 0.8);
     background-color: rgba(255, 255, 255, 0.35);
     // background-color: hsla(220, 15, 30, .7);
-  // transition: all .7s ease-in;
+  // transition: all .8s ease-in;
+
+    animation: hidechallenge .8s forwards;
 }
 
 .challenge-show {
-    position: fixed;
-    width:100%;
-    height:100%;
+    // position: fixed;
+    // width:100%;
+    // height:100%;
     top:0;
     opacity: 0;
   // transition: all .7s ease-out;
@@ -2218,8 +2241,13 @@ pointer-events: none;
 }
 
 @keyframes showchallenge {
-  from {opacity: 0 }
-  to {opacity: 1 }
+  from {opacity: 0; top: -1000px;}
+  to {opacity: 1; top: 0px; }
+}
+
+@keyframes hidechallenge {
+  from {opacity: 1; top: 0px; }
+  to {opacity: 0; top: -1000px; }
 }
 
 .challenge-body {
