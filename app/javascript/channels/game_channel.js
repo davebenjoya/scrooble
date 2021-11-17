@@ -84,6 +84,7 @@ let playerName;
               document.querySelector('#btnAudio').play();
                 document.querySelector('.challenge-info').innerHTML = `${dataArray[0]} is challenging ${dataArray[1]}. Checking the dictionary...`;
                 document.querySelector('#challenge').classList.add('challenge-show');
+                document.querySelector('.challenge-body').classList.add('challenge-body-show');
               }, 600);
 
               setTimeout(function () {
@@ -133,10 +134,12 @@ let playerName;
               setTimeout(function () {
                 document.querySelector('.challenge-info').innerHTML = `${dataArray[0]}`;
                 document.querySelector('#challenge').classList.add('challenge-show');
+                document.querySelector('.challenge-body').classList.add('challenge-body-show');
                 document.querySelector('#challenge-btn').style.display = 'none';
                 document.querySelector('#accept-btn').innerHTML = 'OK';
                 document.querySelector('#accept-btn').addEventListener('click', () => {
-                  document.querySelector('#challenge').classList.remove('challenge-show');
+                document.querySelector('#challenge').classList.remove('challenge-show');
+                document.querySelector('.challenge-body').classList.remove('challenge-body-show');
                 })
               }, 2000);
 
@@ -161,9 +164,10 @@ let playerName;
 
               document.querySelector(".challenge-info").innerHTML = dataArray[0];
               document.querySelector('#challenge').classList.add('challenge-show');
-                document.querySelector('#challenge-btn').style.display = 'block';
-                document.querySelector('#challenge-btn').innerHTML = 'Challenge';
-                document.querySelector('#accept-btn').innerHTML = 'Accept';
+              document.querySelector('.challenge-body').classList.add('challenge-body-show');
+              document.querySelector('#challenge-btn').style.display = 'block';
+              document.querySelector('#challenge-btn').innerHTML = 'Challenge';
+              document.querySelector('#accept-btn').innerHTML = 'Accept';
 
             console.log('dataArrrrrrrrrrrrray[0]', dataArray[0]);
 
@@ -191,6 +195,7 @@ let playerName;
 
               setTimeout( () => {
                 document.querySelector('#challenge').classList.add('challenge-show');
+                document.querySelector('.challenge-body').classList.add('challenge-body-show');
                 document.querySelector('#challenge-btn').style.visibility = 'visible';
                 document.querySelector('#challenge-btn').style.display = 'block';
                 document.querySelector('#challenge-btn').innerHTML = 'Challenge';
@@ -233,18 +238,21 @@ function showAccept() {
     console.log(dataArray)
     document.querySelector('.challenge-info').innerHTML = `${dataArray[1]} scored ${dataArray[2]} points.`;
     document.querySelector('#challenge').classList.add('challenge-show');
+    document.querySelector('.challenge-body').classList.add('challenge-body-show');
     document.querySelector('#accept-btn').addEventListener('click', hideAccept)
   }, 2000);
 }
 
 function hideAccept() {
   document.querySelector('#challenge').classList.remove('challenge-show');
+  document.querySelector('.challenge-body').classList.remove('challenge-body-show');
   document.querySelector('#accept-btn').removeEventListener('click', showAccept);
   // document.querySelector('#accept-btn').removeEventListener('click' hideAccept);
 }
 
 function hideFake() {
   document.querySelector('#challenge').classList.remove('challenge-show');
+  document.querySelector('.challenge-body').classList.remove('challenge-body-show');
   document.querySelector('#accept-btn').removeEventListener('click', hideFake);
   // document.querySelector('#accept-btn').removeEventListener('click' hideAccept);
 }
@@ -300,6 +308,8 @@ function acceptWords() {
   });
 
   document.querySelector('#challenge').classList.remove('challenge-show');
+  document.querySelector('.challenge-body').classList.remove('challenge-body-show');
+
   document.querySelector('#accept-btn').removeEventListener('click', acceptWords)
   // chooseLetters();
 }

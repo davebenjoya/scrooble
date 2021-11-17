@@ -117,6 +117,7 @@ if (createPage) {
       if (editGame.dataset.playername != editGame.dataset.submitter ) {
         document.querySelector(".challenge-info").innerHTML = pendingString;
         document.querySelector('#challenge').classList.add('challenge-show');
+        document.querySelector('.challenge-body').classList.add('challenge-body-show');
         document.querySelector('#challenge-btn').style.display = 'block';
         document.querySelector('#challenge-btn').innerHTML = 'Challenge';
         document.querySelector('#accept-btn').innerHTML = 'Accept';
@@ -128,6 +129,7 @@ if (createPage) {
       } else {
         document.querySelector(".challenge-info").innerHTML = pendingString.replace(`${editGame.dataset.playername} is`, `You are`);
         document.querySelector('#challenge').classList.add('challenge-show');
+        document.querySelector('.challenge-body').classList.add('challenge-body-show');
         document.querySelector('#challenge-btn').style.display = 'none';
         document.querySelector('#accept-btn').innerHTML = 'OK';
            // add listener for ok button
@@ -247,6 +249,8 @@ if (createPage) {
   function hideDialog() {
 
   document.querySelector('#challenge').classList.remove('challenge-show');
+  document.querySelector('.challenge-body').classList.remove('challenge-body-show');
+
    document.querySelector('#accept-btn').removeEventListener('click', hideDialog)
 
   }

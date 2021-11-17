@@ -18,12 +18,14 @@ function showAccept() {
     // const name = dataArray[1];
     document.querySelector('.challenge-info').innerHTML = `${dataArray[1]} scored ${dataArray[2]} points.`;
     document.querySelector('#challenge').classList.add('challenge-show');
+    document.querySelector('.challenge-body').classList.add('challenge-body-show');
     document.querySelector('#accept-btn').addEventListener('click', hideAccept)
   }, 2000);
 }
 
 function hideAccept() {
   document.querySelector('#challenge').classList.remove('challenge-show');
+  document.querySelector('.challenge-body').classList.remove('challenge-body-show');
   document.querySelector('#accept-btn').removeEventListener('click', showAccept);
   document.querySelector('#accept-btn').removeEventListener('click', hideAccept);
 }
@@ -43,7 +45,7 @@ function challengeWords() {
   })
 
   document.querySelector('#challenge').classList.remove('challenge-show');
-
+  document.querySelector('.challenge-body').classList.remove('challenge-body-show');
 }
 
 
@@ -81,6 +83,7 @@ function acceptWords() {
   });
 
   document.querySelector('#challenge').classList.remove('challenge-show');
+  document.querySelector('.challenge-body').classList.remove('challenge-body-show');
    document.querySelector('#accept-btn').removeEventListener('click', acceptWords)
   // chooseLetters();
 }
