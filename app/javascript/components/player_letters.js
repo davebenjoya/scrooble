@@ -191,6 +191,7 @@ if (document.querySelector(".edit-page-identifier")) {
   function hideDialog() {
 
   document.querySelector('#challenge').classList.remove('challenge-show');
+  document.querySelector('.challenge-body').classList.remove('challenge-body-show');
    document.querySelector('#accept-btn').removeEventListener('click', hideDialog)
 
   }
