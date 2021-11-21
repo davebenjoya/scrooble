@@ -8,8 +8,7 @@ import { acceptWords, challengeWords } from './dialogs'
 // import   calculateScore  from './scoring';
 
 const board = () => {
-  // calculateScore();
-  // scoring.somting();
+
 
   const newGame = document.querySelector(".new-page-identifier");
   const editGame = document.querySelector(".edit-page-identifier");
@@ -54,9 +53,6 @@ const board = () => {
   // tile background images
   const numOfBgs = 6;
   let currentBg = 0;
-
-
-
 
   if (newGame){
     document.querySelectorAll(".toggle-stats").forEach(stat => {

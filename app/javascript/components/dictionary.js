@@ -122,10 +122,10 @@ async function searchDictionary (wordArray, moveId, playerName)  {
   }
       // if (count === wordArray.length) return [valid, wordString];
 
-  Promise.all(promises).then(values => {
-    console.log( values );
-    return valid;
-  })
+  // Promise.all(promises).then(values => {
+  //   console.log( values );
+  //   return valid;
+  // })
     // console.log( returnArray[0]);
 
 
