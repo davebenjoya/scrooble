@@ -68,7 +68,10 @@ end
     puts '-----------------------------------------------------'
     puts '--------------- UPDATE PARAMETERS -------------------'
     puts '-----------------------------------------------------'
-    # puts params
+    puts params["challenging"]
+    if params["provisional"] == false
+      puts ' f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f'
+    end
     @move = Move.find(params[:id])
     @game = @move.player.game
     @move.player.update({challenging: 'false'})
@@ -83,12 +86,6 @@ end
       move_letters = Letter.where(move_id: @move.id)
       move_letters.each do |ltr|
       delete_string = ltr.character + ','
-      # ind = new_remaining.index(ltr.character)
-      # if new_remaining.index(ltr.character) < new_remaining.length - 1  # not last character in string
-      #   delete_string = ltr.character + ','
-      # else  #  last character in string
-      #   delete_string = ltr.character
-      # end
       new_remaining = new_remaining.sub(delete_string, '')
     end
 
@@ -134,6 +131,6 @@ private
 
 
   def move_params
-    params.require(:move).permit(:player_id, :id, :move, :letters, :summary, :added_score, :my_score, :added_score, :operation,joker_array: [], position_array: [])
+    params.require(:move).permit(:player_id, :id, :move, :letters, :summary, :added_score, :my_score, :added_score, :operation, :challenging, joker_array: [], position_array: [])
   end
 

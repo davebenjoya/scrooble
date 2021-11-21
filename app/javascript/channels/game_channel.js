@@ -74,17 +74,18 @@ let playerName;
            const wordArray =  dataArray[2].split(',');
             console.log('playerName ', playerName);
 
-              document.querySelector('#challenge-btn').style = "visibility: hidden";
-              document.querySelector('#accept-btn').style = "visibility: hidden";
-                // document.querySelector('.challenge-btn').style.display = 'none';
 
               setTimeout(function () {
               // play challenge alert sound
               document.querySelector('#btnAudio').src = '../../assets/insistentHarp.mp3';
               document.querySelector('#btnAudio').play();
-                document.querySelector('.challenge-info').innerHTML = `${dataArray[0]} is challenging ${dataArray[1]}. Checking the dictionary...`;
-                document.querySelector('#challenge').classList.add('challenge-show');
-                document.querySelector('.challenge-body').classList.add('challenge-body-show');
+              document.querySelector('.challenge-info').innerHTML = `${dataArray[0]} is challenging ${dataArray[1]}. Checking the dictionary...`;
+              document.querySelector('#challenge').classList.add('challenge-show');
+              document.querySelector('.challenge-body').classList.add('challenge-body-show');
+              document.querySelector('#challenge-btn').style = "visibility: hidden";
+              document.querySelector('#accept-btn').style = "visibility: hidden";
+                document.querySelector('#challenge-btn').style.display = 'none';
+                document.querySelector('#accept-btn').style.display = 'none';
               }, 600);
 
               setTimeout(function () {
@@ -232,6 +233,7 @@ function showAccept() {
 
   }
   document.querySelector('#accept-btn').innerHTML = 'OK';
+  document.querySelector('#accept-btn').style.visibility = 'visible';
   document.querySelector('#accept-btn').style.display = 'block';
   setTimeout(function () {
     // const name = dataArray[1];

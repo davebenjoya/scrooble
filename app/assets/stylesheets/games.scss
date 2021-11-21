@@ -19,10 +19,11 @@ hr {
 
 
 #replacement-input {
+  height: 30px;
   width: 30px;
   display:inline;
-  margin-left: 8px;
-  margin-bottom: 8px;
+  margin-top: 8px;
+  // baseline-shift: -12px;
 }
 
 .info-replacement {
@@ -2164,10 +2165,10 @@ pointer-events: none;
 .exchange-btn-active {
   // margin-bottom: 4px;
   left:8px;
-  // background-color: $honeydew;
+  background-color: var(--bg-color);
   opacity: 1;
-  color: $lime-green;
-  // border: 1px solid hsl(10, 88, 74) !important;
+  color: var(--logo-color);
+  border: 1px solid var(--logo-color) !important;
 
   transition: all .5s;
 }
@@ -2293,12 +2294,14 @@ pointer-events: none;
 }
 
 .challenge-info {
-  padding: 16px;
+  padding-left: 12px;
+  padding-right: 4px;
+  padding-top: 10px;
   color: var(--btn-type-hilite);
 }
 
 .challenge-body {
-  margin:   16px;
+  // margin:   16px;
   padding:   16px;
   border-radius: 8px;
   color: var(--type-color);
@@ -2324,14 +2327,13 @@ pointer-events: none;
 .challenge-body-narrow {
     // width: max-content;
 }
-
 .challenge-btn {
   cursor: pointer;
   // width: 100%;
   // margin-bottom: 4px;
   // left:8px;
   // border: none;
-  padding: 0px 4px;
+  // padding: 0px 4px;
   color: var(--btn-bg-hilite);
   font-weight: bold;
   text-align: center;

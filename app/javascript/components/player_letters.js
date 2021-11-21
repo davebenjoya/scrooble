@@ -121,7 +121,10 @@ if (document.querySelector(".edit-page-identifier")) {
               document.querySelector('#challenge-btn').innerHTML = 'Replace';
               document.querySelector('#accept-btn').innerHTML = 'Cancel';
               setTimeout(() => {
+
                 document.querySelector('#challenge').classList.add('challenge-show');
+
+                document.querySelector('#challenge-body').classList.add('challenge-body-show');
 
 
               }, 500)
