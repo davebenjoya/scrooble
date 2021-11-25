@@ -134,18 +134,18 @@ function realWords(responseString) {
   const pId = document.querySelector(".edit-page-identifier").dataset.playerid;
   const moveId = document.querySelector(".edit-page-identifier").dataset.moveid
   const acceptData = {challenging: 'realwords', id:`${pId}`}
-  fetch(`/players/${pId}`, {
-    method: 'PATCH',
-    headers: {
-      'X-CSRF-Token': csrfToken,
-      'Content-Type': 'application/html',
-    },
-    body: JSON.stringify(acceptData)
-  })
-  .then(response => response.json())
-  .then(acceptObj => {
-    console.log('moveId  ' + moveId);
-    const moveAcceptData = {id: `${moveId}`, provisional: false}
+  // fetch(`/players/${pId}`, {
+  //   method: 'PATCH',
+  //   headers: {
+  //     'X-CSRF-Token': csrfToken,
+  //     'Content-Type': 'application/html',
+  //   },
+  //   body: JSON.stringify(acceptData)
+  // })
+  // .then(response => response.json())
+  // .then(acceptObj => {
+    // console.log('moveId  ' + moveId);
+    const moveAcceptData = {id: `${moveId}`, provisional: false, type: 'realwords'}
     fetch(`/moves/${moveId}`, {
       method: 'PATCH',
       headers: {
@@ -154,7 +154,7 @@ function realWords(responseString) {
     },
     body: JSON.stringify(moveAcceptData)
     })
-  });
+  // });
   document.querySelector('#challenge').classList.remove('challenge-show');
 }
 

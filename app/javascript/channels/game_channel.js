@@ -26,19 +26,17 @@ let playerName;
         csrfToken = document.querySelector("[name='csrf-token']").content;
         }
         dataArray = data.split(":");
-        // console.log(gId === (dataArray[dataArray.length - 1].trim()))
 
          if (dataArray[dataArray.length - 2].toString().trim() === document.querySelector(".edit-page-identifier").dataset.gameid.toString().trim()) {
 
-           console.log('dataArray[dataArray.length - 1].toString().trim() ' , dataArray[dataArray.length - 1].toString().trim());
            switch (dataArray[dataArray.length - 1].toString().trim()) {
 
             case "real_words":
               alert('dataArray', dataArray);
               break;
             case "fake_words":
-       console.log('dataArray' , dataArray);
-          document.querySelectorAll('.letter-provisional').forEach((ltr, index) => {
+              console.log('dataArray' , dataArray);
+              document.querySelectorAll('.letter-provisional').forEach((ltr, index) => {
                 ltr.classList.remove('letter-provisional')
                 ltr.style=`transition-delay: ${1 + (.5 * index)}s`;
                 ltr.innerHTML = ''
@@ -56,18 +54,19 @@ let playerName;
               updatePlayers(lastPlayer, 0);
               break;
             case "end_game":
-              alert(`${dataArray[0]}`);
-              fetch(`/games/${gId}`, {
-              method: 'GET',
-              headers: {
-                'X-CSRF-Token': csrfToken,
-                'Content-Type': 'application/html',
-              }
-            })
-            .then(response => {
-              response.json()
-            })
-            .then(json => console.log(json));
+            console.log('ennnnddddd   gaaammmmmme')
+              // alert(`${dataArray[0]}`);
+            //   fetch(`/games/${gId}`, {
+            //   method: 'GET',
+            //   headers: {
+            //     'X-CSRF-Token': csrfToken,
+            //     'Content-Type': 'application/html',
+            //   }
+            // })
+            // .then(response => {
+            //   response.json()
+            // })
+            // .then(json => console.log(json));
               // $("#edit-page-identifier").load(window.location.href );
             break;
             case "challenge":
@@ -297,7 +296,7 @@ function acceptWords() {
   })
   .then(response => response.json())
   .then(acceptObj => {
-    console.log('moveId  ' + moveId);
+    // console.log('moveId  ' + moveId);
     const moveAcceptData = {id: `${moveId}`, provisional: false}
     fetch(`/moves/${moveId}`, {
       method: 'PATCH',
