@@ -68,10 +68,7 @@ end
     puts '-----------------------------------------------------'
     puts '--------------- UPDATE PARAMETERS -------------------'
     puts '-----------------------------------------------------'
-    puts params["challenging"]
-    if params["provisional"] == false
-      puts ' f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f'
-    end
+
     @move = Move.find(params[:id])
     @game = @move.player.game
     @move.player.update({challenging: 'false'})
@@ -96,12 +93,18 @@ end
         @players.each do |player|
         player.update({challenging: 'pending'})
       end
-     GameChannel.broadcast_to(
+
+    if params["type"] == "realwords"
+      GameChannel.broadcast_to(
       @game,
-      # flash[:game_update] = "next player: #{nextP}, last player: #{@game.current_player}"
-      render_to_string(partial: "acceptance", locals: {msg: "word was accepted", player: @move.player.user.username, score: @move.added_score, gameid:@game.id})
-      # render_to_string(partial: "submission", locals: {msg: ' ffdgdd g ddfghdfhrtgg  ' , player: 'mitzi', score: 12 })
-    )
+      render_to_string(partial: 'real_words', locals: { msg: 'Dictionary says yes!', challenged: @move.player.user.username, challenging:current_user.username, score: @move.added_score, gameid:@game.id})
+      )
+    else
+      GameChannel.broadcast_to(
+        @game,
+        render_to_string(partial: 'acceptance', locals: { msg: 'word was accepted', player: @move.player.user.username, score: @move.added_score, gameid:@game.id})
+      )
+    end
     end
   end
 

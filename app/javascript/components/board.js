@@ -150,12 +150,12 @@ if (createPage) {
 
     const numPlayers = document.querySelectorAll('.name-score').length
 
-    const oldPlayer = document.querySelector(".dashboard").dataset.current
-      // let cPlayer = oldPlayer + 1
-      // if ( cPlayer > numPlayers - 1 ) cPlayer = 0;
-    const yOff = oldPlayer * 26;
-    console.log ('yOff ', yOff);
-    document.querySelector(":root").setAttribute("bug-y-offset", `${yOff}px`);
+    // const oldPlayer = document.querySelector(".dashboard").dataset.current
+    //   // let cPlayer = oldPlayer + 1
+    //   // if ( cPlayer > numPlayers - 1 ) cPlayer = 0;
+    // const yOff = oldPlayer * 26;
+    // console.log ('yOff ', yOff);
+    // document.querySelector(":root").setAttribute("bug-y-offset", `${yOff}px`);
 
 
 
@@ -456,7 +456,7 @@ function setupBoard() {
 
 
   }
-
+    if (document.querySelector(".dashboard")) {
     let jays = "";
       jays = document.querySelector(".dashboard").dataset.jokers
         console.log("jays", jays)
@@ -471,6 +471,10 @@ function setupBoard() {
           }
         })
       }
+
+    }
+
+
 }
 
 const pickLetter = () => {   // using keyboard

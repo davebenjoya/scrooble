@@ -20,22 +20,28 @@ class PlayersController < ApplicationController
     end
 
       @player.update!({ completed: true })
-
+      puts '|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||'
+      puts '|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||'
+      puts quit_players
+      puts '|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||'
+      puts '|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||'
       if quit_players == 0
-        # redirect_to game_path(@game)
         @game.update({completed: true})
         GameChannel.broadcast_to(
-          @game,
-          # flash[:game_update] = "next player: #{nextP}, last player: #{@game.current_player}"
-          render_to_string(partial: "end", locals: {msg: "All players have quit the game. Game #{@game.name} has ended."})
-          # render_to_string(partial: "submission", locals: {msg: ' ffdgdd g ddfghdfhrtgg  ' , player: 'mitzi', score: 12 })
-        )
+          @game, render_to_string(partial: "end", locals: {msg: "All players have quit the game. Game #{@game.name} has ended.", gameid: @game.id})
+         )
+        redirect_to game_path(@game)
       end
     end
 
     # switch statement
-
-    case params['challenging']
+ puts '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'
+      puts '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'
+      puts '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'
+      puts params
+      puts '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'
+      puts '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'
+    case params["challenging"]
     when 'fakewords'
       puts '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'
       puts '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'

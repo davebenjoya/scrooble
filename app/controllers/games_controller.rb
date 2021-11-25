@@ -10,10 +10,29 @@ class GamesController < ApplicationController
   end
 
   def show
-     @game = Game.find(params[:id])
-     @date = @game.updated_at.strftime("%b %d, %Y %-I:%M%p")
-     @players = Player.where(game: @game)
-     @winner = @players.order(player_score: :desc)[0].user.username
+    @game = Game.find(params[:id])
+    @date = @game.updated_at.strftime("%b %d, %Y %-I:%M%p")
+    @players = Player.where(game: @game)
+
+    hashed_players = []
+
+    @players.each_with_index do | plr, ndx |
+      p_score = 0
+      p_moves = Move.where(player_id: plr.id)
+      p_moves.each do | mv |
+        p_score += mv.added_score
+      end
+      hashed_players << { ind: ndx, score: p_score }
+    end
+
+    sorted_players = hashed_players.sort_by { "score" }
+
+    puts '&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'
+    puts  sorted_players[0].values[0]  # index of winner in original array
+    puts '&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'
+
+    @winner = @players[sorted_players[0].values[0]].user.username
+    @winner = "Tie" if sorted_players[0].values[1] == sorted_players[1].values[1]
   end
 
 def formatted_updated_at
