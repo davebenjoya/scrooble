@@ -698,6 +698,7 @@ width: 0px;
 }
 
 .stored-game {
+  font: var(--font1) !important;
   opacity: 1 !important;
   padding: 8px;
   height: 80px;
@@ -1377,6 +1378,7 @@ a:link, #navbar a:visited, #cnavbar a:hover, #navbar a:active,  {
   justify-content: center;
 }
 .index-players-text {
+  font: var(--font2) !important;
   color: var(--type-color) !important;
   font-weight: lighter !important;
   padding-right: 4px;
