@@ -104,11 +104,6 @@ border: 2px solid var(--btn-type) !important;
   visibility: collapse;
 }
 
-.login-identifier {
-  padding: 32px;
-  height: 800px !important;
-}
-
 .create-page-identifier {
   margin: 16px;
   padding: 8px;
@@ -1239,6 +1234,7 @@ label {
   line-height: 10px !important;
   font-size: 14px !important;
   font-weight: bolder;
+  color: var(--type-color);
 }
 
 

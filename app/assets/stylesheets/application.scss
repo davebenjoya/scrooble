@@ -21,11 +21,11 @@
 :root {
   --font1: "18px Roboto, sans-serif";
   --font2: "14px Roboto, sans-serif";
-  --bg-color: #9A8C98; // $heliotrope-gray
-  --type-color:  #F3FFBD; // $cream
+  --bg-color: rgb(31, 28, 39); // $heliotrope-gray
+  --type-color:  rgb(238, 228, 242); // $cream
   --logo-color: #629677; // $india-green
   --bvm-color: #525B76; // $independence
-  --panel-color: #E4E9F1; // $alice-blue:
+  --panel-color: rgb(120, 58, 72);
   --game-name-color: #E4E9F1; // $alice-blue:
   --background: linear-gradient(5deg, $raisin-black 20% , $dark-jungle-green 60%, $raisin-black 85%) no-repeat;
   // --background: linear-gradient(5deg, rgba(180, 10, 50, .3) 20% , rgba(80, 10, 30, .6 60%, rgba(180, 10, 50, .3 85% ) no-repeat;
@@ -36,7 +36,35 @@
   --btn-bg-hilite:#FBA39D;
   --theme-select-width: 60px;
   --bug-y-offset: 0px;
+}
 
+a {
+  font: var(--font1);
+  color: var(--type-color) !important;
+  padding: 4px;
+}
+
+
+.login-identifier {
+  padding: 4px;
+  height: 800px !important;
+}
+
+
+.login-identifier form {
+  margin-left: 32px;
+  background-color: var(--panel-color);
+  padding: 8px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+}
+
+.nav-link {
+  font: var(--font1) !important;
+  color: var(--type-color) !important;
+  margin-top: 16px;
+  font-size: 21px;
+  text-align: left;
 }
 
 #select-theme {
