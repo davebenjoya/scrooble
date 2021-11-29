@@ -20,12 +20,13 @@ const score = (tiles, provisionals, orientation, first) => {
 
   if (first === false) {
     scoreSecondaryWords(provisionals, orientation)
+    buildAlert()
   } else {
     wordScore *= wordMultiplier * 2;
     bonusString += `First play double word score.`;
+    buildFirstAlert();
   }
-
-  buildAlert()
+  console.log('ss ' , scoreString);
 
 
   return [totalAdded, scoreString, wordArray];
@@ -46,14 +47,18 @@ const score = (tiles, provisionals, orientation, first) => {
 
   function scoreWord() {
     let word = ``
-    bonusString = ``
     wordScore = 0
     for (let pos of allPositions) {
       scoreTile(tiles[pos].querySelector('.letter'))
       word += tiles[pos].querySelector('.letter').innerHTML
     }
     if (word.length > 1) {
+      if (first === true) {
+        wordScore *= 2;
+        bonusString += 'First move double word score'
+      }
       const wordObj = new Object({characters: word, score: wordScore, bonus:bonusString});
+      console.log('bonusString ' , bonusString);
       wordArray.push(wordObj)
     }
   }
@@ -198,11 +203,8 @@ const score = (tiles, provisionals, orientation, first) => {
     }
   }
 
-
-
-  function buildAlert() {
-
-    totalAdded = 0;
+ function buildAlert() {
+      totalAdded = 0;
       bonusString = ``;
       let name = document.querySelector('.nav-emp').innerText.split(":")[1].trim();
       const ws = wordArray.length < 2 ? "" : "s"
@@ -221,9 +223,24 @@ const score = (tiles, provisionals, orientation, first) => {
 
       const ownScore  = scoreString.replace(`${name} is`, `You are`);
       setTimeout(function() {
-      alert(ownScore);
+        alert(ownScore);
+      }, 1000);
+    }
 
-    }, 1000)
+
+  function buildFirstAlert() {
+      let name = document.querySelector('.nav-emp').innerText.split(":")[1].trim();
+      scoreString = `${name} is submitting the word `;
+      // console.log("wordArray " , wordArray )
+      // console.log("wordArray[0] " , wordArray[0] )
+      totalAdded += wordArray[0].score
+      const s = wordArray[0].score != 1 ? `s` : ``;
+      scoreString += `${wordArray[0].characters} (${wordArray[0].score} point${s}). ${wordArray[0].bonus}`
+
+      const ownScore  = scoreString.replace(`${name} is`, `You are`);
+      setTimeout(function() {
+        alert(ownScore);
+      }, 1000);
     }
 
     function scoreTile(ltr) {
