@@ -468,13 +468,15 @@ turbo-frame {
 }
 
 .nav-emp {
-  width: 100%;
+  // width: 100%;
   margin: 0;
   padding:0;
-  margin-right: 8px;
-  color: $honeydew;
+  // margin-right: 8px;
+  color: var(--btn-type);
   display: flex;
-  justify-content: center;
+  justify-content: right;
+  position: absolute;
+  right: 20% !important;
 }
 
 
@@ -796,7 +798,8 @@ border:none !important;
 
 #navbar-left {
   width: 200px;
-  transform: translateY(6px);
+  height: 52px !important;
+  // transform: translateY(6px);
 }
 
 .navbar-title {
@@ -806,8 +809,8 @@ border:none !important;
   color: var(--logo-color) !important;
   font-family: 'Grandstander', display;
   letter-spacing: 7px;
-  margin-left:16px;
-  padding-top: 12px;
+  margin-left:32px;
+  padding-top: 0px;
   text-shadow: 1px 1px $rich-black;
 
   animation: .8s ease-in 8s 1 both navbar-title-squeeze ;
@@ -825,16 +828,17 @@ border:none !important;
 }
 
 #navbar-game {
+  font: var(--font1);
   // width: 50% !important;
   text-align:left;
   // display: flex;
   // flex-direction: row;
   // margin-top: 6px;
-  font-size: 16px;
-  font-family: 'Lato', sans-serif;
-  font-weight: bolder;
-  letter-spacing: 0.4px;
-  color: var(--game-name-color);
+  // font-size: 16px;
+  // font-family: 'Lato', sans-serif;
+  // font-weight: bolder;
+  // letter-spacing: 0.4px;
+  color: var(--btn-type-hilite);
   margin: 0;
   padding: 0;
   @media only screen and (max-width: 600px) {
@@ -1041,6 +1045,7 @@ a {
 #navbarr {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
   width: 100%;
   margin: 0px;
   padding: 4px 8px;
@@ -1566,7 +1571,7 @@ turbo_frame_tag {
 }
 
 #dashboard {
-  padding-top: 8px;
+  // padding-top: 8px;
   margin-right: 12px;
   display: flex;
   flex-direction: column;
@@ -1671,7 +1676,7 @@ margin-left: 8px;
   padding: 8px;
   padding-top: 20px;
   width: 180px !important;
-  right: 25% !important;
+  left: 15% !important;
   position: absolute;
   top: -120px;
   // transition: all .6s ease-in-out;
@@ -1759,7 +1764,10 @@ clip-path: border-box;
 }
 
 .navbar-scores {
+  // font: var(--font1);
   // background-color: var(--panel-color);
+  position: fixed;
+  left: 15%;
 }
 
 .name-score {
