@@ -468,10 +468,8 @@ turbo-frame {
 }
 
 .nav-emp {
-  // width: 100%;
-  margin: 0;
-  padding:0;
-  // margin-right: 8px;
+  font: var(--font2) !important;
+  font-size: 12px !important;
   color: var(--btn-type);
   display: flex;
   justify-content: right;
@@ -700,13 +698,13 @@ width: 0px;
   padding: 8px;
   height: 80px;
   // color: hsl(20, 20, 40);
-  display: flex;
-  justify-content: space-between;
-  color: var(--btn-type) !important;
-  background-color: var(--panel-color);
-  font-size: 16px;
-  font-family: 'Lato', sans-serif;
-  font-weight: bolder;
+  // display: flex;
+  // justify-content: space-between;
+  // color: var(--btn-type) !important;
+  // background-color: var(--panel-color);
+  // font-size: 16px;
+  // font-family: 'Lato', sans-serif;
+  // font-weight: bolder;
   // background-color: $midnight-green !important;
   // background: radial-gradient(farthest-corner at 0px 0px, $kombu-green 20%, $russian-green 90%);
 
@@ -828,7 +826,6 @@ border:none !important;
 }
 
 #navbar-game {
-  font: var(--font1);
   // width: 50% !important;
   text-align:left;
   // display: flex;
@@ -839,10 +836,8 @@ border:none !important;
   // font-weight: bolder;
   // letter-spacing: 0.4px;
   color: var(--btn-type-hilite);
-  margin: 0;
-  padding: 0;
   @media only screen and (max-width: 600px) {
-  font-size: 14px;
+  // font-size: 14px;
   font-weight: regular;
   transition: .3s all;
   }
@@ -855,16 +850,12 @@ border:none !important;
 
 
 .navbar-player {
-  font-size: 12px !important;
-  font-weight: normal;
-  margin: 0;
-  padding: 0;
+
+
 
   @media only screen and (max-width: 600px) {
 
-  font-size: 12px;
-
-  font-weight: regular;
+  font: var(--font1);
   }
 }
 
@@ -1764,7 +1755,7 @@ clip-path: border-box;
 }
 
 .navbar-scores {
-  // font: var(--font1);
+  font: var(--font1) !important;
   // background-color: var(--panel-color);
   position: fixed;
   left: 15%;
