@@ -55,7 +55,7 @@ const score = (tiles, provisionals, orientation, first) => {
     if (word.length > 1) {
       if (first === true) {
         wordScore *= 2;
-        bonusString += 'First move double word score'
+        bonusString += 'First move double word score. '
       }
       const wordObj = new Object({characters: word, score: wordScore, bonus:bonusString});
       console.log('bonusString ' , bonusString);
