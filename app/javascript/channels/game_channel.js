@@ -32,7 +32,7 @@ let playerName;
            switch (dataArray[dataArray.length - 1].toString().trim()) {
 
             case "real_words":
-              alert('dataArray', dataArray);
+              console.log('real_words dataArray', dataArray);
               break;
             case "fake_words":
               console.log('dataArray' , dataArray);

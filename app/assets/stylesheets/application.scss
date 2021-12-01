@@ -50,6 +50,82 @@ a {
 }
 
 
+.crawl-holder {
+  position: fixed;
+  width: 200px;
+  height: 40px;
+}
+
+.crawl-start {
+  color: var(--btn-bg-hilite) !important;
+  font-size: 12px;
+  padding: 0px;
+  left: 16px !important;
+  height: 14px;
+  top: -40px !important;
+  position: absolute;
+  letter-spacing: 1.3px;
+  text-align: left;
+}
+
+.crawl-start a {
+  color: var(--bvm-color) !important;
+}
+
+.crawl-show{
+  top: 0px !important;
+  transition: .5s all ease-in 1s;
+}
+
+.crawl-end{
+  top: -40px !important;
+  transition: .5s all ease-in 1s;
+}
+
+.link-start {
+  transform: translate(-100px, 16px);
+  // opacity: 0;
+  width: auto;
+  cursor: finger;
+
+}
+
+.link-start-game-page {
+  transform: translate(-100px, 4px);
+  // opacity: 0;
+  width: auto;
+  cursor: finger;
+}
+
+
+.link-show{
+  transform: translate(12px, 16px);
+  transition: .5s all ease-in 1.3s;
+  opacity: 1;
+}
+
+
+.link-end {
+  font-size: 10px !important;
+  transform: translate(12px, 4px);
+  transition: .3s all ease-in;
+}
+
+
+
+@keyframes show-crawl {
+  from {
+  top: -30px;}
+  to {
+  top: 0px;}
+}
+
+@keyframes end-crawl {
+  from {
+  top: 0px;}
+  to {
+  top: -30px;}
+}
 .login-identifier {
   padding: 4px;
   height: 800px !important;
@@ -105,12 +181,10 @@ a {
 button {
   color: var(--btn-type);
   background-color: var(--btn-bg);
-  // background-color: transparent;
-  // box-shadow: 1px 1px 3px inset var(--btn-border);
   box-shadow: none;
   border: 1px solid var(--btn-border);
-   @media only screen and (min-width: 984px) {
-  margin-top: 16px;
+  @media only screen and (min-width: 984px) {
+    margin-top: 16px;
     margin-top: 4px !important;
   }
 }
@@ -118,9 +192,6 @@ button {
 
 button:hover {
   color: var(--btn-type-hilite) !important;
-  // background-color: var(--btn-bg-hilite);
-  // background-color: transparent;
-  // box-shadow: 1px 1px 3px inset var(--btn-border);
   box-shadow: none;
 }
 
