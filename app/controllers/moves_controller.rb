@@ -65,9 +65,6 @@ end
   end
 
   def update
-    puts '-----------------------------------------------------'
-    puts '--------------- UPDATE PARAMETERS -------------------'
-    puts '-----------------------------------------------------'
 
     @move = Move.find(params[:id])
     @game = @move.player.game
@@ -85,7 +82,7 @@ end
       delete_string = ltr.character + ','
       new_remaining = new_remaining.sub(delete_string, '')
     end
-
+    old_current = @game.current_player
     new_current = @game.current_player + 1
     new_current = 0 if new_current > @players.length - 1
 
@@ -95,14 +92,17 @@ end
       end
 
     if params["type"] == "realwords"
+    puts '-----------------------------------------------------'
+    puts '--------------- UPDATE PARAMETERS -------------------'
+    puts "-------------#{@players[old_current.username].user.username}------------------"
       GameChannel.broadcast_to(
       @game,
-      render_to_string(partial: 'real_words', locals: { msg: 'Dictionary says yes!', challenged: @move.player.user.username, challenging:current_user.username, score: @move.added_score, gameid:@game.id})
+      render_to_string(partial: 'real_words', locals: { msg: params["message"], challenged: @move.player.user.username, challenging: @players[old_current.username].user.username, score: @move.added_score, gameid:@game.id})
       )
     else
       GameChannel.broadcast_to(
         @game,
-        render_to_string(partial: 'acceptance', locals: { msg: 'word was accepted', player: @move.player.user.username, score: @move.added_score, gameid:@game.id})
+        render_to_string(partial: 'acceptance', locals: { msg: 'word was accepted', player: @move.player.user.username, score: @move.added_score, gameid: @game.id})
       )
     end
     end

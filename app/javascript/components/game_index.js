@@ -10,6 +10,7 @@ const gameIndex = ()  => {
     storedGames = document.querySelector("#my-games").querySelectorAll(".card").length
     setTimeout( () => {
       document.querySelector(".crawl-start").classList.add("crawl-show");
+      document.querySelector(".link-start").classList.add("link-show");
       // console.log("transition end");
     }, 1000);
     crawlEndDelay = 5000;
@@ -21,7 +22,14 @@ const gameIndex = ()  => {
   setTimeout( () => {
     document.querySelector(".crawl-start").classList.add("crawl-end");
     // console.log("transition end");
-  }, crawlEndDelay);
+  }, 5000);
+
+  setTimeout( () => {
+    document.querySelector(".link-start").classList.add("link-end");
+    // console.log("transition end");
+  }, 6000);
+
+
 
  const yourGames = document.querySelector("#your-games");
   let agoTemp = ``;

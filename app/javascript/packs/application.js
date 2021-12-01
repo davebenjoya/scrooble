@@ -31,7 +31,7 @@ import { newGame } from '../components/new_game'
 import { initGameCable } from '../channels/game_channel'
 
 
-const themeProps = ["font1", "bg-color", "type-color", "logo-color", "bvm-color", "panel-color", "btn-bg", "btn-type", "btn-border", "btn-type-hilite", "btn-bg-hilite", "game-name-color", "game-name-color"]
+const themeProps = ["font1", "font2", "bg-color", "type-color", "logo-color", "bvm-color", "panel-color", "btn-bg", "btn-type", "btn-border", "btn-type-hilite", "btn-bg-hilite", "game-name-color", "game-name-color"]
 
 
 document.addEventListener("turbo:load", function() {
