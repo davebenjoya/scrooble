@@ -16,19 +16,21 @@
 @import 'config/colors';
 @import "games";
 @import "user";
+@import "navbar";
 @import 'bootstrap/scss/bootstrap';
 
 :root {
   --font1: "18px Roboto, sans-serif";
   --font2: "9px Roboto, sans-serif";
   --fontTwo: "9px Roboto, sans-serif";
-  --bg-color: rgb(31, 28, 39); // $heliotrope-gray
+  --bg-color: rgb(31, 28, 39);
+  --bg-color2: rgb(21, 18, 29);
   --type-color:  rgb(238, 228, 242); // $cream
   --logo-color: #629677; // $india-green
   --bvm-color: #525B76; // $independence
   --panel-color: rgb(120, 58, 72);
   --game-name-color: #E4E9F1; // $alice-blue:
-  --background: linear-gradient(5deg, $raisin-black 20% , $dark-jungle-green 60%, $raisin-black 85%) no-repeat;
+  --background: linear-gradient(5deg, var(--bg-color2) 20% , $dark-jungle-green 60%, var(--bg-color2) 85%) no-repeat;
   // --background: linear-gradient(5deg, rgba(180, 10, 50, .3) 20% , rgba(80, 10, 30, .6 60%, rgba(180, 10, 50, .3 85% ) no-repeat;
   --btn-bg: #525B76;
   --btn-type: #E2D4D3;
@@ -169,6 +171,12 @@ a {
   }
 }
 
+.index-page-identifier {
+  position: absolute;
+  width: 100%;
+  background-color: transparent;
+}
+
 #select-theme:hover {
   opacity: .9;
   border: none !important;
@@ -226,87 +234,23 @@ html, body {
 
   // background: radial-gradient(farthest-corner at -80px -80px, $dark-jungle-green 20%, $raisin-black 90% );
  // background-color:$heliotrope-gray;
-
+ // background: linear-gradient(6deg, var(--bg-color) 15% , var(--btn-type) 30%, var(--btn-type) 65%, var(--bg-color) 90% ) no-repeat;
+// height:auto;
 }
 
 html {
+  // padding: 8px;
   // background: linear-gradient(4deg, hsl(220, 30, 20) 5% , hsl(220, 30, 12) 15% ) no-repeat;
-
   // background-color: var(--bg-color-2);
   height: 100%;
-
-  min-height:600px;
+ // background-color: var(--bg-color);
+  color: var(--type-color);
 }
 
 body {
+  background: linear-gradient(-6deg, var(--bg-color) 20% , var(--bg-color2) 30%, var(--bg-color2) 75%, var(--bg-color) 90% ) no-repeat;
+background-attachment: fixed;
   // background-color:transparent;
   // background: linear-gradient(4deg, hsl(220, 30, 12) 40% , hsl(220, 30, 30) 60%, hsl(220, 30, 21) 90% ) no-repeat;
 
-  // background: linear-gradient(4deg, var(--bg-color-1) 15% , var(--bg-color-2) 30%, var(--bg-color-2) 65%, var(--bg-color-1) 90% ) no-repeat;
- background-color: var(--bg-color);
-  color: var(--type-color);
-  // display: flex;
-  // min-height:600px;
-
-// $dark-jungle-green: #002229;
-// $pine-tree: #1F2405;
-// $midnight-green: #19444E;
-// $gunmetal: #002A32;
-// $russian-green: #629677;
-// $india-green: #358600;
-// $lincoln-green: #215200;
-// $kombu-green: #324834;
-// $tea-green: #CEFFAD;
-// $lime-green: #53CF26;
-// $honeydew: #D5EBDD;
-// $dark-slate-gray: #254146;
-
-// $cultured: #F7F3F3;
-// $champagne-pink: #E2D4D3;
-// $tuscany: #BF9F9C;
-// $black-coffee: #3A2E39;
-// $rich-black: #010400;
-// $raisin-black: #202631;
-// $smoky-black: #1B0F0D;
-// $xiketic: #1A0F18;
-
-// $honeydew: #D5EBDD;
-
-// $prussian-blue: #253D5B;
-// $blue-yonder: #546EB6;
-// $periwinkle-crayola: #B8C2E0;
-// $independence: #525B76;
-// $slate-grey: #67848E;
-// $space-cadet: #222E50;
-// $heliotrope-gray: #9A8C98;
-// $deep-space-sparkle: #4A5759;
-
-// $cream: #F3FFBD;
-// $orange-web: #f49f0a;
-// $sunray: #E2AF60;
-// $indian-yellow: #DC9E41;
-// $camel: #CA9965;
-// $sepia: #6D3D14;
-// $peach-puff: #F5D6BA;
-
-// $melon: #FBA39D;
-// $rufous: #AA1107;
-// $barn-red: #760C05;
-// $black-bean: #3B0602;
-// $redwood: #9D6158;
-// $copper-penny: #B2675E;
-// $silver-pink: #C9ADA7;
-// $champagne-pink: #E2D4D3;
-// $isabelline: #F2E9E4;
-
-// $red: #FD1015;
-// $blue: #167FFB;
-// $yellow: #FFC65A;
-// $orange: #E67E22;
-// $green: #1EDD88;
-// $gray: #0E0000;
-// $light-gray: #F4F4F4;
-
-  // background-color:transparent;
-  // background-color:hsl(220, 30, 12);
 }

@@ -18,7 +18,7 @@ const gameIndex = ()  => {
   }
 
 
-
+if (indexPage) {
   setTimeout( () => {
     document.querySelector(".crawl-start").classList.add("crawl-end");
     // console.log("transition end");
@@ -29,6 +29,8 @@ const gameIndex = ()  => {
     // console.log("transition end");
   }, 6000);
 
+
+}
 
 
  const yourGames = document.querySelector("#your-games");

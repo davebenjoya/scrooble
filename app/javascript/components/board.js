@@ -223,10 +223,11 @@ if (createPage) {
     const navbarString = `<span class="navbar-scores">${titleString} <i class="fas fa-arrow-down score-arrow"></i></span> <span class = 'navbar-player'><span class='nav-emp'>Up now: ${ps}</span> </span>`;
 
     document.querySelector("#navbar-game").innerHTML =  navbarString;
+  // document.querySelector(".navbar-scores").insertAdjacentHTML ('beforeend', navbarString);
 
 
     document.querySelector(".navbar-scores").addEventListener('click', function() {
-      console.log (' click arrow');
+      console.log ('document.querySelector(".navbar-scores")', document.querySelector(".navbar-scores"));
       document.querySelector("#scores").classList.toggle("scores-show");
       // console.log(document.querySelector("#scores"));
       document.querySelector(".score-arrow").classList.toggle("score-arrow-rotate");
