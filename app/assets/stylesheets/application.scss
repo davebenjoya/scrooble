@@ -48,24 +48,24 @@ a {
 }
 
 #crawl-holder {
-  width: 100% !important;
-}
-
-
-.crawl-holder {
-  position: fixed;
-  width: 200px;
+  // position: relative;
+  width: 100%;
+  // width: 200px !important;
   height: 40px;
+  z-index: 900;
 }
+
+
 
 .crawl-start {
   color: var(--btn-bg-hilite) !important;
   font-size: 12px;
   padding: 0px;
-  left: 16px !important;
+  // left: 16px !important;
   height: 14px;
   top: -40px !important;
   position: absolute;
+  left: 16px;
   letter-spacing: 1.3px;
   text-align: left;
 }
@@ -85,14 +85,31 @@ a {
 }
 
 .link-start {
-  transform: translate(-100px, 16px);
-  // opacity: 0;
-  width: auto;
-  cursor: finger;
+  transform: translate(-100px, 16px) !important;
+  opacity: 1 !important;
+  display: relative;
+  left: -150px !important;
+  // // width: 200px;
+  // cursor: finger;
+  // font-size: 16px;
+  // color: white !important;
 
 }
 
-.link-start-game-page {
+.link-start a {
+  // transform: translate(-100px, 16px) !important;
+  opacity: 1 !important;
+  // display: relative;
+  // left: -150px !important;
+  // // width: 200px;
+  cursor: finger;
+  // font-size: 16px;
+  color: var(--btn-type-hilite) !important;
+
+  transform-origin: center left !important;
+}
+
+.link-start-game-page  {
   transform: translate(-100px, 4px);
   // opacity: 0;
   width: auto;
@@ -100,20 +117,25 @@ a {
 }
 
 
-.link-show{
-  transform: translate(12px, 16px);
-  transition: .5s all ease-in 1.3s;
+.link-show  {
+  transform: translate(12px, 16px) !important;
+  left: 24px !important;
+  transition: .5s all ease-in 2.3s;
   opacity: 1;
+  transform-origin: center left !important;
 }
 
-
-.link-end {
-  font-size: 10px !important;
-  transform: translate(12px, 4px);
+.link-end  {
+  // font-size: 12px !important;
+  opacity: .5 !important;
+  transform: scale(.85)!important;
   transition: .3s all ease-in;
+  transform-origin: center left !important;
 }
 
-
+.link-end:hover {
+  opacity: 1 !important;
+}
 
 @keyframes show-crawl {
   from {
@@ -136,10 +158,11 @@ a {
 
 .login-identifier form {
   margin-left: 32px;
+  margin-top: 60px !important;
   background-color: var(--panel-color);
   padding: 8px;
   margin-bottom: 8px;
-  border-radius: 4px;
+  border-radius: 8px;
 }
 
 .nav-link {
@@ -164,10 +187,8 @@ a {
   top: 69px;
   z-index: 500;
   transition: all .5s;
-
   @media only screen and (max-width: 600px) {
   top: 102px;
-
   }
 }
 
@@ -175,6 +196,7 @@ a {
   position: absolute;
   width: 100%;
   background-color: transparent;
+  padding-top: 36px;
 }
 
 #select-theme:hover {
@@ -208,15 +230,11 @@ input[type=submit] {
   background-color: var(--btn-bg);
   border: 1px solid var(--btn-border);
   // box-shadow: 1px 1px 1px inset ;
-
 }
-
 
 input[type=submit]:hover {
   color: var(--btn-type-hilite);
   background-color: var(--btn-bg-hilite);
-  // background-color: transparent;
-  // box-shadow: 1px 1px 3px inset var(--btn-border);
   box-shadow: none;
 }
 .crawl-start a {
@@ -228,29 +246,14 @@ input[type=submit]:hover {
 }
 
 html, body {
-  // background: var(--background);
-  // background: linear-gradient(5deg, $raisin-black 20% , $dark-jungle-green 60%, $raisin-black 85% ) no-repeat;
- // overflow-x: hidden;
-
-  // background: radial-gradient(farthest-corner at -80px -80px, $dark-jungle-green 20%, $raisin-black 90% );
- // background-color:$heliotrope-gray;
- // background: linear-gradient(6deg, var(--bg-color) 15% , var(--btn-type) 30%, var(--btn-type) 65%, var(--bg-color) 90% ) no-repeat;
-// height:auto;
 }
 
 html {
-  // padding: 8px;
-  // background: linear-gradient(4deg, hsl(220, 30, 20) 5% , hsl(220, 30, 12) 15% ) no-repeat;
-  // background-color: var(--bg-color-2);
   height: 100%;
- // background-color: var(--bg-color);
   color: var(--type-color);
 }
 
 body {
-  background: linear-gradient(-6deg, var(--bg-color) 20% , var(--bg-color2) 30%, var(--bg-color2) 75%, var(--bg-color) 90% ) no-repeat;
+  background: linear-gradient(-6deg, var(--bg-color) 20% , var(--bg-color2) 30%, var(--bg-color2) 65%, var(--bg-color) 80% ) no-repeat;
 background-attachment: fixed;
-  // background-color:transparent;
-  // background: linear-gradient(4deg, hsl(220, 30, 12) 40% , hsl(220, 30, 30) 60%, hsl(220, 30, 21) 90% ) no-repeat;
-
 }

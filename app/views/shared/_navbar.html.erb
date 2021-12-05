@@ -1,23 +1,29 @@
 
   <!-- <div class="navbar-title-holder"> -->
 
-      <% if user_signed_in? %>
-    <div id = "navbar-left"  data-theme = <%= current_user.current_theme %> data-userid = <%= current_user.id %> >
-          <%# if current_page?('/') %>
-              <!-- <div class="navbar-title">Scrooble</div> -->
-          <%# else %>
-            <%= link_to "/" do %>
-              <div class="navbar-title">Scrooble</div>
-            <% end %>
-          <%# end %>
-        </div>
-        <% end %>
 
 
   <!-- </div> -->
+
 <div id="navbarr" >
+  <div id="navbar-game">
+        </div>
+
+      <div id="crawl-holder">
+    <% if current_page?('/') %>
+        <div class = 'crawl-start' >
+          Support democracy in the US
+        </div>
+        <div class = 'link-start'>
+          <%= link_to "Fair Fight", "https://fairfight.com/", target: :_blank %>
+        </div>
+  <% end %>
+    </div>
       <% if user_signed_in? %>
-      <div id="navbar-game">
+    <div id = "navbar-logo"  data-theme = <%= current_user.current_theme %> data-userid = <%= current_user.id %> >
+            <%= link_to "/" do %>
+              <div class="navbar-title">Scrooble</div>
+            <% end %>
         </div>
 
         <div class="nav-item-last">
@@ -47,8 +53,9 @@
         </div>
 
       <% else %>
+
         <!-- <div class="nav-item"> -->
-          <%#= link_to "Login", new_user_session_path, class: "nav-link" %>
+          <div class="navbar-logo" >Scrooble</div>
         <!-- </div> -->
       <% end %>
 
