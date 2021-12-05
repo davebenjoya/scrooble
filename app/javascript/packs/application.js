@@ -54,8 +54,8 @@ document.addEventListener("turbo:load", function() {
 
 // document.querySelector(":root").style.setProperty("--bg-color", "#9D6158") // $redwood
   changeColorsInit ()
-  if (document.querySelector('#navbar-left')) {
-      document.querySelector('#select-theme').value = capitalizeFirstLetter(document.querySelector('#navbar-left').dataset.theme);
+  if (document.querySelector('#navbar-logo')) {
+      document.querySelector('#select-theme').value = capitalizeFirstLetter(document.querySelector('#navbar-logo').dataset.theme);
       document.querySelector('#select-theme').addEventListener('change', changeColors);
     // new_game();
 
@@ -68,9 +68,9 @@ function capitalizeFirstLetter(string) {
 }
 
   function changeColorsInit () {
-    if (document.querySelector('#navbar-left')) {
+    if (document.querySelector('#navbar-logo')) {
      for (let k in Object.keys(themesJSON)) {
-      if (Object.keys(themesJSON)[k] === document.querySelector('#navbar-left').dataset.theme) {
+      if (Object.keys(themesJSON)[k] === document.querySelector('#navbar-logo').dataset.theme) {
       // if (Object.values(themesJSON)[k]["background"]) console.log('background exists');
         const jsonTheme = Object.values(themesJSON)[k];
         const rootStyle  = document.querySelector(":root").style
@@ -111,7 +111,7 @@ function capitalizeFirstLetter(string) {
     })
 
       //fetch
-      const uId = document.querySelector("#navbar-left").dataset.userid
+      const uId = document.querySelector("#navbar-logo").dataset.userid
       const csrfToken = document.querySelector("[name='csrf-token']").content;
       const userData = ({current_theme: Object.keys(themesJSON)[k]})
       // console.log('userData' , userData )
