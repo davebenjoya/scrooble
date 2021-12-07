@@ -20,7 +20,7 @@
       <% players = Player.where(game: game).order(:updated_at) %>
       <% ordered = players.reorder(player_score: :desc) %>
       <% winner  = ordered[0] if game.completed %>
-      <% status = game.completed ? "Completed" : "Updated" %>
+      <% status = game.completed ? "Completed" : "" %>
       <% players_quit_arr = [] %>
 
       <% players.each_with_index do | plr, ind | %>

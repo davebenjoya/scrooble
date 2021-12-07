@@ -19,10 +19,10 @@
   border: 1px solid var(--logo-color) !important;
   border-radius: 8px;
   font-size: 12px;
-  // margin-top: 4px;
-  // margin-bottom: 32px;
-  width: 50% !important;
+  transform: translateY(-600px);
+  width: 280px !important;
   margin-top: 12px;
+  padding: 16px !important;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -36,10 +36,24 @@
   }
 }
 
+
+
+.edit-user-identifier-show {
+  // transform: translateY(50px);
+  // transition:  all 1s;
+  animation: showpanel .7s .5s forwards;
+}
+
+@keyframes showpanel {
+  from {transform: translateY(-600px);}
+  to {transform: translateY(50px);}
+}
+
 .edit-user-head {
   color: var(--type-color) !important;
   margin-top: 8px;
   font-size: 18px;
+  text-align: left;
 }
 
 

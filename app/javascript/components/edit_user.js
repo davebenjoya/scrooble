@@ -8,6 +8,7 @@ const editUser = () => {
 // changeColors()
 
   if (document.querySelector('.edit-user-identifier')) {
+    document.querySelector('.edit-user-identifier').classList.add('edit-user-identifier-show');
     document.querySelector('#update-user-changes').addEventListener('click', updateUser);
   }
 
