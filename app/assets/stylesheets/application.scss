@@ -25,6 +25,7 @@
   --fontTwo: "9px Roboto, sans-serif";
   --bg-color: rgb(31, 28, 39);
   --bg-color2: rgb(21, 18, 29);
+  --bg-color3: rgb(11, 8, 19);
   --type-color:  rgb(238, 228, 242); // $cream
   --logo-color: #629677; // $india-green
   --bvm-color: #525B76; // $independence
@@ -185,7 +186,7 @@ a {
   position: fixed;
   left: -102px;
   top: 69px;
-  z-index: 500;
+  z-index: 5000;
   transition: all .5s;
   @media only screen and (max-width: 600px) {
   top: 102px;
@@ -243,6 +244,11 @@ input[type=submit]:hover {
 
 .container {
   background-color: var(--panel-color);
+  // height: 100% !important;
+  // width: 100% !important;
+  display: flex;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 html, body {
