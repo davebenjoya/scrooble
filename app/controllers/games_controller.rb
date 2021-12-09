@@ -296,14 +296,20 @@ private
     ghibli = Faker::JapaneseMedia::StudioGhibli.character
     lebowski = Faker::Movies::Lebowski.character
     book = Faker::Book.title
-    animal = Faker::Creature::Animal.name.capitalize
+    animal = Faker::Creature::Animal.name.capitalize.split(' ')[0]
     power = Faker::Superhero.power.titlecase
     hero = Faker::Superhero.name
-    prefix = Faker::Superhero.prefix.concat(" ").concat(animal)
-    chem = Faker::Science.element.concat(" ").concat(animal)
+    prefix = Faker::Superhero.prefix
+    chem = Faker::Science.element
 
     defaults = [ghibli, lebowski, book, animal, power, hero, prefix, chem]
-    defaults[rand(defaults.length)]
+    my_rand  = rand(defaults.length)
+
+    if (defaults[my_rand] == "#{prefix}" || defaults[my_rand] == "#{chem}")
+      return defaults[my_rand].concat(' ').concat("#{animal}")
+    else
+      return defaults[my_rand]
+    end
   end
 
 
