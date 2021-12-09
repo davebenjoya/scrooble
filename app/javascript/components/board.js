@@ -83,6 +83,10 @@ if (createPage) {
     document.querySelector('#new-game-btn').addEventListener('click', () => {
     copyTextToClipboard(document.querySelector('#gamelink').innerHTML)
   })
+    setTimeout(function() {
+          createPage.classList.add('create-page-identifier-show')
+
+    }, 200);
 }
 
     function copyTextToClipboard(text) {
@@ -279,7 +283,7 @@ if (createPage) {
     if (document.querySelector("#game-name").value) {  // game name field is filled out
       document.querySelector("#new-name").value = document.querySelector("#game-name").value
     } else {    //  no name entered, use faker-generated name from dataset
-      const myGameName = document.querySelector(".new-page-identifier").dataset.defaultName
+      const myGameName = newGame.dataset.defaultName
       document.querySelector("#new-name").value = myGameName;
     }
 
@@ -330,9 +334,15 @@ if (createPage) {
         if (index < remainingLetters.length -1 ) remainingString += ","
       })
     document.querySelector('#new-remaining').value = remainingString;
+
+    newGame.style = 'animation: showpanel .7s backwards';
+    // newGame.classList.remove('new-page-identifier-show');
     // console.log("remainingLetters ", remainingLetters);
     // console.log("remainingString ", remainingString);
+    setTimeout(function() {
         newGameForm.submit();
+
+      }, 2200);
 
 
    }

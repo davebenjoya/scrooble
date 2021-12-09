@@ -97,7 +97,7 @@ if (document.querySelector(".edit-page-identifier")) {
           let txt = selectedLetter.querySelector('.my-letter').innerHTML
           let val = selectedLetter.querySelector('.my-value').innerHTML;
           // replace joker
-          if (txt === "*") {
+          if (txt === " ") {
               jokerTile = event.target;
               submitEscape = true;
               jokers.push(jokerTile);
@@ -154,7 +154,7 @@ if (document.querySelector(".edit-page-identifier")) {
         // if (selectedLetter) {
         //   let txt = selectedLetter.querySelector('.my-letter').innerHTML
         //   let val = selectedLetter.querySelector('.my-value').innerHTML;
-        //   if (txt === "*") {
+        //   if (txt === " ") {
         //       const replacement = `Replace Joker with: <input id="replace-joker" maxlength = 1 type=text required>`
         //       document.querySelector(".modal-body").innerHTML = replacement;
         //       jokerTile = event.target;
