@@ -83,18 +83,18 @@ class PlayersController < ApplicationController
         end
       end
         # raise
-    when 'true'        # challenge == 'true'
+    when 'true'        # params.challenging == 'true'
       game_moves = []
       @player.update({challenging: 'true'})
       players.each do |player|
         game_move = Move.where(player: player).last
         game_moves << game_move
       end
-      puts "?*?*?*?*?*?*? game_moves     *?*?*?*?*?*?*?*?*?*?*?*"
-      puts game_moves
+      # puts "?*?*?*?*?*?*? game_moves     *?*?*?*?*?*?*?*?*?*?*?*"
+      # puts game_moves
       last_move = game_moves[0]
-      puts "________/////        last_move   ////////___________///////////______"
-      puts last_move
+      # puts "________/////        last_move   ////////___________///////////______"
+      # puts last_move
       move_words = Word.where(move: last_move)
       words_string = ""
       move_words.each_with_index do |wd, index|
@@ -113,8 +113,6 @@ class PlayersController < ApplicationController
     when 'pending'
         @player.update({player_letters: params['player_letters']})
         num = params['num']
-        puts "/////////////////   params['nummmmmmmm']     /////////////////"
-        puts params['num']
          GameChannel.broadcast_to(
         @game,
         render_to_string(partial: 'exchange',

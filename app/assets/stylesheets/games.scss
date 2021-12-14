@@ -25,6 +25,15 @@ hr {
   // baseline-shift: -12px;
 }
 
+.new-game-name {
+  color: var(--btn-type-hilite);
+}
+
+.new-description {
+  font-size: 12px;
+  opacity: .7;
+}
+
 .info-replacement {
   display: flex;
 }
@@ -101,7 +110,7 @@ border: 2px solid var(--btn-type) !important;
 
 .create-page-identifier {
   align: center;
-  width: 40%;
+  width: 80%;
   opacity: 1;
   padding: 8px;
   transition: opacity 0.7s ease-out;
@@ -118,8 +127,12 @@ border: 2px solid var(--btn-type) !important;
 
   border: 1px solid var(--logo-color) !important;
   border-radius: 8px;
-  margin-left: 30%;
+  margin-left: 10%;
   transform: translateY(-900px);
+  @media screen and (max-width: 800px) {
+    width: 80%;
+  margin-left: 10%;
+  }
 }
 
 .create-page-identifier-show {
@@ -169,13 +182,14 @@ border: 2px solid var(--btn-type) !important;
   color: var(--btn-type-hilite);
 }
 
- .new-game-btn {
+ #new-game-btn {
    color: var(--type-color);
   // background: linear-gradient(0turn, $midnight-green, $russian-green 55%, $tea-green 72%, $russian-green 88%);
   // box-shadow: 1px 1px 3px inset $pine-tree;
   line-height: 16px;
    border-radius: 4px;
-   padding: 8px !important;
+   border-color: 1px solid var(--type-color);
+   // padding: 8px !important;
 }
 
  .new-game-btn:hover {
