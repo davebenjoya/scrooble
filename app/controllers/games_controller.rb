@@ -240,14 +240,14 @@ end
       #   end
       # else
            # if @game.update(game_params)
-      next_player = players[game_params["current_player"]]
-      if next_player.skip > 0
-        puts "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
-        puts "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
-        puts " skip #{next_player.user.username} #{next_player.skip}"
-        puts "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
-        puts "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
-      end
+      # next_player = players[game_params["current_player"]]
+      # if next_player.skip > 0
+      #   puts "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
+      #   puts "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
+      #   puts " skip #{next_player.user.username} #{next_player.skip}"
+      #   puts "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
+      #   puts "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
+      # end
       @game.update({
         remaining_letters: game_params["remaining_letters"],
         current_player: game_params["current_player"]
@@ -266,11 +266,6 @@ end
    # redirect_to edit_game_path(@game)
   end
 
-
-
-  def finish
-    raise
-  end
 
   def destroy
   end
@@ -295,14 +290,13 @@ private
     @users = User.all
     ghibli = Faker::JapaneseMedia::StudioGhibli.character
     lebowski = Faker::Movies::Lebowski.character
-    book = Faker::Book.title
     animal = Faker::Creature::Animal.name.capitalize.split(' ')[0]
     power = Faker::Superhero.power.titlecase
     hero = Faker::Superhero.name
     prefix = Faker::Superhero.prefix
     chem = Faker::Science.element
 
-    defaults = [ghibli, lebowski, book, animal, power, hero, prefix, chem]
+    defaults = [ghibli, lebowski, animal, power, hero, prefix, chem]
     my_rand  = rand(defaults.length)
 
     if (defaults[my_rand] == "#{prefix}" || defaults[my_rand] == "#{chem}")

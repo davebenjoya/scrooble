@@ -85,16 +85,17 @@ end
     old_current = @game.current_player
     new_current = @game.current_player + 1
     new_current = 0 if new_current > @players.length - 1
+    puts '-----------------------------------------------------'
+    puts '--------------- @players[@game.current_player].skip -------------------'
+    puts "-------------#{@players[@game.current_player].skip}------------------"
 
     @game.update({ remaining_letters: new_remaining, current_player: new_current })
-        @players.each do |player|
-        player.update({challenging: 'pending'})
-      end
+
+    @players.each do |player|
+      player.update({challenging: 'pending'})
+    end
 
     if params["type"] == "realwords"
-    puts '-----------------------------------------------------'
-    puts '--------------- UPDATE PARAMETERS -------------------'
-    puts "-------------#{@players[old_current.username].user.username}------------------"
       GameChannel.broadcast_to(
       @game,
       render_to_string(partial: 'real_words', locals: { msg: params["message"], challenged: @move.player.user.username, challenging: @players[old_current.username].user.username, score: @move.added_score, gameid:@game.id})
@@ -109,11 +110,15 @@ end
   end
 
 
-  def destroy
+  def destroy  #  only called when dictionary doesn't find a word
     if Move.find(params[:id])
       @move = Move.find(params[:id])
       @game = @move.player.game
       @players = Player.where(game: @game)
+      old_skip = @players[@game.current_player].skip
+
+      @game.current_player.update({ skip: old_skip + 1 })
+      @game.update({ current_player: new_current })
       new_current = @game.current_player + 1
       new_current = 0 if new_current > @players.length - 1
       @game.update({ current_player: new_current })
