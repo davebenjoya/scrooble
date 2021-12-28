@@ -158,6 +158,7 @@ function realWords(responseString) {
 }
 
 function fakeWords(responseString) {
+  console.log('fake words');
   const gId = document.querySelector(".edit-page-identifier").dataset.gameid;
   const pId = document.querySelector(".edit-page-identifier").dataset.playerid;
   const moveId = document.querySelector(".edit-page-identifier").dataset.moveid
