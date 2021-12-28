@@ -26,7 +26,6 @@ let playerName;
         csrfToken = document.querySelector("[name='csrf-token']").content;
         }
         dataArray = data.split(":");
-
          if (dataArray[dataArray.length - 2].toString().trim() === document.querySelector(".edit-page-identifier").dataset.gameid.toString().trim()) {
 
            switch (dataArray[dataArray.length - 1].toString().trim()) {
@@ -70,10 +69,9 @@ let playerName;
               // $("#edit-page-identifier").load(window.location.href );
             break;
             case "challenge":
-           const wordArray =  dataArray[2].split(',');
-            console.log('playerName ', playerName);
-
-
+              const wordArray =  dataArray[2].split(',');
+              playerName =  dataArray[1];
+              console.log('playerName ', playerName);
               setTimeout(function () {
               // play challenge alert sound
               document.querySelector('#btnAudio').src = '../../assets/insistentHarp.mp3';

@@ -41,7 +41,7 @@ class PlayersController < ApplicationController
       puts params
       puts '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'
       puts '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'
-    case params["challenging"]
+  case params["challenging"]
     when 'fakewords'
       puts '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'
       puts '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'
