@@ -111,26 +111,18 @@ end
 
 
   def destroy  #  only called when dictionary doesn't find a word
-    if Move.find(params[:id])
-      @move = Move.find(params[:id])
-      @game = @move.player.game
-      @players = Player.where(game: @game)
-      old_skip = @players[@game.current_player].skip
+      move = Move.find(params[:id])
+      game = move.player.game
 
-      @game.current_player.update({ skip: old_skip + 1 })
-      @game.update({ current_player: new_current })
-      new_current = @game.current_player + 1
-      new_current = 0 if new_current > @players.length - 1
-      @game.update({ current_player: new_current })
-        @players.each do |player|
-        player.update({challenging: 'pending'})
+      moves = []
+      Player.where(game: game).each do | plr |
+        moves << Move.where(player: plr)
       end
-        GameChannel.broadcast_to(
-          @game,
-          render_to_string(partial: "fake_words", locals: {msg: "#{params[:msg]}", gameid: @game.id})
-        )
-      @move.destroy
-    end
+      # moves_sorted = moves.sort_by { |st| st['updated_at'].to_i }
+    puts"mmmmmmmmmmmmmmmmm"
+    puts moves[0]
+    puts"mmmmmmmmmmmmmmmmm"
+      # last_move.destroy
   end
 end
 

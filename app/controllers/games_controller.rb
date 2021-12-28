@@ -240,14 +240,14 @@ end
       #   end
       # else
            # if @game.update(game_params)
-      # next_player = players[game_params["current_player"]]
-      # if next_player.skip > 0
-      #   puts "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
-      #   puts "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
-      #   puts " skip #{next_player.user.username} #{next_player.skip}"
-      #   puts "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
-      #   puts "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
-      # end
+      next_player = players[game_params["current_player"]]
+      if next_player.skip > 0
+        puts "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
+        puts "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
+        puts " skip #{next_player.user.username} #{next_player.skip}"
+        puts "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
+        puts "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
+      end
       @game.update({
         remaining_letters: game_params["remaining_letters"],
         current_player: game_params["current_player"]

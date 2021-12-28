@@ -6,8 +6,7 @@ const url = "https://api.wordnik.com/v4/word.json/@@@/definitions?limit=3&includ
 // let valid = true;
 // let returnStr = ``;
 
-
-  const csrfToken = document.querySelector("[name='csrf-token']").content;
+const csrfToken = document.querySelector("[name='csrf-token']").content;
 
 let promises = [];
   let wordString = ``;
@@ -178,7 +177,7 @@ function fakeWords(responseString) {
     })
 
 
-  // const acceptData = {challenging: 'pending', id:`${pId}`}
+  // const acceptData = {challenging: 'fakewords', id:`${pId}`}
   // fetch(`/players/${pId}`, {
   //   method: 'PATCH',
   //   headers: {

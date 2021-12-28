@@ -41,7 +41,11 @@
   z-index: 6000;
   justify-content: center !important;
   @media screen and (max-width:600px) {
-
+  transform: scale(.93) translateY(-2px);
+  // padding-right: 5%;
+  }
+  @media screen and (max-width:400px) {
+  transform: scale(.85) translateY(-4px);
   // padding-right: 5%;
   }
 }
@@ -94,12 +98,10 @@
 
 
 .navbar-player {
-
-
-
+  width: 100%;
+  display: flex;
   @media only screen and (max-width: 600px) {
-
-  font: var(--font1);
+    font: var(--font1);
   }
 }
 

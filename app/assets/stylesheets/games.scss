@@ -368,16 +368,21 @@ turbo-frame {
 }
 
 .nav-emp {
+  // width: 100%;
   font: var(--font2) !important;
   // font-size: 12px !important;
   color: var(--btn-type);
   display: flex;
   justify-content: right;
-  position: absolute;
+  position: fixed;
   top: 16px;
+  left: 60% !important;
   right: 20% !important;
   @media screen and (max-width: 600px) {
-    top: 24px;
+    top: 40px;
+  }
+  @media screen and (max-width: 400px) {
+    font-size: .8em !important;
   }
 }
 
@@ -869,6 +874,8 @@ opacity: .7;
   // flex-direction: column;
   // justify-content: flex-start;
   color: var(--btn-type);
+
+  letter-spacing: 1.8px;
   line-height:16px;
   // text-shadow: 1px 1px 1px $gunmetal;
 }
@@ -2080,7 +2087,7 @@ pointer-events: none;
   pointer-events: none;
 }
 .challenge {
-    z-index: 2000;
+    z-index: 7000;
     position: fixed;
     width:100%;
     height:100%;

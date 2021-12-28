@@ -110,10 +110,23 @@ if (createPage) {
 
         document.querySelector('#replacement-input').style.visibility = 'collapse';
 
-          console.log(' document.querySelector(".edit-page-identifier").dataset.summary  ', document.querySelector(".edit-page-identifier").dataset.summary)
+        console.log(' document.querySelector(".edit-page-identifier").dataset.summary  ', document.querySelector(".edit-page-identifier").dataset.summary)
+
+
+
 
     if (editGame.dataset.pending === 'true' ) {
-    let pendingString = document.querySelector(".edit-page-identifier").dataset.summary
+
+
+      const pendingArray =  document.querySelector(".edit-page-identifier").dataset.provisionals.replace(/\[/, '').replace(/\]/, '').split(',')
+      // const pendingString = `${document.querySelector(".edit-page-identifier").dataset.submitter} has submitted a word.`
+
+      for (const tile of pendingArray) {
+          if (tile) document.querySelectorAll(".letter")[parseInt(tile)].classList.add('letter-provisional')
+      }
+
+
+      let pendingString = document.querySelector(".edit-page-identifier").dataset.summary
       if (editGame.dataset.playername != editGame.dataset.submitter ) {
         document.querySelector(".challenge-info").innerHTML = pendingString;
         document.querySelector('#challenge').classList.add('challenge-show');
@@ -127,6 +140,22 @@ if (createPage) {
         })
         document.querySelector('#accept-btn').addEventListener('click', acceptWords)
       } else {
+        // this player has already submitted a word
+        // check provisional letters against my-letters, add selected class
+        document.querySelectorAll('.letter-provisional').forEach( prov => {
+          let selectMyLetter = false  // make sure each provisional only selects one letter
+            console.log('mine ', document.querySelectorAll('.my-letter'))
+          document.querySelectorAll('.my-letter').forEach( mine => {
+            if (prov.innerHTML === mine.innerHTML && mine.parentNode.classList.contains('letter-selected') === false && selectMyLetter === false) {
+              mine.parentNode.classList.add('letter-selected')
+              selectMyLetter = true
+            }
+          })
+        })
+
+
+
+
         document.querySelector(".challenge-info").innerHTML = pendingString.replace(`${editGame.dataset.playername} is`, `You are`);
         document.querySelector('#challenge').classList.add('challenge-show');
         document.querySelector('.challenge-body').classList.add('challenge-body-show');
@@ -136,13 +165,6 @@ if (createPage) {
         document.querySelector('#accept-btn').addEventListener('click', hideDialog)
       }
 
-
-      const pendingArray =  document.querySelector(".edit-page-identifier").dataset.provisionals.replace(/\[/, '').replace(/\]/, '').split(',')
-      // const pendingString = `${document.querySelector(".edit-page-identifier").dataset.submitter} has submitted a word.`
-
-      for (const tile of pendingArray) {
-          if (tile) document.querySelectorAll(".letter")[parseInt(tile)].classList.add('letter-provisional')
-      }
 
     // play submission alert sound
     // document.querySelector('#btnAudio').src = '../../assets/nutty1.mp3';

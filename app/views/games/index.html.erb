@@ -74,13 +74,13 @@
             </div>
             <div class="status status-completed">
                 <%= status %> <%=game.updated_at.pretty.gsub(/\sat\s*/, " ")
-                .gsub('Monday', 'Mon')
-                .gsub('Tuesday', 'Tue')
-                .gsub('Wednesday', 'Wed')
-                .gsub('Thursday', 'Thu')
-                .gsub('Friday', 'Fri')
-                .gsub('Saturday', 'Sat')
-                .gsub('Sunday', 'Sun')
+                .gsub('Monday,', 'Mon')
+                .gsub('Tuesday,', 'Tue')
+                .gsub('Wednesday,', 'Wed')
+                .gsub('Thursday,', 'Thu')
+                .gsub('Friday,', 'Fri')
+                .gsub('Saturday,', 'Sat')
+                .gsub('Sunday,', 'Sun')
                 .gsub('January', '1/')
                 .gsub('February', '2/')
                 .gsub('March', '3/')
@@ -93,7 +93,7 @@
                 .gsub('October', '10/')
                 .gsub('November', '11/')
                 .gsub('December', '12/')
-                .gsub('/ ', '/')
+                .gsub(/\/\s*/, '/')
                 %>
               </div>
 
@@ -149,13 +149,13 @@
               </div>
 
               <div class="status"><%= status %> <%=game.updated_at.pretty.gsub(/\sat\s*/, " ")
-              .gsub('Monday', 'Mon')
-              .gsub('Tuesday', 'Tue')
-              .gsub('Wednesday', 'Wed')
-              .gsub('Thursday', 'Thu')
-              .gsub('Friday', 'Fri')
-              .gsub('Saturday', 'Sat')
-              .gsub('Sunday', 'Sun')
+                .gsub('Monday,', 'Mon')
+                .gsub('Tuesday,', 'Tue')
+                .gsub('Wednesday,', 'Wed')
+                .gsub('Thursday,', 'Thu')
+                .gsub('Friday,', 'Fri')
+                .gsub('Saturday,', 'Sat')
+                .gsub('Sunday,', 'Sun')
                 .gsub('January', '1/')
                 .gsub('February', '2/')
                 .gsub('March', '3/')
@@ -168,7 +168,7 @@
                 .gsub('October', '10/')
                 .gsub('November', '11/')
                 .gsub('December', '12/')
-                .gsub('/ ', '/')
+                .gsub(/\/\s*/, '/')
                %>
               </div>
               </div>
