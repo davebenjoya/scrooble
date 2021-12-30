@@ -32,6 +32,12 @@ let playerName;
 
             case "real_words":
               console.log('real_words dataArray', dataArray);
+              document.querySelector('.challenge-info').innerHTML = `Valid Move. ${dataArray[0]} misses a turn.`
+              document.querySelector('#challenge-btn').style = "visibility: hidden";
+              document.querySelector('#accept-btn').innerHTML = "OK";
+              document.querySelector('#accept-btn').style = "visibility: visible";
+
+              // fetch to add skip to submitter
               break;
             case "fake_words":
               console.log('dataArray' , dataArray);
