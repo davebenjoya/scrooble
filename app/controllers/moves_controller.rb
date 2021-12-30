@@ -98,7 +98,7 @@ end
     if params["type"] == "realwords"
       GameChannel.broadcast_to(
       @game,
-      render_to_string(partial: 'real_words', locals: { msg: params["message"], challenged: @move.player.user.username, challenging: @players[old_current.username].user.username, score: @move.added_score, gameid:@game.id})
+      render_to_string(partial: 'real_words', locals: { msg: params["message"], challenged: @move.player.user.username, challenging: @players[old_current].user.username, score: @move.added_score, gameid:@game.id})
       )
     else
       GameChannel.broadcast_to(
@@ -109,11 +109,10 @@ end
     end
   end
 
-
   def destroy  #  only called when dictionary doesn't find a word
       move = Move.find(params[:id])
       game = move.player.game
-
+      submitter = ''
       moves = []
       Player.where(game: game).each do | plr |
         moves << Move.where(player: plr)
@@ -122,8 +121,24 @@ end
     puts"mmmmmmmmmmmmmmmmm"
     puts moves[0]
     puts"mmmmmmmmmmmmmmmmm"
-      # last_move.destroy
+      Move.order(id: :desc).each do | mv |
+        if mv.player.game == game
+          submitter = mv.player.user.username
+          mv.destroy
+          break
+        end
+      end
+
+      GameChannel.broadcast_to(
+        game,
+        render_to_string(partial: "fake_words", locals: { msg: "Not in the dictionary! #{submitter} misses a turn", gameid: game.id})
+      )
+
   end
+
+
+
+
 end
 
 
