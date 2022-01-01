@@ -17,6 +17,49 @@ hr {
   color: var(--btn-type-hilite);
 }
 
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 !important;
+  margin: 0 !important;
+  border:none !important;
+  background-color: transparent !important;
+}
+
+.fa-bell {
+  visibility: visible;
+  font-size: 16px;
+  color: var(--btn-type-hilite) !important;
+  margin-top: 4px !important;
+  margin-right: 4px !important;
+  transform:scale(.6);
+  opacity:.0;
+  animation: blip 4s forwards ease-in-out infinite;
+}
+
+@keyframes blip {
+  0% {
+    opacity:.0;
+    transform:  scale(.6) rotate(0deg);
+  }
+
+  35% {
+    opacity:.8;
+    transform: scale(1.5) rotate(15deg);
+  }
+  65% {
+    opacity:.0;
+    transform: scale(1.5) rotate(15deg);
+  }
+
+}
+
+
+.fa-bell-hidden {
+  visibility:hidden;
+  animation: none;
+}
+
 #replacement-input {
   height: 30px;
   width: 30px;
