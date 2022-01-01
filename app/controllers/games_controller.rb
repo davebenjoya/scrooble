@@ -203,48 +203,17 @@ end
    @game = Game.find(params[:id])
     players = Player.where(game: @game)
     @player = players.find_by(user: current_user)
-    # raise
-    # @move = Move.last ## hopefully this gets the most recent move
-
-    # moves = Move.where(:player.game == @game)
-
-      # @player.update({ player_score: params["game"]["my_score"] })
-      # @player.update({ player_letters: params["game"]["my_letters"].gsub(/\'/, "") })
-
-    # GameChannel.broadcast_to(
-    #   @game,
-    #   # flash[:game_update] = "next player: #{nextP}, last player: #{@game.current_player}"
-    #   render_to_string(partial: "message", locals: { msg: mess, letters: letter_string, player: @player.user.username, score: added_score })
-    # )
 
     if (@game.completed == true)
       players.each do |p|
         p.update({ completed: true })
-        # raise
       end
-      # redirect_to game_path(@game)
     else
-      # if params['game']['player_completed'] == 'true'
-      #   @player.update({ player_score: params['game']['my_score'], completed: true })
-      #   falses = players.length
-      #   players.each do |pl|
-      #     falses -= 1 if pl.completed
-      #   end
-      #   if falses == 0
-      #     @game.update({ completed: true })
-      #     flash[:notice] = 'Game has ended'
-      #     redirect_to game_path(@game) and return
-      #     # raise
-      #   else
-      #     redirect_to edit_game_path(@game) and return
-      #   end
-      # else
+
            # if @game.update(game_params)
       next_player = players[game_params["current_player"]]
-      if next_player.skip > 0
-        puts "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
-        puts "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
         puts " skip #{next_player.user.username} #{next_player.skip}"
+      if next_player.skip > 0
         puts "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
         puts "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
       end

@@ -1,6 +1,5 @@
 <div class="create-page-identifier" data-userid = <%= current_user.id %>>
-  <div class = "new-game-head">New Game Created!</div>
-  <p>Game name: <span class= 'new-game-name'><%= @game.name %></span></p>
+  <div class = "new-game-head">New game <span class= 'new-game-name'><%= @game.name %> </span>created!</div>
   <p>An eminently fair, unbiased, disinterested and WGAF roll of the virtual dice has mandated the following order of play:</p>
   <div class='announce-players'>
     <% @ran_array.each_with_index do | idString, index |  %>

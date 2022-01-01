@@ -4,6 +4,7 @@
 <div class="p-2 new-page-identifier" data-default-name ="<%= @default_name %>" data-userid = <%= current_user.id %>>
   <h3 class="pickem">Name your game, or we'll name it for you <span class='new-description'> (possibly an animal, superpower, chemical element, character from Studio Ghibli or <em>The Big Lebowski</em>)</span></h3>
   <input type="text" id="game-name" placeholder="<%= @default_name %>">
+  <p>Refresh for a new name.</p>
   <p class="pickem">Pick 1–3 Opponents:</p>
   <div id="players" data-username = <%= current_user.username %>>
     <% @users.each do | user | %>

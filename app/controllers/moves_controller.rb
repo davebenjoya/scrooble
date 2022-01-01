@@ -124,6 +124,8 @@ end
       Move.order(id: :desc).each do | mv |
         if mv.player.game == game
           submitter = mv.player.user.username
+          new_skip = mv.player.skip + 1
+          mv.player.update!({skip: new_skip})
           mv.destroy
           break
         end

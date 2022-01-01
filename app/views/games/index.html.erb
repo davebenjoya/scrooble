@@ -16,6 +16,7 @@
     <%  end %>
     <% my_games.each_with_index do  | game, index | %>
       <% name_string = "" %>
+      <% remind = '' %>
       <% my_game = false %>
       <% players = Player.where(game: game).order(:updated_at) %>
       <% ordered = players.reorder(player_score: :desc) %>
@@ -28,6 +29,10 @@
         <% if plr.user == current_user %>
           <% my_game = true %>
           <% name_string.concat("You") %>
+          <%# remind = '' %>
+          <% if ind == players.length - 1  %>
+             <% remind = ' fa-bell-hidden' %>
+          <% end %>
         <% else %>
           <% name_string.concat(plr.user.username)  %>
         <% end %>
@@ -109,8 +114,10 @@
           <% remaining_tiles += remain_stripped.length %>
           <%= link_to edit_game_path(game) do %>
             <div class="card m-2 stored-game" data-names="<%= name_string %>" >
-                <div class= 'card-name'> <%= game.name %> </div>
-
+              <div class="card-header">
+                <div class= 'card-name'> <%= game.name %></div>
+                <div class="next-reminder"><i class= "fas fa-bell<%= remind %>"></i></div>
+              </div>
               <div class = 'name-players d-flex justify-content-between w-100'>
 
                 <div class="players" data-current="<%= game.current_player %>">
