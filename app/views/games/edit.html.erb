@@ -1,5 +1,6 @@
 
 <% if @move %>
+<% if @move.provisional == true %>
   <% sum = @move.summary %>
   <% m_id = @move.id %>
   <% pos_array = @move.position_array %>
@@ -8,6 +9,8 @@
   <% m_id = "0" %>
   <% pos_array = "" %>
 <% end %>
+<% end %>
+
 <div class="edit-page-identifier" id="edit-page-identifier" data-name ="<%= @game.name %>" data-moveid= "<%= m_id %>" data-gameid = "<%= @game.id %>" data-playername= "<%= current_user.username %>"  data-userid= "<%= current_user.id %>" data-playerid = "<%= @player.id %>" data-pending = "<%= @pending %>" data-submitter = "<%= @player_name %>" data-submit-game = <%= @submit_game_id %> data-summary = "<%= sum %>" data-provisionals = "<%= pos_array %>" >
 
 

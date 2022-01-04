@@ -71,7 +71,6 @@ end
     @move.player.update({challenging: 'false'})
     @players = Player.where(game: @game)
     challenge = @players.where(challenging: 'pending')
-    # @move.update({ provisional: false })
     if challenge.empty?
       # raise
       @move.update({ provisional: false })
@@ -85,9 +84,19 @@ end
     old_current = @game.current_player
     new_current = @game.current_player + 1
     new_current = 0 if new_current > @players.length - 1
-    puts '-----------------------------------------------------'
-    puts '--------------- @players[@game.current_player].skip -------------------'
-    puts "-------------#{@players[@game.current_player].skip}------------------"
+    skip_msg = ''
+    while @players[new_current].skip > 0
+      skip_msg += "#{@players[new_current].user.username} missed a turn. "
+      new_skip = @players[new_current].skip - 1
+      @players[new_current].update!({skip: new_skip})
+      new_current += 1
+      new_current = 0 if new_current > @players.length - 1
+
+    end
+
+      puts "------------- @players[new_current].skip ------------------"
+      puts "-------------#{new_current}------------------"
+      puts "-------------#{@players[new_current].skip}------------------"
 
     @game.update({ remaining_letters: new_remaining, current_player: new_current })
 
@@ -98,12 +107,12 @@ end
     if params["type"] == "realwords"
       GameChannel.broadcast_to(
       @game,
-      render_to_string(partial: 'real_words', locals: { msg: params["message"], challenged: @move.player.user.username, challenging: @players[old_current].user.username, score: @move.added_score, gameid:@game.id})
+      render_to_string(partial: 'real_words', locals: { skip_msg: skip_msg, msg: params["message"], challenged: @move.player.user.username, challenging: @players[old_current].user.username, score: @move.added_score, gameid:@game.id})
       )
     else
       GameChannel.broadcast_to(
         @game,
-        render_to_string(partial: 'acceptance', locals: { msg: 'word was accepted', player: @move.player.user.username, score: @move.added_score, gameid: @game.id})
+        render_to_string(partial: 'acceptance', locals: { skip_msg: skip_msg, msg: 'word was accepted', player: @move.player.user.username, score: @move.added_score, gameid: @game.id})
       )
     end
     end
