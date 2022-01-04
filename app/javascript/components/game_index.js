@@ -7,6 +7,8 @@ const gameIndex = ()  => {
   let crawlEndDelay = 1000;
   let storedGames
   let statusBuffer = ''
+  let bells = []
+  let bellDelay = 0;
   if (indexPage) {
     storedGames = document.querySelector("#my-games").querySelectorAll(".card").length
     setTimeout( () => {
@@ -16,16 +18,22 @@ const gameIndex = ()  => {
     }, 1000);
     crawlEndDelay = 5000;
     document.querySelector("#navbar-game").innerHTML = ``;
-    document.querySelectorAll('.fa-bell').forEach( bull => {
-      if (bull.classList.contains('.fa-bell-hidden') === false) {
-        bull.addEventListener('mouseover', () => {
-          statusBuffer = bull.closest('.card').querySelector('.status').innerHTML;
-          bull.closest('.card').querySelector('.status').innerHTML = "It's your turn.";
+    document.querySelectorAll('.fa-bell').forEach( bell => {
+      if (bell.classList.contains('.fa-bell-hidden') === false) {
+        bells.push(bell);
+        bell.addEventListener('mouseover', () => {
+          statusBuffer = bell.closest('.card').querySelector('.status').innerHTML;
+          bell.closest('.card').querySelector('.status').innerHTML = "It's your turn.";
         })
-        bull.addEventListener('mouseout', () => {
-          bull.closest('.card').querySelector('.status').innerHTML = statusBuffer;
+        bell.addEventListener('mouseout', () => {
+          bell.closest('.card').querySelector('.status').innerHTML = statusBuffer;
         })
       }
+    })
+    bells.forEach((activeBell, idx) => {
+      setTimeout( () => {
+        activeBell.classList.add('fa-bell-animate')
+      }, 450 * idx)
     })
   }
 

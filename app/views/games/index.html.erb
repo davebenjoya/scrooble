@@ -18,19 +18,45 @@
       <% name_string = "" %>
       <% remind = '' %>
       <% my_game = false %>
-      <% players = Player.where(game: game).order(:updated_at) %>
+      <% next_players = []%>
+      <%# players = Player.where(game: game).order(:updated_at) %>
+      <% players = Player.where(game: game).order(:id) %>
+      <% for d in (game.current_player)...players.length do %>
+        <% next_players << players[d] %>
+      <% end %>
+      <% for s in 0...game.current_player do %>
+        <% next_players << players[s] %>
+      <% end %>
+        <% puts " " %>
+        <% puts " " %>
+        <% puts " " %>
+        <% puts " " %>
+        <% puts "===========================================" %>
+        <% puts next_players[0].user.username %>
+        <% puts next_players[1].user.username %>
+        <% puts next_players[2].user.username %>
+        <% puts next_players[3].user.username %>
+        <% puts players.length %>
+        <% puts game.current_player %>
+        <% puts "===========================================" %>
+        <% puts " " %>
+        <% puts " " %>
+        <% puts " " %>
+        <% puts " " %>
+        <% puts " " %>
+
       <% ordered = players.reorder(player_score: :desc) %>
       <% winner  = ordered[0] if game.completed %>
       <% status = game.completed ? "Completed" : "" %>
       <% players_quit_arr = [] %>
 
-      <% players.each_with_index do | plr, ind | %>
+      <% next_players.each_with_index do | plr, ind | %>
         <% players_quit_arr << ind if plr.completed %>
         <% if plr.user == current_user %>
           <% my_game = true %>
           <% name_string.concat("You") %>
           <%# remind = '' %>
-          <% if ind == players.length - 1  %>
+          <% if ind != 0  %>
              <% remind = ' fa-bell-hidden' %>
           <% end %>
         <% else %>
@@ -39,18 +65,20 @@
         <% name_string.concat(", ") if ind < players.length - 1 %>
       <% end %>
 
-
       <% if my_game == true %>
+
         <% if game.completed %>
+          <!-------------------------------------------->
+                      <!--  completed game -->
+          <!-------------------------------------------->
+
           <%= link_to game_path(game) do %>
             <div class="card m-2 stored-game stored-game-completed" data-names="<%= name_string %>" >
-               <div class= 'card-name name-completed'> <%= game.name %></div>
-                <div class = 'name-players d-flex justify-content-between w-100'>
-               <div class="players players-completed">
-
+             <div class= 'card-name name-completed'> <%= game.name %></div>
+              <div class = 'name-players d-flex justify-content-between w-100'>
+                <div class="players players-completed">
 
                   <div class="index-players-text index-players-text-completed">Players</div>
-
 
                   <span class="index-avatars">
                   <% name_string.split(",").each_with_index do | player_name, i | %>
@@ -104,9 +132,12 @@
 
             </div>
           <% end %>
+        <% else %>
+        <!-------------------------------------------->
+                      <!--  active game -->
+        <!-------------------------------------------->
 
-        <% else %> <!--  game in progress -->
-        <% remaining_tiles = 0 %>
+          <% remaining_tiles = 0 %>
           <% players.each do | plr | %>
             <% remaining_tiles += plr.player_letters.length %>
           <% end %>
@@ -124,10 +155,10 @@
                   <div class="index-players-text">Up next</div>
                   <div class="index-avatars">
                     <% name_string.split(",").each_with_index do | player_name, i | %>
-                      <% av = players[i].user.avatar %>
+                      <% av = next_players[i].user.avatar %>
 
                       <% player_score = 0 %>
-                      <% player_moves = Move.where(player: players[i]) %>
+                      <% player_moves = Move.where(player: next_players[i]) %>
                       <% player_moves.each do |move| %>
                       <% if move.added_score %>
                         <% player_score +=  move.added_score  %>
@@ -138,7 +169,7 @@
                       <% quit_class = players_quit_arr.include?(i) ?  "player-quit" : "" %>
 
 
-                      <div class="index-avatar <%= quit_class %>" data-username="<%= players[i].user.username %>"  data-score ="<%= sc %>" >
+                      <div class="index-avatar <%= quit_class %>" data-username="<%= next_players[i].user.username %>"  data-score ="<%= sc %>" >
                         <%  if av.attached?  %>
                           <%= image_tag av, class:'avatar avatar-index' %>
                         <% else %>
@@ -150,11 +181,12 @@
                 </div>
               </div>
               <div class="d-flex justify-content-between">
-                  <div class="remaining d-flex align-items-center">
+                <div class="remaining d-flex align-items-center">
+                  <!-- blank tile icons (images via js) and remaining tiles -->
                   <div class="tile-index"><div class="letter-index"></div></div>
                   <span class="tiles-remaining"><%= remaining_tiles %></span>
-              </div>
-
+                  <!--  -->
+                </div>
               <div class="status"><%= status %> <%=game.updated_at.pretty.gsub(/\sat\s*/, " ")
                 .gsub('Monday,', 'Mon')
                 .gsub('Tuesday,', 'Tue')

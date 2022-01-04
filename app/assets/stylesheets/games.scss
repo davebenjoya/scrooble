@@ -29,12 +29,17 @@ hr {
 .fa-bell {
   visibility: visible;
   font-size: 16px;
-  color: var(--btn-type-hilite) !important;
+  color: var(--logo-color) !important;
   margin-top: 4px !important;
   margin-right: 4px !important;
   transform:scale(.6);
   opacity:.0;
-  animation: blip 4s forwards ease-in-out infinite;
+  text-shadow: 1px 1px 3px var(--bg-color);
+  // animation: blip 3s forwards var(--bell-delay) ease-in-out infinite;
+}
+
+.fa-bell-animate {
+  animation: blip 3.5s forwards var(--bell-delay) ease-in-out infinite;
 }
 
 @keyframes blip {
@@ -922,7 +927,7 @@ opacity: .7;
   // justify-content: flex-start;
   color: var(--btn-type);
 
-  letter-spacing: 1.8px;
+  letter-spacing: 1.3px;
   line-height:16px;
   // text-shadow: 1px 1px 1px $gunmetal;
 }
@@ -1191,7 +1196,7 @@ input {
 
 #new-game-btn {
   border-radius: 8px;
-  // border: 1px solid hsl(50, 87, 46);
+  border: none;
   margin: 8px;
   padding: 0 8px;
   background-color: transparent !important;

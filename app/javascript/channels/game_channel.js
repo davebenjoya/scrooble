@@ -37,13 +37,13 @@ let playerName;
               document.querySelector('#accept-btn').innerHTML = "OK";
               document.querySelector('#accept-btn').style = "visibility: visible";
 
-              // fetch to add skip to submitter
+              // fetch to add skip to challenger
               break;
             case "fake_words":
               console.log('dataArray' , dataArray);
               document.querySelectorAll('.letter-provisional').forEach((ltr, index) => {
                 ltr.classList.remove('letter-provisional')
-                ltr.style=`transition-delay: ${1 + (.5 * index)}s`;
+                ltr.style = `transition-delay: ${1 + (.5 * index)}s`;
                 ltr.innerHTML = ''
                 ltr.parentNode.querySelector('.board-value').innerHTML = ''
               })
@@ -58,6 +58,7 @@ let playerName;
 
               updatePlayers(lastPlayer, 0);
               break;
+
             case "end_game":
             console.log('ennnnddddd   gaaammmmmme')
               // alert(`${dataArray[0]}`);
@@ -101,7 +102,7 @@ let playerName;
 
             break;
             case "acceptance":
-            console.log('accccccept');
+            console.log('accccccept', dataArray[3]);
                document.querySelectorAll(".letter-provisional").forEach( (letter, index) => {
                 letter.classList.remove("letter-provisional");
                 letter.style = `transition-delay: ${1 + (.5 * index)}s`;
