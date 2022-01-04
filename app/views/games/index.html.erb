@@ -27,23 +27,6 @@
       <% for s in 0...game.current_player do %>
         <% next_players << players[s] %>
       <% end %>
-        <% puts " " %>
-        <% puts " " %>
-        <% puts " " %>
-        <% puts " " %>
-        <% puts "===========================================" %>
-        <% puts next_players[0].user.username %>
-        <% puts next_players[1].user.username %>
-        <% puts next_players[2].user.username %>
-        <% puts next_players[3].user.username %>
-        <% puts players.length %>
-        <% puts game.current_player %>
-        <% puts "===========================================" %>
-        <% puts " " %>
-        <% puts " " %>
-        <% puts " " %>
-        <% puts " " %>
-        <% puts " " %>
 
       <% ordered = players.reorder(player_score: :desc) %>
       <% winner  = ordered[0] if game.completed %>
