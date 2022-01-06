@@ -7,11 +7,9 @@
   position: fixed;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   width: 100%;
   margin: 0px;
-  // padding: 4px 8px;
-  // padding-bottom: 0px;
   height: 50px;
   z-index: 6000;
   // box-shadow: 1px 1px 3px black;
@@ -31,7 +29,7 @@
 
 #navbar-logo {
   // width: 100% !important;
-  top: -12px !important;
+  left: 12px !important;
   // height: 38px !important;
   // transform: translateY(6px);
   width: auto !important;
@@ -81,11 +79,18 @@
 }
 
 #navbar-game {
-  width:auto;
-  text-align:left;
+  width:100% !important;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-left: 212px !important;
   color: var(--btn-type-hilite);
   @media only screen and (max-width: 600px) {
-  transition: .3s all;
+    transition: .3s all;
+    margin-left: 160px !important;
+  }
+  @media only screen and (max-width: 400px) {
+    font-size: 12px;
   }
 
   z-index: 1000 !important;
@@ -98,8 +103,8 @@
 
 
 .navbar-player {
-  width: 100%;
-  display: flex;
+  left:0 !important;
+  width: auto;
   @media only screen and (max-width: 600px) {
     font: var(--font1);
   }
@@ -172,7 +177,7 @@ border: 1px solid var(--btn-type) !important;
 }
 
 .nav-item-last {
-  position: fixed;
+  position: relative;
   // transform: translate(12px, 4px);
   text-align: right;
   // padding-left: 360px !important;
