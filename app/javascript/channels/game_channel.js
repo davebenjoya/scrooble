@@ -40,7 +40,6 @@ let playerName;
               // fetch to add skip to challenger
               break;
             case "fake_words":
-              console.log('dataArray' , dataArray);
               document.querySelectorAll('.letter-provisional').forEach((ltr, index) => {
                 ltr.classList.remove('letter-provisional')
                 ltr.style = `transition-delay: ${1 + (.5 * index)}s`;
@@ -56,6 +55,7 @@ let playerName;
 
               const lastPlayer = document.querySelector('.nav-emp').innerHTML.split(':')[1].trim()
 
+              console.log('lastPlayer' , lastPlayer);
               updatePlayers(lastPlayer, 0);
               break;
 
@@ -241,7 +241,9 @@ function showAccept() {
   document.querySelector('#accept-btn').style.display = 'block';
   setTimeout(function () {
     // const name = dataArray[1];
-    console.log(dataArray)
+    if (dataArray[3].length > 0) {
+      console.log(dataArray[3])
+    }
     document.querySelector('.challenge-info').innerHTML = `${dataArray[1]} scored ${dataArray[2]} points.`;
     document.querySelector('#challenge').classList.add('challenge-show');
     document.querySelector('.challenge-body').classList.add('challenge-body-show');

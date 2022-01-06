@@ -124,21 +124,59 @@ end
       submitter = ''
       moves = []
       Player.where(game: game).each do | plr |
+        plr.update({challenging: 'pending'})
         moves << Move.where(player: plr)
       end
       # moves_sorted = moves.sort_by { |st| st['updated_at'].to_i }
-    puts"mmmmmmmmmmmmmmmmm"
-    puts moves[0]
-    puts"mmmmmmmmmmmmmmmmm"
       Move.order(id: :desc).each do | mv |
-        if mv.player.game == game
-          submitter = mv.player.user.username
-          new_skip = mv.player.skip + 1
-          mv.player.update!({skip: new_skip})
-          mv.destroy
-          break
+        if mv != nil
+          if mv.player.game == game
+            submitter = mv.player.user.username
+            new_skip = mv.player.skip + 1
+            mv.player.update!({skip: new_skip})
+            mv.destroy
+            break
+          end
         end
       end
+
+
+      @players = Player.where(game: game)
+      old_current = game.current_player
+      new_current = game.current_player + 1
+      new_current = 0 if new_current > @players.length - 1
+      skip_msg = ''
+
+      puts"mmmmmmmm  new  current  mmmmmmmmm"
+      puts @players[new_current].user.username
+      puts"mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"
+      puts"mmmmmmmm  @players[new_current].skip  mmmmmmmmm"
+      puts @players[new_current].skip
+      puts"mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"
+
+      while @players[new_current].skip > 0
+        skip_msg += "#{@players[new_current].user.username} missed a turn. "
+        new_skip = @players[new_current].skip - 1
+        @players[new_current].update!({skip: new_skip})
+        new_current += 1
+        new_current = 0 if new_current > @players.length - 1
+
+      end
+
+
+      new_array = game.remaining_letters.split(',')
+      new_remaining = game.remaining_letters
+      move_letters = Letter.where(move_id: move.id)
+      move_letters.each do |ltr|
+        delete_string = ltr.character + ','
+        new_remaining = new_remaining.sub(delete_string, '')
+      end
+
+    game.update({ remaining_letters: new_remaining, current_player: new_current })
+
+
+
+
 
       GameChannel.broadcast_to(
         game,

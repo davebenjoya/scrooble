@@ -420,21 +420,22 @@ turbo-frame {
 }
 
 .nav-emp {
+  margin-left: 8px;
   // width: 100%;
   font: var(--font2) !important;
   // font-size: 12px !important;
   color: var(--btn-type);
-  display: flex;
-  justify-content: right;
-  position: fixed;
-  top: 16px;
-  left: 60% !important;
-  right: 20% !important;
+  position: relative;
+  top: 18px !important;
+  // left: 52% !important;
+  // right: 20% !important;
   @media screen and (max-width: 600px) {
-    top: 40px;
+  position: fixed;
+    // top: 40px;
+  top: 24px !important;
   }
   @media screen and (max-width: 400px) {
-    font-size: .8em !important;
+    font-size: .9em !important;
   }
 }
 
@@ -1577,8 +1578,8 @@ margin-left: 8px;
   padding: 8px;
   padding-top: 20px;
   width: 180px !important;
-  left: 20px !important;
-  position: absolute;
+  left: 50% !important;
+  position: fixed;
   top: -120px !important;
   // transition: all .6s ease-in-out;
   clip-path: border-box;
@@ -1589,14 +1590,14 @@ margin-left: 8px;
 
 #scores-mask {
   pointer-events: none;
-clip-path: border-box;
+  clip-path: border-box;
   position: absolute;
   height: 200px;
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  top: 10px;
+  top: 26px;
   // left: 50%;
   // left:0;
   // margin-top: -12px;
@@ -1608,7 +1609,7 @@ clip-path: border-box;
 }
 
 .scores-show {
-  top:  6px !important;
+  top: 28px !important;
   transition: all .6s ease-in-out;
 
 }
@@ -1666,12 +1667,15 @@ clip-path: border-box;
 .navbar-scores {
   font: var(--font1) !important;
   // background-color: var(--panel-color);
-  position: fixed;
-  left: 20px;
-  top: 8px;
+  position: relative;
+  // right: 50%;
+  top: 16px;
   @media screen and (max-width: 600px) {
-    left: 16px !important;
-    top: 24px !important;
+    top: 8px !important;
+  }
+
+  @media screen and (max-width: 400px) {
+    font-size: 1.1em !important;
   }
 }
 

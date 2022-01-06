@@ -246,7 +246,7 @@ if (createPage) {
     // element = this;
   // if (document.querySelector("#dashboard").dataset) titleString = document.querySelector("#dashboard").dataset.name;
     const ps =  document.querySelector(".player-selected").querySelector(".player").innerText;
-    const navbarString = `<span class="navbar-scores">${titleString} <i class="fas fa-arrow-down score-arrow"></i></span> <span class = 'navbar-player'><span class='nav-emp'>Up now: ${ps}</span> </span>`;
+    const navbarString = `<span class="navbar-scores">${titleString} <i class="fas fa-arrow-down score-arrow"></i></span> <span class='nav-emp'>Up now: ${ps}</span>`;
 
     document.querySelector("#navbar-game").innerHTML =  navbarString;
   // document.querySelector(".navbar-scores").insertAdjacentHTML ('beforeend', navbarString);

@@ -156,7 +156,7 @@ end
     end
     @move =  sorted[sorted.length - 1]
     @player_name = @move.player.user.username
-    if @move.provisional == true
+    if @move.provisional == true && @move.player == game_players[@game.current_player]
       @pending = true
       letter_string = ''
       letters = Letter.where(move_id: @move.id)
