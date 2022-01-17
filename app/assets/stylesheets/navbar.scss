@@ -30,13 +30,13 @@
 #navbar-logo {
   // width: 100% !important;
   left: 12px !important;
-  // height: 38px !important;
+  height: 38px !important;
   // transform: translateY(6px);
   width: auto !important;
   text-align: center;
   position: absolute;
   margin: 0;
-  z-index: 6000;
+  z-index: 100;
   justify-content: center !important;
   @media screen and (max-width:600px) {
   transform: scale(.93) translateY(-2px);
@@ -61,7 +61,7 @@
   letter-spacing: 7px;
   // margin-left:32px;
   text-align: center;
-  padding-top: 0px;
+  padding-top: 2px;
   text-shadow: 1px 1px $rich-black;
 
   animation: .7s ease-out 6s 1 both navbar-title-squeeze infinite ;

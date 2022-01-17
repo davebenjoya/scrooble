@@ -49,10 +49,8 @@ a {
   padding: 4px;
 }
 
-#crawl-holder {
-  // position: relative;
-  width: auto;
-  // width: 200px !important;
+.crawl-holder {
+  width: 200px;
   height: 40px;
   z-index: 900;
 }
@@ -63,11 +61,10 @@ a {
   color: var(--btn-bg-hilite) !important;
   font-size: 12px;
   padding: 0px;
-  // left: 16px !important;
   height: 14px;
   top: -40px !important;
   position: absolute;
-  left: 16px;
+  left: 8px;
   letter-spacing: 1.3px;
   text-align: left;
 }
@@ -77,7 +74,7 @@ a {
 }
 
 .crawl-show{
-  top: 0px !important;
+  top: 4px !important;
   transition: .5s all ease-in 1s;
 }
 
@@ -86,57 +83,58 @@ a {
   transition: .5s all ease-in 1s;
 }
 
+.link-start  {
+  display: flex;
+
+}
+
+.header-link {
+
+}
+
 .link-start {
-  transform: translate(-100px, 16px) !important;
-  opacity: 1 !important;
-  display: relative;
-  left: -150px !important;
-  // // width: 200px;
-  // cursor: finger;
-  // font-size: 16px;
-  // color: white !important;
-
-}
-
-.link-start a {
-  // transform: translate(-100px, 16px) !important;
-  opacity: 1 !important;
-  // display: relative;
-  // left: -150px !important;
-  // // width: 200px;
+  position: relative;
+  width: 600px;
+  transform: translateX(-350px);
   cursor: finger;
-  // font-size: 16px;
-  color: var(--btn-type-hilite) !important;
-
-  transform-origin: center left !important;
+  flex-direction: row;
+  z-index: 1000;
+  // transform-origin: center left !important;
 }
 
-.link-start-game-page  {
-  transform: translate(-100px, 4px);
-  // opacity: 0;
-  width: auto;
-  cursor: finger;
+.link-show {
+  transform: translateX(4px);
+  transition: .55s all ease-out 5.2s;
 }
 
-
-.link-show  {
-  transform: translate(12px, 16px) !important;
-  left: 24px !important;
-  transition: .5s all ease-in 2.3s;
-  opacity: 1;
-  transform-origin: center left !important;
+.link-end {
+  // transition: .6s all ease-out;
+  // transform-origin: top left !important;
 }
 
-.link-end  {
-  // font-size: 12px !important;
-  opacity: .5 !important;
-  transform: scale(.85)!important;
-  transition: .3s all ease-in;
-  transform-origin: center left !important;
+.header-link-red a {
+  color: rgb(230, 110, 110) !important;
 }
 
-.link-end:hover {
+.header-link-white a {
+  color: rgb(255, 245, 255) !important;
+}
+
+.header-link-blue a {
+  color: rgb(100, 130, 250) !important;
+}
+
+.header-link-fade {
+  transform: scale(.85) !important;
+  opacity: .3 !important;
+  transition: .7s all ease-out;
+}
+
+.header-link:hover {
+  transform: scale(.95) !important;
   opacity: 1 !important;
+  transition: .3s all ;
+  // color:green !important;
 }
 
 @keyframes show-crawl {
