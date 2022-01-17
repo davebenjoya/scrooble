@@ -97,7 +97,7 @@ hr {
 }
 
 .fa-plus-circle {
-  color: var(--panel-color);
+  color: var(--logo-color);
 }
 
 
@@ -544,11 +544,6 @@ turbo-frame {
   color: var(--type-color) !important;
   box-shadow: 0px 0px 4px inset $rich-black !important;
 
-  border: 1px solid $roman-silver !important;
-  border-right: 1px solid $roman-silver !important;
-  border-left: 2px solid $isabelline !important;
-  border-top: 1px solid $isabelline !important;
-
   border: 1px solid var(--logo-color) !important;
   border-radius: 8px;
   margin-left: 30%;
@@ -561,6 +556,7 @@ turbo-frame {
   transition: opacity 0.7s ease-out;
 
   animation: showpanel .7s .5s forwards;
+  transform: translateY(90px);
   @media only screen and (max-width: 820px) {
     width: 60%;
     margin-left: 20%;
@@ -891,7 +887,7 @@ a {
 }
 
 .plus-sign {
-  text-shadow: 1px 1px 2px var(--bg-color) !important;
+  text-shadow: 1px 1px 2px  var(--bg-color) !important;
   // box-shadow: 1px 2px 2px inset hsl(20, 15, 50) !important;
   background-color: var(--panel-color) !important;
 opacity: .7;

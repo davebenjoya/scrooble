@@ -1,21 +1,21 @@
-
-  <!-- <div class="navbar-title-holder"> -->
-
-
-
-  <!-- </div> -->
-
 <div id="navbarr" >
-
-      <div id="crawl-holder">
+      <div class="crawl-holder">
     <% if current_page?('/') %>
         <div class = 'crawl-start' >
           Support democracy in the US
         </div>
         <div class = 'link-start'>
-          <%= link_to "Fair Fight", "https://fairfight.com/", target: :_blank %>
+          <div class="header-link">
+            <%= link_to "Fair Fight", "https://fairfight.com/", target: :_blank %>
+          </div>
+          <div class="header-link">
+            <%= link_to "BVM", "https://blackvotersmatterfund.org/", target: :_blank %>
+          </div>
+          <div class="header-link">
+            <%= link_to "Democracy Docket", "https://www.democracydocket.com/", target: :_blank %>
+          </div>
         </div>
-  <% end %>
+      <% end %>
     </div>
       <% if user_signed_in? %>
     <div id = "navbar-logo"  data-theme = <%= current_user.current_theme %> data-userid = <%= current_user.id %> >

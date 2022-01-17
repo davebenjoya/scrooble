@@ -12,6 +12,16 @@ const gameIndex = ()  => {
   if (indexPage) {
     storedGames = document.querySelector("#my-games").querySelectorAll(".card").length
     setTimeout( () => {
+      document.querySelectorAll(".header-link").forEach( (lnk, i) => {
+      switch (i) {
+        case 0: lnk.classList.add("header-link-red");
+        break;
+        case 1: lnk.classList.add("header-link-white");
+        break;
+        case 2: lnk.classList.add("header-link-blue");
+        break;
+      }
+    });
       document.querySelector(".crawl-start").classList.add("crawl-show");
       document.querySelector(".link-start").classList.add("link-show");
       // console.log("transition end");
@@ -42,12 +52,15 @@ if (document.querySelector(".crawl-start")) {
   setTimeout( () => {
     document.querySelector(".crawl-start").classList.add("crawl-end");
     // console.log("transition end");
-  }, 5000);
+  }, 4600);
 
   setTimeout( () => {
     document.querySelector(".link-start").classList.add("link-end");
+    document.querySelectorAll(".header-link").forEach( (lnk, i) => {
+      lnk.classList.add('header-link-fade');
+    })
     // console.log("transition end");
-  }, 6000);
+  }, 7300);
 
 
 }

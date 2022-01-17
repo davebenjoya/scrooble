@@ -112,7 +112,7 @@ if (createPage) {
 
         console.log(' document.querySelector(".edit-page-identifier").dataset.summary  ', document.querySelector(".edit-page-identifier").dataset.summary)
 
-
+        document.querySelector('.crawl-holder').style.width = '0px'
 
 
     if (editGame.dataset.pending === 'true' ) {

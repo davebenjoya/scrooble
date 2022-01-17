@@ -63,8 +63,7 @@
   <% end %>
 
   <div id='delete-account-div'>
-  <hr/>
-    <div>Delete my account</div><div><%= button_to "Delete", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, id:'delete-acct-btn' %></div>
+    <div class='delete-text'>Delete my account</div><div><%= button_to "Delete", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, id:'delete-acct-btn' %></div>
   </div>
 
 
