@@ -18,16 +18,12 @@
 <% if @player.completed %>
 
 <% else %>
-<div id="dashboard" class="pr-0 dashboard dashboard-hide" data-current = "<%= @game.current_player %>" data-animate-out="animate-slide-left" id="dashboard" data-name ="<%= @game.name %>" data-username = "<%= current_user.username %> " data-id ="<%= @game.id %>" data-url ="games/<%= @game.id %>/edit" data-remaining = "<%= @game.remaining_letters %>" data-completed =  "<%= @player.completed %>" data-jokers = "<%= @joker_string %>">
+<div id="dashboard" class="dashboard dashboard-hide" data-current = "<%= @game.current_player %>" data-animate-out="animate-slide-left" id="dashboard" data-name ="<%= @game.name %>" data-username = "<%= current_user.username %> " data-id ="<%= @game.id %>" data-url ="games/<%= @game.id %>/edit" data-remaining = "<%= @game.remaining_letters %>" data-completed =  "<%= @player.completed %>" data-jokers = "<%= @joker_string %>">
      <div id="scores-buttons">
 
       <%= audio_tag "m1", id: "btnAudio" %>
 
-    <div id="controls">
          <%= render 'edit_form', game:@game %>
-
-
-
 
       <div id = "buttons">
         <button id='commit-btn' class="commit-btn button-disabled"><i class="fas fa-check"></i></button>
@@ -35,8 +31,6 @@
         <button id='exchange-btn' class="exchange-btn button-disabled"><i class="fas fa-exchange-alt"></i></button>
        <button id='end-btn' class="end-btn "><i class="fas fa-hand-paper"></i></button>
       </div>
-
-    </div>
   </div>
 
 <% end %>
